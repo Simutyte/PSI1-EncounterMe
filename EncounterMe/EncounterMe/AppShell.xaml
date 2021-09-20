@@ -41,6 +41,9 @@
 
 
     <FlyoutItem Title="Home" Icon="home.png">
+        <Tab Title="Main Page" Icon="map.png" >
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}"/>
+        </Tab>
         <Tab Title="Map" Icon="map.png" >
             <ShellContent ContentTemplate="{DataTemplate views:MapPage}"/>
         </Tab>
