@@ -10,10 +10,10 @@
     </StackLayout> 
     -->
 
-    <StackLayout>
+    <!--<StackLayout>
         <Button Text="Open Maps" HorizontalOptions="Center" VerticalOptions="Center"
                 Clicked="Button_Clicked"/>
-    </StackLayout>
+    </StackLayout>-->
 
 
 </ContentPage>

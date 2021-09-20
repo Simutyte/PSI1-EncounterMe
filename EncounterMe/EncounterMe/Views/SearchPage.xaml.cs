@@ -10,12 +10,12 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace EncounterMe
+namespace EncounterMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class Map : ContentPage
+    public partial class SearchPage : ContentPage
     {
-        public Map()
+        public SearchPage()
         {
             InitializeComponent();
         }
