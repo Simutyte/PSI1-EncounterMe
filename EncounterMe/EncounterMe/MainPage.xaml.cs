@@ -8,16 +8,16 @@ using Xamarin.Forms;
 
 namespace EncounterMe
 {
-    public partial class MainPage : ContentPage
-    {
-        public MainPage()
-        {
-            InitializeComponent();
-        }
+    //public partial class MainPage : ContentPage
+    //{
+    //    public MainPage()
+    //    {
+    //        InitializeComponent();
+    //    }
 
-        private async void Button_Clicked(object sender, EventArgs e)
-        {
-            await Navigation.PushAsync(new Map());
-        }
-    }
+    //    private async void Button_Clicked(object sender, EventArgs e)
+    //    {
+    //        await Navigation.PushAsync(new Map());
+    //    }
+    //}
 }

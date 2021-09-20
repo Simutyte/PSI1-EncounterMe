@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mymap="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             x:Class="EncounterMe.Views.MapPage">
+
+    
+    <ContentPage.Content>
+        <StackLayout>
+            <mymap:Map x:Name="mylocalmap"
+               HorizontalOptions="FillAndExpand"
+               VerticalOptions="FillAndExpand"/>
+        </StackLayout>
+    </ContentPage.Content>
+
+    <mymap:Map>
+        <x:Arguments>
+            <mymap:MapSpan>
+                <x:Arguments>
+                    <mymap:Position>
+                        <x:Arguments>
+                            <x:Double>55.1735998</x:Double>
+                            <x:Double>23.8948016</x:Double>
+                        </x:Arguments>
+                    </mymap:Position>
+                    <x:Double>4</x:Double>
+                    <x:Double>4</x:Double>
+                </x:Arguments>
+            </mymap:MapSpan>
+        </x:Arguments>
+    </mymap:Map>
+    
+</ContentPage>
