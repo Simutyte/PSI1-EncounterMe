@@ -28,14 +28,7 @@ namespace EncounterMe
         Dictionary<String, Type> routes = new Dictionary<string, Type>();
 
         public ICommand NavigateCommand => new Command(Navigate);
-        public ICommand SettingsCommand => new Command(async () => await PushPage(new SettingsPage()));
-
-        private async Task PushPage(Page page)
-        {
-            await Shell.Current.Navigation.PushAsync(page);
-            Shell.Current.FlyoutIsPresented = false;
-        }
-
+        
         private async void Navigate(object route)
         {
             ShellNavigationState state = Shell.Current.CurrentState;
@@ -45,8 +38,6 @@ namespace EncounterMe
 
         void RegisterRoutes()
         {
-            routes.Add("profile", typeof(ProfilePage));
-            routes.Add("favourites", typeof(FavouritesPage));
             routes.Add("aboutUs", typeof(AboutUsPage));
             routes.Add("settings", typeof(SettingsPage));
 

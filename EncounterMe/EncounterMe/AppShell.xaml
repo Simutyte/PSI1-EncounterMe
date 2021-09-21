@@ -3,15 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-            xmlns:views="clr-namespace:EncounterMe.Views" 
-            mc:Ignorable="d"
-            Shell.ItemTemplate="{StaticResource MenuTemplate}"
+             xmlns:views="clr-namespace:EncounterMe.Views" 
+             mc:Ignorable="d"
+             Shell.ItemTemplate="{StaticResource MenuTemplate}"
              Shell.MenuItemTemplate="{StaticResource MenuTemplate}"
-            Shell.ForegroundColor="#2E8B57"
-            Title="ENCOUNTER ME"
-            BackgroundColor="#F0F0F0"
-            NavigationPage.HasNavigationBar="True"
-            
+             Shell.ForegroundColor="#2E8B57"
+             TitleColor="#2E8B57"
+             BackgroundColor="#F0F0F0"
+             NavigationPage.HasNavigationBar="True"
              x:Class="EncounterMe.AppShell">
 
 
@@ -53,13 +52,19 @@
         <Tab Title="All objects" Icon="objects.png">
             <ShellContent ContentTemplate="{DataTemplate views:AllObjectsPage}"/>
         </Tab>
-        <Tab Title="Search" Icon="search.png">
-            <ShellContent ContentTemplate="{DataTemplate views:SearchPage}"/>
-        </Tab>
-    </FlyoutItem>
+     </FlyoutItem>
 
-    <MenuItem Text="Profile" Command="{Binding NavigateCommand}" CommandParameter="profile" IconImageSource="profile.png"/>
-    <MenuItem Text="Favourites" Command="{Binding NavigateCommand}" CommandParameter="favourites" IconImageSource="favourite.png"/>
+    <FlyoutItem Title="Profile" Icon="profile.png" >
+        <Tab Title="Profile" Icon="profile2.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}"/>
+        </Tab>
+        
+        <Tab Title="Favourites" Icon="favourites.png">
+            <ShellContent ContentTemplate="{DataTemplate views:FavouritesPage}"/>
+        </Tab>
+     </FlyoutItem>
+    
+    
     <MenuItem Text="About us"  Command="{Binding NavigateCommand}" CommandParameter="aboutUs" IconImageSource="information.png"/>
     <MenuItem Text="Settings"  Command="{Binding NavigateCommand}" CommandParameter="settings" IconImageSource="settings.png"/>
 
