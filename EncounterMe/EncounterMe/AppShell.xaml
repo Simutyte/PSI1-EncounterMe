@@ -52,13 +52,19 @@
         <Tab Title="All objects" Icon="objects.png">
             <ShellContent ContentTemplate="{DataTemplate views:AllObjectsPage}"/>
         </Tab>
-        <Tab Title="Search" Icon="search.png">
-            <ShellContent ContentTemplate="{DataTemplate views:SearchPage}"/>
-        </Tab>
-    </FlyoutItem>
+     </FlyoutItem>
 
-    <MenuItem Text="Profile" Command="{Binding NavigateCommand}" CommandParameter="profile" IconImageSource="profile.png"/>
-    <MenuItem Text="Favourites" Command="{Binding NavigateCommand}" CommandParameter="favourites" IconImageSource="favourite.png"/>
+    <FlyoutItem Title="Profile" Icon="profile.png" >
+        <Tab Title="Profile" Icon="profile2.png">
+            <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}"/>
+        </Tab>
+        
+        <Tab Title="Favourites" Icon="favourites.png">
+            <ShellContent ContentTemplate="{DataTemplate views:FavouritesPage}"/>
+        </Tab>
+     </FlyoutItem>
+    
+    
     <MenuItem Text="About us"  Command="{Binding NavigateCommand}" CommandParameter="aboutUs" IconImageSource="information.png"/>
     <MenuItem Text="Settings"  Command="{Binding NavigateCommand}" CommandParameter="settings" IconImageSource="settings.png"/>
 

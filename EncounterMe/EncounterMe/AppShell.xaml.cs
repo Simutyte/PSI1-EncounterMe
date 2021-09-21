@@ -38,8 +38,6 @@ namespace EncounterMe
 
         void RegisterRoutes()
         {
-            routes.Add("profile", typeof(ProfilePage));
-            routes.Add("favourites", typeof(FavouritesPage));
             routes.Add("aboutUs", typeof(AboutUsPage));
             routes.Add("settings", typeof(SettingsPage));
 
