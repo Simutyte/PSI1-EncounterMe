@@ -19,5 +19,15 @@ namespace EncounterMe.Views
         {
             InitializeComponent();
         }
+
+        async void LogInButtonClicked(object sender, EventArgs args)
+        {
+           await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+        }
+
+        private async void Tapped_Registration(object sender, EventArgs args)
+        {
+            await Shell.Current.GoToAsync($"{nameof(RegistrationPage)}");
+        }
     }
 }

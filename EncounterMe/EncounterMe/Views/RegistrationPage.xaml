@@ -1,20 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="ENCOUNTER ME"
-             x:Class="EncounterMe.Views.MainPage">
-
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Logout" Clicked="LogOutClicked"/>
-    </ContentPage.ToolbarItems>
-
+             x:Class="EncounterMe.Views.RegistrationPage"
+             Shell.FlyoutBehavior="Disabled"
+             Title="Registration">
+    
     <ContentPage.Content>
-        
         <StackLayout>
-            <Label Text="Welcome to Main Page"
+            <Label Text="Welcome to registration"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>
-    
 </ContentPage>

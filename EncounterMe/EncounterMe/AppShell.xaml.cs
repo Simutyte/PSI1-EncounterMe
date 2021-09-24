@@ -34,17 +34,24 @@ namespace EncounterMe
             ShellNavigationState state = Shell.Current.CurrentState;
             await Shell.Current.GoToAsync($"{state.Location}/{route.ToString()}");
             Shell.Current.FlyoutIsPresented = false;
+           
         }
 
         void RegisterRoutes()
         {
             routes.Add("aboutUs", typeof(AboutUsPage));
             routes.Add("settings", typeof(SettingsPage));
+            routes.Add("MainPage", typeof(MainPage));
+            routes.Add("RegistrationPage", typeof(RegistrationPage));
 
             foreach (var item in routes)
             {
                 Routing.RegisterRoute(item.Key, item.Value);
             }
         }
+
+       
+
+
     }
 }
