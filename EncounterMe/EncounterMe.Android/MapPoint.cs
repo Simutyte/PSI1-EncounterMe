@@ -15,7 +15,7 @@ using Android.Widget;
 
 namespace EncounterMe.Droid
 {
-    class Object
+    class MapPoint
     {
         private string _name { get; set; }
         private string _adress { get; set; }
@@ -25,7 +25,7 @@ namespace EncounterMe.Droid
         public TimeSpan openingHours { get; set; }
         public TimeSpan closingTime { get; set; }
 
-        Object(string name, string adress, string description, Xamarin.Forms.Maps.Position position, TimeSpan open, TimeSpan close)
+        MapPoint(string name, string adress, string description, Xamarin.Forms.Maps.Position position, TimeSpan open, TimeSpan close)
         {
             this._name = name;
             this._adress = adress;
