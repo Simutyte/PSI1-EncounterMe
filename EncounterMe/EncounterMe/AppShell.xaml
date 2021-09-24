@@ -37,11 +37,15 @@
         </ResourceDictionary>
     </Shell.Resources>
 
+    
 
+    <ShellItem Route="LogInPage" FlyoutItemIsVisible="False">
+        <ShellContent ContentTemplate="{DataTemplate views:LogInPage}"/>
+    </ShellItem>
 
     <FlyoutItem Title="Home" Icon="home.png">
         <Tab Title="Main Page" Icon="mainPage.png" >
-            <ShellContent ContentTemplate="{DataTemplate views:MainPage}"/>
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
         </Tab>
         <Tab Title="Map" Icon="map.png" >
             <ShellContent ContentTemplate="{DataTemplate views:MapPage}"/>
@@ -54,7 +58,7 @@
         </Tab>
      </FlyoutItem>
 
-    <FlyoutItem Title="Profile" Icon="profile.png" >
+    <FlyoutItem Title="Profile" Icon="profile.png" x:Name="profile">
         <Tab Title="Profile" Icon="profile2.png">
             <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}"/>
         </Tab>
@@ -63,6 +67,8 @@
             <ShellContent ContentTemplate="{DataTemplate views:FavouritesPage}"/>
         </Tab>
      </FlyoutItem>
+
+    
     
     
     <MenuItem Text="About us"  Command="{Binding NavigateCommand}" CommandParameter="aboutUs" IconImageSource="information.png"/>

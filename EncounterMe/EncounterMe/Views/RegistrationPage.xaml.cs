@@ -13,19 +13,11 @@ using Xamarin.Forms.Xaml;
 namespace EncounterMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MainPage : ContentPage
+    public partial class RegistrationPage : ContentPage
     {
-        public MainPage()
+        public RegistrationPage()
         {
             InitializeComponent();
         }
-
-
-        async void LogOutClicked(object sender, EventArgs args)
-        {
-            await Shell.Current.GoToAsync($"//{nameof(LogInPage)}");
-        }
     }
-
-
 }
