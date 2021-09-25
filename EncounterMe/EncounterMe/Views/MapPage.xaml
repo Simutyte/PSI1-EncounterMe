@@ -6,14 +6,31 @@
              x:Class="EncounterMe.Views.MapPage">
 
     
-    <ContentPage.Content>
-        <StackLayout>
-            <mymap:Map x:Name="mylocalmap"
-               HorizontalOptions="FillAndExpand"
-               VerticalOptions="FillAndExpand"/>
-        </StackLayout>
-    </ContentPage.Content>
 
+    <Grid>
+        <mymap:Map
+            x:Name="MyMap"
+            IsShowingUser="true"
+            MapType="Street"/>
+
+        <!-- Cia reikia paveiksliuko-->
+        <Button ImageSource=""
+                Text="Add Pin"
+                WidthRequest="80"
+                HeightRequest="80"
+                CornerRadius="40"
+                BackgroundColor="#2E8B57"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                Clicked="Button_Clicked"/>
+                
+    </Grid>
+
+
+
+    <!--
+
+    
     <mymap:Map>
         <x:Arguments>
             <mymap:MapSpan>
@@ -30,5 +47,7 @@
             </mymap:MapSpan>
         </x:Arguments>
     </mymap:Map>
-    
+
+-->
+
 </ContentPage>
