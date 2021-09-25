@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Essentials;
+
 
 namespace EncounterMe.Views
 {
@@ -19,5 +21,12 @@ namespace EncounterMe.Views
         {
             InitializeComponent();
         }
+
+        void Button_Clicked(object sender, EventArgs e)
+        {
+        
+        }
+
+ 
     }
 }
