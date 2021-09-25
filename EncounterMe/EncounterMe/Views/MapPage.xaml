@@ -5,26 +5,7 @@
              Title="Map"
              x:Class="EncounterMe.Views.MapPage">
 
-
-
-    <!--<ContentPage.Content>
-        <Grid>
-            <mymap:Map x:Name="mylocalmap"
-               HorizontalOptions="FillAndExpand"
-               VerticalOptions="FillAndExpand"/>
-        
-            <Label x:Name="label"/>
-
-            <Button
-                WidthRequest="80"
-                HeightRequest="80"
-                CornerRadius="40"
-                BackgroundColor="#2E8B57"
-                VerticalOptions="End"
-                HorizontalOptions="Center"
-                Clicked="Button_Clicked" />
-        </Grid>
-    </ContentPage.Content>-->
+    
 
     <Grid>
         <mymap:Map
