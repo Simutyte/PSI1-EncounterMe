@@ -5,7 +5,9 @@
              Title="Map"
              x:Class="EncounterMe.Views.MapPage">
 
-    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="add.png"  Clicked="Button_Clicked"/>
+    </ContentPage.ToolbarItems>
 
     <Grid>
         <mymap:Map
@@ -14,7 +16,7 @@
             MapType="Street"/>
 
         <!-- Cia reikia paveiksliuko-->
-        <Button ImageSource=""
+        <!--<Button ImageSource=""
                 Text="Add Pin"
                 WidthRequest="80"
                 HeightRequest="80"
@@ -22,7 +24,7 @@
                 BackgroundColor="#2E8B57"
                 HorizontalOptions="Center"
                 VerticalOptions="End"
-                Clicked="Button_Clicked"/>
+                Clicked="Button_Clicked"/>-->
                 
     </Grid>
 
