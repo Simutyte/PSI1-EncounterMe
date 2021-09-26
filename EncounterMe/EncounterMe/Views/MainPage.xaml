@@ -5,7 +5,7 @@
              x:Class="EncounterMe.Views.MainPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Logout" Clicked="LogOutClicked"/>
+        <ToolbarItem IconImageSource="logOut.png" Clicked="LogOutClicked"/>
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>

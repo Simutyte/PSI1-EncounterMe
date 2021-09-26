@@ -19,5 +19,10 @@ namespace EncounterMe.Views
         {
             InitializeComponent();
         }
+
+        void Add_Object_Button_Clicked(object sender, EventArgs e)
+        {
+            
+        }
     }
 }

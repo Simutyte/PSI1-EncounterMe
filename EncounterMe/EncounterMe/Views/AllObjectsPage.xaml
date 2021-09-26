@@ -3,6 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Objects"
              x:Class="EncounterMe.Views.AllObjectsPage">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="plus.png"  Clicked="Add_Object_Button_Clicked"/>
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Welcome to all objects page!"

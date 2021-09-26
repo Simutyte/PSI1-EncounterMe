@@ -12,7 +12,7 @@
             <Entry Placeholder="Username"/>
             
             <Label Text="Password"/>
-            <Entry IsPassword="True" Placeholder="Username"/>
+            <Entry IsPassword="True" Placeholder="Password"/>
             
             <Button Text="Log in!" Clicked="LogInButtonClicked" />
             
