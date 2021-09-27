@@ -1,18 +1,102 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="Log in"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="EncounterMe.Views.LogInPage"
-             Shell.FlyoutBehavior="Disabled">
+             Shell.FlyoutBehavior="Disabled"
+             BackgroundImageSource="roadmap.jpg"
+             BackgroundImage="roadmap.jpg"
+             Shell.NavBarIsVisible="False">
     
     <ContentPage.Content>
-        <StackLayout Padding="40" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+        <StackLayout Padding="0" Margin="0"  >
+            <Grid>
+
+                <!--Viršutinis paveikslėlis-->
+                <StackLayout Padding="0" Margin="0">
+                    <Frame BackgroundColor="#2E8B57"  HeightRequest="140" HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
+                        <Image Source="roadmap2.jpg" Aspect="AspectFill" Margin="0" />
+                    </Frame>
+                </StackLayout>
+
+
+                
+                <StackLayout Margin="15,110,15,0">
+                    <Frame BackgroundColor="#F0F0F0" HasShadow="True" CornerRadius="2" HeightRequest="400" HorizontalOptions="FillAndExpand">
+                        <StackLayout>
+
+                            <!--Pavadinimas-->
+                            <StackLayout HorizontalOptions="Center">
+                                <Label Text="LOG IN" TextColor="#2E8B57" FontSize="Large" FontAttributes="Bold"/>
+                            </StackLayout>
+
+                            <!--Username laukelis-->
+                            <StackLayout Margin="0,20,0,0">
+                                <Frame BackgroundColor="Transparent" BorderColor="#6c8578" CornerRadius="50" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Entry x:Name="entryUsername"  Placeholder="Username" TextColor="#416459" HorizontalOptions="FillAndExpand" Margin="15,0,15,0" />
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+
+
+                            <!--Password laukelis-->
+                            <StackLayout Margin="0,10,0,16">
+                                <Frame BackgroundColor="Transparent" BorderColor="#6c8578" CornerRadius="50" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                                    <StackLayout Orientation="Horizontal">
+
+                                        <Entry PlaceholderColor="#6c8578" x:Name="entryPassword" IsPassword="True" Placeholder="Password" TextColor="#416459" HorizontalOptions="FillAndExpand" Margin="15,0,15,0" />
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+
+                            <Button Text="Sign in" TextColor="#F0F0F0" BackgroundColor="#2E8B57" CornerRadius="30" Clicked="LogInButtonClicked"  />
+
+
+                            <!--Registracijos užrašas-->
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                <Label Text="Don't have an account?" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                <Label Text="Registrate" HorizontalTextAlignment="Center" TextColor="#416459" FontAttributes="Bold" VerticalTextAlignment="Center">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="Tapped_Registration"/>
+                                    </Label.GestureRecognizers>
+                                </Label>
+                            </StackLayout>
+
+                            <!--or-->
+                            <StackLayout Margin="12">
+                                <Grid>
+                                    <BoxView BackgroundColor="#416459" HeightRequest="1" WidthRequest="350" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                    <Frame BackgroundColor="#F0F0F0" HeightRequest="45" WidthRequest="45" CornerRadius="45" HasShadow="False" BorderColor="DarkGray" HorizontalOptions="Center" Margin="0" Padding="0">
+                                        <Label Text="OR" TextColor="#416459" FontAttributes="Bold" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                    </Frame>
+                                </Grid>
+                            </StackLayout>
+
+
+                            <!--Facebook ir google-->
+                            <StackLayout Margin="0,6" Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                                <Frame BackgroundColor="#F0F0F0" HeightRequest="45" WidthRequest="45" CornerRadius="45" HasShadow="False" BorderColor="DarkGray" HorizontalOptions="Center" Margin="0" Padding="0">
+                                    <Image Source="facebook.png"  Aspect="AspectFill" Margin="0"/>
+                                </Frame>
+                                <Frame BackgroundColor="#F0F0F0" HeightRequest="45" WidthRequest="45" CornerRadius="45" HasShadow="False"  HorizontalOptions="Center" Margin="0" Padding="0">
+                                    <Image Source="google.png" Aspect="AspectFill" Margin="0"/>
+                                </Frame>
+                            </StackLayout>
+
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+
+                
+            
+            </Grid>
+            <!--<StackLayout Padding="40" VerticalOptions="Center" HorizontalOptions="FillAndExpand">
             
             <Label Text="Username"/>
-            <Entry Placeholder="Username"/>
+            <Entry x:Name="entryUsername"  Placeholder="Username"/>
             
             <Label Text="Password"/>
-            <Entry IsPassword="True" Placeholder="Password"/>
+            <Entry x:Name="entryPassword" IsPassword="True" Placeholder="Password"/>
             
             <Button Text="Log in!" Clicked="LogInButtonClicked" />
             
@@ -20,7 +104,7 @@
                 <Label.GestureRecognizers>
                     <TapGestureRecognizer Tapped="Tapped_Registration"/>
                 </Label.GestureRecognizers>
-            </Label>
+            </Label>-->
 
 
         </StackLayout>
