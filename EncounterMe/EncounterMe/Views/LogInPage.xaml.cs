@@ -20,9 +20,19 @@ namespace EncounterMe.Views
             InitializeComponent();
         }
 
-        async void LogInButtonClicked(object sender, EventArgs args)
+         async void LogInButtonClicked(object sender, EventArgs args)
         {
-           await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+            Pins.User user = new Pins.User(entryUsername.Text, entryPassword.Text);
+            if(user.checkInformation())
+            {
+                await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+            }
+            else
+            {
+                await DisplayAlert("Bad login", "Empty username or password", "okay");
+            }
+
+           
         }
 
         private async void Tapped_Registration(object sender, EventArgs args)
