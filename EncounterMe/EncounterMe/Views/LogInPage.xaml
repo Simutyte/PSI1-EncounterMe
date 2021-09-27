@@ -55,7 +55,7 @@
                             <!--Registracijos užrašas-->
                             <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                                 <Label Text="Don't have an account?" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
-                                <Label Text="Registrate" HorizontalTextAlignment="Center" TextColor="#416459" FontAttributes="Bold" VerticalTextAlignment="Center">
+                                <Label Text="Register" HorizontalTextAlignment="Center" TextColor="#416459" FontAttributes="Bold" VerticalTextAlignment="Center">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Tapped="Tapped_Registration"/>
                                     </Label.GestureRecognizers>
