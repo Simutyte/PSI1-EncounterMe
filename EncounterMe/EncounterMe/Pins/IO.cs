@@ -1,6 +1,7 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -8,12 +9,12 @@ namespace EncounterMe.Droid
 {
     static class IO
     {
-        public static void WriteToXmlFile<MapPin>(string filePath, MapPin objectToWrite, bool append = false)
+        public static void WriteToXmlFile<T>(string filePath, T objectToWrite, bool append = false)
         {
             TextWriter writer = null;
             try
             {
-                var serializer = new XmlSerializer(typeof(MapPin));
+                var serializer = new XmlSerializer(typeof(T));
                 writer = new StreamWriter(filePath, append);
                 serializer.Serialize(writer, objectToWrite);
             }
@@ -24,7 +25,7 @@ namespace EncounterMe.Droid
             }
         }
 
-        public static T ReadFromXmlFile<T>(string filePath) where T : new()
+        public static T ReadFromXmlFile<T>(string filePath) where T : List<MapPin>, new()
         {
             TextReader reader = null;
             try

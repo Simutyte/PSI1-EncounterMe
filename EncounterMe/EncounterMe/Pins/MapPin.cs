@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
 
 namespace EncounterMe.Droid
 {
@@ -46,14 +47,13 @@ namespace EncounterMe.Droid
         public double latitude { get; set; }
         public double longitude { get; set; }
 
-        public Xamarin.Forms.Maps.Position position { get; set; }
-        public Xamarin.Forms.Maps.PinType pinType { get; set; }
-
         public TimeSpan openingHours { get; set; }
         public TimeSpan closingTime { get; set; }
 
-        public int type { get; set; }
-        public int styleType { get; set; }
+        public Type type { get; set; }
+        public StyleType styleType { get; set; }
+
+        public Pin pin { get; set; }
 
         public MapPin(string name)
         {
@@ -76,7 +76,7 @@ namespace EncounterMe.Droid
             catch (Exception ex) { }
         }
 
-        public async void GetAdressFromCoordinates()
+        public async void GetAddressFromCoordinates()
         {
             try
             {
@@ -90,6 +90,17 @@ namespace EncounterMe.Droid
                 }
             }
             catch (Exception ex) { }
+        }
+
+        public void createAPin()
+        {
+            pin = new Pin
+            {
+                Label = name,
+                Address = address,
+                Type = PinType.Place,
+                Position = new Position(latitude, longitude)
+            };
         }
      
     }

@@ -17,6 +17,8 @@ namespace EncounterMe.Pins
 
         private static string filename = "pins.xml";
 
+        PinsList() { }
+
         public void addPinByAddressToList(string name, string address, int type, int style, string details, TimeSpan open, TimeSpan close, Image photo)
         {
             MapPin newOne = new MapPin(name)
@@ -26,8 +28,8 @@ namespace EncounterMe.Pins
                 openingHours = open,
                 closingTime = close,
                 image = photo,
-                type = type,
-                styleType = style
+                type = (Droid.Type)type,
+                styleType = (StyleType)style
             };
 
             newOne.GetCoordinatesFromAdress();
@@ -45,35 +47,31 @@ namespace EncounterMe.Pins
                 openingHours = open,
                 closingTime = close,
                 image = photo,
-                type = type,
-                styleType = style
+                type = (Droid.Type)type,
+                styleType = (StyleType)style,
             };
 
-            newOne.GetAdressFromCoordinates();
+            newOne.GetAddressFromCoordinates();
 
             list.Add(newOne);
         }
 
         public void addPinInMap(MapPin pin)
         {
-            Pin mapPin = new Pin
-            {
-                Label = pin.name,
-                Address = pin.address,
-                Type = PinType.Place,
-                Position = new Position(pin.latitude , pin.longitude)
-            };
-
+            pin.createAPin();
             //cia map.Pins.Add(pin);
-            //kur map to sukurto zemelapio pavadinimas kurio as nežinau
+            //kur map to sukurto zemelapio pavadinimas kurio as nežinau dabar
         }
 
         public void writeListOfPinsInFile()
         {
-            for( int i=0; i<list.Count; i++)
-            {
-                IO.WriteToXmlFile(filename, list[i], false);
-            }
+            IO.WriteToXmlFile(filename, list, false);
+        }
+
+        public void getListOfPinsFromFile()
+        {
+            // error?!?
+            // list = IO.ReadFromXmlFile(filename);
         }
     }
 }
