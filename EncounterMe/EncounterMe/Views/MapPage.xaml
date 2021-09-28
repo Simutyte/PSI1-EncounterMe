@@ -14,42 +14,7 @@
             x:Name="MyMap"
             IsShowingUser="true"
             MapType="Street"/>
-
-        <!-- Cia reikia paveiksliuko-->
-        <!--<Button ImageSource=""
-                Text="Add Pin"
-                WidthRequest="80"
-                HeightRequest="80"
-                CornerRadius="40"
-                BackgroundColor="#2E8B57"
-                HorizontalOptions="Center"
-                VerticalOptions="End"
-                Clicked="Button_Clicked"/>-->
-                
     </Grid>
 
-
-
-    <!--
-
-    
-    <mymap:Map>
-        <x:Arguments>
-            <mymap:MapSpan>
-                <x:Arguments>
-                    <mymap:Position>
-                        <x:Arguments>
-                            <x:Double>55.1735998</x:Double>
-                            <x:Double>23.8948016</x:Double>
-                        </x:Arguments>
-                    </mymap:Position>
-                    <x:Double>4</x:Double>
-                    <x:Double>4</x:Double>
-                </x:Arguments>
-            </mymap:MapSpan>
-        </x:Arguments>
-    </mymap:Map>
-
--->
 
 </ContentPage>
