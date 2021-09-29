@@ -14,7 +14,7 @@ namespace EncounterMe.Droid.Customizers
     public class GpsDependencyService : IGpsDependencyService
     {
 
-        public bool IsGpsEnable()
+        public bool IsGpsEnabled()
         {
             LocationManager locationManager = (LocationManager)Android.App.Application.Context.GetSystemService(Context.LocationService);
             return locationManager.IsProviderEnabled(LocationManager.GpsProvider);

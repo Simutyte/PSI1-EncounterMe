@@ -59,7 +59,7 @@ namespace EncounterMe.Views
                     {
                         
                         IGpsDependencyService GpsDependency = DependencyService.Get<IGpsDependencyService>();
-                        bool gpsEnabled = GpsDependency.IsGpsEnable();
+                        bool gpsEnabled = GpsDependency.IsGpsEnabled();
                         if (!gpsEnabled)
                         {
 
