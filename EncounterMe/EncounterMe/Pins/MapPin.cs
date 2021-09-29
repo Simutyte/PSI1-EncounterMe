@@ -9,7 +9,7 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
-namespace EncounterMe.Droid
+namespace EncounterMe
 {
 
     [Flags]
@@ -86,13 +86,14 @@ namespace EncounterMe.Droid
                 {
                     address =
                         $"CountryName:     {placemark.CountryName}\n" +
-                        $"Locality:        {placemark.Locality}\n";
+                        $"Location:        {placemark.Location}\n";
+
                 }
             }
             catch (Exception ex) { }
         }
 
-        public void createAPin()
+        public void CreateAPin()
         {
             pin = new Pin
             {

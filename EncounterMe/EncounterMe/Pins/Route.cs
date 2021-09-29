@@ -4,26 +4,33 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using EncounterMe.Droid;
-using Type = EncounterMe.Droid.Type;
+using EncounterMe;
+using Type = EncounterMe.Type;
 
-namespace EncounterMe.Pins
+namespace EncounterMe
 {
     class Route<MapPin>
     {
         public StyleType styleType { get; set; }
-        public System.Type type { get; set; }
+        public Type type { get; set; }
 
-        public List<MapPin> route { get; set; }
+        PinsList objectsList = PinsList.GetPinsList();
 
-        public void createARouteByStyleTypeAndCity( string city, int type)
+        public List<EncounterMe.MapPin> route { get; set; }
+
+        public void CreateARouteByStyleTypeAndCity( string city, int type)
         {
             StyleType styleType = (StyleType)type;
 
-            //find all objects from PinsList
-            
+            for(int i=0; i<objectsList.list.Count; i++)
+            {
+                if(objectsList.list[i].styleType == styleType)
+                {
+                    route.Add(objectsList.list[i]);
+                }
+            }     
         }
-        public void createARouteByTypeAndCity(string city, int type)
+        public void CreateARouteByTypeAndCity(string city, int type)
         {
             Type styleType = (Type)type;
 
@@ -31,11 +38,10 @@ namespace EncounterMe.Pins
 
         }
 
-        public void createACustomRoute()
+        public void CreateACustomRoute()
         {
             //no idea yet
         }
-
 
 
     }
