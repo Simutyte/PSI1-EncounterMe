@@ -15,12 +15,14 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapPage : ContentPage
     {
+
+        //public bool LocationSettingsButtonPressed = false;
+
         public MapPage()
         {
             InitializeComponent();
             DisplayCurrentLocation();
             
-
         }
 
         private async void DisplayCurrentLocation()
@@ -63,9 +65,10 @@ namespace EncounterMe.Views
                         if (!gpsEnabled)
                         {
 
-                            bool answer = await DisplayAlert("Agirdi", "Ijungi Gps arba isjungiu tave", "OK nemusk", "Dw bandyk");
+                            bool answer = await DisplayAlert("Alert", "Turn on your phone's location service for better performance.", "OK", "Maybe later");
                             if (answer == true)
                             {
+                                //LocationSettingsButtonPressed = true;
                                 GpsDependency.OpenSettings();
                                 DisplayCurrentLocation();
                             }
