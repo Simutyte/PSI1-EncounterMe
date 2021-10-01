@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 
-namespace EncounterMe.Droid
+namespace EncounterMe
 {
     static class IO
     {
