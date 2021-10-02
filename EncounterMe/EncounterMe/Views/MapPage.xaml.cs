@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using Xamarin.Forms.Maps;
 using System.Diagnostics;
-using EncounterMe.Droid;
+//using EncounterMe.Droid;
 using EncounterMe.Services;
 
 namespace EncounterMe.Views
