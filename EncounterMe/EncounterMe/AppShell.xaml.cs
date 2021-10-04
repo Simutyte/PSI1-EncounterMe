@@ -25,7 +25,7 @@ namespace EncounterMe
             
         }
 
-        Dictionary<String, Type> routes = new Dictionary<string, Type>();
+        Dictionary<String, System.Type> routes = new Dictionary<string, System.Type>();
 
         public ICommand NavigateCommand => new Command(Navigate);
         
