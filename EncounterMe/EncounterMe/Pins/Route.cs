@@ -24,7 +24,7 @@ namespace EncounterMe
 
             for(int i=0; i<objectsList.list.Count; i++)
             {
-                if(objectsList.list[i].styleType == styleType)
+                if(objectsList.list[i].styleType == styleType && objectsList.list[i].city == city)
                 {
                     route.Add(objectsList.list[i]);
                 }
@@ -32,9 +32,15 @@ namespace EncounterMe
         }
         public void CreateARouteByTypeAndCity(string city, int type)
         {
-            Type styleType = (Type)type;
+            Type objectType = (Type)type;
 
-            //find all objects from PinsList
+            for (int i = 0; i < objectsList.list.Count; i++)
+            {
+                if (objectsList.list[i].type == objectType && objectsList.list[i].city == city)
+                {
+                    route.Add(objectsList.list[i]);
+                }
+            }
 
         }
 

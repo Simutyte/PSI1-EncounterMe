@@ -44,8 +44,7 @@ namespace EncounterMe
 
         public Image image{ get; set; }
 
-        public double latitude { get; set; }
-        public double longitude { get; set; }
+        public Location location { get; set; }
 
         public TimeSpan openingHours { get; set; }
         public TimeSpan closingTime { get; set; }
@@ -54,6 +53,8 @@ namespace EncounterMe
         public StyleType styleType { get; set; }
 
         public Pin pin { get; set; }
+
+        public string city { get; set; }
 
         public MapPin(string name)
         {
@@ -66,11 +67,10 @@ namespace EncounterMe
             try
             {
                 var locations = await Geocoding.GetLocationsAsync(address);
-                var location = locations?.FirstOrDefault();
-                if (location != null)
+                var loc = locations?.FirstOrDefault();
+                if (loc != null)
                 {
-                    latitude = location.Latitude;
-                    longitude = location.Longitude;
+                    location = loc;
                 }
             }
             catch (Exception ex) { }
@@ -80,13 +80,29 @@ namespace EncounterMe
         {
             try
             {
-                var placemarks = await Geocoding.GetPlacemarksAsync(latitude, longitude);
+                var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
                 var placemark = placemarks?.FirstOrDefault();
                 if (placemark != null)
                 {
                     address =
                         $"CountryName:     {placemark.CountryName}\n" +
                         $"Location:        {placemark.Location}\n";
+
+                }
+            }
+            catch (Exception ex) { }
+        }
+
+        //reikia kad galėčiau sudarinėti kelius pagal miestą
+        public async void GetCity()
+        {
+            try
+            {
+                var placemarks = await Geocoding.GetPlacemarksAsync(location.Latitude, location.Longitude);
+                var placemark = placemarks?.FirstOrDefault();
+                if (placemark != null)
+                {
+                    city = placemark.Locality;
 
                 }
             }
@@ -100,7 +116,7 @@ namespace EncounterMe
                 Label = name,
                 Address = address,
                 Type = PinType.Place,
-                Position = new Position(latitude, longitude)
+                Position = new Position(location.Latitude, location.Longitude)
             };
         }
      

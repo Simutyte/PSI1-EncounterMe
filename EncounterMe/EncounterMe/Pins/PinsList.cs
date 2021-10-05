@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using EncounterMe;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -56,12 +57,11 @@ namespace EncounterMe
             list.Add(newOne);
         }
 
-        public void AddPinByCoordinatesToList(string name, double lat, double lon, int type, int style, string details, TimeSpan open, TimeSpan close, Image photo)
+        public void AddPinByCoordinatesToList(string name, Location location, int type, int style, string details, TimeSpan open, TimeSpan close, Image photo)
         {
             MapPin newOne = new MapPin(name)
             {
-                latitude = lat,
-                longitude = lon,
+                location = location,
                 description = details,
                 openingHours = open,
                 closingTime = close,
