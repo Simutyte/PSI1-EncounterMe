@@ -18,26 +18,31 @@ namespace EncounterMe.Views
         public LogInPage()
         {
             InitializeComponent();
+            
         }
 
          async void LogInButtonClicked(object sender, EventArgs args)
         {
-            Pins.User user = new Pins.User(entryUsername.Text, entryPassword.Text);
-            if(user.checkInformation())
+            if (string.IsNullOrWhiteSpace(entryLogUsername.Text) || string.IsNullOrWhiteSpace(entryLogPassword.Text))
             {
-                await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+                await DisplayAlert("Entered data", "All fields must be filled", "OK");
             }
             else
             {
-                await DisplayAlert("Bad login", "Empty username or password", "okay");
+                await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+                entryLogPassword.Text = string.Empty;
+                entryLogUsername.Text = string.Empty;
             }
 
-           
+
+
         }
 
         private async void Tapped_Registration(object sender, EventArgs args)
         {
             await Shell.Current.GoToAsync($"{nameof(RegistrationPage)}");
+            entryLogPassword.Text = string.Empty;
+            entryLogUsername.Text = string.Empty;
         }
     }
 }
