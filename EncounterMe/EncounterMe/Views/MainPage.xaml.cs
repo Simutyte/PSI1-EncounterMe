@@ -24,6 +24,7 @@ namespace EncounterMe.Views
         async void LogOutClicked(object sender, EventArgs args)
         {
             await Shell.Current.GoToAsync($"//{nameof(LogInPage)}");
+            
         }
     }
 
