@@ -2,11 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -21,7 +16,7 @@ namespace EncounterMe.Views
             
         }
 
-         async void LogInButtonClicked(object sender, EventArgs args)
+         async void Log_In_Button_Clicked(object sender, EventArgs args)
         {
             if (string.IsNullOrWhiteSpace(entryLogUsername.Text) || string.IsNullOrWhiteSpace(entryLogPassword.Text))
             {
@@ -33,10 +28,7 @@ namespace EncounterMe.Views
                 entryLogPassword.Text = string.Empty;
                 entryLogUsername.Text = string.Empty;
             }
-
-
-
-        }
+         }
 
         private async void Tapped_Registration(object sender, EventArgs args)
         {

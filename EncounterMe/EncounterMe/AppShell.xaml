@@ -30,7 +30,12 @@
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}"/>
             <DataTemplate x:Key="MenuTemplate">
                 <StackLayout Orientation="Horizontal">
-                    <Image Margin="30,10,20,10" Source="{Binding Icon}" WidthRequest="36" HeightRequest="36" HorizontalOptions="Start" VerticalOptions="Center"/>
+                    <Image Margin="30,10,20,10"
+                           Source="{Binding Icon}"
+                           WidthRequest="36"
+                           HeightRequest="36"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center"/>
                     <Label Text="{Binding Title}" TextColor="#686868" FontSize="16" VerticalOptions="Center"/>
                 </StackLayout>
             </DataTemplate>
@@ -43,37 +48,56 @@
         <ShellContent ContentTemplate="{DataTemplate views:LogInPage}"/>
     </ShellItem>
 
-    <FlyoutItem Title="Home" Icon="home.png">
-        <Tab Title="Main Page" Icon="mainPage.png" >
-            <ShellContent ContentTemplate="{DataTemplate views:MainPage}" Route="MainPage"/>
+    <FlyoutItem Title="Home"
+                Icon="home.png">
+        
+        <Tab Title="Main Page"
+             Icon="mainPage.png" >
+            <ShellContent ContentTemplate="{DataTemplate views:MainPage}"
+                          Route="MainPage"/>
         </Tab>
-        <Tab Title="Map" Icon="map.png" >
+        
+        <Tab Title="Map"
+             Icon="map.png" >
             <ShellContent ContentTemplate="{DataTemplate views:MapPage}"/>
         </Tab>
-        <Tab Title="Routes" Icon="route.png">
+        
+        <Tab Title="Routes"
+             Icon="route.png">
             <ShellContent ContentTemplate="{DataTemplate views:RoutesPage}"/>
         </Tab>
-        <Tab Title="All objects" Icon="objects.png">
+        
+        <Tab Title="All objects"
+             Icon="objects.png">
             <ShellContent ContentTemplate="{DataTemplate views:AllObjectsPage}"/>
         </Tab>
+        
      </FlyoutItem>
 
-    <FlyoutItem Title="Profile" Icon="profile.png" x:Name="profile">
-        <Tab Title="Profile" Icon="profile2.png">
+    <FlyoutItem Title="Profile"
+                Icon="profile.png"
+                x:Name="profile">
+        
+        <Tab Title="Profile"
+             Icon="profile2.png">
             <ShellContent ContentTemplate="{DataTemplate views:ProfilePage}"/>
         </Tab>
         
-        <Tab Title="Favourites" Icon="favourites.png">
+        <Tab Title="Favourites"
+             Icon="favourites.png">
             <ShellContent ContentTemplate="{DataTemplate views:FavouritesPage}"/>
         </Tab>
+        
      </FlyoutItem>
-
+      
+    <MenuItem Text="About us"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="aboutUs"
+              IconImageSource="information.png"/>
     
-    
-    
-    <MenuItem Text="About us"  Command="{Binding NavigateCommand}" CommandParameter="aboutUs" IconImageSource="information.png"/>
-    <MenuItem Text="Settings"  Command="{Binding NavigateCommand}" CommandParameter="settings" IconImageSource="settings.png"/>
-
-
+    <MenuItem Text="Settings"
+              Command="{Binding NavigateCommand}"
+              CommandParameter="settings"
+              IconImageSource="settings.png"/>
 
 </Shell>

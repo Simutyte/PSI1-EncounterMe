@@ -4,11 +4,13 @@
              Shell.TabBarIsVisible="true"
              Title="Favourites"
              x:Class="EncounterMe.Views.FavouritesPage">
+    
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Welcome to your favourite objects!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>
+    
 </ContentPage>

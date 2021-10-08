@@ -2,11 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,7 +15,7 @@ namespace EncounterMe.Views
             InitializeComponent();
         }
 
-        async void RegisterButtonClicked(object sender, EventArgs args)
+        async void Register_Button_Clicked(object sender, EventArgs args)
         {
             if (string.IsNullOrWhiteSpace(entryRegUsername.Text) || string.IsNullOrWhiteSpace(entryRegEmail.Text) ||
                 string.IsNullOrWhiteSpace(entryRegPassword.Text) || string.IsNullOrWhiteSpace(entryRegConfirmPassword.Text))

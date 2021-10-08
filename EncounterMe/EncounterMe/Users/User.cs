@@ -20,6 +20,9 @@ namespace EncounterMe.Users
         [MaxLength(100), Unique]
         public string email { get; set; }
 
-        public User() { }
+        public User()
+        {
+
+        }
     }
 }

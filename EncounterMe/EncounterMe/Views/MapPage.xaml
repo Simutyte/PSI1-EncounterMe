@@ -6,14 +6,14 @@
              x:Class="EncounterMe.Views.MapPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="add.png"  Clicked="Button_Clicked"/>
+        <ToolbarItem IconImageSource="add.png"
+                     Clicked="Add_Button_Clicked"/>
     </ContentPage.ToolbarItems>
 
     <Grid>
-        <mymap:Map
-            x:Name="MyMap"
-            IsShowingUser="true"
-            MapType="Street"/>
+        <mymap:Map x:Name="MyMap"
+                   IsShowingUser="true"
+                   MapType="Street"/>
     </Grid>
 
 

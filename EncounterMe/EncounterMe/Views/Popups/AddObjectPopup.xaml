@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popup:PopupPage  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+                  x:Class="EncounterMe.Views.Popups.AddObjectPopup">
+    
+    <popup:PopupPage.Animation>
+        <animations:ScaleAnimation 
+                PositionIn="Center"
+                PositionOut="Center"
+                ScaleIn="1.2"
+                ScaleOut="0.8"
+                DurationIn="400"
+                DurationOut="300"
+                EasingIn="SinOut"
+                EasingOut="SinIn"
+                HasBackgroundAnimation="True"/>
+    </popup:PopupPage.Animation>
+
+    <StackLayout VerticalOptions="Center" 
+                 HorizontalOptions="Center"
+                 Padding="20, 20, 20, 20">
+
+        <StackLayout Padding="5,5,5,20">
+            <Label Text="ADD NEW OBJECT"
+                       TextColor="#F0F0F0"
+                       FontSize="Large"
+                       FontAttributes="Bold"
+                       HorizontalTextAlignment="Center"/>
+        </StackLayout>
+
+        <Button Text="By adress"
+                TextColor="#F0F0F0"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                BackgroundColor="#2E8B57"
+                CornerRadius="30"
+                Clicked="Add_By_Adress_Button_Clicked"/>
+
+        <Button Text="By pin to maps"
+                TextColor="#F0F0F0"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                BackgroundColor="#2E8B57"
+                CornerRadius="30" />
+
+        <Button Text="By current coordinates"
+                TextColor="#F0F0F0"
+                FontAttributes="Bold"
+                FontSize="Medium"
+                BackgroundColor="#2E8B57"
+                CornerRadius="30" />
+
+    </StackLayout>
+</popup:PopupPage>

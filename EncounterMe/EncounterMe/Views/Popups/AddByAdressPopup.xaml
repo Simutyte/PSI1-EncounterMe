@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<popup:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+                 xmlns:local="clr-namespace:EncounterMe.CustomRenderer"
+                 x:Class="EncounterMe.Views.Popups.AddByAdressPopup">
+
+    <popup:PopupPage.Animation>
+        <animations:ScaleAnimation 
+                PositionIn="Center"
+                PositionOut="Center"
+                ScaleIn="1.2"
+                ScaleOut="0.8"
+                DurationIn="400"
+                DurationOut="300"
+                EasingIn="SinOut"
+                EasingOut="SinIn"
+                HasBackgroundAnimation="True"/>
+    </popup:PopupPage.Animation>
+
+    <ScrollView>
+
+        <StackLayout Padding="0"
+                     Margin="0">
+            <Grid>
+
+                <StackLayout Margin="15,20,15,20">
+                    <Frame BackgroundColor="#F0F0F0"
+                           HasShadow="True"
+                           CornerRadius="2"
+                           HorizontalOptions="FillAndExpand">
+                        <StackLayout>
+
+                            <!--Pavadinimas-->
+                            <StackLayout HorizontalOptions="Center" Padding="1,1,1,1">
+                                <Label Text="ADD OBJECT"
+                                       TextColor="#2E8B57"
+                                       FontSize="Large"
+                                       FontAttributes="Bold"/>
+                            </StackLayout>
+
+                            <!--Name laukelis-->
+                            <StackLayout Margin="0,10,0,0">
+                                <Label Text="Object name:"
+                                       TextColor="#2E8B57"
+                                       FontSize="Medium"/>
+
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0" Margin="0">
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <local:LogInCustomEntry x:Name="entryObjectName"
+                                                                Placeholder="Object name"
+                                                                TextColor="#416459"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Margin="15,0,15,0" />
+                                    </StackLayout>
+
+                                </Frame>
+                            </StackLayout>
+
+                            <!--Adress laukelis-->
+                            <StackLayout Margin="0,10,0,0">
+                                <Label Text="Object adress:"
+                                       TextColor="#2E8B57"
+                                       FontSize="Medium"/>
+
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0"
+                                       Margin="0">
+                                    <StackLayout Orientation="Horizontal">
+                                        <local:LogInCustomEntry x:Name="entryObjectCity"
+                                                                Placeholder="City"
+                                                                TextColor="#416459"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Margin="15,0,15,0" />
+                                    </StackLayout>
+                                </Frame>
+
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0" Margin="0">
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <local:LogInCustomEntry x:Name="entryObjectStreet"
+                                                                Placeholder="Street"
+                                                                TextColor="#416459"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Margin="15,0,15,0" />
+                                    </StackLayout>
+                                </Frame>
+
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0"
+                                       Margin="0">
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <local:LogInCustomEntry x:Name="entryObjectNumber"
+                                                                Placeholder="Number"
+                                                                TextColor="#416459"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Margin="15,0,15,0" />
+                                    </StackLayout>
+                                </Frame>
+
+                            </StackLayout>
+
+                            <!--Object type laukelis-->
+                            <StackLayout Margin="0,10,0,0">
+                                <Label Text="Object type:"
+                                       TextColor="#2E8B57"
+                                       FontSize="Medium"/>
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0"
+                                       Margin="0">
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <Picker/>
+                                    </StackLayout>
+
+                                </Frame>
+                            </StackLayout>
+
+                            <!--Object style laukelis-->
+                            <StackLayout Margin="0,10,0,0">
+                                <Label Text="Object style:"
+                                       TextColor="#2E8B57"
+                                       FontSize="Medium"/>
+
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0" Margin="0">
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <Picker/>
+                                    </StackLayout>
+
+                                </Frame>
+                            </StackLayout>
+
+                            <!--Hours laukelis-->
+                            <StackLayout Margin="0,10,0,0">
+                                <Label Text="Working hours:"
+                                       TextColor="#2E8B57"
+                                       FontSize="Medium"/>
+
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0"
+                                       Margin="0">
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Padding="8,4"
+                                               Text="From"
+                                               TextColor="#2E8B57"
+                                               FontSize="Medium"/>
+
+                                        <TimePicker/>
+
+                                        <Label Padding="8,4"
+                                               Text="To"
+                                               TextColor="#2E8B57"
+                                               FontSize="Medium"/>
+
+                                        <TimePicker/>
+                                    </StackLayout>
+
+                                </Frame>
+                            </StackLayout>
+
+
+                            <!--Description laukelis-->
+                            <StackLayout Margin="0,10,0,25">
+                                <Label Text="Object desricption:"
+                                       TextColor="#2E8B57"
+                                       FontSize="Medium"/>
+
+                                <StackLayout Orientation="Horizontal" >
+                                    <Editor x:Name="entryObjectDescription"
+                                            HeightRequest="80"
+                                            Placeholder="Object description"
+                                            TextColor="#416459"
+                                            HorizontalOptions="FillAndExpand"
+                                            VerticalOptions="FillAndExpand"/>
+                                </StackLayout>
+
+                            </StackLayout>
+
+
+                            <!--Mygtukai-->
+                            <StackLayout Orientation="Horizontal"
+                                         HorizontalOptions="Center"
+                                         Margin="0,0,0,0"
+                                         HeightRequest="50">
+
+                                <Button Text="Cancel"
+                                        TextColor="#F0F0F0"
+                                        BackgroundColor="#2E8B57"
+                                        CornerRadius="30"
+                                        Clicked="Cancel_Button_Clicked"  />
+
+                                <Button Text="Add"
+                                        TextColor="#F0F0F0"
+                                        BackgroundColor="#2E8B57"
+                                        CornerRadius="30"  />
+
+                            </StackLayout>
+
+                        </StackLayout>
+                    </Frame>
+                </StackLayout>
+            </Grid>
+        </StackLayout>
+    </ScrollView>
+</popup:PopupPage>

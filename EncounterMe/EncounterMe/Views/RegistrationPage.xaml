@@ -13,36 +13,70 @@
 
                 <!--Viršutinis paveikslėlis-->
                 <StackLayout Padding="0" Margin="0">
-                    <Frame BackgroundColor="#2E8B57"  HeightRequest="140" HorizontalOptions="FillAndExpand" Margin="0" Padding="0">
-                        <Image Source="roadmap2.jpg" Aspect="AspectFill" Margin="0" />
+                    <Frame BackgroundColor="#2E8B57"
+                           HeightRequest="140"
+                           HorizontalOptions="FillAndExpand"
+                           Margin="0"
+                           Padding="0">
+                        
+                        <Image Source="roadmap2.jpg"
+                               Aspect="AspectFill"
+                               Margin="0" />
                     </Frame>
                 </StackLayout>
 
 
 
                 <StackLayout Margin="15,70,15,0">
-                    <Frame BackgroundColor="#F0F0F0" HasShadow="True" CornerRadius="2" HeightRequest="400" HorizontalOptions="FillAndExpand">
+                    <Frame BackgroundColor="#F0F0F0"
+                           HasShadow="True"
+                           CornerRadius="2"
+                           HeightRequest="400"
+                           HorizontalOptions="FillAndExpand">
                         <StackLayout>
 
                             <!--Pavadinimas-->
                             <StackLayout HorizontalOptions="Center">
-                                <Label Text="REGISTRATION" TextColor="#2E8B57" FontSize="Large" FontAttributes="Bold"/>
+                                <Label Text="REGISTRATION"
+                                       TextColor="#2E8B57"
+                                       FontSize="Large"
+                                       FontAttributes="Bold"/>
                             </StackLayout>
 
                             <!--Username laukelis-->
                             <StackLayout Margin="0,20,0,0">
-                                <Frame BackgroundColor="Transparent" BorderColor="#6c8578" CornerRadius="50" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0"
+                                       Margin="0">
+                                    
                                     <StackLayout Orientation="Horizontal">
-                                        <local:LogInCustomEntry x:Name="entryRegUsername"  Placeholder="Username" TextColor="#416459" HorizontalOptions="FillAndExpand" Margin="15,0,15,0" />
+                                        <local:LogInCustomEntry x:Name="entryRegUsername"
+                                                                Placeholder="Username"
+                                                                TextColor="#416459"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Margin="15,0,15,0" />
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>
 
                             <!--Email laukelis-->
                             <StackLayout Margin="0,10,0,0">
-                                <Frame BackgroundColor="Transparent" BorderColor="#6c8578" CornerRadius="50" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0"
+                                       Margin="0">
+                                    
                                     <StackLayout Orientation="Horizontal">
-                                        <local:LogInCustomEntry x:Name="entryRegEmail"  Placeholder="Email" TextColor="#416459" HorizontalOptions="FillAndExpand" Margin="15,0,15,0" />
+                                        <local:LogInCustomEntry x:Name="entryRegEmail"
+                                                                Placeholder="Email"
+                                                                TextColor="#416459"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Margin="15,0,15,0" />
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>
@@ -50,39 +84,56 @@
 
                             <!--Password laukelis-->
                             <StackLayout Margin="0,10,0,0">
-                                <Frame BackgroundColor="Transparent" BorderColor="#6c8578" CornerRadius="50" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0"
+                                       Margin="0">
+                                    
                                     <StackLayout Orientation="Horizontal">
-
-                                        <local:LogInCustomEntry PlaceholderColor="#6c8578" x:Name="entryRegPassword" IsPassword="True" Placeholder="Password" TextColor="#416459" HorizontalOptions="FillAndExpand" Margin="15,0,15,0" />
+                                        <local:LogInCustomEntry PlaceholderColor="#6c8578"
+                                                                x:Name="entryRegPassword"
+                                                                IsPassword="True"
+                                                                Placeholder="Password"
+                                                                TextColor="#416459"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Margin="15,0,15,0" />
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>
 
                             <!--Confirm password laukelis-->
                             <StackLayout Margin="0,10,0,30">
-                                <Frame BackgroundColor="Transparent" BorderColor="#6c8578" CornerRadius="50" HorizontalOptions="FillAndExpand" Padding="0" Margin="0">
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0"
+                                       Margin="0">
+                                    
                                     <StackLayout Orientation="Horizontal">
-
-                                        <local:LogInCustomEntry PlaceholderColor="#6c8578" x:Name="entryRegConfirmPassword" IsPassword="True" Placeholder="Confirm password" TextColor="#416459" HorizontalOptions="FillAndExpand" Margin="15,0,15,0" />
+                                        <local:LogInCustomEntry PlaceholderColor="#6c8578"
+                                                                x:Name="entryRegConfirmPassword"
+                                                                IsPassword="True"
+                                                                Placeholder="Confirm password"
+                                                                TextColor="#416459"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Margin="15,0,15,0" />
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>
 
-                            <Button Text="Register" TextColor="#F0F0F0" BackgroundColor="#2E8B57" CornerRadius="30" Clicked="RegisterButtonClicked"  />
-
-
-
-
-
+                            <Button Text="Register"
+                                    TextColor="#F0F0F0"
+                                    BackgroundColor="#2E8B57"
+                                    CornerRadius="30"
+                                    Clicked="Register_Button_Clicked"  />
 
                         </StackLayout>
                     </Frame>
                 </StackLayout>
-
-
-
             </Grid>
-
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

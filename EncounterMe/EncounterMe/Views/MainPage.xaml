@@ -5,15 +5,15 @@
              x:Class="EncounterMe.Views.MainPage">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="logOut.png" Clicked="LogOutClicked"/>
-    </ContentPage.ToolbarItems>
-
+        <ToolbarItem IconImageSource="logOut.png"
+                     Clicked="Log_Out_Button_Clicked"/>
+        </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
-        
         <StackLayout>
             <Label Text="Welcome to Main Page"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+                   VerticalOptions="CenterAndExpand" 
+                   HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>
     

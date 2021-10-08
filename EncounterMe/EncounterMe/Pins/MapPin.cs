@@ -39,7 +39,9 @@ namespace EncounterMe
     class MapPin
     {
         public string name { get; set; }
+
         public string address { get; set; }
+
         public string description { get; set; }
 
         public Image image{ get; set; }
@@ -47,14 +49,17 @@ namespace EncounterMe
         public Location location { get; set; }
 
         public TimeSpan openingHours { get; set; }
+
         public TimeSpan closingTime { get; set; }
 
         public Type type { get; set; }
+
         public StyleType styleType { get; set; }
 
         public Pin pin { get; set; }
 
         public string city { get; set; }
+
 
         public MapPin(string name)
         {
@@ -90,7 +95,10 @@ namespace EncounterMe
 
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         //reikia kad galėčiau sudarinėti kelius pagal miestą
@@ -106,7 +114,10 @@ namespace EncounterMe
 
                 }
             }
-            catch (Exception ex) { }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public void CreateAPin()

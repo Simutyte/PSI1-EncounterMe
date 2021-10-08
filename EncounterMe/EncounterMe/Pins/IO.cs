@@ -21,7 +21,10 @@ namespace EncounterMe
             finally
             {
                 if (writer != null)
+                {
                     writer.Close();
+                }
+                    
             }
         }
 
@@ -37,7 +40,10 @@ namespace EncounterMe
             finally
             {
                 if (reader != null)
+                {
                     reader.Close();
+                }
+                    
             }
         }
     }

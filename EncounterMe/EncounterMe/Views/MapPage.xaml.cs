@@ -9,6 +9,8 @@ using Xamarin.Forms.Maps;
 using System.Diagnostics;
 using EncounterMe.Services;
 using System.Threading.Tasks;
+using Rg.Plugins.Popup.Services;
+using EncounterMe.Views.Popups;
 
 //possible to implement route tracking https://www.xamboy.com/2019/05/17/exploring-map-tracking-ui-in-xamarin-forms/
 //https://www.xamboy.com/2019/05/29/google-maps-place-search-in-xamarin-forms/
@@ -142,9 +144,9 @@ namespace EncounterMe.Views
             MyMap.MoveToRegion(mapSpan);
         }
 
-        void Button_Clicked(object sender, EventArgs e)
+        async void Add_Button_Clicked(object sender, EventArgs e)
         {
-
+            await PopupNavigation.Instance.PushAsync(new AddObjectPopup());
         }
 
     }

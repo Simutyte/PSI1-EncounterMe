@@ -2,11 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -21,7 +16,7 @@ namespace EncounterMe.Views
         }
 
 
-        async void LogOutClicked(object sender, EventArgs args)
+        async void Log_Out_Button_Clicked(object sender, EventArgs args)
         {
             await Shell.Current.GoToAsync($"//{nameof(LogInPage)}");
             

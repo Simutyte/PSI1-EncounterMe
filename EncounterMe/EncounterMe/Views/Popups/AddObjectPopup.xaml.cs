@@ -2,25 +2,23 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-using EncounterMe.Views.Popups;
+using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
-using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace EncounterMe.Views
+namespace EncounterMe.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AllObjectsPage : ContentPage
+    public partial class AddObjectPopup : PopupPage
     {
-        public AllObjectsPage()
+        public AddObjectPopup()
         {
             InitializeComponent();
         }
 
-        async void Add_Object_Button_Clicked(object sender, EventArgs e)
+        async void Add_By_Adress_Button_Clicked(object sender, EventArgs args)
         {
-            await PopupNavigation.Instance.PushAsync(new AddObjectPopup());
-
+            await PopupNavigation.Instance.PushAsync(new AddByAdressPopup());
         }
     }
 }

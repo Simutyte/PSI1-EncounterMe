@@ -3,9 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using EncounterMe.Views;
 using Xamarin.Forms;
@@ -20,9 +17,7 @@ namespace EncounterMe
         {
             InitializeComponent();
             RegisterRoutes();
-            BindingContext = this;
-            
-            
+            BindingContext = this;            
         }
 
         Dictionary<String, System.Type> routes = new Dictionary<string, System.Type>();
@@ -43,7 +38,7 @@ namespace EncounterMe
             routes.Add("settings", typeof(SettingsPage));
             routes.Add("MainPage", typeof(MainPage));
             routes.Add("RegistrationPage", typeof(RegistrationPage));
-
+            
             foreach (var item in routes)
             {
                 Routing.RegisterRoute(item.Key, item.Value);
