@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using EncounterMe;
 using Xamarin.Essentials;
@@ -43,14 +44,13 @@ namespace EncounterMe
         }
 
 
-        public void AddPinByAddressToList(string name, string address, int type, int style, string details, TimeSpan open, TimeSpan close, Image photo)
+        public void AddPinByAddressToList(string name, string address, int type, int style, string details, WorkingHours hours, Image photo)
         {
             MapPin newOne = new MapPin(name)
             {
                 address = address,
                 description = details,
-                openingHours = open,
-                closingTime = close,
+                hours = hours,
                 image = photo,
                 type = (Type)type,
                 styleType = (StyleType)style
@@ -61,14 +61,13 @@ namespace EncounterMe
             list.Add(newOne);
         }
 
-        public void AddPinByCoordinatesToList(string name, Location location, int type, int style, string details, TimeSpan open, TimeSpan close, Image photo)
+        public void AddPinByCoordinatesToList(string name, Location location, int type, int style, string details, WorkingHours hours, Image photo)
         {
             MapPin newOne = new MapPin(name)
             {
                 location = location,
                 description = details,
-                openingHours = open,
-                closingTime = close,
+                hours = hours,
                 image = photo,
                 type = (Type)type,
                 styleType = (StyleType)style,
@@ -88,13 +87,12 @@ namespace EncounterMe
 
         public void WriteListOfPinsInFile()
         {
-            IO.WriteToXmlFile(filename, list, false);
+            IO.WriteToXmlFile(objectToWrite: list, append: false, filePath: filename);
         }
 
         public void GetListOfPinsFromFile()
         {
-            // error?!?
-            // list = IO.ReadFromXmlFile(filename);
+            list = IO.ReadFromXmlFile<List<MapPin>>(filename);
         }
     }
 }

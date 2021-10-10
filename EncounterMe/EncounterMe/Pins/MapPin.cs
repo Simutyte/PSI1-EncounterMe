@@ -36,6 +36,13 @@ namespace EncounterMe
         ReviewLocations = 9
     }
 
+    public struct WorkingHours
+    {
+        public TimeSpan openingHours { get; set; }
+
+        public TimeSpan closingTime { get; set; }
+    }
+
     class MapPin
     {
         public string name { get; set; }
@@ -48,9 +55,7 @@ namespace EncounterMe
 
         public Location location { get; set; }
 
-        public TimeSpan openingHours { get; set; }
-
-        public TimeSpan closingTime { get; set; }
+        public WorkingHours hours { get; set; }
 
         public Type type { get; set; }
 
@@ -60,10 +65,19 @@ namespace EncounterMe
 
         public string city { get; set; }
 
+        public bool existAddress { get; set; }
 
-        public MapPin(string name)
+        public MapPin(string name, string address = "No address", Location location = null, WorkingHours hours = new WorkingHours(),
+                      Type type = 0, StyleType styleType = 0, String description = "No description", Image image = null)
         {
             this.name = name;
+            this.address = address;
+            this.location = location;
+            this.hours = hours;
+            this.type = type;
+            this.styleType = styleType;
+            this.description = description;
+            this.image = image;
         }
 
         
@@ -76,9 +90,12 @@ namespace EncounterMe
                 if (loc != null)
                 {
                     location = loc;
+                    existAddress = true;
                 }
             }
             catch (Exception ex) { }
+
+            existAddress = false;
         }
 
         public async void GetAddressFromCoordinates()
