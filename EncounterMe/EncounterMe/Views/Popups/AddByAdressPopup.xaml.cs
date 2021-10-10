@@ -26,5 +26,40 @@ namespace EncounterMe.Views.Popups
         {
             await PopupNavigation.PopAsync();
         }
+
+        async void Add_Button_Clicked(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(entryObjectName.Text) && string.IsNullOrWhiteSpace(entryObjectCity.Text) &&
+                string.IsNullOrWhiteSpace(entryObjectStreet.Text) && string.IsNullOrWhiteSpace(entryObjectNumber.Text))
+            {
+                await App.Current.MainPage.DisplayAlert("Entered data", "Name and address fields must be filled", "OK");
+            }
+            else
+            {
+                PinsList pinsList = PinsList.GetPinsList();
+                PinsList list = pinsList;
+
+                string name = entryObjectName.Text;
+                string address = entryObjectCity.Text + " " + entryObjectStreet.Text + " " + entryObjectNumber.Text;
+                int type = 1;   //TODO
+                int style = 1;  //TODO
+                TimeSpan open = new TimeSpan(12, 00, 00);  //TODO
+                TimeSpan close = new TimeSpan(12, 00, 00);  //TODO
+                string description = entryObjectDescription.Text;
+                Image photo = null;
+
+                WorkingHours hours = new WorkingHours();
+                hours.openingHours = open;
+                hours.closingTime = close;
+
+                list.AddPinByAddressToList(name, address, type, style, description, hours, photo);
+                
+                if (list.list.Last().existAddress == false)
+                {
+                    await App.Current.MainPage.DisplayAlert("Entered data", "This address is not existing. Please try again", "OK");
+                    list.list.RemoveAt(list.list.Count - 1);
+                }
+            }
+        }
     }
 }
