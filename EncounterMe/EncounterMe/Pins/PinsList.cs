@@ -13,15 +13,19 @@ namespace EncounterMe
 {
     class PinsList
     {
-
         static PinsList instance;
+
         private static object locker = new object();
 
         public List<MapPin> list = new List<MapPin>();
 
         private static string filename = "pins.xml";
 
-        protected PinsList() { }
+
+        protected PinsList()
+        {
+
+        }
 
         public static PinsList GetPinsList()
         {
