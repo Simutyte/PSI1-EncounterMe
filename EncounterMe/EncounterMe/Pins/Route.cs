@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Collections.Generic;
+using EncounterMe.Pins;
 
 namespace EncounterMe
 {
@@ -9,35 +10,39 @@ namespace EncounterMe
     {
         public StyleType styleType { get; set; }
 
-        public ObjectType type { get; set; }
+        public ObjectType objectType { get; set; }
 
-        PinsList objectsList = PinsList.GetPinsList();
+        private readonly PinsList _objectsList = PinsList.GetPinsList();
 
         public List<EncounterMe.MapPin> route { get; set; }
+
+        private CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
 
 
         public void CreateARouteByStyleTypeAndCity(string city, int type)
         {
-            StyleType styleType = (StyleType)type;
+            styleType = (StyleType)type;
 
-            for(int i=0; i<objectsList.list.Count; i++)
+            for (int i = 0; i < _objectsList.list.Count; i++)
             {
-                if(objectsList.list[i].styleType == styleType && objectsList.list[i].city == city)
+                if (_objectsList.list[i].styleType == styleType &&
+                    _checkAddressCommands.GetCity(_objectsList.list[i].location) == city)
                 {
-                    route.Add(objectsList.list[i]);
+                    route.Add(_objectsList.list[i]);
                 }
-            }     
+            }
         }
 
         public void CreateARouteByTypeAndCity(string city, int type)
         {
-            ObjectType objectType = (ObjectType)type;
+            objectType = (ObjectType)type;
 
-            for (int i = 0; i < objectsList.list.Count; i++)
+            for (int i = 0; i < _objectsList.list.Count; i++)
             {
-                if (objectsList.list[i].type == objectType && objectsList.list[i].city == city)
+                if (_objectsList.list[i].type == objectType &&
+                    _checkAddressCommands.GetCity(_objectsList.list[i].location) == city)
                 {
-                    route.Add(objectsList.list[i]);
+                    route.Add(_objectsList.list[i]);
                 }
             }
 
