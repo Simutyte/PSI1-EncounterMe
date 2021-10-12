@@ -3,9 +3,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using EncounterMe;
+using MvvmHelpers;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -14,14 +16,16 @@ namespace EncounterMe
 {
     class PinsList
     {
+        
         static PinsList instance;
 
         private static object locker = new object();
 
         public List<MapPin> list = new List<MapPin>();
 
-        private static string filename = "pins.xml";
+        public ObservableRangeCollection<MapPin> allObjects = new ObservableRangeCollection<MapPin>();
 
+        private static string filename = "pins.xml";
 
         protected PinsList()
         {
@@ -52,13 +56,14 @@ namespace EncounterMe
                 description = details,
                 hours = hours,
                 image = photo,
-                type = (Type)type,
+                type = (ObjectType)type,
                 styleType = (StyleType)style
             };
 
             newOne.GetCoordinatesFromAdress();
 
             list.Add(newOne);
+            allObjects.Add(newOne);
         }
 
         public void AddPinByCoordinatesToList(string name, Location location, int type, int style, string details, WorkingHours hours, Image photo)
@@ -69,13 +74,14 @@ namespace EncounterMe
                 description = details,
                 hours = hours,
                 image = photo,
-                type = (Type)type,
+                type = (ObjectType)type,
                 styleType = (StyleType)style,
             };
 
             newOne.GetAddressFromCoordinates();
 
             list.Add(newOne);
+            allObjects.Add(newOne);
         }
 
         public void AddPinInMap(MapPin pin)
