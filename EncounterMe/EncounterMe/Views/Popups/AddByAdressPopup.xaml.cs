@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EncounterMe.ViewModels;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
@@ -27,6 +28,7 @@ namespace EncounterMe.Views.Popups
             await PopupNavigation.PopAsync();
         }
 
+        [Obsolete]
         async void Add_Button_Clicked(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(entryObjectName.Text) && string.IsNullOrWhiteSpace(entryObjectCity.Text) &&
@@ -41,13 +43,13 @@ namespace EncounterMe.Views.Popups
 
                 string name = entryObjectName.Text;
                 string address = entryObjectCity.Text + " " + entryObjectStreet.Text + " " + entryObjectNumber.Text;
-                int type = 1;   //TODO
-                int style = 1;  //TODO
                 TimeSpan open = new TimeSpan(12, 00, 00);  //TODO
                 TimeSpan close = new TimeSpan(12, 00, 00);  //TODO
                 string description = entryObjectDescription.Text;
-                Image photo = null;
-
+                var image = new Image { Source = "home.png" }; //Kazkodėl neparodo
+                Image photo = image;
+                int style = StyleTypePicker.SelectedIndex;
+                int type = ObjectTypePicker.SelectedIndex;
                 WorkingHours hours = new WorkingHours();
                 hours.openingHours = open;
                 hours.closingTime = close;
@@ -56,8 +58,13 @@ namespace EncounterMe.Views.Popups
                 
                 if (list.list.Last().existAddress == false)
                 {
-                    await App.Current.MainPage.DisplayAlert("Entered data", "This address is not existing. Please try again", "OK");
-                    list.list.RemoveAt(list.list.Count - 1);
+                    await DisplayAlert("Entered data", "This address is not existing. Please try again", "OK");
+                    //list.list.RemoveAt(list.list.Count - 1);
+                    //list.allObjects.RemoveAt(list.list.Count - 1);
+                }
+                else
+                {
+                    await PopupNavigation.PopAsync();
                 }
             }
         }

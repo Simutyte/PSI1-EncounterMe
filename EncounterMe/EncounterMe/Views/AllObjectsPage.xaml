@@ -3,17 +3,51 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Objects"
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             x:Class="EncounterMe.Views.AllObjectsPage">
+             xmlns:viewModels="clr-namespace:EncounterMe.ViewModels" xmlns:Pins="clr-namespace:EncounterMe"
+             x:Class="EncounterMe.Views.AllObjectsPage"
+             x:Name="AllObjects"
+             x:DataType="viewModels:AllObjectsViewModel">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="plus.png"  Clicked="Add_Object_Button_Clicked"/>
     </ContentPage.ToolbarItems>
+
+    <ContentPage.BindingContext>
+        <viewModels:AllObjectsViewModel/>
+    </ContentPage.BindingContext>
+
+    <ListView BackgroundColor="Transparent"
+              ItemsSource="{Binding allObjectsCollection}"
+              HasUnevenRows="True">
+
+        <ListView.ItemTemplate>
+            <DataTemplate x:DataType="Pins:MapPin">
+                <ViewCell >
+                    <Grid Padding="10">
+                        <Frame CornerRadius="10"
+                               HasShadow="True">
+                            <StackLayout>
+                                <StackLayout>
+                                    <Label Text="{Binding name}"
+                                       VerticalOptions="Center"/>
+                                    <Label Text="{Binding type}"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="{Binding address}"
+                                           VerticalOptions="Center"/>
+                                    <Label Text="{Binding description}"
+                                           VerticalOptions="Center"/>
+
+                                </StackLayout>
+                                <Image Source="{Binding image}"
+                                       WidthRequest="66"/>
+                            </StackLayout>
+                        </Frame>
+                    </Grid>
+                </ViewCell>
+                
+            </DataTemplate>
+        </ListView.ItemTemplate>
+        
+    </ListView>
     
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to all objects page!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
 </ContentPage>

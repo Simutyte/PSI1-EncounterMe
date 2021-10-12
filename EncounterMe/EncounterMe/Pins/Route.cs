@@ -9,7 +9,7 @@ namespace EncounterMe
     {
         public StyleType styleType { get; set; }
 
-        public Type type { get; set; }
+        public ObjectType type { get; set; }
 
         PinsList objectsList = PinsList.GetPinsList();
 
@@ -31,7 +31,7 @@ namespace EncounterMe
 
         public void CreateARouteByTypeAndCity(string city, int type)
         {
-            Type objectType = (Type)type;
+            ObjectType objectType = (ObjectType)type;
 
             for (int i = 0; i < objectsList.list.Count; i++)
             {

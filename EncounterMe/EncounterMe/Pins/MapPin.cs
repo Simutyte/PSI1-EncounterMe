@@ -2,9 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -22,7 +20,7 @@ namespace EncounterMe
         Classicism = 4
     }
 
-    public enum Type
+    public enum ObjectType
     {
         None = 0,
         Church = 1,
@@ -57,7 +55,7 @@ namespace EncounterMe
 
         public WorkingHours hours { get; set; }
 
-        public Type type { get; set; }
+        public ObjectType type { get; set; }
 
         public StyleType styleType { get; set; }
 
@@ -68,7 +66,7 @@ namespace EncounterMe
         public bool existAddress { get; set; }
 
         public MapPin(string name, string address = "No address", Location location = null, WorkingHours hours = new WorkingHours(),
-                      Type type = 0, StyleType styleType = 0, String description = "No description", Image image = null)
+                      ObjectType type = 0, StyleType styleType = 0, String description = "No description", Image image = null)
         {
             this.name = name;
             this.address = address;
