@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using EncounterMe;
+using EncounterMe.Pins;
 using MvvmHelpers;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,16 +17,17 @@ namespace EncounterMe
 {
     class PinsList
     {
-        
-        static PinsList instance;
+        private static PinsList s_instance;
 
-        private static object locker = new object();
+        private static readonly object s_locker = new object();
 
         public List<MapPin> list = new List<MapPin>();
 
         public ObservableRangeCollection<MapPin> allObjects = new ObservableRangeCollection<MapPin>();
 
-        private static string filename = "pins.xml";
+        private static readonly string s_filename = "pins.xml";
+
+        private CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
 
         protected PinsList()
         {
@@ -34,51 +36,34 @@ namespace EncounterMe
 
         public static PinsList GetPinsList()
         {
-            if (instance == null)
+            if (s_instance == null)
             {
-                lock (locker)
+                lock (s_locker)
                 {
-                    if (instance == null)
+                    if (s_instance == null)
                     {
-                        instance = new PinsList();
+                        s_instance = new PinsList();
                     }
                 }
             }
-            return instance;
+            return s_instance;
         }
 
 
         public void AddPinByAddressToList(string name, string address, int type, int style, string details, WorkingHours hours, Image photo)
         {
-            MapPin newOne = new MapPin(name)
-            {
-                address = address,
-                description = details,
-                hours = hours,
-                image = photo,
-                type = (ObjectType)type,
-                styleType = (StyleType)style
-            };
-
-            newOne.GetCoordinatesFromAdress();
+            MapPin newOne = new MapPin(name, address, _checkAddressCommands.GetCoordinates(address), hours,
+                                      (ObjectType)type, (StyleType)style, details, photo);
 
             list.Add(newOne);
             allObjects.Add(newOne);
+            //WriteListOfPinsInFile();
         }
 
         public void AddPinByCoordinatesToList(string name, Location location, int type, int style, string details, WorkingHours hours, Image photo)
         {
-            MapPin newOne = new MapPin(name)
-            {
-                location = location,
-                description = details,
-                hours = hours,
-                image = photo,
-                type = (ObjectType)type,
-                styleType = (StyleType)style,
-            };
-
-            newOne.GetAddressFromCoordinates();
+            MapPin newOne = new MapPin(name, _checkAddressCommands.GetAddress(location), location, hours,
+                                      (ObjectType)type, (StyleType)style, details, photo);
 
             list.Add(newOne);
             allObjects.Add(newOne);
@@ -93,12 +78,12 @@ namespace EncounterMe
 
         public void WriteListOfPinsInFile()
         {
-            IO.WriteToXmlFile(objectToWrite: list, append: false, filePath: filename);
+            IO.WriteToXmlFile(objectToWrite: list, append: false, filePath: s_filename);
         }
 
         public void GetListOfPinsFromFile()
         {
-            list = IO.ReadFromXmlFile<List<MapPin>>(filename);
+            IO.ReadFromXmlFile<List<MapPin>>(s_filename);
         }
     }
 }

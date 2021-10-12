@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using EncounterMe.Pins;
 using MvvmHelpers;
 
 namespace EncounterMe.ViewModels
@@ -25,7 +26,7 @@ namespace EncounterMe.ViewModels
             }
         }
 
-        public List<String> styleTypeNames
+        public List<string> styleTypeNames
         {
             get
             {
@@ -47,7 +48,7 @@ namespace EncounterMe.ViewModels
             }
         }
 
-        public List<String> objectTypeNames
+        public List<string> objectTypeNames
         {
             get
             {
