@@ -15,9 +15,7 @@ using EncounterMe.Views.Popups;
 //possible to implement route tracking https://www.xamboy.com/2019/05/17/exploring-map-tracking-ui-in-xamarin-forms/
 //https://www.xamboy.com/2019/05/29/google-maps-place-search-in-xamarin-forms/
 
-//TODO - reload page after maps button pressed 
-
-//PROBLEM - doesnt work immediately after enabling location, but works if we change page, then go back to maps
+//TODO: change DisplayAlert to sth else, it doesnt close after opening settings
 
 
 namespace EncounterMe.Views
@@ -31,9 +29,6 @@ namespace EncounterMe.Views
 
         public MapPage()
         {
-            //var permissions = new ChosenPermissions();
-            //permissions.chosenLocationPermission = false;
-            //permissions.chosenGpsPermission = false;
             chosenLocationPermission = false;
             chosenGpsPermission = false;
 
@@ -45,14 +40,13 @@ namespace EncounterMe.Views
         {
             base.OnAppearing();
             DisplayCurrentLocation();
-
         }
         
         private async void DisplayCurrentLocation()
         {
             try
             {
-                //Trying to display current location
+                //Trying to display current location. GeolocationAccuracy.Default for quicker initialization
                 var request = new GeolocationRequest(GeolocationAccuracy.Default);
                 var location = await Geolocation.GetLocationAsync(request);
 
