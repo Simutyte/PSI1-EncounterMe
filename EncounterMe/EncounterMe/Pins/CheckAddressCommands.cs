@@ -59,9 +59,11 @@ namespace EncounterMe.Pins
                     _existAddress = true;
                 }
             }
-            catch (Exception) { }
+            catch (Exception)
+            {
+                _existAddress = false;
+            }
 
-            _existAddress = false;
         }
 
         async void GetAddressFromCoordinates()

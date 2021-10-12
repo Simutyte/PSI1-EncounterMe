@@ -55,10 +55,6 @@ namespace EncounterMe.Views.Popups
                 WorkingHours hours;
                 hours.openingHours = open;
                 hours.closingTime = close;
-                hours.openingHours = open;
-                hours.closingTime = close;
-
-                list.AddPinByAddressToList(name, address, type, style, description, hours, photo);
 
                 /*if (!_checkAddressCommands.CheckForExistance(address))
                {
