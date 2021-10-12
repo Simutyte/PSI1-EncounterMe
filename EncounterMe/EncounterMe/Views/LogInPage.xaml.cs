@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using EncounterMe.Users;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -24,9 +25,21 @@ namespace EncounterMe.Views
             }
             else
             {
-                await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
-                entryLogPassword.Text = string.Empty;
-                entryLogUsername.Text = string.Empty;
+                UserDB userDB = new UserDB();
+
+                if(userDB.LoginValidate(entryLogUsername.Text, entryLogPassword.Text))
+                {
+                    await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+
+                }
+                else
+                {
+                    await DisplayAlert("Log In", "Such user does not exist, please check your information or register", "OK");
+                    entryLogPassword.Text = string.Empty;
+                    entryLogUsername.Text = string.Empty;
+                }
+                
+                
             }
          }
 

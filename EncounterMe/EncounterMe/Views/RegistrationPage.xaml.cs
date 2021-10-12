@@ -2,6 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+using EncounterMe.Users;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,10 +20,19 @@ namespace EncounterMe.Views
 
         async void Register_Button_Clicked(object sender, EventArgs args)
         {
-            if (string.IsNullOrWhiteSpace(entryRegUsername.Text) || string.IsNullOrWhiteSpace(entryRegEmail.Text) ||
+            var email = entryRegEmail.Text;
+            var emailPatter = @"^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}" +
+                              @"\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\" +
+                              @".)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"; ;
+
+            if (string.IsNullOrWhiteSpace(entryRegUsername.Text) || string.IsNullOrWhiteSpace(email) ||
                 string.IsNullOrWhiteSpace(entryRegPassword.Text) || string.IsNullOrWhiteSpace(entryRegConfirmPassword.Text))
             {
                 await DisplayAlert("Entered data", "All fields must be filled", "OK");
+            }
+            else if (!Regex.IsMatch(email, emailPatter))
+            {
+                await DisplayAlert("Email", "Email is not valid", "OK");
             }
             else if (!string.Equals(entryRegPassword.Text, entryRegConfirmPassword.Text))
             {
@@ -32,7 +44,29 @@ namespace EncounterMe.Views
             }
             else
             {
-                await Shell.Current.GoToAsync($"//{nameof(LogInPage)}");
+                UserDB userDB = new UserDB();
+                User user = new User();
+                user.username = entryRegUsername.Text;
+                user.email = entryRegEmail.Text;
+                user.password = entryRegPassword.Text;
+                try
+                {
+                    string returnValue = userDB.AddUser(user);
+
+                    if (string.Equals(returnValue, "Sucessfully Added"))
+                    {
+                        await DisplayAlert("Registration", returnValue, "OK");
+                        await Shell.Current.GoToAsync($"//{nameof(LogInPage)}");
+                    }
+                    else
+                    {
+                        await DisplayAlert("Registration", returnValue, "OK");
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
             }
         }
     }
