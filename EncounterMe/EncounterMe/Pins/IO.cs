@@ -1,50 +1,48 @@
 ﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
 
 namespace EncounterMe
 {
     static class IO
     {
-        public static void WriteToXmlFile<T>(string filePath, T objectToWrite, bool append = false)
+        public static void WriteToBinaryFile<T>(string filePath, T objectToWrite, bool append = true)
         {
-            TextWriter writer = null;
-            try
+            using (Stream stream = File.Open(filePath, append ? FileMode.Append : FileMode.Create))
             {
-                var serializer = new XmlSerializer(typeof(T));
-                writer = new StreamWriter(filePath, append);
-                serializer.Serialize(writer, objectToWrite);
-            }
-            finally
-            {
-                if (writer != null)
-                {
-                    writer.Close();
-                }
-                    
+                var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+
+                binaryFormatter.Serialize(stream, objectToWrite);
             }
         }
 
-        public static T ReadFromXmlFile<T>(string filePath) where T : List<MapPin>, new()
+        public static T ReadFromBinaryFile<T>(string filePath) where T : List<MapPin>, new()
         {
-            TextReader reader = null;
+            T list = new T();
+
             try
             {
-                var serializer = new XmlSerializer(typeof(T));
-                reader = new StreamReader(filePath);
-                return (T)serializer.Deserialize(reader);
-            }
-            finally
-            {
-                if (reader != null)
+                using (Stream stream = File.Open(filePath, FileMode.Open))
                 {
-                    reader.Close();
+                    var binaryFormatter = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
+
+                    while (stream.Position < stream.Length)
+                    {
+                        MapPin obj = (MapPin)binaryFormatter.Deserialize(stream);
+                        list.Add(obj);
+                    }
+
+                    return (T)list;
                 }
-                    
             }
+            catch (Exception) //pirma karta failas dar ner sukurtas ir jo neranda
+            {
+                return null;
+            }
+            
         }
     }
 }

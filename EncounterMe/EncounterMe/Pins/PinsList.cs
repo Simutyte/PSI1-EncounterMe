@@ -25,7 +25,10 @@ namespace EncounterMe
 
         public ObservableRangeCollection<MapPin> allObjects = new ObservableRangeCollection<MapPin>();
 
-        private static string filename = "pins.xml";
+        private static readonly string s_filename = "pins.bin";
+
+        //private CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
+
 
         protected PinsList()
         {
@@ -64,6 +67,7 @@ namespace EncounterMe
 
             list.Add(newOne);
             allObjects.Add(newOne);
+            WriteAPinInFile(newOne);
         }
 
         public void AddPinByCoordinatesToList(string name, Location location, int type, int style, string details, WorkingHours hours, Image photo)
@@ -82,6 +86,7 @@ namespace EncounterMe
 
             list.Add(newOne);
             allObjects.Add(newOne);
+            WriteAPinInFile(newOne);
         }
 
         public void AddPinInMap(MapPin pin)
@@ -91,14 +96,26 @@ namespace EncounterMe
             //kur map to sukurto zemelapio pavadinimas kurio as nežinau dabar
         }
 
-        public void WriteListOfPinsInFile()
+        public void WriteAPinInFile(MapPin pin)
         {
-            IO.WriteToXmlFile(objectToWrite: list, append: false, filePath: filename);
+            IO.WriteToBinaryFile<MapPin>(append: true, filePath: s_filename, objectToWrite: pin);
         }
 
         public void GetListOfPinsFromFile()
         {
-            list = IO.ReadFromXmlFile<List<MapPin>>(filename);
+            try
+            {
+                list = IO.ReadFromBinaryFile<List<MapPin>>(s_filename);
+
+                foreach (MapPin pin in list)
+                {
+                    allObjects.Add(pin);
+                }
+            }
+            catch(Exception) //null reference
+            {
+
+            }
         }
     }
 }
