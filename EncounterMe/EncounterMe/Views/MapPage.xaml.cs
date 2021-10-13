@@ -16,6 +16,9 @@ using EncounterMe.Views.Popups;
 //https://www.xamboy.com/2019/05/29/google-maps-place-search-in-xamarin-forms/
 
 //TODO: change DisplayAlert to sth else, it doesnt close after opening settings
+//TODO: suziuret, kad pin image butu and centro
+
+//TODO: exception handling
 
 
 namespace EncounterMe.Views
@@ -24,8 +27,9 @@ namespace EncounterMe.Views
     public partial class MapPage : ContentPage
     {
 
+        //make private _sth
         public bool chosenLocationPermission;
-        public bool chosenGpsPermission;
+        public bool chosenGpsPermission; 
 
         public MapPage()
         {
@@ -40,6 +44,8 @@ namespace EncounterMe.Views
         {
             base.OnAppearing();
             DisplayCurrentLocation();
+            ConfirmAddPinButton.IsVisible = false;
+            CenterPin.IsVisible = false;
         }
         
         private async void DisplayCurrentLocation()
@@ -95,7 +101,7 @@ namespace EncounterMe.Views
             bool answer = await DisplayAlert("Location request", "Turn on your phone's location service for better performance.", "OK", "Maybe later");
             chosenGpsPermission = true;
 
-            if (answer == true)
+            if (answer)
             {
                 //Opens settings and starts tracking live location
                 IGpsDependencyService GpsDependency = DependencyService.Get<IGpsDependencyService>();
@@ -140,6 +146,19 @@ namespace EncounterMe.Views
         //Prints current center position.
         async void Add_Pin_Button_Clicked(object sender, EventArgs e)
         {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                ConfirmAddPinButton.IsVisible = true;
+                CenterPin.IsVisible = true;
+            });
+        }
+
+
+        async void Confirm_Add_Pin_Button_Clicked(object sender, EventArgs e)
+        {
+            //jei tipo nori pridet pin
+
+            //AddPin(centerPinLatitude, )
             Console.WriteLine("centerPinLatitude = " + centerPinLatitude);
             Console.WriteLine("centerPinLongitude = " + centerPinLongitude);
         }

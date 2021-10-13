@@ -24784,7 +24784,7 @@ namespace EncounterMe.Droid
 			public const int map = 2131165321;
 			
 			// aapt resource value: 0x7F07008A
-			public const int MapPin = 2131165322;
+			public const int mapPin = 2131165322;
 			
 			// aapt resource value: 0x7F07008B
 			public const int material_cursor_drawable = 2131165323;

@@ -13,6 +13,14 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
+
+
+
+//var status = await Permissions.RequestAsync<Permissions.StorageRead>();
+//var status = await Permissions.RequestAsync<Permissions.StorageWrite>();
+
+//Console.WriteLine("")
+
 namespace EncounterMe
 {
     class PinsList
@@ -58,7 +66,7 @@ namespace EncounterMe
 
             list.Add(newOne);
             allObjects.Add(newOne);
-            WriteAPinInFile(newOne);
+            //WriteAPinInFile(newOne);
         }
 
         public void AddPinByCoordinatesToList(string name, Location location, int type, int style, string details, WorkingHours hours, Image photo)
@@ -68,7 +76,7 @@ namespace EncounterMe
 
             list.Add(newOne);
             allObjects.Add(newOne);
-            WriteAPinInFile(newOne);
+            //WriteAPinInFile(newOne);
         }
 
         public void AddPinInMap(MapPin pin)

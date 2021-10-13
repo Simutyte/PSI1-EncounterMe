@@ -9,6 +9,8 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Threading.Tasks;
 
+//Entity framework?
+
 namespace EncounterMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -62,6 +64,7 @@ namespace EncounterMe.Views
                         {
                             string returnValue = userDB.AddUser(user);
 
+                            //Nedaryt su string
                             if (string.Equals(returnValue, "Sucessfully Added"))
                             {
                                 await DisplayAlert("Registration", returnValue, "OK");

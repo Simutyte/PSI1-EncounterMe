@@ -18,12 +18,26 @@
                    IsShowingUser="true"
                    MapType="Street"/>
 
-        <!--<ImageButton Source="" 
-            BackgroundColor="Transparent"
-            AbsoluteLayout.LayoutFlags="PositionProportional"  
-            AbsoluteLayout.LayoutBounds=".95,.95,80,80"
-            IsVisible="{Binding IsVisible}"
-            Clicked="Handle_Clicked" />-->
+        <Image x:Name="CenterPin"
+               Source="mapPin.png"
+               HeightRequest="50"
+               WidthRequest="50"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               IsVisible="false"/>
+
+
+        <Button x:Name="ConfirmAddPinButton"
+                ImageSource=""
+                Text="Add"
+                WidthRequest="80"
+                HeightRequest="80"
+                CornerRadius="40"
+                BackgroundColor="#2E8B57"
+                HorizontalOptions="Center"
+                VerticalOptions="End"
+                IsVisible="false"
+                Clicked="Confirm_Add_Pin_Button_Clicked"/>
     </Grid>
 
 

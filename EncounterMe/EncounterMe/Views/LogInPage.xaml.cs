@@ -19,19 +19,21 @@ namespace EncounterMe.Views
 
          async void Log_In_Button_Clicked(object sender, EventArgs args)
         {
+
             if (string.IsNullOrWhiteSpace(entryLogUsername.Text) || string.IsNullOrWhiteSpace(entryLogPassword.Text))
             {
                 await DisplayAlert("Entered data", "All fields must be filled", "OK");
             }
             else
             {
+
                 UserDB userDB = new UserDB();
 
                 if(userDB.LoginValidate(entryLogUsername.Text, entryLogPassword.Text))
                 {
                     await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
-                    PinsList classToGetList = PinsList.GetPinsList();
-                    classToGetList.GetListOfPinsFromFile();
+                    //PinsList classToGetList = PinsList.GetPinsList();
+                    //classToGetList.GetListOfPinsFromFile();
 
                 }
                 else
