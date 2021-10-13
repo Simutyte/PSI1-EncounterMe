@@ -30,6 +30,8 @@ namespace EncounterMe.Views
                 if(userDB.LoginValidate(entryLogUsername.Text, entryLogPassword.Text))
                 {
                     await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+                    PinsList classToGetList = PinsList.GetPinsList();
+                    classToGetList.GetListOfPinsFromFile();
 
                 }
                 else
