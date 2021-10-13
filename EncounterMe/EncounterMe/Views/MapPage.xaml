@@ -8,13 +8,27 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="add.png"
                      Clicked="Add_Button_Clicked"/>
+        <ToolbarItem Text="Add Pin"
+                     Clicked="Add_Pin_Button_Clicked"/>
     </ContentPage.ToolbarItems>
 
     <Grid>
         <mymap:Map x:Name="MyMap"
+                   PropertyChanged="Position_Map_Property_Changed"
                    IsShowingUser="true"
                    MapType="Street"/>
+
+        <!--<ImageButton Source="" 
+            BackgroundColor="Transparent"
+            AbsoluteLayout.LayoutFlags="PositionProportional"  
+            AbsoluteLayout.LayoutBounds=".95,.95,80,80"
+            IsVisible="{Binding IsVisible}"
+            Clicked="Handle_Clicked" />-->
     </Grid>
+
+
+        
+
 
 
 </ContentPage>

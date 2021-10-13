@@ -114,7 +114,7 @@
                                     
                                     <StackLayout Orientation="Horizontal">
                                         <local:LogInCustomEntry PlaceholderColor="#6c8578"
-                                                                x:Name="entryRegConfirmPassword"
+                                                                x:Name="entryRegPasswordConfirm"
                                                                 IsPassword="True"
                                                                 Placeholder="Confirm password"
                                                                 TextColor="#416459"

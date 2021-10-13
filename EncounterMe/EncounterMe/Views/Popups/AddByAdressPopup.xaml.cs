@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EncounterMe.Pins;
 using EncounterMe.ViewModels;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
@@ -17,6 +18,7 @@ namespace EncounterMe.Views.Popups
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddByAdressPopup : PopupPage
     {
+        //CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
         public AddByAdressPopup()
         {
             InitializeComponent();
@@ -50,22 +52,19 @@ namespace EncounterMe.Views.Popups
                 Image photo = image;
                 int style = StyleTypePicker.SelectedIndex;
                 int type = ObjectTypePicker.SelectedIndex;
-                WorkingHours hours = new WorkingHours();
+                WorkingHours hours;
                 hours.openingHours = open;
                 hours.closingTime = close;
 
+                /*if (!_checkAddressCommands.CheckForExistance(address))
+               {
+                   await DisplayAlert("Entered data", "This address is not existing. Please try again", "OK");
+               }
+               else
+               {*/
                 list.AddPinByAddressToList(name, address, type, style, description, hours, photo);
-                
-                if (list.list.Last().existAddress == false)
-                {
-                    await DisplayAlert("Entered data", "This address is not existing. Please try again", "OK");
-                    //list.list.RemoveAt(list.list.Count - 1);
-                    //list.allObjects.RemoveAt(list.list.Count - 1);
-                }
-                else
-                {
-                    await PopupNavigation.PopAsync();
-                }
+                await PopupNavigation.PopAsync();
+                //}
             }
         }
     }

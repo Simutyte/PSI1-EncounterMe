@@ -20,5 +20,10 @@ namespace EncounterMe.Views.Popups
         {
             await PopupNavigation.Instance.PushAsync(new AddByAdressPopup());
         }
+
+        async void Add_By_Pin_Button_Clicked(object sender, EventArgs args)
+        {
+            
+        }
     }
 }

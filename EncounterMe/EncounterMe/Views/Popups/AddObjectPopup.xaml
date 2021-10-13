@@ -43,7 +43,8 @@
                 FontAttributes="Bold"
                 FontSize="Medium"
                 BackgroundColor="#2E8B57"
-                CornerRadius="30" />
+                CornerRadius="30"
+                Clicked="Add_By_Pin_Button_Clicked"/>
 
         <Button Text="By current coordinates"
                 TextColor="#F0F0F0"

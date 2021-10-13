@@ -15,9 +15,7 @@ using EncounterMe.Views.Popups;
 //possible to implement route tracking https://www.xamboy.com/2019/05/17/exploring-map-tracking-ui-in-xamarin-forms/
 //https://www.xamboy.com/2019/05/29/google-maps-place-search-in-xamarin-forms/
 
-//TODO - reload page after maps button pressed 
-
-//PROBLEM - doesnt work immediately after enabling location, but works if we change page, then go back to maps
+//TODO: change DisplayAlert to sth else, it doesnt close after opening settings
 
 
 namespace EncounterMe.Views
@@ -26,111 +24,97 @@ namespace EncounterMe.Views
     public partial class MapPage : ContentPage
     {
 
+        public bool chosenLocationPermission;
+        public bool chosenGpsPermission;
+
         public MapPage()
         {
-            var permissions = new ChosenPermissions();
-            permissions.chosenLocationPermission = false;
-            permissions.chosenGpsPermission = false;
+            chosenLocationPermission = false;
+            chosenGpsPermission = false;
+
             InitializeComponent();
-            DisplayCurrentLocation(permissions);
+            DisplayCurrentLocation();
         }
 
-
-        class ChosenPermissions
+        protected override void OnAppearing()
         {
-            public bool chosenLocationPermission;
-            public bool chosenGpsPermission;
+            base.OnAppearing();
+            DisplayCurrentLocation();
         }
-
-        private async void DisplayCurrentLocation(ChosenPermissions permissions)
+        
+        private async void DisplayCurrentLocation()
         {
-
-            //Checks if location permision is enabled, if not, prompts window
-            PermissionStatus locationPermissionStatus = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
-            
-            if (locationPermissionStatus == PermissionStatus.Granted)
+            try
             {
-                //Checks if GPS is enabled, if not, prompts a window
-                IGpsDependencyService GpsDependency = DependencyService.Get<IGpsDependencyService>();
-                bool gpsEnabled = GpsDependency.IsGpsEnabled();
-                if (gpsEnabled)
+                //Trying to display current location. GeolocationAccuracy.Default for quicker initialization
+                var request = new GeolocationRequest(GeolocationAccuracy.Default);
+                var location = await Geolocation.GetLocationAsync(request);
+
+                if (location != null)
                 {
-                    try
-                    {                        
-                        //Trying to display current location
-                        var request = new GeolocationRequest(GeolocationAccuracy.Best);
-                        var location = await Geolocation.GetLocationAsync(request);
-
-                        if (location != null)
-                        {
-                            //Moving to location and starting live tracking
-                            MoveToLocation(location);
-                            TrackingLiveLocation();
-                        }
-                    }
-                    catch (FeatureNotSupportedException featureNotSupportedException)
-                    {
-
-                    }
-                    catch (FeatureNotEnabledException featureNotEnabledException)
-                    {
-                        PromptToEnableGPS(permissions);
-                    }
-                    catch (PermissionException permissionException)
-                    {
-                        PromptToEnableLocationPermission(permissions);
-                    }
-                    catch (Exception exception)
-                    {
-
-                    }
+                    //Moving to location and starting live tracking
+                    MoveToLocation(location);
+                    TrackingLiveLocation();
                 }
+            }
+            catch (FeatureNotSupportedException featureNotSupportedException)
+            {
+
+            }
+            catch (FeatureNotEnabledException featureNotEnabledException)
+            {
                 //If user was not yet prompted to enable gps
-                else if (permissions.chosenGpsPermission == false)
+                if (chosenGpsPermission == false)
                 {
-                    PromptToEnableGPS(permissions);
+                    PromptToEnableGPS();
                 }
             }
-            //If location permission is not already enabled and not yet chosen, prompt the user and call the method once again
-            //Otherwise, if the user already denied location permission, he will not get live tracking
-            else if (permissions.chosenLocationPermission == false)
+            catch (PermissionException permissionException)            
             {
-                PromptToEnableLocationPermission(permissions);
+                //If location permission is not already enabled and not yet chosen, prompt the user and call the method once again
+                if (chosenLocationPermission == false)
+                {
+                    PromptToEnableLocationPermission();
+                }
+            }
+            catch (Exception exception)
+            {
+
             }
         }
-
-        async void PromptToEnableLocationPermission(ChosenPermissions permissions)
+        async void PromptToEnableLocationPermission()
         {
-            permissions.chosenLocationPermission = true;
+            chosenLocationPermission = true;
             await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
-            DisplayCurrentLocation(permissions);
+            DisplayCurrentLocation();
         }
 
-        async void PromptToEnableGPS(ChosenPermissions permissions)
+        async void PromptToEnableGPS()
         {
             //If there was no button was pressed (tapped outside the alert box), answer = false, user will not get live tracking
             bool answer = await DisplayAlert("Location request", "Turn on your phone's location service for better performance.", "OK", "Maybe later");
-            permissions.chosenGpsPermission = true;
+            chosenGpsPermission = true;
 
             if (answer == true)
             {
                 //Opens settings and starts tracking live location
                 IGpsDependencyService GpsDependency = DependencyService.Get<IGpsDependencyService>();
                 GpsDependency.OpenSettings();
-                TrackingLiveLocation();
+                DisplayCurrentLocation();
             }
         }
 
         //Constantly runs in the background, tracks current location and updates it
         private void TrackingLiveLocation()
         {
-            Device.StartTimer(TimeSpan.FromSeconds(3), () =>
+            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
             {
                 Task.Run(async () =>
                 {
                     var request = new GeolocationRequest(GeolocationAccuracy.Best);
                     var location = await Geolocation.GetLocationAsync(request);
-                    MoveToLocation(location);
+                    Position p = new Position(location.Latitude, location.Longitude);
+                    MapSpan mapSpan = MapSpan.FromCenterAndRadius(p, Distance.FromKilometers(1));
                 });
                 return true;
             });
@@ -149,5 +133,28 @@ namespace EncounterMe.Views
             await PopupNavigation.Instance.PushAsync(new AddObjectPopup());
         }
 
+        public string centerPinLatitude;
+        public string centerPinLongitude;
+
+
+        //Prints current center position.
+        async void Add_Pin_Button_Clicked(object sender, EventArgs e)
+        {
+            Console.WriteLine("centerPinLatitude = " + centerPinLatitude);
+            Console.WriteLine("centerPinLongitude = " + centerPinLongitude);
+        }
+
+
+        //Updates current center position when map is moved
+        void Position_Map_Property_Changed(object sender, EventArgs e)
+        {
+
+            var m = (Xamarin.Forms.Maps.Map)sender;
+            if (m.VisibleRegion != null)
+            {            
+                centerPinLatitude = m.VisibleRegion.Center.Latitude.ToString();
+                centerPinLongitude = m.VisibleRegion.Center.Longitude.ToString();
+            }
+        }
     }
 }
