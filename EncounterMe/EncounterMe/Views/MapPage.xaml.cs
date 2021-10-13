@@ -133,5 +133,28 @@ namespace EncounterMe.Views
             await PopupNavigation.Instance.PushAsync(new AddObjectPopup());
         }
 
+        public string centerPinLatitude;
+        public string centerPinLongitude;
+
+
+        //Prints current center position.
+        async void Add_Pin_Button_Clicked(object sender, EventArgs e)
+        {
+            Console.WriteLine("centerPinLatitude = " + centerPinLatitude);
+            Console.WriteLine("centerPinLongitude = " + centerPinLongitude);
+        }
+
+
+        //Updates current center position when map is moved
+        void Position_Map_Property_Changed(object sender, EventArgs e)
+        {
+
+            var m = (Xamarin.Forms.Maps.Map)sender;
+            if (m.VisibleRegion != null)
+            {            
+                centerPinLatitude = m.VisibleRegion.Center.Latitude.ToString();
+                centerPinLongitude = m.VisibleRegion.Center.Longitude.ToString();
+            }
+        }
     }
 }
