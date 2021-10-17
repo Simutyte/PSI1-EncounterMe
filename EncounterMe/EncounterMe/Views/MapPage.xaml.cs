@@ -44,7 +44,7 @@ namespace EncounterMe.Views
         {
             base.OnAppearing();
             DisplayCurrentLocation();
-            ConfirmAddPinButton.IsVisible = false;
+            AnimationView.IsVisible = false;
             CenterPin.IsVisible = false;
         }
         
@@ -134,46 +134,66 @@ namespace EncounterMe.Views
             MyMap.MoveToRegion(mapSpan);
         }
 
-        async void Add_Button_Clicked(object sender, EventArgs e)
-        {
-            await PopupNavigation.Instance.PushAsync(new AddObjectPopup());
-        }
 
         public string centerPinLatitude;
         public string centerPinLongitude;
 
 
-        //Prints current center position.
-        async void Add_Pin_Button_Clicked(object sender, EventArgs e)
+        
+         void Add_Pin_Button_Clicked(object sender, EventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                ConfirmAddPinButton.IsVisible = true;
-                CenterPin.IsVisible = true;
-            });
+            AnimationView.IsVisible = true;    
+            CenterPin.IsVisible = true;
+            //Device.BeginInvokeOnMainThread(() =>
+            //{
+            //    AnimationView.IsVisible = true;
+            //    CenterPin.IsVisible = true;
+            //});
         }
 
+        //Kad dar kartą paspaudus addPin mygtuką vėl atsirastų animacija
+        void animationView_OnFinishedAnimation(object sender, EventArgs e)
+        {
+            AnimationView.PlayAnimation();
+            AnimationView.PauseAnimation();
+            AnimationView.IsVisible = false;
+        }
 
+       
         async void Confirm_Add_Pin_Button_Clicked(object sender, EventArgs e)
         {
             //jei tipo nori pridet pin
+            CenterPin.IsVisible = false;
+            AnimationView.PlayAnimation();
 
+            
+            if (location != null)
+            {
+                await PopupNavigation.Instance.PushAsync(new AddByCoordinatesPopup(location));
+                
+            }
+            else
+            {
+                await DisplayAlert("Location", "Something went wrong with coordinates", "okey");
+            }
+            
             //AddPin(centerPinLatitude, )
-            Console.WriteLine("centerPinLatitude = " + centerPinLatitude);
-            Console.WriteLine("centerPinLongitude = " + centerPinLongitude);
+            //Console.WriteLine("centerPinLatitude = " + centerPinLatitude);
+            //Console.WriteLine("centerPinLongitude = " + centerPinLongitude);
         }
 
+        private Location location = new Location();
 
-        //Updates current center position when map is moved
+        //Updates current center position when map is moved and saves lat. and long. to location
         void Position_Map_Property_Changed(object sender, EventArgs e)
         {
 
             var m = (Xamarin.Forms.Maps.Map)sender;
             if (m.VisibleRegion != null)
-            {            
-                centerPinLatitude = m.VisibleRegion.Center.Latitude.ToString();
-                centerPinLongitude = m.VisibleRegion.Center.Longitude.ToString();
-            }
+            {
+                location.Latitude = m.VisibleRegion.Center.Latitude;
+                location.Longitude = m.VisibleRegion.Center.Longitude;
+             }
         }
     }
 }

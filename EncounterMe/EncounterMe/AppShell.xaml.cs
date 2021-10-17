@@ -38,7 +38,8 @@ namespace EncounterMe
             routes.Add("settings", typeof(SettingsPage));
             routes.Add("MainPage", typeof(MainPage));
             routes.Add("RegistrationPage", typeof(RegistrationPage));
-            
+            routes.Add("MapPage", typeof(MapPage));
+
             foreach (var item in routes)
             {
                 Routing.RegisterRoute(item.Key, item.Value);
