@@ -16,6 +16,10 @@ namespace EncounterMe
 
         public string address { get; set; }
 
+        public string Street { get; set; }
+        public string City { get; set; }
+        public string Country { get; set; }
+
         public string description { get; set; }
 
         public Image image { get; set; }
