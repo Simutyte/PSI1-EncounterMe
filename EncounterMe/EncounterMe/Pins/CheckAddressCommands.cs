@@ -12,29 +12,30 @@ namespace EncounterMe.Pins
 {
     class CheckAddressCommands
     {
-        private string _address { get; set; }
         private Location _location { get; set; }
 
         private bool _existAddress { get; set; }
-        private string _city { get; set; }
 
-        public CheckAddressCommands() { }
+        public string street { get; set; }
 
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
+        public string city { get; set; }
 
-        public string GetAddress(Location location)
+        public string country { get; set; }
+
+        public string postalCode { get; set; }
+
+        public CheckAddressCommands()
         {
-            _location = location;
-            //GetAddressFromCoordinates();
-            return _address;
+
         }
 
-        public Location GetCoordinates(string address)
+        public Location GetCoordinates(string xcountry, string xcity, string xpostal, string xstreet)
         {
-            _address = address;
-            //GetCoordinatesFromAddress();
+            country = xcountry;
+            city = xcity;
+            postalCode = xpostal;
+            street = xstreet;
+            GetCoordinatesFromAddress();
             return _location;
         }
 
@@ -42,94 +43,64 @@ namespace EncounterMe.Pins
         {
             _location = location;
             //GetCityFromCoordinates();
-            return _city;
+            return city;
         }
 
-        public bool CheckForExistance(string address)
+        public bool CheckForExistance(string xcountry, string xcity, string xpostal, string xstreet)
         {
-            _address = address;
+            country = xcountry;
+            city = xcity;
+            postalCode = xpostal;
+            street = xstreet;
             GetCoordinatesFromAddress();
             return _existAddress;
         }
 
         async void GetCoordinatesFromAddress()
         {
-            //try
-            //{
-            //    IEnumerable<Location> locations = await Geocoding.GetLocationsAsync(_address);
-            //    Location loc = locations?.FirstOrDefault();
-            //    if (loc != null)
-            //    {
-            //        _location = loc;
-            //        _existAddress = true;
-            //    }
-            //}
-            //catch (Exception)
-            //{
-            //    _existAddress = false;
-            //}
+            var location = (await Geocoding.GetLocationsAsync($"{street}, {city}, {postalCode}, {country}")).FirstOrDefault();
 
-            var location = (await Geocoding.GetLocationsAsync($"{Street}, {City}, {Country}")).FirstOrDefault();
-
-            if (location == null) return;
+            if (location == null)
+            {
+                _existAddress = false;
+                return;
+            }
+            _existAddress = true;
             _location = location;
         }
 
         public async 
         Task
-GetAddressFromCoordinates(Location location)
+        GetAddressFromCoordinates(Location location)
         {
             try
             {
-                Console.WriteLine("0\n\n\n");
-                //IEnumerable<Placemark> placemarks = await Geocoding.GetPlacemarksAsync(_location.Latitude, _location.Longitude);
-                //Placemark placemark = placemarks?.FirstOrDefault();
-
                 var addrs = (await Geocoding.GetPlacemarksAsync(location)).FirstOrDefault();
                 if (addrs != null)
                 {
-                    //_address =
-                    //    $"CountryName:     {placemark.CountryName}\n" +
-                    //    $"Location:        {placemark.Location}\n";
-
-                    Street = $"{addrs.Thoroughfare} {addrs.SubThoroughfare}";
-                    City = $"{addrs.PostalCode} {addrs.Locality}";
-                    Country = addrs.CountryName;
-
-                    Console.WriteLine(Street + " " + City + " " + Country);
-
+                    street = $"{addrs.Thoroughfare} {addrs.SubThoroughfare}";
+                    postalCode = $"{addrs.PostalCode}";
+                    city = $"{addrs.Locality}";
+                    country = addrs.CountryName;
                 }
             }
-            catch (FeatureNotSupportedException fnsEx)
+            catch (FeatureNotSupportedException)
             {
-               // await DisplayAlert("Exception", "Handle not supported on device exception", "OK");
-                Console.WriteLine("1\n\n\n");
                 // Handle not supported on device exception
             }
-            catch (FeatureNotEnabledException fneEx)
+            catch (FeatureNotEnabledException)
             {
-               // await DisplayAlert("Exception", "Handle not enabled on device exception", "OK");
-                Console.WriteLine("2\n\n\n");
                 // Handle not enabled on device exception
             }
-            catch (PermissionException pEx)
+            catch (PermissionException)
             {
-                // await DisplayAlert("Exception", "Handle permission exception", "OK");
-                Console.WriteLine("3\n\n\n");
                 // Handle permission exception
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                // await DisplayAlert("Exception", "I fucking dont know", "OK");
-                Console.WriteLine("4\n\n\n" + ex.Message.ToString());
                 // Unable to get location
             }
-
-            Console.WriteLine("5\n\n\n");
-
         }
-
-        private Task DisplayAlert(string v1, string v2, string v3) => throw new NotImplementedException();
 
         async void GetCityFromCoordinates()
         {
@@ -139,7 +110,7 @@ GetAddressFromCoordinates(Location location)
                 Placemark placemark = placemarks?.FirstOrDefault();
                 if (placemark != null)
                 {
-                    _city = placemark.Locality;
+                    city = placemark.Locality;
 
                 }
             }

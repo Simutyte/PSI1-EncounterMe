@@ -61,7 +61,7 @@ namespace EncounterMe
 
         public void AddPinByAddressToList(string name, string address, int type, int style, string details, WorkingHours hours, Image photo)
         {
-            MapPin newOne = new MapPin(name, address, _checkAddressCommands.GetCoordinates(address), hours,
+            MapPin newOne = new MapPin(name, address, null, hours,
                                       (ObjectType)type, (StyleType)style, details, photo);
 
             list.Add(newOne);
@@ -71,7 +71,7 @@ namespace EncounterMe
 
         public void AddPinByCoordinatesToList(string name, Location location, int type, int style, string details, WorkingHours hours, Image photo)
         {
-            MapPin newOne = new MapPin(name, _checkAddressCommands.GetAddress(location), location, hours,
+            MapPin newOne = new MapPin(name, null, location, hours,
                                       (ObjectType)type, (StyleType)style, details, photo);
 
             list.Add(newOne);

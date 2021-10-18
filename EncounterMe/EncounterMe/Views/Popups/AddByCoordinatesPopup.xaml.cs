@@ -27,18 +27,17 @@ namespace EncounterMe.Views.Popups
             _location = location;
             PinLat.Text = _location.Latitude.ToString();
             PinLong.Text = _location.Longitude.ToString();
-            //_checkAddressCommands.GetAddress(_location);
-            //await _checkAddressCommands.GetAddressFromCoordinates(_location);
-            Something();
+            GetAddressValue();
             
         }
 
-        async void Something()
+        async void GetAddressValue()
         {
             await _checkAddressCommands.GetAddressFromCoordinates(_location);
-            entryObjectCity.Text = _checkAddressCommands.City;
-            entryObjectStreet.Text = _checkAddressCommands.Street;
-            Console.WriteLine(_checkAddressCommands.City + " -- " + _checkAddressCommands.Street);
+            entryObjectCountry.Text = _checkAddressCommands.country;
+            entryObjectCity.Text = _checkAddressCommands.city;
+            entryObjectPostalCode.Text = _checkAddressCommands.postalCode;
+            entryObjectStreetAndNumber.Text = _checkAddressCommands.street;
         }
 
         async void Cancel_Button_Clicked(object sender, EventArgs e)
@@ -50,7 +49,8 @@ namespace EncounterMe.Views.Popups
          {
 
             if (string.IsNullOrWhiteSpace(entryObjectName.Text) && string.IsNullOrWhiteSpace(entryObjectCity.Text) &&
-                string.IsNullOrWhiteSpace(entryObjectStreet.Text) && string.IsNullOrWhiteSpace(entryObjectNumber.Text))
+                string.IsNullOrWhiteSpace(entryObjectCountry.Text) &&
+                string.IsNullOrWhiteSpace(entryObjectStreetAndNumber.Text) && string.IsNullOrWhiteSpace(entryObjectPostalCode.Text))
             {
                 await DisplayAlert("Entered data", "Name and address fields must be filled", "OK");
             }
@@ -60,7 +60,7 @@ namespace EncounterMe.Views.Popups
                 PinsList list = pinsList;
 
                 string name = entryObjectName.Text;
-                string address = entryObjectCity.Text + " " + entryObjectStreet.Text + " " + entryObjectNumber.Text;
+                string address = entryObjectCity.Text + " " + entryObjectStreetAndNumber.Text + " " + entryObjectPostalCode.Text;
                 TimeSpan open = new TimeSpan(12, 00, 00);  //TODO
                 TimeSpan close = new TimeSpan(12, 00, 00);  //TODO
                 string description = entryObjectDescription.Text;
