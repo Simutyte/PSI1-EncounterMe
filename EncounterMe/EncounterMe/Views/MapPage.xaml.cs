@@ -26,6 +26,7 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapPage : ContentPage
     {
+        private Location _location = new Location();
 
         //make private _sth
         public bool chosenLocationPermission;
@@ -133,12 +134,6 @@ namespace EncounterMe.Views
             MapSpan mapSpan = MapSpan.FromCenterAndRadius(p, Distance.FromKilometers(1));
             MyMap.MoveToRegion(mapSpan);
         }
-
-
-        public string centerPinLatitude;
-        public string centerPinLongitude;
-
-
         
          void Add_Pin_Button_Clicked(object sender, EventArgs e)
         {
@@ -162,27 +157,21 @@ namespace EncounterMe.Views
        
         async void Confirm_Add_Pin_Button_Clicked(object sender, EventArgs e)
         {
-            //jei tipo nori pridet pin
             CenterPin.IsVisible = false;
             AnimationView.PlayAnimation();
 
             
-            if (location != null)
+            if (_location != null)
             {
-                await PopupNavigation.Instance.PushAsync(new AddByCoordinatesPopup(location));
+                await PopupNavigation.Instance.PushAsync(new AddByCoordinatesPopup(_location));
                 
             }
             else
             {
                 await DisplayAlert("Location", "Something went wrong with coordinates", "okey");
             }
-            
-            //AddPin(centerPinLatitude, )
-            //Console.WriteLine("centerPinLatitude = " + centerPinLatitude);
-            //Console.WriteLine("centerPinLongitude = " + centerPinLongitude);
-        }
 
-        private Location location = new Location();
+        }
 
         //Updates current center position when map is moved and saves lat. and long. to location
         void Position_Map_Property_Changed(object sender, EventArgs e)
@@ -191,8 +180,8 @@ namespace EncounterMe.Views
             var m = (Xamarin.Forms.Maps.Map)sender;
             if (m.VisibleRegion != null)
             {
-                location.Latitude = m.VisibleRegion.Center.Latitude;
-                location.Longitude = m.VisibleRegion.Center.Longitude;
+                _location.Latitude = m.VisibleRegion.Center.Latitude;
+                _location.Longitude = m.VisibleRegion.Center.Longitude;
              }
         }
     }
