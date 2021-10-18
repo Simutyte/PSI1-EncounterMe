@@ -75,7 +75,9 @@ namespace EncounterMe.Pins
             _location = location;
         }
 
-        public async void GetAddressFromCoordinates(Location location)
+        public async 
+        Task
+GetAddressFromCoordinates(Location location)
         {
             try
             {

@@ -28,7 +28,14 @@ namespace EncounterMe.Views.Popups
             PinLat.Text = _location.Latitude.ToString();
             PinLong.Text = _location.Longitude.ToString();
             //_checkAddressCommands.GetAddress(_location);
-            _checkAddressCommands.GetAddressFromCoordinates(_location);
+            //await _checkAddressCommands.GetAddressFromCoordinates(_location);
+            Something();
+            
+        }
+
+        async void Something()
+        {
+            await _checkAddressCommands.GetAddressFromCoordinates(_location);
             entryObjectCity.Text = _checkAddressCommands.City;
             entryObjectStreet.Text = _checkAddressCommands.Street;
             Console.WriteLine(_checkAddressCommands.City + " -- " + _checkAddressCommands.Street);
