@@ -16,13 +16,7 @@ namespace EncounterMe.Pins
 
         private bool _existAddress { get; set; }
 
-        public string street { get; set; }
-
-        public string city { get; set; }
-
-        public string country { get; set; }
-
-        public string postalCode { get; set; }
+        public Address address;
 
         public CheckAddressCommands()
         {
@@ -31,10 +25,10 @@ namespace EncounterMe.Pins
 
         public Location GetCoordinates(string xcountry, string xcity, string xpostal, string xstreet)
         {
-            country = xcountry;
-            city = xcity;
-            postalCode = xpostal;
-            street = xstreet;
+            address.country = xcountry;
+            address.city = xcity;
+            address.postalCode = xpostal;
+            address.street = xstreet;
             GetCoordinatesFromAddress();
             return _location;
         }
@@ -43,22 +37,22 @@ namespace EncounterMe.Pins
         {
             _location = location;
             //GetCityFromCoordinates();
-            return city;
+            return address.city;
         }
 
         public bool CheckForExistance(string xcountry, string xcity, string xpostal, string xstreet)
         {
-            country = xcountry;
-            city = xcity;
-            postalCode = xpostal;
-            street = xstreet;
+            address.country = xcountry;
+            address.city = xcity;
+            address.postalCode = xpostal;
+            address.street = xstreet;
             GetCoordinatesFromAddress();
             return _existAddress;
         }
 
         async void GetCoordinatesFromAddress()
         {
-            var location = (await Geocoding.GetLocationsAsync($"{street}, {city}, {postalCode}, {country}")).FirstOrDefault();
+            var location = (await Geocoding.GetLocationsAsync($"{address.street}, {address.city}, {address.postalCode}, {address.country}")).FirstOrDefault();
 
             if (location == null)
             {
@@ -78,10 +72,10 @@ namespace EncounterMe.Pins
                 var addrs = (await Geocoding.GetPlacemarksAsync(location)).FirstOrDefault();
                 if (addrs != null)
                 {
-                    street = $"{addrs.Thoroughfare} {addrs.SubThoroughfare}";
-                    postalCode = $"{addrs.PostalCode}";
-                    city = $"{addrs.Locality}";
-                    country = addrs.CountryName;
+                    address.street = $"{addrs.Thoroughfare} {addrs.SubThoroughfare}";
+                    address.postalCode = $"{addrs.PostalCode}";
+                    address.city = $"{addrs.Locality}";
+                    address.country = addrs.CountryName;
                 }
             }
             catch (FeatureNotSupportedException)
@@ -110,7 +104,7 @@ namespace EncounterMe.Pins
                 Placemark placemark = placemarks?.FirstOrDefault();
                 if (placemark != null)
                 {
-                    city = placemark.Locality;
+                    address.city = placemark.Locality;
 
                 }
             }

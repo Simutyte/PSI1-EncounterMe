@@ -34,10 +34,10 @@ namespace EncounterMe.Views.Popups
         async void GetAddressValue()
         {
             await _checkAddressCommands.GetAddressFromCoordinates(_location);
-            entryObjectCountry.Text = _checkAddressCommands.country;
-            entryObjectCity.Text = _checkAddressCommands.city;
-            entryObjectPostalCode.Text = _checkAddressCommands.postalCode;
-            entryObjectStreetAndNumber.Text = _checkAddressCommands.street;
+            entryObjectCountry.Text = _checkAddressCommands.address.country;
+            entryObjectCity.Text = _checkAddressCommands.address.city;
+            entryObjectPostalCode.Text = _checkAddressCommands.address.postalCode;
+            entryObjectStreetAndNumber.Text = _checkAddressCommands.address.street;
         }
 
         async void Cancel_Button_Clicked(object sender, EventArgs e)
@@ -59,19 +59,27 @@ namespace EncounterMe.Views.Popups
                 PinsList pinsList = PinsList.GetPinsList();
                 PinsList list = pinsList;
 
-                string name = entryObjectName.Text;
-                string address = entryObjectCity.Text + " " + entryObjectStreetAndNumber.Text + " " + entryObjectPostalCode.Text;
-                TimeSpan open = new TimeSpan(12, 00, 00);  //TODO
-                TimeSpan close = new TimeSpan(12, 00, 00);  //TODO
-                string description = entryObjectDescription.Text;
-                Image photo = new Image();
-                int style = StyleTypePicker.SelectedIndex;
-                int type = ObjectTypePicker.SelectedIndex;
-                WorkingHours hours;
-                hours.openingHours = open;
-                hours.closingTime = close;
+                string _name = entryObjectName.Text;
+                string _description = entryObjectDescription.Text;
 
-                list.AddPinByAddressToList(name, address, type, style, description, hours, photo);
+                Address _address = new Address();
+                _address.country = entryObjectCountry.Text;
+                _address.city = entryObjectCity.Text;
+                _address.postalCode = entryObjectPostalCode.Text;
+                _address.street = entryObjectStreetAndNumber.Text;
+
+                TimeSpan _open = new TimeSpan(12, 00, 00);  //TODO
+                TimeSpan _close = new TimeSpan(12, 00, 00);  //TODO
+                WorkingHours _hours;
+                _hours.openingHours = _open;
+                _hours.closingTime = _close;
+
+                Image photo = new Image();
+
+                int _style = StyleTypePicker.SelectedIndex;
+                int _type = ObjectTypePicker.SelectedIndex;
+
+                list.AddPinByCoordinatesToList(_name, _address, _location, _type, _style, _description, _hours, photo);
                 await PopupNavigation.Instance.PopAsync();
             }
          }

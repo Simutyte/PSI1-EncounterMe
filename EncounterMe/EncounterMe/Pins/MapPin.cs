@@ -14,11 +14,7 @@ namespace EncounterMe
     {
         public string name { get; set; }
 
-        public string address { get; set; }
-
-        public string Street { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
+        public Address address { get; set; }
 
         public string description { get; set; }
 
@@ -34,7 +30,7 @@ namespace EncounterMe
 
         public Pin pin { get; set; }
 
-        public MapPin(string name, string address = "No address", Location location = null, WorkingHours hours = new WorkingHours(),
+        public MapPin(string name, Address address = new Address(), Location location = null, WorkingHours hours = new WorkingHours(),
                       ObjectType type = 0, StyleType styleType = 0, string description = "No description", Image image = null)
         {
             this.name = name;

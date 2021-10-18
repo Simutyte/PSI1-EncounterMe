@@ -29,7 +29,7 @@ namespace EncounterMe.Views.Popups
         async void Add_Button_Clicked(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(entryObjectName.Text) && string.IsNullOrWhiteSpace(entryObjectCity.Text) &&
-                string.IsNullOrWhiteSpace(entryObjectStreet.Text) && string.IsNullOrWhiteSpace(entryObjectNumber.Text))
+                string.IsNullOrWhiteSpace(entryObjectStreetAndNumber.Text) && string.IsNullOrWhiteSpace(entryObjectPostalCode.Text))
             {
                 await DisplayAlert("Entered data", "Name and address fields must be filled", "OK");
             }
@@ -39,7 +39,12 @@ namespace EncounterMe.Views.Popups
                 PinsList list = pinsList;
 
                 string name = entryObjectName.Text;
-                string address = entryObjectCity.Text + " " + entryObjectStreet.Text + " " + entryObjectNumber.Text;
+                Address address = new Address();
+                //address.country = entryObjectCountry.Text;
+                address.city = entryObjectCity.Text;
+                //address.postalCode = entryObjectPostalCode.Text;
+                //address.street = entryObjectStreetAndNumber.Text;
+
                 TimeSpan open = new TimeSpan(12, 00, 00);  //TODO
                 TimeSpan close = new TimeSpan(12, 00, 00);  //TODO
                 string description = entryObjectDescription.Text;

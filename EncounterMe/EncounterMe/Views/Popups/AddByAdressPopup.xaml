@@ -89,9 +89,9 @@
                                        Padding="0"
                                        Margin="0">
                                     <StackLayout Orientation="Horizontal">
-                                        <local:LogInCustomEntry x:Name="entryObjectCity"
+                                        <local:LogInCustomEntry x:Name="entryObjectCountry"
                                                                 Keyboard="Default"
-                                                                Placeholder="City"
+                                                                Placeholder="Country"
                                                                 TextColor="#416459"
                                                                 HorizontalOptions="FillAndExpand"
                                                                 Margin="15,0,15,0" />
@@ -105,9 +105,9 @@
                                        Padding="0" Margin="0">
 
                                     <StackLayout Orientation="Horizontal">
-                                        <local:LogInCustomEntry x:Name="entryObjectStreet"
+                                        <local:LogInCustomEntry x:Name="entryObjectCity"
                                                                 Keyboard="Default"
-                                                                Placeholder="Street"
+                                                                Placeholder="City"
                                                                 TextColor="#416459"
                                                                 HorizontalOptions="FillAndExpand"
                                                                 Margin="15,0,15,0" />
@@ -122,9 +122,26 @@
                                        Margin="0">
 
                                     <StackLayout Orientation="Horizontal">
-                                        <local:LogInCustomEntry x:Name="entryObjectNumber"
+                                        <local:LogInCustomEntry x:Name="entryObjectPostalCode"
                                                                 Keyboard="Numeric"
-                                                                Placeholder="Number"
+                                                                Placeholder="PostalCode"
+                                                                TextColor="#416459"
+                                                                HorizontalOptions="FillAndExpand"
+                                                                Margin="15,0,15,0" />
+                                    </StackLayout>
+                                </Frame>
+
+                                <Frame BackgroundColor="Transparent"
+                                       BorderColor="#6c8578"
+                                       CornerRadius="50"
+                                       HorizontalOptions="FillAndExpand"
+                                       Padding="0"
+                                       Margin="0">
+
+                                    <StackLayout Orientation="Horizontal">
+                                        <local:LogInCustomEntry x:Name="entryObjectStreetAndNumber"
+                                                                Keyboard="Default"
+                                                                Placeholder="StreetAndNumber"
                                                                 TextColor="#416459"
                                                                 HorizontalOptions="FillAndExpand"
                                                                 Margin="15,0,15,0" />
