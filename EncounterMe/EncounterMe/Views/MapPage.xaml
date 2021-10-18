@@ -33,10 +33,10 @@
                OnFinishedAnimation="animationView_OnFinishedAnimation"
                 AutoPlay="False"
                 VerticalOptions="End"
-                HorizontalOptions="FillAndExpand"
+                HorizontalOptions="Center"
                 Clicked="Confirm_Add_Pin_Button_Clicked"
-                WidthRequest="70"
-                HeightRequest="70"
+                WidthRequest="80"
+                HeightRequest="80"
                 BackgroundColor="Transparent"/>
 
         <!--PIN-->
