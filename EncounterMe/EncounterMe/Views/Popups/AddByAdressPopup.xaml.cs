@@ -40,10 +40,10 @@ namespace EncounterMe.Views.Popups
 
                 string name = entryObjectName.Text;
                 Address address = new Address();
-                //address.country = entryObjectCountry.Text;
+                address.country = entryObjectCountry.Text;
                 address.city = entryObjectCity.Text;
-                //address.postalCode = entryObjectPostalCode.Text;
-                //address.street = entryObjectStreetAndNumber.Text;
+                address.postalCode = entryObjectPostalCode.Text;
+                address.street = entryObjectStreetAndNumber.Text;
 
                 TimeSpan open = new TimeSpan(12, 00, 00);  //TODO
                 TimeSpan close = new TimeSpan(12, 00, 00);  //TODO
