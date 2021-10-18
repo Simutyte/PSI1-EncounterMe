@@ -3,12 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:mymap="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              Title="Map"
-             x:Class="EncounterMe.Views.MapPage">
+             x:Class="EncounterMe.Views.MapPage"
+             xmlns:forms="clr-namespace:Lottie.Forms;assembly=Lottie.Forms">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="add.png"
-                     Clicked="Add_Button_Clicked"/>
-        <ToolbarItem Text="Add Pin"
                      Clicked="Add_Pin_Button_Clicked"/>
     </ContentPage.ToolbarItems>
 
@@ -26,18 +25,31 @@
                VerticalOptions="Center"
                IsVisible="false"/>
 
-
-        <Button x:Name="ConfirmAddPinButton"
-                ImageSource=""
-                Text="Add"
-                WidthRequest="80"
-                HeightRequest="80"
-                CornerRadius="40"
-                BackgroundColor="#2E8B57"
-                HorizontalOptions="Center"
+        <!--Confirm mygtukas su animacija-->
+        <forms:AnimationView 
+                x:Name="AnimationView" 
+                Animation="addPin.json"
+                RepeatMode="Restart"
+               OnFinishedAnimation="animationView_OnFinishedAnimation"
+                AutoPlay="False"
                 VerticalOptions="End"
-                IsVisible="false"
-                Clicked="Confirm_Add_Pin_Button_Clicked"/>
+                HorizontalOptions="FillAndExpand"
+                Clicked="Confirm_Add_Pin_Button_Clicked"
+                WidthRequest="70"
+                HeightRequest="70"
+                BackgroundColor="Transparent"/>
+
+        <!--PIN-->
+        <ImageButton Source="myPlusFirst.png"
+                     HorizontalOptions="Center"
+                     VerticalOptions="End"
+                     IsVisible="false"
+                     WidthRequest="70"
+                     HeightRequest="70"
+                     Aspect="AspectFill"
+                     x:Name="ConfirmAddPinButton"
+                     BackgroundColor="Transparent"
+                     Clicked="Confirm_Add_Pin_Button_Clicked"/>
     </Grid>
 
 

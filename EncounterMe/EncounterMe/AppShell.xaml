@@ -49,6 +49,7 @@
     </ShellItem>
 
     <FlyoutItem Title="Home"
+                x:Name="Home"
                 Icon="home.png">
         
         <Tab Title="Main Page"

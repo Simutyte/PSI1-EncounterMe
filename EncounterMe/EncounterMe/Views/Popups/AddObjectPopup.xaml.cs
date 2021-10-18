@@ -4,6 +4,7 @@
 using System;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace EncounterMe.Views.Popups
@@ -23,7 +24,8 @@ namespace EncounterMe.Views.Popups
 
         async void Add_By_Pin_Button_Clicked(object sender, EventArgs args)
         {
-            
+            await Shell.Current.Navigation.PushAsync(new MapPage());
+           
         }
     }
 }

@@ -3,7 +3,7 @@ using Android.App;
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
-
+using Lottie.Forms.Platforms.Android;
 
 namespace EncounterMe.Droid
 {
@@ -15,7 +15,6 @@ namespace EncounterMe.Droid
             base.OnCreate(savedInstanceState);
 
             Rg.Plugins.Popup.Popup.Init(this);
-
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Xamarin.FormsMaps.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
