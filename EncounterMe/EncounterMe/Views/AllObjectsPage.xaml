@@ -5,49 +5,53 @@
              xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
              xmlns:viewModels="clr-namespace:EncounterMe.ViewModels" xmlns:Pins="clr-namespace:EncounterMe"
              x:Class="EncounterMe.Views.AllObjectsPage"
-             x:Name="AllObjects"
-             x:DataType="viewModels:AllObjectsViewModel">
+             x:Name="AllObjects">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="plus.png"  Clicked="Add_Object_Button_Clicked"/>
     </ContentPage.ToolbarItems>
 
-    <ContentPage.BindingContext>
-        <viewModels:AllObjectsViewModel/>
-    </ContentPage.BindingContext>
 
-    <ListView BackgroundColor="Transparent"
-              ItemsSource="{Binding allObjectsCollection}"
-              HasUnevenRows="True">
+    <StackLayout>
+        <SearchBar x:Name="SearchObjects"
+                   Placeholder="Search objects"
+                   TextChanged="SearchBar_TextChanged"/>
 
-        <ListView.ItemTemplate>
-            <DataTemplate x:DataType="Pins:MapPin">
-                <ViewCell >
-                    <Grid Padding="10">
-                        <Frame CornerRadius="10"
-                               HasShadow="True">
-                            <StackLayout>
+
+         <!--ItemsSource="{Binding allObjectsCollection}"-->
+        <ListView BackgroundColor="Transparent"
+                  x:Name="listView"
+                 
+                  HasUnevenRows="True">
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="Pins:MapPin">
+                    <ViewCell >
+                        <Grid Padding="10">
+                            <Frame CornerRadius="10"
+                                   HasShadow="True">
                                 <StackLayout>
-                                    <Label Text="{Binding name}"
-                                       VerticalOptions="Center"/>
-                                    <Label Text="{Binding type}"
+                                    <StackLayout>
+                                        <Label Text="{Binding name}"
                                            VerticalOptions="Center"/>
-                                    <Label Text="{Binding address}"
-                                           VerticalOptions="Center"/>
-                                    <Label Text="{Binding description}"
-                                           VerticalOptions="Center"/>
+                                        <Label Text="{Binding type}"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="{Binding address}"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="{Binding description}"
+                                               VerticalOptions="Center"/>
 
+                                    </StackLayout>
+                                    <Image Source="{Binding image}"
+                                           WidthRequest="66"/>
                                 </StackLayout>
-                                <Image Source="{Binding image}"
-                                       WidthRequest="66"/>
-                            </StackLayout>
-                        </Frame>
-                    </Grid>
-                </ViewCell>
-                
-            </DataTemplate>
-        </ListView.ItemTemplate>
-        
-    </ListView>
-    
+                            </Frame>
+                        </Grid>
+                    </ViewCell>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+    </StackLayout>
 </ContentPage>

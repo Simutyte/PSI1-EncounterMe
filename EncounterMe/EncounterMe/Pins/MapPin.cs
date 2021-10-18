@@ -10,7 +10,7 @@ using Xamarin.Forms.Maps;
 
 namespace EncounterMe
 {
-    public class MapPin
+    public class MapPin : IComparable<MapPin>
     {
         public string name { get; set; }
 
@@ -42,5 +42,7 @@ namespace EncounterMe
             this.description = description;
             this.image = image;
         }
+
+        public int CompareTo(MapPin comparePart) => comparePart == null ? 1 : name.CompareTo(comparePart.name);
     }
 }
