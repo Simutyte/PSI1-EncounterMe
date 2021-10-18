@@ -42,17 +42,5 @@ namespace EncounterMe
             this.description = description;
             this.image = image;
         }
-
-        public void CreateAPin()
-        {
-            pin = new Pin
-            {
-                Label = name,
-                Address = address,
-                Type = PinType.Place,
-                Position = new Position(location.Latitude, location.Longitude)
-            };
-        }
-
     }
 }
