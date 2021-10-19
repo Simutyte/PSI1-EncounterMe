@@ -14,7 +14,7 @@ namespace EncounterMe.Pins
 
         public string name { get; set; }
 
-        public int[] allEvaluations = new int[10];
+        public int[] allEvaluations { get; set; }
 
         public Evaluation(string name, IEnumerable<int> evaluations = null)
         {
@@ -23,12 +23,9 @@ namespace EncounterMe.Pins
             
         }
 
-        public void append (int value)
+        public void Append (int value)
         {
-            if(allEvaluations.Length != 0)
-            {
-                Array.Resize(ref allEvaluations, allEvaluations.Length+1);
-            }
+            allEvaluations = allEvaluations.Concat(new int[] { value }).ToArray();
         }
         public void CountAverage()
         {
