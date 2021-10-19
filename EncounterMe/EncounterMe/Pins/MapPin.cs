@@ -30,6 +30,8 @@ namespace EncounterMe
 
         public StyleType styleType { get; set; }
 
+        public Evaluation evaluation { get; set; }
+
         public Pin pin { get; set; }
 
         public MapPin(string name, Address address = new Address(), Location location = null, WorkingHours hours = new WorkingHours(),

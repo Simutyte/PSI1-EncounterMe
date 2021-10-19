@@ -16,8 +16,6 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AllObjectsPage : ContentPage
     {
-        public ObservableRangeCollection<MapPin> allObjectsCollection { get; set; }
-
         PinsList myPinList;
 
         public AllObjectsPage()
