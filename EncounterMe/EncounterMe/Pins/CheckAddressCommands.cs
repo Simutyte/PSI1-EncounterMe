@@ -5,30 +5,30 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 
 namespace EncounterMe.Pins
 {
     class CheckAddressCommands
     {
-        private string _address { get; set; }
         private Location _location { get; set; }
 
         private bool _existAddress { get; set; }
-        private string _city { get; set; }
 
-        public CheckAddressCommands() { }
+        public Address address;
 
-        public string GetAddress(Location location)
+        public CheckAddressCommands()
         {
-            _location = location;
-            GetAddressFromCoordinates();
-            return _address;
+
         }
 
-        public Location GetCoordinates(string address)
+        public Location GetCoordinates(string xcountry, string xcity, string xpostal, string xstreet)
         {
-            _address = address;
+            address.country = xcountry;
+            address.city = xcity;
+            address.postalCode = xpostal;
+            address.street = xstreet;
             GetCoordinatesFromAddress();
             return _location;
         }
@@ -36,53 +36,63 @@ namespace EncounterMe.Pins
         public string GetCity(Location location)
         {
             _location = location;
-            GetCityFromCoordinates();
-            return _city;
+            //GetCityFromCoordinates();
+            return address.city;
         }
 
-        public bool CheckForExistance(string address)
+        public bool CheckForExistance(string xcountry, string xcity, string xpostal, string xstreet)
         {
-            _address = address;
+            address.country = xcountry;
+            address.city = xcity;
+            address.postalCode = xpostal;
+            address.street = xstreet;
             GetCoordinatesFromAddress();
             return _existAddress;
         }
 
         async void GetCoordinatesFromAddress()
         {
-            try
-            {
-                IEnumerable<Location> locations = await Geocoding.GetLocationsAsync(_address);
-                Location loc = locations?.FirstOrDefault();
-                if (loc != null)
-                {
-                    _location = loc;
-                    _existAddress = true;
-                }
-            }
-            catch (Exception)
+            var location = (await Geocoding.GetLocationsAsync($"{address.street}, {address.city}, {address.postalCode}, {address.country}")).FirstOrDefault();
+
+            if (location == null)
             {
                 _existAddress = false;
+                return;
             }
-
+            _existAddress = true;
+            _location = location;
         }
 
-        async void GetAddressFromCoordinates()
+        public async 
+        Task
+        GetAddressFromCoordinates(Location location)
         {
             try
             {
-                IEnumerable<Placemark> placemarks = await Geocoding.GetPlacemarksAsync(_location.Latitude, _location.Longitude);
-                Placemark placemark = placemarks?.FirstOrDefault();
-                if (placemark != null)
+                var addrs = (await Geocoding.GetPlacemarksAsync(location)).FirstOrDefault();
+                if (addrs != null)
                 {
-                    _address =
-                        $"CountryName:     {placemark.CountryName}\n" +
-                        $"Location:        {placemark.Location}\n";
-
+                    address.street = $"{addrs.Thoroughfare} {addrs.SubThoroughfare}";
+                    address.postalCode = $"{addrs.PostalCode}";
+                    address.city = $"{addrs.Locality}";
+                    address.country = addrs.CountryName;
                 }
+            }
+            catch (FeatureNotSupportedException)
+            {
+                // Handle not supported on device exception
+            }
+            catch (FeatureNotEnabledException)
+            {
+                // Handle not enabled on device exception
+            }
+            catch (PermissionException)
+            {
+                // Handle permission exception
             }
             catch (Exception)
             {
-
+                // Unable to get location
             }
         }
 
@@ -94,7 +104,7 @@ namespace EncounterMe.Pins
                 Placemark placemark = placemarks?.FirstOrDefault();
                 if (placemark != null)
                 {
-                    _city = placemark.Locality;
+                    address.city = placemark.Locality;
 
                 }
             }

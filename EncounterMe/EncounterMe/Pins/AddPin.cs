@@ -10,13 +10,12 @@ namespace EncounterMe.Pins
 {
     public static class AddPin
     {
-
         public static void CreateAPin(this MapPin mapPin)
         {
             mapPin.pin = new Pin()
             {
                 Label = mapPin.name,
-                Address = mapPin.address,
+                Address = mapPin.address.country + mapPin.address.city + mapPin.address.postalCode + mapPin.address.street,
                 Type = PinType.Place,
                 Position = new Position(mapPin.location.Latitude, mapPin.location.Longitude)
             };
