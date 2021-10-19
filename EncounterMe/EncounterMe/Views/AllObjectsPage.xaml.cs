@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EncounterMe.Pins;
 using EncounterMe.Views.Popups;
 using MvvmHelpers;
 using Rg.Plugins.Popup.Services;
@@ -35,12 +36,16 @@ namespace EncounterMe.Views
         //Pridedu bendram patikrinimui
         public void Adding(List<MapPin> list)
         {
-            
-            list.Add(new MapPin("Muziejus test", "Kaunas Algimanto g. 5"));
-            list.Add(new MapPin("Paminklas testPam", "Kaunas Algimanto g. 5"));
-            list.Add(new MapPin("Parkas testParkas", "marijampole Algimanto g. 5"));
-            list.Add(new MapPin("Dvaras Kablys", "Algimanto g. 5"));
-            list.Add(new MapPin("Akvariumas", "marijampole Algimanto g. 5"));
+            Address address = new Address();
+            address.city = "Kaunas";
+            address.country = "Lietuva";
+            address.street = "Algimanto g. 13";
+
+            list.Add(new MapPin("Muziejus test",address));
+            list.Add(new MapPin("Paminklas testPam", address));
+            list.Add(new MapPin("Parkas testParkas", address));
+            list.Add(new MapPin("Dvaras Kablys", address));
+            list.Add(new MapPin("Akvariumas", address));
         }
 
         //Gauna pasikeitusį list pagal įvestą tekstą

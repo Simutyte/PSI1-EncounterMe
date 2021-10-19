@@ -10,11 +10,13 @@ using Xamarin.Forms.Maps;
 
 namespace EncounterMe
 {
-    public class MapPin : IComparable<MapPin>
+    public class MapPin : IComparable
     {
         public string name { get; set; }
 
         public Address address { get; set; }
+
+        public string stringAddress { get; set; }
 
         public string description { get; set; }
 
@@ -41,8 +43,19 @@ namespace EncounterMe
             this.styleType = styleType;
             this.description = description;
             this.image = image;
+            this.stringAddress = this.address.country + " " + this.address.city + " " + this.address.street;
         }
 
-        public int CompareTo(MapPin comparePart) => comparePart == null ? 1 : name.CompareTo(comparePart.name);
+        public int CompareTo(Object obj)
+        {
+            if (obj == null)
+                return 1;
+
+            MapPin otherMapPin = obj as MapPin;
+            if (otherMapPin != null)
+                return this.name.CompareTo(otherMapPin.name);
+            else
+                throw new ArgumentException("Object is not MapPin");
+        }
     }
 }
