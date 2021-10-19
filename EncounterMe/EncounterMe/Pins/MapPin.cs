@@ -30,7 +30,7 @@ namespace EncounterMe
 
         public StyleType styleType { get; set; }
 
-        DataStore<int> evaluations = new DataStore<int>();
+        public Evaluation evaluation { get; set; }
 
         public Pin pin { get; set; }
 

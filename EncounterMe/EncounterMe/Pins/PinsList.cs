@@ -31,8 +31,6 @@ namespace EncounterMe
 
         public List<MapPin> list = new List<MapPin>();
 
-        public ObservableRangeCollection<MapPin> allObjects = new ObservableRangeCollection<MapPin>();
-
         private static readonly string s_filename = "pins.bin";
 
         private CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
@@ -65,7 +63,6 @@ namespace EncounterMe
                                       (ObjectType)type, (StyleType)style, details, photo);
 
             list.Add(newOne);
-            allObjects.Add(newOne);
             //WriteAPinInFile(newOne);
         }
 
@@ -75,7 +72,6 @@ namespace EncounterMe
                                       (ObjectType)type, (StyleType)style, details, photo);
 
             list.Add(newOne);
-            allObjects.Add(newOne);
             //WriteAPinInFile(newOne);
         }
 
@@ -99,7 +95,8 @@ namespace EncounterMe
 
                 foreach (MapPin pin in list)
                 {
-                    allObjects.Add(pin);
+                    //allObjects.Add(pin); -- nebenaudojam observableRangeCollection nes nebereikalinga, kadangi kolkas užtenka list
+                    list.Add(pin);
                 }
             }
             catch(Exception) //null reference
