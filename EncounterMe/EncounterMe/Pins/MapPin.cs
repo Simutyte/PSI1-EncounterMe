@@ -10,6 +10,7 @@ using Xamarin.Forms.Maps;
 
 namespace EncounterMe
 {
+    [Serializable]
     public class MapPin : IComparable
     {
         public string name { get; set; }
@@ -20,10 +21,13 @@ namespace EncounterMe
 
         public string description { get; set; }
 
+        [field: NonSerialized]
         public Image image { get; set; }
 
+        [field: NonSerialized]
         public Location location { get; set; }
 
+        [field: NonSerialized]
         public WorkingHours hours { get; set; }
 
         public ObjectType type { get; set; }
@@ -32,6 +36,7 @@ namespace EncounterMe
 
         public Evaluation evaluation { get; set; }
 
+        [field: NonSerialized]
         public Pin pin { get; set; }
 
         public MapPin(string name, Address address = new Address(), Location location = null, WorkingHours hours = new WorkingHours(),

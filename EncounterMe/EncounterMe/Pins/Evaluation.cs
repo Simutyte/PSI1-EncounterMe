@@ -8,6 +8,7 @@ using System.Text;
 
 namespace EncounterMe.Pins
 {
+    [Serializable]
     public class Evaluation
     {
         public double average { get; set; }
