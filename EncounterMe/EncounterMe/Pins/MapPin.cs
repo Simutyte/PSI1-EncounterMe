@@ -30,6 +30,8 @@ namespace EncounterMe
 
         public StyleType styleType { get; set; }
 
+        DataStore<int> evaluations = new DataStore<int>();
+
         public Pin pin { get; set; }
 
         public MapPin(string name, Address address = new Address(), Location location = null, WorkingHours hours = new WorkingHours(),
