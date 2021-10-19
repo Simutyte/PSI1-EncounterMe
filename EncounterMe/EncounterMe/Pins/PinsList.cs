@@ -3,23 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using EncounterMe;
+using System.IO;
 using EncounterMe.Pins;
-using MvvmHelpers;
 using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
-
-
-
-
-//var status = await Permissions.RequestAsync<Permissions.StorageRead>();
-//var status = await Permissions.RequestAsync<Permissions.StorageWrite>();
-
-//Console.WriteLine("")
 
 namespace EncounterMe
 {
@@ -31,10 +18,9 @@ namespace EncounterMe
 
         public List<MapPin> list = new List<MapPin>();
 
-        private static readonly string s_filename = "pins.bin";
+        private static readonly string s_filePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "pins.bin");
 
         private CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
-
 
         protected PinsList()
         {
@@ -63,7 +49,7 @@ namespace EncounterMe
                                       (ObjectType)type, (StyleType)style, details, photo);
 
             list.Add(newOne);
-            //WriteAPinInFile(newOne);
+            WriteAPinInFile(newOne);
         }
 
         public void AddPinByCoordinatesToList(string name, Address address, Location location, int type, int style, string details, WorkingHours hours, Image photo)
@@ -72,7 +58,7 @@ namespace EncounterMe
                                       (ObjectType)type, (StyleType)style, details, photo);
 
             list.Add(newOne);
-            //WriteAPinInFile(newOne);
+            WriteAPinInFile(newOne);
         }
 
         public void AddPinInMap(MapPin pin)
@@ -84,25 +70,12 @@ namespace EncounterMe
 
         public void WriteAPinInFile(MapPin pin)
         {
-            IO.WriteToBinaryFile<MapPin>(append: true, filePath: s_filename, objectToWrite: pin);
+            IO.WriteToBinaryFile<MapPin>(append: true, filePath: s_filePath, objectToWrite: pin);
         }
 
         public void GetListOfPinsFromFile()
         {
-            try
-            {
-                list = IO.ReadFromBinaryFile<List<MapPin>>(s_filename);
-
-                foreach (MapPin pin in list)
-                {
-                    //allObjects.Add(pin); -- nebenaudojam observableRangeCollection nes nebereikalinga, kadangi kolkas užtenka list
-                    list.Add(pin);
-                }
-            }
-            catch(Exception) //null reference
-            {
-
-            }
+            list = IO.ReadFromBinaryFile<List<MapPin>>(s_filePath);
         }
     }
 }

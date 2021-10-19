@@ -34,13 +34,12 @@ namespace EncounterMe
                         MapPin obj = (MapPin)binaryFormatter.Deserialize(stream);
                         list.Add(obj);
                     }
-
                     return (T)list;
                 }
             }
             catch (Exception) //pirma karta failas dar ner sukurtas ir jo neranda
             {
-                return null;
+                return (T)list;
             }
             
         }

@@ -7,6 +7,7 @@ using System.Text;
 
 namespace EncounterMe.Pins
 {
+    [Serializable]
     public struct Address
     {
         public string country { get; set; }

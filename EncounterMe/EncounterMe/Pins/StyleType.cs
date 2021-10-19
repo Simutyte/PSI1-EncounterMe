@@ -8,6 +8,7 @@ using System.Text;
 namespace EncounterMe.Pins
 {
     [Flags]
+    [Serializable]
     public enum StyleType
     {
         None = 0,
