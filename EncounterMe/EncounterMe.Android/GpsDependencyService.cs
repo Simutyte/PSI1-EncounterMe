@@ -13,7 +13,6 @@ namespace EncounterMe.Droid.Customizers
 {
     public class GpsDependencyService : IGpsDependencyService
     {
-
         public bool IsGpsEnabled()
         {
             LocationManager locationManager = (LocationManager)Android.App.Application.Context.GetSystemService(Context.LocationService);
@@ -29,7 +28,6 @@ namespace EncounterMe.Droid.Customizers
             try
             {
                 Android.App.Application.Context.StartActivity(intent);
-
             }
             catch (ActivityNotFoundException activityNotFoundException)
             {

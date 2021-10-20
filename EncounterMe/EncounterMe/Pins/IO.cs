@@ -42,7 +42,6 @@ namespace EncounterMe
             {
                 return null;
             }
-            
         }
     }
 }

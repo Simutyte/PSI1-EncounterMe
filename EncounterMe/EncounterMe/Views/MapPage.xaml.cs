@@ -6,20 +6,10 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using Xamarin.Forms.Maps;
-using System.Diagnostics;
 using EncounterMe.Services;
 using System.Threading.Tasks;
 using Rg.Plugins.Popup.Services;
 using EncounterMe.Views.Popups;
-
-//possible to implement route tracking https://www.xamboy.com/2019/05/17/exploring-map-tracking-ui-in-xamarin-forms/
-//https://www.xamboy.com/2019/05/29/google-maps-place-search-in-xamarin-forms/
-
-//TODO: change DisplayAlert to sth else, it doesnt close after opening settings
-//TODO: suziuret, kad pin image butu and centro
-
-//TODO: exception handling
-
 
 namespace EncounterMe.Views
 {
@@ -28,14 +18,13 @@ namespace EncounterMe.Views
     {
         private Location _location = new Location();
 
-        //make private _sth
-        public bool chosenLocationPermission;
-        public bool chosenGpsPermission; 
+        private bool _chosenLocationPermission;
+        private bool _chosenGpsPermission;
 
         public MapPage()
         {
-            chosenLocationPermission = false;
-            chosenGpsPermission = false;
+            _chosenLocationPermission = false;
+            _chosenGpsPermission = false;
 
             InitializeComponent();
             DisplayCurrentLocation();
@@ -48,7 +37,7 @@ namespace EncounterMe.Views
             AnimationView.IsVisible = false;
             CenterPin.IsVisible = false;
         }
-        
+
         private async void DisplayCurrentLocation()
         {
             try
@@ -64,34 +53,34 @@ namespace EncounterMe.Views
                     TrackingLiveLocation();
                 }
             }
-            catch (FeatureNotSupportedException featureNotSupportedException)
+            catch (FeatureNotSupportedException)
             {
-
+                throw;
             }
-            catch (FeatureNotEnabledException featureNotEnabledException)
+            catch (FeatureNotEnabledException)
             {
                 //If user was not yet prompted to enable gps
-                if (chosenGpsPermission == false)
+                if (_chosenGpsPermission == false)
                 {
                     PromptToEnableGPS();
                 }
             }
-            catch (PermissionException permissionException)            
+            catch (PermissionException)
             {
                 //If location permission is not already enabled and not yet chosen, prompt the user and call the method once again
-                if (chosenLocationPermission == false)
+                if (_chosenLocationPermission == false)
                 {
                     PromptToEnableLocationPermission();
                 }
             }
-            catch (Exception exception)
+            catch (Exception)
             {
-
+                throw;
             }
         }
         async void PromptToEnableLocationPermission()
         {
-            chosenLocationPermission = true;
+            _chosenLocationPermission = true;
             await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
             DisplayCurrentLocation();
         }
@@ -100,7 +89,7 @@ namespace EncounterMe.Views
         {
             //If there was no button was pressed (tapped outside the alert box), answer = false, user will not get live tracking
             bool answer = await DisplayAlert("Location request", "Turn on your phone's location service for better performance.", "OK", "Maybe later");
-            chosenGpsPermission = true;
+            _chosenGpsPermission = true;
 
             if (answer)
             {
@@ -134,10 +123,10 @@ namespace EncounterMe.Views
             MapSpan mapSpan = MapSpan.FromCenterAndRadius(p, Distance.FromKilometers(1));
             MyMap.MoveToRegion(mapSpan);
         }
-        
-         void Add_Pin_Button_Clicked(object sender, EventArgs e)
+
+        void Add_Pin_Button_Clicked(object sender, EventArgs e)
         {
-            AnimationView.IsVisible = true;    
+            AnimationView.IsVisible = true;
             CenterPin.IsVisible = true;
             //Device.BeginInvokeOnMainThread(() =>
             //{
@@ -146,7 +135,7 @@ namespace EncounterMe.Views
             //});
         }
 
-        //Kad dar kartą paspaudus addPin mygtuką vėl atsirastų animacija
+        //Click addPin button again appear animation
         void animationView_OnFinishedAnimation(object sender, EventArgs e)
         {
             AnimationView.PlayAnimation();
@@ -154,17 +143,14 @@ namespace EncounterMe.Views
             AnimationView.IsVisible = false;
         }
 
-       
         async void Confirm_Add_Pin_Button_Clicked(object sender, EventArgs e)
         {
             CenterPin.IsVisible = false;
             AnimationView.PlayAnimation();
 
-            
             if (_location != null)
             {
                 await PopupNavigation.Instance.PushAsync(new AddByCoordinatesPopup(_location));
-                
             }
             else
             {
@@ -176,13 +162,12 @@ namespace EncounterMe.Views
         //Updates current center position when map is moved and saves lat. and long. to location
         void Position_Map_Property_Changed(object sender, EventArgs e)
         {
-
             var m = (Xamarin.Forms.Maps.Map)sender;
             if (m.VisibleRegion != null)
             {
                 _location.Latitude = m.VisibleRegion.Center.Latitude;
                 _location.Longitude = m.VisibleRegion.Center.Longitude;
-             }
+            }
         }
     }
 }

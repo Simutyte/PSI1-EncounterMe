@@ -15,13 +15,9 @@ namespace EncounterMe.Views
             InitializeComponent();
         }
 
-
         async void Log_Out_Button_Clicked(object sender, EventArgs args)
         {
             await Shell.Current.GoToAsync($"//{nameof(LogInPage)}");
-            
         }
     }
-
-
 }

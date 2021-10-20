@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-using System.Linq;
 using EncounterMe.Pins;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -45,17 +44,17 @@ namespace EncounterMe
             this.styleType = styleType;
             this.description = description;
             this.image = image;
-            this.stringAddress = this.address.country + " " + this.address.city + " " + this.address.street;
+            stringAddress = address.country + " " + address.city + " " + address.street;
         }
 
-        public int CompareTo(Object obj)
+        public int CompareTo(object obj)
         {
             if (obj == null)
                 return 1;
 
             MapPin otherMapPin = obj as MapPin;
             if (otherMapPin != null)
-                return this.name.CompareTo(otherMapPin.name);
+                return name.CompareTo(otherMapPin.name);
             else
                 throw new ArgumentException("Object is not MapPin");
         }

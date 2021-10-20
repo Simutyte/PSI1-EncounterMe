@@ -2,16 +2,13 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 using Xamarin.Forms;
 
 namespace EncounterMe.Pins
 {
     public class IntEnumConverter : IValueConverter
     {
-   
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
             {

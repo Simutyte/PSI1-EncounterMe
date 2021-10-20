@@ -16,19 +16,16 @@ namespace EncounterMe
 
         public List<EncounterMe.MapPin> route { get; set; }
 
-        private CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
-
-
         public void CreateARouteByStyleTypeAndCity(string city, int type)
         {
             styleType = (StyleType)type;
 
-            for (int i = 0; i < _objectsList.list.Count; i++)
+            for (int i = 0; i < _objectsList.listOfPins.Count; i++)
             {
-                if (_objectsList.list[i].styleType == styleType &&
-                    _checkAddressCommands.GetCity(_objectsList.list[i].location) == city)
+                if (_objectsList.listOfPins[i].styleType == styleType &&
+                    _objectsList.listOfPins[i].address.city == city)
                 {
-                    route.Add(_objectsList.list[i]);
+                    route.Add(_objectsList.listOfPins[i]);
                 }
             }
         }
@@ -37,22 +34,14 @@ namespace EncounterMe
         {
             objectType = (ObjectType)type;
 
-            for (int i = 0; i < _objectsList.list.Count; i++)
+            for (int i = 0; i < _objectsList.listOfPins.Count; i++)
             {
-                if (_objectsList.list[i].type == objectType &&
-                    _checkAddressCommands.GetCity(_objectsList.list[i].location) == city)
+                if (_objectsList.listOfPins[i].type == objectType &&
+                    _objectsList.listOfPins[i].address.city == city)
                 {
-                    route.Add(_objectsList.list[i]);
+                    route.Add(_objectsList.listOfPins[i]);
                 }
             }
-
         }
-
-        public void CreateACustomRoute()
-        {
-            //no idea yet
-        }
-
-
     }
 }

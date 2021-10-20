@@ -16,17 +16,17 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AllObjectsPage : ContentPage
     {
-        PinsList myPinList;
+        PinsList _myPinList;
 
         public AllObjectsPage()
         {
             InitializeComponent();
             PinsList pinsList = PinsList.GetPinsList();
-            myPinList = pinsList;
-            Adding(myPinList.list);
-            myPinList.list.Sort();
+            _myPinList = pinsList;
+            Adding(_myPinList.listOfPins);
+            _myPinList.listOfPins.Sort();
             listView.ItemsSource = GetAllObjects();
-            this.BindingContext = this;
+            BindingContext = this;
 
 
         }
@@ -34,10 +34,12 @@ namespace EncounterMe.Views
         //Pridedu bendram patikrinimui
         public void Adding(List<MapPin> list)
         {
-            Address address = new Address();
-            address.city = "Kaunas";
-            address.country = "Lietuva";
-            address.street = "Algimanto g. 13";
+            Address address = new Address
+            {
+                city = "Kaunas",
+                country = "Lietuva",
+                street = "Algimanto g. 13"
+            };
 
             list.Add(new MapPin("Muziejus test",address));
             list.Add(new MapPin("Paminklas testPam", address));
@@ -46,15 +48,15 @@ namespace EncounterMe.Views
             list.Add(new MapPin("Akvariumas", address));
         }
 
-        //Gauna pasikeitusį list pagal įvestą tekstą
+        //Gauna pasikeitusį listOfPins pagal įvestą tekstą
         IEnumerable<MapPin> GetAllObjects(string searchText = null)
         {
             if(string.IsNullOrEmpty(searchText))
             {
-                return myPinList.list;
+                return _myPinList.listOfPins;
             }
 
-            var objectsQuery = from mapPin in myPinList.list
+            var objectsQuery = from mapPin in _myPinList.listOfPins
                                where mapPin.name.ToLower().StartsWith(searchText.ToLower())
                                select mapPin;
             return objectsQuery;           
@@ -74,7 +76,6 @@ namespace EncounterMe.Views
         async void Add_Object_Button_Clicked(object sender, EventArgs e)
         {
             await PopupNavigation.Instance.PushAsync(new AddObjectPopup());
-
         }
     }
 }

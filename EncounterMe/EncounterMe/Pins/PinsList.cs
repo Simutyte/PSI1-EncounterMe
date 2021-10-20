@@ -29,12 +29,9 @@ namespace EncounterMe
 
         private static readonly object s_locker = new object();
 
-        public List<MapPin> list = new List<MapPin>();
+        public List<MapPin> listOfPins = new List<MapPin>();
 
         private static readonly string s_filename = "pins.bin";
-
-        private CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
-
 
         protected PinsList()
         {
@@ -56,14 +53,13 @@ namespace EncounterMe
             return s_instance;
         }
 
-
         public void AddPinByAddressToList(string name, Address address, int type, int style, string details, WorkingHours hours, Image photo)
         {
             MapPin newOne = new MapPin(name, address, null, hours,
                                       (ObjectType)type, (StyleType)style, details, photo);
 
-            list.Add(newOne);
-            //WriteAPinInFile(newOne);
+            listOfPins.Add(newOne);
+            WriteAPinInFile(newOne);
         }
 
         public void AddPinByCoordinatesToList(string name, Address address, Location location, int type, int style, string details, WorkingHours hours, Image photo)
@@ -71,8 +67,8 @@ namespace EncounterMe
             MapPin newOne = new MapPin(name, address, location, hours,
                                       (ObjectType)type, (StyleType)style, details, photo);
 
-            list.Add(newOne);
-            //WriteAPinInFile(newOne);
+            listOfPins.Add(newOne);
+            WriteAPinInFile(newOne);
         }
 
         public void AddPinInMap(MapPin pin)
@@ -89,20 +85,7 @@ namespace EncounterMe
 
         public void GetListOfPinsFromFile()
         {
-            try
-            {
-                list = IO.ReadFromBinaryFile<List<MapPin>>(s_filename);
-
-                foreach (MapPin pin in list)
-                {
-                    //allObjects.Add(pin); -- nebenaudojam observableRangeCollection nes nebereikalinga, kadangi kolkas užtenka list
-                    list.Add(pin);
-                }
-            }
-            catch(Exception) //null reference
-            {
-
-            }
+            listOfPins = IO.ReadFromBinaryFile<List<MapPin>>(s_filePath);
         }
     }
 }

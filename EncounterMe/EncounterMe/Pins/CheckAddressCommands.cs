@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 
@@ -33,13 +32,6 @@ namespace EncounterMe.Pins
             return _location;
         }
 
-        public string GetCity(Location location)
-        {
-            _location = location;
-            //GetCityFromCoordinates();
-            return address.city;
-        }
-
         public bool CheckForExistance(string xcountry, string xcity, string xpostal, string xstreet)
         {
             address.country = xcountry;
@@ -63,7 +55,7 @@ namespace EncounterMe.Pins
             _location = location;
         }
 
-        public async 
+        public async
         Task
         GetAddressFromCoordinates(Location location)
         {
@@ -81,38 +73,22 @@ namespace EncounterMe.Pins
             catch (FeatureNotSupportedException)
             {
                 // Handle not supported on device exception
+                throw;
             }
             catch (FeatureNotEnabledException)
             {
                 // Handle not enabled on device exception
+                throw;
             }
             catch (PermissionException)
             {
                 // Handle permission exception
+                throw;
             }
             catch (Exception)
             {
                 // Unable to get location
             }
         }
-
-        async void GetCityFromCoordinates()
-        {
-            try
-            {
-                IEnumerable<Placemark> placemarks = await Geocoding.GetPlacemarksAsync(_location.Latitude, _location.Longitude);
-                Placemark placemark = placemarks?.FirstOrDefault();
-                if (placemark != null)
-                {
-                    address.city = placemark.Locality;
-
-                }
-            }
-            catch (Exception)
-            {
-
-            }
-        }
-
     }
 }
