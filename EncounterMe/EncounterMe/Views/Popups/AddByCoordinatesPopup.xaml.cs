@@ -28,7 +28,6 @@ namespace EncounterMe.Views.Popups
             PinLat.Text = _location.Latitude.ToString();
             PinLong.Text = _location.Longitude.ToString();
             GetAddressValue();
-            
         }
 
         async void GetAddressValue()
@@ -45,8 +44,8 @@ namespace EncounterMe.Views.Popups
             await PopupNavigation.Instance.PopAsync();
         }
 
-         async void Add_Button_Clicked(object sender, EventArgs e)
-         {
+        async void Add_Button_Clicked(object sender, EventArgs e)
+        {
 
             if (string.IsNullOrWhiteSpace(entryObjectName.Text) && string.IsNullOrWhiteSpace(entryObjectCity.Text) &&
                 string.IsNullOrWhiteSpace(entryObjectCountry.Text) &&
@@ -62,11 +61,13 @@ namespace EncounterMe.Views.Popups
                 string _name = entryObjectName.Text;
                 string _description = entryObjectDescription.Text;
 
-                Address _address = new Address();
-                _address.country = entryObjectCountry.Text;
-                _address.city = entryObjectCity.Text;
-                _address.postalCode = entryObjectPostalCode.Text;
-                _address.street = entryObjectStreetAndNumber.Text;
+                Address _address = new Address
+                {
+                    country = entryObjectCountry.Text,
+                    city = entryObjectCity.Text,
+                    postalCode = entryObjectPostalCode.Text,
+                    street = entryObjectStreetAndNumber.Text
+                };
 
                 TimeSpan _open = new TimeSpan(12, 00, 00);  //TODO
                 TimeSpan _close = new TimeSpan(12, 00, 00);  //TODO
@@ -82,7 +83,6 @@ namespace EncounterMe.Views.Popups
                 list.AddPinByCoordinatesToList(_name, _address, _location, _type, _style, _description, _hours, photo);
                 await PopupNavigation.Instance.PopAsync();
             }
-         }
-
+        }
     }
 }

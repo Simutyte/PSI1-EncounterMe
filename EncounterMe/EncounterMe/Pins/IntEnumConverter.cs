@@ -11,16 +11,13 @@ namespace EncounterMe.Pins
 {
     public class IntEnumConverter : IValueConverter
     {
-   
         public object Convert(object value, System.Type targetType, object parameter, CultureInfo culture)
         {
+            if (value is Enum)
             {
-                if (value is Enum)
-                {
-                    return (int)value;
-                }
-                return 0;
+                return (int)value;
             }
+            return 0;
         }
 
         public object ConvertBack(object value, System.Type targetType, object parameter, CultureInfo culture)

@@ -56,10 +56,12 @@ namespace EncounterMe.Views
                     {
                         //if passed
                         UserDB userDB = new UserDB();
-                        User user = new User();
-                        user.username = entryRegUsername.Text;
-                        user.email = entryRegEmail.Text;
-                        user.password = entryRegPassword.Text;
+                        User user = new User
+                        {
+                            username = entryRegUsername.Text,
+                            email = entryRegEmail.Text,
+                            password = entryRegPassword.Text
+                        };
                         try
                         {
                             string returnValue = userDB.AddUser(user);

@@ -10,7 +10,6 @@ using System;
 
 namespace EncounterMe.Users
 {
-   
     class UserDB
     {
         private SQLiteConnection _mySQLiteConnection;
