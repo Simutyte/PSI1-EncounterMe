@@ -66,7 +66,7 @@ namespace EncounterMe.Views
             }
             catch (FeatureNotSupportedException featureNotSupportedException)
             {
-
+                await DisplayAlert("Alert", "GPS access is not supported on your device", "Ok");
             }
             catch (FeatureNotEnabledException featureNotEnabledException)
             {
@@ -86,7 +86,7 @@ namespace EncounterMe.Views
             }
             catch (Exception exception)
             {
-
+                throw;
             }
         }
         async void PromptToEnableLocationPermission()
@@ -168,7 +168,7 @@ namespace EncounterMe.Views
             }
             else
             {
-                await DisplayAlert("Location", "Something went wrong with coordinates", "okey");
+                await DisplayAlert("Location", "Something went wrong with coordinates", "Ok");
             }
 
         }
