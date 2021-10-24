@@ -21,12 +21,11 @@ namespace EncounterMe
         {
             styleType = (StyleType)type;
 
-            for (int i = 0; i < _objectsList.listOfPins.Count; i++)
+            foreach (EncounterMe.MapPin pin in _objectsList.listOfPins)
             {
-                if (_objectsList.listOfPins[i].styleType == styleType &&
-                    _objectsList.listOfPins[i].address.city == city)
+                if (pin.styleType == styleType && pin.address.city == city)
                 {
-                    route.Add(_objectsList.listOfPins[i]);
+                    route.Add(pin);
                 }
             }
         }
@@ -35,12 +34,11 @@ namespace EncounterMe
         {
             objectType = (ObjectType)type;
 
-            for (int i = 0; i < _objectsList.listOfPins.Count; i++)
+            foreach (EncounterMe.MapPin pin in _objectsList.listOfPins)
             {
-                if (_objectsList.listOfPins[i].type == objectType &&
-                    _objectsList.listOfPins[i].address.city == city)
+                if (pin.type == objectType && pin.address.city == city)
                 {
-                    route.Add(_objectsList.listOfPins[i]);
+                    route.Add(pin);
                 }
             }
         }
