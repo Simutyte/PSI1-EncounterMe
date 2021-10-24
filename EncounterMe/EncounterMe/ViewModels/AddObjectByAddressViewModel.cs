@@ -55,6 +55,5 @@ namespace EncounterMe.ViewModels
                 return Enum.GetNames(typeof(ObjectType)).Select(b => b).ToList();
             }
         }
-
     }
 }

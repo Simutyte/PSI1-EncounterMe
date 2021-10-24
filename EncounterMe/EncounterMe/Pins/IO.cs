@@ -40,8 +40,7 @@ namespace EncounterMe
             catch (Exception) //pirma karta failas dar ner sukurtas ir jo neranda
             {
                 return (T)list;
-            }
-            
+            }          
         }
     }
 }

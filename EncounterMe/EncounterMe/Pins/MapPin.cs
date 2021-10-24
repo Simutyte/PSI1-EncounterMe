@@ -39,7 +39,7 @@ namespace EncounterMe
         [field: NonSerialized]
         public Pin pin { get; set; }
 
-        public MapPin(string name, Address address = new Address(), Location location = null, WorkingHours hours = new WorkingHours(),
+        public MapPin(string name, Address address, Location location = null, WorkingHours hours = new WorkingHours(),
                       ObjectType type = 0, StyleType styleType = 0, string description = "No description", Image image = null)
         {
             this.name = name;
@@ -50,17 +50,17 @@ namespace EncounterMe
             this.styleType = styleType;
             this.description = description;
             this.image = image;
-            this.stringAddress = this.address.country + " " + this.address.city + " " + this.address.street;
+            stringAddress = $"{address.country} {address.city} {address.street}";
         }
 
-        public int CompareTo(Object obj)
+        public int CompareTo(object obj)
         {
             if (obj == null)
                 return 1;
 
             MapPin otherMapPin = obj as MapPin;
             if (otherMapPin != null)
-                return this.name.CompareTo(otherMapPin.name);
+                return name.CompareTo(otherMapPin.name);
             else
                 throw new ArgumentException("Object is not MapPin");
         }

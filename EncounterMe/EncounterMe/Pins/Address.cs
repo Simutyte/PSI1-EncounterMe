@@ -14,5 +14,13 @@ namespace EncounterMe.Pins
         public string city { get; set; }
         public string postalCode { get; set; }
         public string street { get; set; }
+
+        public Address(string country, string city, string code, string street)
+        {
+            this.country = country;
+            this.city = city;
+            this.postalCode = code;
+            this.street = street;
+        }
     }
 }

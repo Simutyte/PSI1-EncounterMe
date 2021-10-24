@@ -14,10 +14,9 @@ namespace EncounterMe.Views
         public LogInPage()
         {
             InitializeComponent();
-            
         }
 
-         async void Log_In_Button_Clicked(object sender, EventArgs args)
+        async void Log_In_Button_Clicked(object sender, EventArgs args)
         {
             await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
             PinsList classToGetList = PinsList.GetPinsList();
@@ -32,7 +31,7 @@ namespace EncounterMe.Views
 
                 UserDB userDB = new UserDB();
 
-                if(userDB.LoginValidate(entryLogUsername.Text, entryLogPassword.Text))
+                if (userDB.LoginValidate(entryLogUsername.Text, entryLogPassword.Text))
                 {
                     await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
                 }
@@ -42,10 +41,8 @@ namespace EncounterMe.Views
                     entryLogPassword.Text = string.Empty;
                     entryLogUsername.Text = string.Empty;
                 }
-                
-                
             }
-         }
+        }
 
         private async void Tapped_Registration(object sender, EventArgs args)
         {

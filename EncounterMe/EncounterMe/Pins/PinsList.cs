@@ -3,7 +3,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
+using System.Text;
+using EncounterMe;
 using EncounterMe.Pins;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -16,11 +20,9 @@ namespace EncounterMe
 
         private static readonly object s_locker = new object();
 
-        public List<MapPin> list = new List<MapPin>();
+        public List<MapPin> listOfPins = new List<MapPin>();
 
         private static readonly string s_filePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "pins.bin");
-
-        private CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
 
         protected PinsList()
         {
@@ -42,13 +44,12 @@ namespace EncounterMe
             return s_instance;
         }
 
-
         public void AddPinByAddressToList(string name, Address address, int type, int style, string details, WorkingHours hours, Image photo)
         {
             MapPin newOne = new MapPin(name, address, null, hours,
                                       (ObjectType)type, (StyleType)style, details, photo);
 
-            list.Add(newOne);
+            listOfPins.Add(newOne);
             WriteAPinInFile(newOne);
         }
 
@@ -57,7 +58,7 @@ namespace EncounterMe
             MapPin newOne = new MapPin(name, address, location, hours,
                                       (ObjectType)type, (StyleType)style, details, photo);
 
-            list.Add(newOne);
+            listOfPins.Add(newOne);
             WriteAPinInFile(newOne);
         }
 
@@ -75,7 +76,7 @@ namespace EncounterMe
 
         public void GetListOfPinsFromFile()
         {
-            list = IO.ReadFromBinaryFile<List<MapPin>>(s_filePath);
+            listOfPins = IO.ReadFromBinaryFile<List<MapPin>>(s_filePath);
         }
     }
 }

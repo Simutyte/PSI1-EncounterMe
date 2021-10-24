@@ -21,13 +21,13 @@ namespace EncounterMe.Pins
         {
             this.name = name;
             allEvaluations = evaluations.ToArray();
-            
         }
 
-        public void Append (int value)
+        public void Append(int value)
         {
             allEvaluations = allEvaluations.Concat(new int[] { value }).ToArray();
         }
+
         public void CountAverage()
         {
             if (allEvaluations != null)
