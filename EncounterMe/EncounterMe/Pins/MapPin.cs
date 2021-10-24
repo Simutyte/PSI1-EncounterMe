@@ -39,7 +39,7 @@ namespace EncounterMe
         [field: NonSerialized]
         public Pin pin { get; set; }
 
-        public MapPin(string name, Address address = new Address(), Location location = null, WorkingHours hours = new WorkingHours(),
+        public MapPin(string name, Address address, Location location = null, WorkingHours hours = new WorkingHours(),
                       ObjectType type = 0, StyleType styleType = 0, string description = "No description", Image image = null)
         {
             this.name = name;

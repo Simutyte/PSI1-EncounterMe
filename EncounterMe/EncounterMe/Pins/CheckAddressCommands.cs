@@ -25,20 +25,14 @@ namespace EncounterMe.Pins
 
         public Location GetCoordinates(string xcountry, string xcity, string xpostal, string xstreet)
         {
-            address.country = xcountry;
-            address.city = xcity;
-            address.postalCode = xpostal;
-            address.street = xstreet;
+            address = new Address(xcountry, xcity, xstreet, xpostal);
             GetCoordinatesFromAddress();
             return _location;
         }
 
         public bool CheckForExistance(string xcountry, string xcity, string xpostal, string xstreet)
         {
-            address.country = xcountry;
-            address.city = xcity;
-            address.postalCode = xpostal;
-            address.street = xstreet;
+            address = new Address(xcountry, xcity, xstreet, xpostal);
             GetCoordinatesFromAddress();
             return _existAddress;
         }
