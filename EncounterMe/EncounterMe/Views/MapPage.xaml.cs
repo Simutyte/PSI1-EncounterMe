@@ -18,7 +18,12 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MapPage : ContentPage
     {
+
         private Location _location = new Location();
+
+        public Xamarin.Forms.Maps.Map myMap { get; set; }
+        PinsList _myPinList;
+
 
         private bool _chosenLocationPermission;
         private bool _chosenGpsPermission;
@@ -30,6 +35,7 @@ namespace EncounterMe.Views
 
             InitializeComponent();
             DisplayCurrentLocation();
+
         }
 
         protected override void OnAppearing()
@@ -38,6 +44,28 @@ namespace EncounterMe.Views
             DisplayCurrentLocation();
             AnimationView.IsVisible = false;
             CenterPin.IsVisible = false;
+            myMap = MyMap;
+            GenerateMapPins();
+        }
+
+       
+
+        public void GenerateMapPins()
+        {
+            PinsList pinsList = PinsList.GetPinsList();
+            _myPinList = pinsList;
+
+           
+            foreach(MapPin mapPin in _myPinList.ListOfPins)
+            {
+                if (mapPin.Location != null && mapPin.Pin != null)
+                {
+                    myMap.Pins.Add(mapPin.Pin);
+                }
+            }
+            
+            
+
         }
 
         private async void DisplayCurrentLocation()
