@@ -32,18 +32,12 @@ namespace EncounterMe.Views
         //Pridedu bendram patikrinimui
         public void Adding(List<MapPin> list)
         {
-            Address address = new Address
-            {
-                City = "Kaunas",
-                Country = "Lietuva",
-                Street = "Algimanto g. 13"
-            };
 
-            list.Add(new MapPin("Muziejus test",address));
-            list.Add(new MapPin("Paminklas testPam", address));
-            list.Add(new MapPin("Parkas testParkas", address));
-            list.Add(new MapPin("Dvaras Kablys", address));
-            list.Add(new MapPin("Akvariumas", address));
+            list.Add(new MapPin("Muziejus", new Address { Country = "Lithuania", City = "Kaunas", Street = "Kauno g. 15A" }, null, new WorkingHours { }, ObjectType.Museum));
+            list.Add(new MapPin("Basanaviciaus paminklas", new Address { Country = "Lithuania", City = "Marijampole", Street = "Basanaviciaus g. 4" }, null, new WorkingHours { }, ObjectType.Monument));
+            list.Add(new MapPin("Ramybes Parkas", new Address { Country = "Lithuania", City = "Kaunas", Street = "Kauno g. 7" }, null, new WorkingHours { }, ObjectType.Park));
+            list.Add(new MapPin("Petro Povilo baznycia", new Address { Country = "Lithuania", City = "Vilnius", Street = "Vilniaus g. 4" }, null, new WorkingHours { }, ObjectType.Church));
+            list.Add(new MapPin("Didysis akvariumas", new Address { Country = "Lithuania", City = "Plunge", Street = "Parko g. 14" }, null, new WorkingHours { }, ObjectType.Entertainment));
         }
 
         //Gauna pasikeitusį listOfPins pagal įvestą tekstą
@@ -55,7 +49,7 @@ namespace EncounterMe.Views
             }
 
             var objectsQuery = from mapPin in _myPinList.ListOfPins
-                               where mapPin.Name.ToLower().StartsWith(searchText.ToLower())
+                               where mapPin.Name.ToLower().Contains(searchText.ToLower())
                                select mapPin;
             return objectsQuery;           
         }

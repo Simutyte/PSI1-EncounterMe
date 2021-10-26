@@ -1,13 +1,87 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Pins="clr-namespace:EncounterMe"
+             xmlns:viewModels="clr-namespace:EncounterMe.ViewModels"
              Title="Routes"
              x:Class="EncounterMe.Views.RoutesPage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to routes page!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+
+    <ContentPage.BindingContext>
+        <viewModels:RoutePageViewModel/>
+    </ContentPage.BindingContext>
+
+    <StackLayout>
+
+        <StackLayout Orientation="Horizontal">
+
+            <SearchBar x:Name="SearchObjects"
+                       HorizontalOptions="FillAndExpand"
+                       Placeholder="Search for routes"
+                       TextChanged="SearchBar_TextChanged"/>
         </StackLayout>
-    </ContentPage.Content>
+
+        <!--ItemsSource="{Binding allObjectsCollection}"-->
+        <ListView BackgroundColor="Transparent"
+                  x:Name="RoutesListView"
+                  HasUnevenRows="True">
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="Pins:MapPin">
+                    <ViewCell >
+                        <Grid Padding="10">
+                            <Frame CornerRadius="10"
+                                   HasShadow="True">
+                                <StackLayout>
+                                    <StackLayout>
+                                        <Label Text="{Binding Name}"
+                                           VerticalOptions="Center"/>
+                                        <Label Text="{Binding Type}"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="{Binding StyleType}"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="{Binding StringAddress}"
+                                               VerticalOptions="Center"/>
+                                        <Label Text="{Binding Description}"
+                                               VerticalOptions="Center"/>
+
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </ViewCell>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
+        <StackLayout Orientation="Horizontal"
+                     HeightRequest="50"
+                     BackgroundColor="#e3e3e3">
+
+            <Frame HeightRequest="50"
+                   HasShadow="False"
+                   BackgroundColor="Transparent"
+                   HorizontalOptions="FillAndExpand"
+                   Padding="0"
+                   Margin="0"
+                   VerticalOptions="FillAndExpand">
+
+                <Picker Title="Pick a type"
+                             x:DataType="viewModels:RoutePageViewModel"
+                             x:Name="ObjectTypePicker"
+                             VerticalOptions="End"
+                             HorizontalOptions="FillAndExpand"
+                             ItemsSource="{Binding ObjectTypeNames}"
+                             SelectedIndexChanged="Picker_index_Changed"/>
+
+            </Frame>
+            <ImageButton Source="cross.png"
+                         Clicked="Cross_Button_Clicked"
+                         WidthRequest="30"
+                         HeightRequest="30"
+                         BackgroundColor="Transparent"
+                         Margin="0,0,5,0"/>
+        </StackLayout>
+    </StackLayout>
 </ContentPage>

@@ -30,7 +30,13 @@
                         <Grid Padding="10">
                             <Frame CornerRadius="10"
                                    HasShadow="True">
-                                <StackLayout>
+                                <StackLayout Orientation="Horizontal">
+                                    <StackLayout Orientation="Vertical" >
+                                        <Image Source="home.png"
+                                               WidthRequest="66"
+                                               HeightRequest="66"
+                                               Margin="2,1,4,1"/>
+                                    </StackLayout>
                                     <StackLayout>
                                         <Label Text="{Binding Name}"
                                            VerticalOptions="Center"/>
@@ -42,9 +48,8 @@
                                                VerticalOptions="Center"/>
 
                                     </StackLayout>
-                                    <Image Source="{Binding Image}"
-                                           WidthRequest="66"/>
-                                </StackLayout>
+                                    
+                              </StackLayout>
                             </Frame>
                         </Grid>
                     </ViewCell>
