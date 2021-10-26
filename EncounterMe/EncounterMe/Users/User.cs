@@ -14,11 +14,11 @@ namespace EncounterMe.Users
         public int ID { get; set; }
 
         [MaxLength(35), Unique]
-        public string username { get; set; }
-        public string password { get; set; }
+        public string Username { get; set; }
+        public string Password { get; set; }
 
         [MaxLength(100), Unique]
-        public string email { get; set; }
+        public string Email { get; set; }
 
         public User()
         {

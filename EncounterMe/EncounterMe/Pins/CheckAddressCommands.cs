@@ -16,7 +16,7 @@ namespace EncounterMe.Pins
 
         private bool _existAddress { get; set; }
 
-        public Address address;
+        public Address Address;
 
         public CheckAddressCommands()
         {
@@ -25,21 +25,21 @@ namespace EncounterMe.Pins
 
         public Location GetCoordinates(string xcountry, string xcity, string xpostal, string xstreet)
         {
-            address = new Address(xcountry, xcity, xstreet, xpostal);
+            Address = new Address(xcountry, xcity, xstreet, xpostal);
             GetCoordinatesFromAddress();
             return _location;
         }
 
         public bool CheckForExistance(string xcountry, string xcity, string xpostal, string xstreet)
         {
-            address = new Address(xcountry, xcity, xstreet, xpostal);
+            Address = new Address(xcountry, xcity, xstreet, xpostal);
             GetCoordinatesFromAddress();
             return _existAddress;
         }
 
         async void GetCoordinatesFromAddress()
         {
-            var location = (await Geocoding.GetLocationsAsync($"{address.street}, {address.city}, {address.postalCode}, {address.country}")).FirstOrDefault();
+            var location = (await Geocoding.GetLocationsAsync($"{Address.Street}, {Address.City}, {Address.PostalCode}, {Address.Country}")).FirstOrDefault();
 
             if (location == null)
             {
@@ -59,10 +59,10 @@ namespace EncounterMe.Pins
                 var addrs = (await Geocoding.GetPlacemarksAsync(location)).FirstOrDefault();
                 if (addrs != null)
                 {
-                    address.street = $"{addrs.Thoroughfare} {addrs.SubThoroughfare}";
-                    address.postalCode = $"{addrs.PostalCode}";
-                    address.city = $"{addrs.Locality}";
-                    address.country = addrs.CountryName;
+                    Address.Street = $"{addrs.Thoroughfare} {addrs.SubThoroughfare}";
+                    Address.PostalCode = $"{addrs.PostalCode}";
+                    Address.City = $"{addrs.Locality}";
+                    Address.Country = addrs.CountryName;
                 }
             }
             catch (FeatureNotSupportedException)

@@ -33,25 +33,22 @@ namespace EncounterMe.Views.Popups
             }
             else
             {
-                PinsList pinsList = PinsList.GetPinsList();
-                PinsList list = pinsList;
+                PinsList _pinsList = PinsList.GetPinsList();
+                PinsList _list = _pinsList;
 
-                string name = entryObjectName.Text;
-                string description = entryObjectDescription.Text;
+                string _name = entryObjectName.Text;
+                string _description = entryObjectDescription.Text;
 
-                Address address = new Address(entryObjectCountry.Text, entryObjectCity.Text, entryObjectPostalCode.Text, entryObjectStreetAndNumber.Text);
+                Address _address = new Address(entryObjectCountry.Text, entryObjectCity.Text, entryObjectPostalCode.Text, entryObjectStreetAndNumber.Text);
 
-                TimeSpan open = new TimeSpan(12, 00, 00);  //TODO
-                TimeSpan close = new TimeSpan(12, 00, 00);  //TODO
-              
-                Image photo = new Image();
+                TimeSpan _open = new TimeSpan(12, 00, 00);  //TODO
+                TimeSpan _close = new TimeSpan(12, 00, 00);  //TODO
+                WorkingHours _hours = new WorkingHours(_open, _close);
 
-                int style = StyleTypePicker.SelectedIndex;
-                int type = ObjectTypePicker.SelectedIndex;
+                Image _photo = new Image();
 
-                WorkingHours hours;
-                hours.openingHours = open;
-                hours.closingTime = close;
+                int _style = StyleTypePicker.SelectedIndex;
+                int _type = ObjectTypePicker.SelectedIndex;
 
                 /*if (!_checkAddressCommands.CheckForExistance(address))
                {
@@ -59,7 +56,7 @@ namespace EncounterMe.Views.Popups
                }
                else
                {*/
-                list.AddPinByAddressToList(name, address, type, style, description, hours, photo);
+                _list.AddPinByAddressToList(_name, _address, _type, _style, _description, _hours, _photo);
                 await PopupNavigation.Instance.PopAsync();
                 //}
             }

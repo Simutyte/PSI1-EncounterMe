@@ -33,10 +33,10 @@ namespace EncounterMe.Views.Popups
         async void GetAddressValue()
         {
             await _checkAddressCommands.GetAddressFromCoordinates(_location);
-            entryObjectCountry.Text = _checkAddressCommands.address.country;
-            entryObjectCity.Text = _checkAddressCommands.address.city;
-            entryObjectPostalCode.Text = _checkAddressCommands.address.postalCode;
-            entryObjectStreetAndNumber.Text = _checkAddressCommands.address.street;
+            entryObjectCountry.Text = _checkAddressCommands.Address.Country;
+            entryObjectCity.Text = _checkAddressCommands.Address.City;
+            entryObjectPostalCode.Text = _checkAddressCommands.Address.PostalCode;
+            entryObjectStreetAndNumber.Text = _checkAddressCommands.Address.Street;
         }
 
         async void Cancel_Button_Clicked(object sender, EventArgs e)
@@ -65,9 +65,7 @@ namespace EncounterMe.Views.Popups
 
                 TimeSpan _open = new TimeSpan(12, 00, 00);  //TODO
                 TimeSpan _close = new TimeSpan(12, 00, 00);  //TODO
-                WorkingHours _hours;
-                _hours.openingHours = _open;
-                _hours.closingTime = _close;
+                WorkingHours _hours = new WorkingHours(_open, _close);
 
                 Image photo = new Image();
 

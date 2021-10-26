@@ -13,44 +13,44 @@ namespace EncounterMe
     [Serializable]
     public class MapPin : IComparable
     {
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public Address address { get; set; }
+        public Address Address { get; set; }
 
-        public string stringAddress { get; set; }
+        public string StringAddress { get; set; }
 
-        public string description { get; set; }
-
-        [field: NonSerialized]
-        public Image image { get; set; }
+        public string Description { get; set; }
 
         [field: NonSerialized]
-        public Location location { get; set; }
+        public Image Image { get; set; }
 
         [field: NonSerialized]
-        public WorkingHours hours { get; set; }
-
-        public ObjectType type { get; set; }
-
-        public StyleType styleType { get; set; }
-
-        public Evaluation evaluation { get; set; }
+        public Location Location { get; set; }
 
         [field: NonSerialized]
-        public Pin pin { get; set; }
+        public WorkingHours Hours { get; set; }
+
+        public ObjectType Type { get; set; }
+
+        public StyleType StyleType { get; set; }
+
+        public Evaluation Evaluation { get; set; }
+
+        [field: NonSerialized]
+        public Pin Pin { get; set; }
 
         public MapPin(string name, Address address, Location location = null, WorkingHours hours = new WorkingHours(),
                       ObjectType type = 0, StyleType styleType = 0, string description = "No description", Image image = null)
         {
-            this.name = name;
-            this.address = address;
-            this.location = location;
-            this.hours = hours;
-            this.type = type;
-            this.styleType = styleType;
-            this.description = description;
-            this.image = image;
-            stringAddress = $"{address.country} {address.city} {address.street}";
+            this.Name = name;
+            this.Address = address;
+            this.Location = location;
+            this.Hours = hours;
+            this.Type = type;
+            this.StyleType = styleType;
+            this.Description = description;
+            this.Image = image;
+            StringAddress = $"{address.Country} {address.City} {address.Street}";
         }
 
         public int CompareTo(object obj)
@@ -60,7 +60,7 @@ namespace EncounterMe
 
             MapPin otherMapPin = obj as MapPin;
             if (otherMapPin != null)
-                return name.CompareTo(otherMapPin.name);
+                return Name.CompareTo(otherMapPin.Name);
             else
                 throw new ArgumentException("Object is not MapPin");
         }
