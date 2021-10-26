@@ -34,7 +34,7 @@ namespace EncounterMe.Users
         public string AddUser(User user)
         {
             var data = _mySQLiteConnection.Table<User>();
-            var d1 = data.Where(x => x.username == user.username || x.email == user.email).FirstOrDefault();
+            var d1 = data.Where(x => x.Username == user.Username || x.Email == user.Email).FirstOrDefault();
             if (d1 == null)
             {
                 _mySQLiteConnection.Insert(user);
@@ -47,7 +47,7 @@ namespace EncounterMe.Users
         public bool LoginValidate(string username, string pass)
         {
             var data = _mySQLiteConnection.Table<User>();
-            var d1 = data.Where(x => x.username == username && x.password == pass).FirstOrDefault();
+            var d1 = data.Where(x => x.Username == username && x.Password == pass).FirstOrDefault();
 
             if (d1 != null)
             {

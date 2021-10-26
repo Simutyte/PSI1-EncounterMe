@@ -32,17 +32,17 @@
                                    HasShadow="True">
                                 <StackLayout>
                                     <StackLayout>
-                                        <Label Text="{Binding name}"
+                                        <Label Text="{Binding Name}"
                                            VerticalOptions="Center"/>
-                                        <Label Text="{Binding type}"
+                                        <Label Text="{Binding Type}"
                                                VerticalOptions="Center"/>
-                                        <Label Text="{Binding stringAddress}"
+                                        <Label Text="{Binding StringAddress}"
                                                VerticalOptions="Center"/>
-                                        <Label Text="{Binding description}"
+                                        <Label Text="{Binding Description}"
                                                VerticalOptions="Center"/>
 
                                     </StackLayout>
-                                    <Image Source="{Binding image}"
+                                    <Image Source="{Binding Image}"
                                            WidthRequest="66"/>
                                 </StackLayout>
                             </Frame>

@@ -23,8 +23,8 @@ namespace EncounterMe.Views
             InitializeComponent();
             PinsList pinsList = PinsList.GetPinsList();
             _myPinList = pinsList;
-            Adding(_myPinList.listOfPins);
-            _myPinList.listOfPins.Sort();
+            Adding(_myPinList.ListOfPins);
+            _myPinList.ListOfPins.Sort();
             listView.ItemsSource = GetAllObjects();
             BindingContext = this;
         }
@@ -34,9 +34,9 @@ namespace EncounterMe.Views
         {
             Address address = new Address
             {
-                city = "Kaunas",
-                country = "Lietuva",
-                street = "Algimanto g. 13"
+                City = "Kaunas",
+                Country = "Lietuva",
+                Street = "Algimanto g. 13"
             };
 
             list.Add(new MapPin("Muziejus test",address));
@@ -51,11 +51,11 @@ namespace EncounterMe.Views
         {
             if(string.IsNullOrEmpty(searchText))
             {
-                return _myPinList.listOfPins;
+                return _myPinList.ListOfPins;
             }
 
-            var objectsQuery = from mapPin in _myPinList.listOfPins
-                               where mapPin.name.ToLower().StartsWith(searchText.ToLower())
+            var objectsQuery = from mapPin in _myPinList.ListOfPins
+                               where mapPin.Name.ToLower().StartsWith(searchText.ToLower())
                                select mapPin;
             return objectsQuery;           
         }

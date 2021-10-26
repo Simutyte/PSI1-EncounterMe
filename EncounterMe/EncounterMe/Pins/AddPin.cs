@@ -12,12 +12,12 @@ namespace EncounterMe.Pins
     {
         public static void CreateAPin(this MapPin mapPin)
         {
-            mapPin.pin = new Pin()
+            mapPin.Pin = new Pin()
             {
-                Label = mapPin.name,
-                Address = mapPin.address.country + mapPin.address.city + mapPin.address.postalCode + mapPin.address.street,
+                Label = mapPin.Name,
+                Address = mapPin.Address.Country + mapPin.Address.City + mapPin.Address.PostalCode + mapPin.Address.Street,
                 Type = PinType.Place,
-                Position = new Position(mapPin.location.Latitude, mapPin.location.Longitude)
+                Position = new Position(mapPin.Location.Latitude, mapPin.Location.Longitude)
             };
         }
     }

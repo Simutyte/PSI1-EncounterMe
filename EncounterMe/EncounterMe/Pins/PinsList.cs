@@ -20,7 +20,7 @@ namespace EncounterMe
 
         private static readonly object s_locker = new object();
 
-        public List<MapPin> listOfPins = new List<MapPin>();
+        public List<MapPin> ListOfPins = new List<MapPin>();
 
         private static readonly string s_filePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "pins.bin");
 
@@ -49,7 +49,7 @@ namespace EncounterMe
             MapPin newOne = new MapPin(name, address, null, hours,
                                       (ObjectType)type, (StyleType)style, details, photo);
 
-            listOfPins.Add(newOne);
+            ListOfPins.Add(newOne);
             WriteAPinInFile(newOne);
         }
 
@@ -58,7 +58,7 @@ namespace EncounterMe
             MapPin newOne = new MapPin(name, address, location, hours,
                                       (ObjectType)type, (StyleType)style, details, photo);
 
-            listOfPins.Add(newOne);
+            ListOfPins.Add(newOne);
             WriteAPinInFile(newOne);
         }
 
@@ -76,7 +76,7 @@ namespace EncounterMe
 
         public void GetListOfPinsFromFile()
         {
-            listOfPins = IO.ReadFromBinaryFile<List<MapPin>>(s_filePath);
+            ListOfPins = IO.ReadFromBinaryFile<List<MapPin>>(s_filePath);
         }
     }
 }

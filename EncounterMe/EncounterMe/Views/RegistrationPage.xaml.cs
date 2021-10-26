@@ -58,9 +58,9 @@ namespace EncounterMe.Views
                         UserDB userDB = new UserDB();
                         User user = new User
                         {
-                            username = entryRegUsername.Text,
-                            email = entryRegEmail.Text,
-                            password = entryRegPassword.Text
+                            Username = entryRegUsername.Text,
+                            Email = entryRegEmail.Text,
+                            Password = entryRegPassword.Text
                         };
                         try
                         {

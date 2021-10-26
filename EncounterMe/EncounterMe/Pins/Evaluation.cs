@@ -11,28 +11,28 @@ namespace EncounterMe.Pins
     [Serializable]
     public class Evaluation
     {
-        public double average { get; set; }
+        public double Average { get; set; }
 
-        public string name { get; set; }
+        public string Name { get; set; }
 
-        public int[] allEvaluations { get; set; }
+        public int[] AllEvaluations { get; set; }
 
         public Evaluation(string name, IEnumerable<int> evaluations = null)
         {
-            this.name = name;
-            allEvaluations = evaluations.ToArray();
+            this.Name = name;
+            AllEvaluations = evaluations.ToArray();
         }
 
         public void Append(int value)
         {
-            allEvaluations = allEvaluations.Concat(new int[] { value }).ToArray();
+            AllEvaluations = AllEvaluations.Concat(new int[] { value }).ToArray();
         }
 
         public void CountAverage()
         {
-            if (allEvaluations != null)
+            if (AllEvaluations != null)
             {
-                average = Convert.ToDouble(allEvaluations.Average());
+                Average = Convert.ToDouble(AllEvaluations.Average());
             }
         }
     }

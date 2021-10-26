@@ -9,8 +9,14 @@ namespace EncounterMe.Pins
 {
     public struct WorkingHours
     {
-        public TimeSpan openingHours { get; set; }
+        public TimeSpan OpeningTime { get; set; }
 
-        public TimeSpan closingTime { get; set; }
+        public TimeSpan ClosingTime { get; set; }
+
+        public WorkingHours(TimeSpan open, TimeSpan close)
+        {
+            OpeningTime = open;
+            ClosingTime = close;
+        }
     }
 }
