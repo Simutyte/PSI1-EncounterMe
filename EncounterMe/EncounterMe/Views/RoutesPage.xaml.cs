@@ -26,15 +26,17 @@ namespace EncounterMe.Views
             // BindingContext = this;
         }
 
+        private string _textValue;
         
 
         IEnumerable<MapPin> GetAllObjects(string searchText = null)
         {
             if (string.IsNullOrEmpty(searchText))
             {
+                _textValue = string.Empty;
                 return _myPinList.ListOfPins;
             }
-
+            _textValue = searchText;
             var objectsQuery = from mapPin in _myPinList.ListOfPins
                                where mapPin.Address.City.ToLower().Contains(searchText.ToLower())
                                select mapPin;
@@ -70,7 +72,7 @@ namespace EncounterMe.Views
         private void Cross_Button_Clicked(object sender, EventArgs e)
         {
             ObjectTypePicker.SelectedIndex = -1;
-            RoutesListView.ItemsSource = GetAllObjects();
+            RoutesListView.ItemsSource = GetAllObjects(_textValue);
         }
     }
 }

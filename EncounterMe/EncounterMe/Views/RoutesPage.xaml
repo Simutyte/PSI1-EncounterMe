@@ -16,7 +16,7 @@
 
             <SearchBar x:Name="SearchObjects"
                        HorizontalOptions="FillAndExpand"
-                       Placeholder="Search for routes"
+                       Placeholder="Search for city"
                        TextChanged="SearchBar_TextChanged"/>
         </StackLayout>
 
