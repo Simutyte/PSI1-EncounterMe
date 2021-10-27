@@ -11,6 +11,8 @@ using EncounterMe;
 using EncounterMe.Pins;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.Maps;
+
 
 namespace EncounterMe
 {
@@ -59,14 +61,8 @@ namespace EncounterMe
                                       (ObjectType)type, (StyleType)style, details, photo);
 
             ListOfPins.Add(newOne);
+            newOne.CreateAPin();
             WriteAPinInFile(newOne);
-        }
-
-        public void AddPinInMap(MapPin pin)
-        {
-            pin.CreateAPin();
-            //cia map.Pins.Add(pin);
-            //kur map to sukurto zemelapio pavadinimas kurio as nežinau dabar
         }
 
         public void WriteAPinInFile(MapPin pin)
