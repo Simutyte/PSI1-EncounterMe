@@ -23,6 +23,7 @@ namespace EncounterMe
         private static readonly object s_locker = new object();
 
         public List<MapPin> ListOfPins = new List<MapPin>();
+        private CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
 
         private static readonly string s_filePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "pins.bin");
 
@@ -46,12 +47,18 @@ namespace EncounterMe
             return s_instance;
         }
 
-        public void AddPinByAddressToList(string name, Address address, int type, int style, string details, WorkingHours hours, Image photo)
+        public async void AddPinByAddressToList(string name, Address address, int type, int style, string details, WorkingHours hours, Image photo)
         {
-            MapPin newOne = new MapPin(name, address, null, hours,
+            await _checkAddressCommands.GetCoordinatesFromAddress(address);
+
+            MapPin newOne = new MapPin(name, address, _checkAddressCommands.Location, hours,
                                       (ObjectType)type, (StyleType)style, details, photo);
 
             ListOfPins.Add(newOne);
+
+            if(newOne.Location != null)
+                newOne.CreateAPin();
+
             WriteAPinInFile(newOne);
         }
 

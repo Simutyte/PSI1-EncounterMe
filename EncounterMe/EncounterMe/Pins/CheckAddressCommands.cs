@@ -12,42 +12,35 @@ namespace EncounterMe.Pins
 {
     class CheckAddressCommands
     {
-        private Location _location { get; set; }
+        public Location Location = new Location();
+        public Address Address = new Address();
 
         private bool _existAddress { get; set; }
-
-        public Address Address;
 
         public CheckAddressCommands()
         {
 
         }
 
-        public Location GetCoordinates(string xcountry, string xcity, string xpostal, string xstreet)
+        public async
+        Task
+        GetCoordinatesFromAddress(Address address)
         {
-            Address = new Address(xcountry, xcity, xstreet, xpostal);
-            GetCoordinatesFromAddress();
-            return _location;
-        }
-
-        public bool CheckForExistance(string xcountry, string xcity, string xpostal, string xstreet)
-        {
-            Address = new Address(xcountry, xcity, xstreet, xpostal);
-            GetCoordinatesFromAddress();
-            return _existAddress;
-        }
-
-        async void GetCoordinatesFromAddress()
-        {
-            var location = (await Geocoding.GetLocationsAsync($"{Address.Street}, {Address.City}, {Address.PostalCode}, {Address.Country}")).FirstOrDefault();
-
-            if (location == null)
+            try
             {
-                _existAddress = false;
-                return;
+                var location = (await Geocoding.GetLocationsAsync($"{address.Street}, {address.City}, {address.PostalCode}, {address.Country}")).FirstOrDefault();
+                if (location == null)
+                {
+                    _existAddress = false;
+                    return;
+                }
+                _existAddress = true;
+                Location = location;
             }
-            _existAddress = true;
-            _location = location;
+            catch(Exception)
+            {
+                Console.WriteLine("Koordinaciu gauti nepavyko");
+            }
         }
 
         public async
