@@ -21,8 +21,7 @@ namespace EncounterMe.Views
 
         private Location _location = new Location();
 
-        public Xamarin.Forms.Maps.Map myMap { get; set; }
-        PinsList _myPinList;
+        private PinsList _myPinList;
 
 
         private bool _chosenLocationPermission;
@@ -44,7 +43,6 @@ namespace EncounterMe.Views
             DisplayCurrentLocation();
             AnimationView.IsVisible = false;
             CenterPin.IsVisible = false;
-            myMap = MyMap;
             GenerateMapPins();
         }
 
@@ -60,7 +58,7 @@ namespace EncounterMe.Views
             {
                 if (mapPin.Location != null && mapPin.Pin != null)
                 {
-                    myMap.Pins.Add(mapPin.Pin);
+                    MyMap.Pins.Add(mapPin.Pin);
                 }
             }
             

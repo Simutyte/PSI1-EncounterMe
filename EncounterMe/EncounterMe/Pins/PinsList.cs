@@ -61,13 +61,8 @@ namespace EncounterMe
                                       (ObjectType)type, (StyleType)style, details, photo);
 
             ListOfPins.Add(newOne);
-            AddPinInMap(newOne);
+            newOne.CreateAPin();
             WriteAPinInFile(newOne);
-        }
-
-        public void AddPinInMap(MapPin pin)
-        {
-            pin.CreateAPin();
         }
 
         public void WriteAPinInFile(MapPin pin)
