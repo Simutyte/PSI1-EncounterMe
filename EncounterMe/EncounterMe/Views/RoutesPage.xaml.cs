@@ -38,7 +38,7 @@ namespace EncounterMe.Views
             }
             _textValue = searchText;
             var objectsQuery = from mapPin in _myPinList.ListOfPins
-                               where mapPin.Address.City.ToLower().Contains(searchText.ToLower())
+                               where mapPin.Address.City != null && mapPin.Address.City.ToLower().Contains(searchText.ToLower())
                                select mapPin;
             return objectsQuery;
         }
