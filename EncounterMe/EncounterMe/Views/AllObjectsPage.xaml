@@ -21,8 +21,8 @@
          <!--ItemsSource="{Binding allObjectsCollection}"-->
         <ListView BackgroundColor="Transparent"
                   x:Name="listView"
-                 
-                  HasUnevenRows="True">
+                  HasUnevenRows="True"
+                  ItemSelected="listView_ItemSelected">
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="Pins:MapPin">

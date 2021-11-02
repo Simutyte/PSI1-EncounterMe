@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="EncounterMe.Views.IndividualObjectPage">
+    <ContentPage.Content>
+
+        <StackLayout>
+            <Label Text="{Binding Name}"
+                    VerticalOptions="Start"
+                    HorizontalOptions="Center"
+                    FontSize="30"
+                    HeightRequest="50"/>
+            
+            <Label Text="{Binding Type}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"/>
+            
+            <Label Text="{Binding StringAddress}"
+                   VerticalOptions="Center"/>
+            
+            <Label Text="{Binding Description}"
+                   VerticalOptions="Center"/>
+
+
+            <Button x:Name="CheckIn"
+                        Text="Check In"
+                        HorizontalOptions="Center"
+                        VerticalOptions="End"
+                        HeightRequest="50"
+                        WidthRequest="100"
+                        Clicked="CheckIn_Clicked"/>
+        </StackLayout>
+
+
+    </ContentPage.Content>
+</ContentPage>
