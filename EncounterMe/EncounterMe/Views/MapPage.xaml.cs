@@ -50,10 +50,11 @@ namespace EncounterMe.Views
 
         public void GenerateMapPins()
         {
-            PinsList pinsList = PinsList.GetPinsList();
-            _myPinList = pinsList;
+            //PinsList pinsList = PinsList.GetPinsList();
+            //_myPinList = pinsList;
 
-           
+            _myPinList = PinsList.Instance;
+        
             foreach(MapPin mapPin in _myPinList.ListOfPins)
             {
                 if (mapPin.Location != null && mapPin.Pin != null)

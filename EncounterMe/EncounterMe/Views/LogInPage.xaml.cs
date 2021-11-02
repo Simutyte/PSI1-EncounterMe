@@ -19,7 +19,10 @@ namespace EncounterMe.Views
         async void Log_In_Button_Clicked(object sender, EventArgs args)
         {
             await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
-            PinsList classToGetList = PinsList.GetPinsList();
+
+            //PinsList classToGetList = PinsList.GetPinsList();
+
+            PinsList classToGetList = PinsList.Instance;
             classToGetList.GetListOfPinsFromFile();
 
             if (string.IsNullOrWhiteSpace(entryLogUsername.Text) || string.IsNullOrWhiteSpace(entryLogPassword.Text))
