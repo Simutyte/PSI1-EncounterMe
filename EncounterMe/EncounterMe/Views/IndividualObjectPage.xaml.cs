@@ -22,38 +22,23 @@ namespace EncounterMe.Views
         public IndividualObjectPage(MapPin pinToRender)
         {
             InitializeComponent();
-            localMapPin = pinToRender;
+            _pinLocation = pinToRender.Location;
             this.BindingContext = localMapPin;
-            //šitas iššaukia exception
-            //SetPinLocation(localMapPin);
         }
-
-
-
 
         public Location _pinLocation;
-        public void SetPinLocation(MapPin pin)
-        {
-            _pinLocation.Latitude = pin.Location.Latitude;
-            _pinLocation.Longitude = pin.Location.Longitude;
-        }
-
+        
 
         //Calculates distance from current location to pin location and 
         private async void CheckIn_Clicked(object sender, EventArgs e)
         {
-            Console.WriteLine("Wer are in");
             var request = new GeolocationRequest(GeolocationAccuracy.Best);
             var currentLocation = await Geolocation.GetLocationAsync(request);
-            Console.WriteLine("Got location");
-            Console.WriteLine("Passed");
-            Console.WriteLine(_pinLocation.Latitude.ToString());
             double distance = Location.CalculateDistance(currentLocation.Latitude, currentLocation.Longitude, _pinLocation.Latitude, _pinLocation.Longitude, DistanceUnits.Kilometers);
-            Console.WriteLine("???");
             if (distance > 0.02)
             {
                 double distanceFromPin = distance - 0.02;
-                await DisplayAlert("Alert", "You are " + distanceFromPin + " meters off", "Ok");
+                await DisplayAlert("Alert", "You are " + (int)distanceFromPin + " meters off", "Ok");
             }
             else
             {
