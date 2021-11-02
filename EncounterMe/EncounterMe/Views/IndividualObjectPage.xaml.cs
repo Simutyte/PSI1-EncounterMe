@@ -17,12 +17,15 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IndividualObjectPage : ContentPage
     {
+        public MapPin localMapPin;
 
         public IndividualObjectPage(MapPin pinToRender)
         {
             InitializeComponent();
-            SetPinLocation(pinToRender);
-            this.BindingContext = pinToRender;
+            localMapPin = pinToRender;
+            this.BindingContext = localMapPin;
+            //šitas iššaukia exception
+            //SetPinLocation(localMapPin);
         }
 
 

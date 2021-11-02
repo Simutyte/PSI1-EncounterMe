@@ -77,9 +77,33 @@ namespace EncounterMe.Views
         async void listView_ItemSelected(object sender, ItemTappedEventArgs e)
         {
 
-            MapPin pinToPass = (MapPin)((ListView)sender).SelectedItem;
-            await Navigation.PushAsync(new IndividualObjectPage(pinToPass));
+            var pinToPass = ((ListView)sender).SelectedItem as MapPin;
+            if (pinToPass == null)
+            {
+                return;
+            }
+
+            //await Shell.Current.DisplayAlert("Map Pin selected", pinToPass.Name, "okey");
+            await Shell.Current.Navigation.PushAsync(new IndividualObjectPage(pinToPass));
+
 
         }
+
+        void listView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
+        }
+
+       async void More_Info_Clicked(object sender, EventArgs e)
+        {
+            var pinToPass = ((MenuItem)sender).BindingContext as MapPin;
+            if(pinToPass == null)
+            {
+                return;
+            }
+
+            await Shell.Current.Navigation.PushAsync(new IndividualObjectPage(pinToPass));
+        }
+
     }
 }
