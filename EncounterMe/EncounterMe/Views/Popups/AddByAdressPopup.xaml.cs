@@ -26,8 +26,8 @@ namespace EncounterMe.Views.Popups
 
         async void Add_Button_Clicked(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(entryObjectName.Text) && string.IsNullOrWhiteSpace(entryObjectCity.Text) &&
-                string.IsNullOrWhiteSpace(entryObjectStreetAndNumber.Text) && string.IsNullOrWhiteSpace(entryObjectPostalCode.Text))
+            if (string.IsNullOrEmpty(entryObjectName.Text) && string.IsNullOrEmpty(entryObjectCountry.Text) && string.IsNullOrEmpty(entryObjectCity.Text) &&
+                string.IsNullOrEmpty(entryObjectStreetAndNumber.Text) && string.IsNullOrEmpty(entryObjectPostalCode.Text))
             {
                 await DisplayAlert("Entered data", "Name and address fields must be filled", "OK");
             }
