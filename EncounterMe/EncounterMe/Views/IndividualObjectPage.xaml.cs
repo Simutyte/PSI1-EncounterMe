@@ -26,7 +26,7 @@ namespace EncounterMe.Views
             this.BindingContext = localMapPin;
         }
 
-        public Location _pinLocation;
+        private Location _pinLocation;
         
 
         //Calculates distance from current location to pin location and 
@@ -35,6 +35,8 @@ namespace EncounterMe.Views
             var request = new GeolocationRequest(GeolocationAccuracy.Best);
             var currentLocation = await Geolocation.GetLocationAsync(request);
             double distance = Location.CalculateDistance(currentLocation.Latitude, currentLocation.Longitude, _pinLocation.Latitude, _pinLocation.Longitude, DistanceUnits.Kilometers);
+
+            //Checks if you are within 20m of the specified place
             if (distance > 0.02)
             {
                 double distanceFromPin = distance - 0.02;

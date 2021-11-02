@@ -32,16 +32,20 @@ namespace EncounterMe.Views
         //Pridedu bendram patikrinimui
         public void Adding(List<MapPin> list)
         {
-            Xamarin.Essentials.Location location = new Xamarin.Essentials.Location();
-            location.Latitude = 10;
-            location.Longitude = 10;
+            Xamarin.Essentials.Location goodLocation = new Xamarin.Essentials.Location();
+            goodLocation.Latitude = 37.4219983333333;
+            goodLocation.Longitude = -122.084;
+
+            Xamarin.Essentials.Location badLocation = new Xamarin.Essentials.Location();
+            badLocation.Latitude = 10;
+            badLocation.Longitude = 10;
 
 
-            list.Add(new MapPin("Muziejus", new Address { Country = "Lithuania", City = "Kaunas", Street = "Kauno g. 15A" }, location, new WorkingHours { }, ObjectType.Museum));
-            list.Add(new MapPin("Basanaviciaus paminklas", new Address { Country = "Lithuania", City = "Marijampole", Street = "Basanaviciaus g. 4" }, location, new WorkingHours { }, ObjectType.Monument));
-            list.Add(new MapPin("Ramybes Parkas", new Address { Country = "Lithuania", City = "Kaunas", Street = "Kauno g. 7" }, location, new WorkingHours { }, ObjectType.Park));
-            list.Add(new MapPin("Petro Povilo baznycia", new Address { Country = "Lithuania", City = "Vilnius", Street = "Vilniaus g. 4" }, location, new WorkingHours { }, ObjectType.Church));
-            list.Add(new MapPin("Didysis akvariumas", new Address { Country = "Lithuania", City = "Plunge", Street = "Parko g. 14" }, location, new WorkingHours { }, ObjectType.Entertainment));
+            list.Add(new MapPin("Muziejus", new Address { Country = "Lithuania", City = "Kaunas", Street = "Kauno g. 15A" }, goodLocation, new WorkingHours { }, ObjectType.Museum));
+            list.Add(new MapPin("Basanaviciaus paminklas", new Address { Country = "Lithuania", City = "Marijampole", Street = "Basanaviciaus g. 4" }, goodLocation, new WorkingHours { }, ObjectType.Monument));
+            list.Add(new MapPin("Ramybes Parkas", new Address { Country = "Lithuania", City = "Kaunas", Street = "Kauno g. 7" }, goodLocation, new WorkingHours { }, ObjectType.Park));
+            list.Add(new MapPin("Petro Povilo baznycia", new Address { Country = "Lithuania", City = "Vilnius", Street = "Vilniaus g. 4" }, badLocation, new WorkingHours { }, ObjectType.Church));
+            list.Add(new MapPin("Didysis akvariumas", new Address { Country = "Lithuania", City = "Plunge", Street = "Parko g. 14" }, badLocation, new WorkingHours { }, ObjectType.Entertainment));
         }
 
         //Gauna pasikeitusį listOfPins pagal įvestą tekstą
