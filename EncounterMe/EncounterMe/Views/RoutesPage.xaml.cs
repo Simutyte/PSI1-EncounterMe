@@ -19,8 +19,11 @@ namespace EncounterMe.Views
         public RoutesPage()
         {
             InitializeComponent();
-            PinsList pinsList = PinsList.GetPinsList();
-            _myPinList = pinsList;
+
+            //PinsList pinsList = PinsList.GetPinsList();
+            //_myPinList = pinsList;
+
+            _myPinList = PinsList.Instance;
             
             RoutesListView.ItemsSource = GetAllObjects();
             // BindingContext = this;

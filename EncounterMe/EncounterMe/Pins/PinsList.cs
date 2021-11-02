@@ -18,34 +18,45 @@ namespace EncounterMe
 {
     class PinsList
     {
-        private static PinsList s_instance;
 
-        private static readonly object s_locker = new object();
+        //private static PinsList s_instance;
+
+        //private static readonly object s_locker = new object();
+
+        private static readonly Lazy<PinsList> obj = new Lazy<PinsList>(() => new PinsList());
 
         public List<MapPin> ListOfPins = new List<MapPin>();
         private CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
 
         private static readonly string s_filePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "pins.bin");
 
-        protected PinsList()
+        private protected PinsList()
         {
 
         }
 
-        public static PinsList GetPinsList()
+        public static PinsList Instance
         {
-            if (s_instance == null)
+            get
             {
-                lock (s_locker)
-                {
-                    if (s_instance == null)
-                    {
-                        s_instance = new PinsList();
-                    }
-                }
+                return obj.Value;
             }
-            return s_instance;
         }
+
+        //public static PinsList GetPinsList()
+        //{
+        //    if (s_instance == null)
+        //    {
+        //        lock (s_locker)
+        //        {
+        //            if (s_instance == null)
+        //            {
+        //                s_instance = new PinsList();
+        //            }
+        //        }
+        //    }
+        //    return s_instance;
+        //}
 
         public async void AddPinByAddressToList(string name, Address address, int type, int style, string details, WorkingHours hours, Image photo)
         {
@@ -81,5 +92,6 @@ namespace EncounterMe
         {
             ListOfPins = IO.ReadFromBinaryFile<List<MapPin>>(s_filePath);
         }
+
     }
 }

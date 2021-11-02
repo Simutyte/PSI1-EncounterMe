@@ -21,8 +21,11 @@ namespace EncounterMe.Views
         public AllObjectsPage()
         {
             InitializeComponent();
-            PinsList pinsList = PinsList.GetPinsList();
-            _myPinList = pinsList;
+            //PinsList pinsList = PinsList.GetPinsList();
+            //_myPinList = pinsList;
+
+            _myPinList = PinsList.Instance;
+
             Adding(_myPinList.ListOfPins);
             _myPinList.ListOfPins.Sort();
             listView.ItemsSource = GetAllObjects();
