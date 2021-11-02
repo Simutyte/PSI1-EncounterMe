@@ -49,7 +49,7 @@
                            HorizontalOptions="Center"/>
                 </StackLayout>
 
-                <StackLayout Orientation="Horizontal">
+                <StackLayout Orientation="Vertical">
                     <Label Text="Address:"
                            FontSize="Subtitle"
                            VerticalOptions="Center"/>
