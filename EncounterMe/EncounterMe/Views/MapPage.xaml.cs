@@ -157,11 +157,6 @@ namespace EncounterMe.Views
         {
             AnimationView.IsVisible = true;
             CenterPin.IsVisible = true;
-            //Device.BeginInvokeOnMainThread(() =>
-            //{
-            //    AnimationView.IsVisible = true;
-            //    CenterPin.IsVisible = true;
-            //});
         }
 
         //Kad dar kartą paspaudus addPin mygtuką vėl atsirastų animacija

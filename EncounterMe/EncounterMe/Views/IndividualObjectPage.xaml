@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Pins="clr-namespace:EncounterMe" 
+             x:Class="EncounterMe.Views.IndividualObjectPage">
+    <ContentPage.Content>
+
+        <Grid>
+            <StackLayout Orientation="Vertical"
+                         VerticalOptions="FillAndExpand">
+                
+                <StackLayout Orientation="Vertical">
+                    <Label x:DataType="Pins:MapPin"
+                       Text="{Binding Name}"
+                       VerticalOptions="Start"
+                       HorizontalOptions="Center"
+                       FontSize="Title"
+                       HeightRequest="50"/>
+                </StackLayout>
+                
+                <StackLayout Orientation="Vertical">
+                    <Image Source="home.png"
+                       WidthRequest="80"
+                       HeightRequest="80"
+                       Margin="2,1,4,1"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Object type:"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+
+                    <Label Text="{Binding Type}"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Object style:"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"
+                           HorizontalOptions="Center"/>
+
+                    <Label Text="{Binding StyleType}"
+                           VerticalOptions="Center"
+                           FontSize="Subtitle"
+                           HorizontalOptions="Center"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Vertical">
+                    <Label Text="Address:"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding StringAddress}"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
+                </StackLayout>
+
+                <StackLayout Orientation="Vertical">
+                    <Label Text="Desription:"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding Description}"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
+                </StackLayout>
+
+                <!--jei nori kad būtų aukščiau mygtukas padaryk verticalOptions = "end"-->
+                <StackLayout VerticalOptions="EndAndExpand">
+                    <Button x:Name="CheckIn"
+                            Text="Check In"
+                            HorizontalOptions="Center"
+                            VerticalOptions="End"
+                            HeightRequest="50"
+                            WidthRequest="100"
+                            Clicked="CheckIn_Clicked"/>
+                </StackLayout>
+            </StackLayout>
+        </Grid>
+
+
+    </ContentPage.Content>
+</ContentPage>

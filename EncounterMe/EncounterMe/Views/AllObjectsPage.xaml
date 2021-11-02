@@ -21,12 +21,18 @@
          <!--ItemsSource="{Binding allObjectsCollection}"-->
         <ListView BackgroundColor="Transparent"
                   x:Name="listView"
-                 
-                  HasUnevenRows="True">
+                  HasUnevenRows="True"
+                  ItemSelected="listView_ItemSelected"
+                  ItemTapped="listView_ItemTapped">
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="Pins:MapPin">
                     <ViewCell >
+                        <ViewCell.ContextActions>
+                            <MenuItem Text="More info" Clicked="More_Info_Clicked"/>
+                            <MenuItem Text="Delete"/>
+
+                        </ViewCell.ContextActions>
                         <Grid Padding="10">
                             <Frame CornerRadius="10"
                                    HasShadow="True">
