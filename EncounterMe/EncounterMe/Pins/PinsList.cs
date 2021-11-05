@@ -19,13 +19,12 @@ namespace EncounterMe
     class PinsList
     {
 
-        //private static PinsList s_instance;
+        private static PinsList s_instance;
 
-        //private static readonly object s_locker = new object();
-
-        private static readonly Lazy<PinsList> obj = new Lazy<PinsList>(() => new PinsList());
+        private static readonly object s_locker = new object();
 
         public List<MapPin> ListOfPins = new List<MapPin>();
+
         private CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
 
         private static readonly string s_filePath = Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.Personal), "pins.bin");
@@ -35,28 +34,20 @@ namespace EncounterMe
 
         }
 
-        public static PinsList Instance
+        public static PinsList GetPinsList()
         {
-            get
+            if (s_instance == null)
             {
-                return obj.Value;
+                lock (s_locker)
+                {
+                    if (s_instance == null)
+                    {
+                        s_instance = new PinsList();
+                    }
+                }
             }
+            return s_instance;
         }
-
-        //public static PinsList GetPinsList()
-        //{
-        //    if (s_instance == null)
-        //    {
-        //        lock (s_locker)
-        //        {
-        //            if (s_instance == null)
-        //            {
-        //                s_instance = new PinsList();
-        //            }
-        //        }
-        //    }
-        //    return s_instance;
-        //}
 
         public async void AddPinByAddressToList(string name, Address address, int type, int style, string details, WorkingHours hours, Image photo)
         {

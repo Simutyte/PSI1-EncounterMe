@@ -21,10 +21,9 @@ namespace EncounterMe.Views
         public AllObjectsPage()
         {
             InitializeComponent();
-            //PinsList pinsList = PinsList.GetPinsList();
-            //_myPinList = pinsList;
 
-            _myPinList = PinsList.Instance;
+            PinsList pinsList = PinsList.GetPinsList();
+            _myPinList = pinsList;
 
             Adding(_myPinList.ListOfPins);
             _myPinList.ListOfPins.Sort();

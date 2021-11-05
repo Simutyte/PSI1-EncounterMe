@@ -20,9 +20,8 @@ namespace EncounterMe.Views
         {
             await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
 
-            //PinsList classToGetList = PinsList.GetPinsList();
+            PinsList classToGetList = PinsList.GetPinsList();
 
-            PinsList classToGetList = PinsList.Instance;
             classToGetList.GetListOfPinsFromFile();
 
             if (string.IsNullOrWhiteSpace(entryLogUsername.Text) || string.IsNullOrWhiteSpace(entryLogPassword.Text))
