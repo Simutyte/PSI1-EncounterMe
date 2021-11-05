@@ -20,9 +20,33 @@ namespace EncounterMe.Users
         [MaxLength(100), Unique]
         public string Email { get; set; }
 
+        public List<Lazy<MapPin>> MyFavoriteObjects { get; set; }
+
+        public List<Lazy<MapPin>> MyVisitedObjects { get; set; }
+
+        private static readonly Lazy<User> obj = new Lazy<User>(() => new User());
+
+        public static User Instance
+        {
+            get
+            {
+                return obj.Value;
+            }
+        }
+
         public User()
         {
 
+        }
+
+        public void SetMyFavoriteObjects(MapPin pin)
+        {
+            MyFavoriteObjects.Add(new Lazy<MapPin>(() => pin));
+        }
+
+        public void SetMyVisitedObjects(MapPin pin)
+        {
+            MyVisitedObjects.Add(new Lazy<MapPin>(() => pin));
         }
     }
 }

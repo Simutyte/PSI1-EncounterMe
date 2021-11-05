@@ -11,17 +11,19 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using EncounterMe.Views;
 using Xamarin.Essentials;
+using EncounterMe.Users;
 
 namespace EncounterMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IndividualObjectPage : ContentPage
     {
-
+        private MapPin _pin;
         public IndividualObjectPage(MapPin pinToRender)
         {
             InitializeComponent();
             _pinLocation = pinToRender.Location;
+            _pin = pinToRender;
             this.BindingContext = pinToRender;
         }
 
@@ -45,6 +47,10 @@ namespace EncounterMe.Views
             {
                 //Needs implementation
                 //visited = 1
+
+                User user = User.Instance;
+                user.SetMyVisitedObjects(_pin);
+
                 await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
             }
         }
