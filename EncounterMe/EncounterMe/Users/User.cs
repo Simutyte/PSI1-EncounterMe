@@ -24,16 +24,6 @@ namespace EncounterMe.Users
 
         public List<Lazy<MapPin>> MyVisitedObjects { get; set; }
 
-        private static readonly Lazy<User> obj = new Lazy<User>(() => new User());
-
-        public static User Instance
-        {
-            get
-            {
-                return obj.Value;
-            }
-        }
-
         public User()
         {
 
