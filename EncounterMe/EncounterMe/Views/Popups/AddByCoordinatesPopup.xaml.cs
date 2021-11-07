@@ -55,10 +55,8 @@ namespace EncounterMe.Views.Popups
             }
             else
             {
-                //PinsList pinsList = PinsList.GetPinsList();
-                //PinsList list = pinsList;
-
-                PinsList list = PinsList.Instance;
+                PinsList pinsList = PinsList.GetPinsList();
+                PinsList list = pinsList;
 
                 string _name = entryObjectName.Text;
                 string _description = entryObjectDescription.Text;

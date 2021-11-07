@@ -12,9 +12,7 @@ namespace EncounterMe
 
         public ObjectType ObjectType { get; set; }
 
-        //private readonly PinsList _objectsList = PinsList.GetPinsList();
-
-        private readonly PinsList _objectsList = PinsList.Instance;
+        private readonly PinsList _objectsList = PinsList.GetPinsList();
 
         public List<EncounterMe.MapPin> RouteOfObjects { get; set; }
 
