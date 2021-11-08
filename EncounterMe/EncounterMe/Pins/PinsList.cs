@@ -49,12 +49,13 @@ namespace EncounterMe
             return s_instance;
         }
 
-        public async void AddPinByAddressToList(MapPin mapPin)
+        //tikriausiai nebe naudojami tai užkomentuoti
+        /*public async void AddPinByAddressToList(MapPin mapPin)
         {
             await _checkAddressCommands.GetCoordinatesFromAddress(mapPin.Address);
             ListOfPins.Add(mapPin);
 
-            if (mapPin.Location != null)
+            if (mapPin.Latitude != 0 && mapPin.Longitude != 0)
                 mapPin.CreateAPin();
         }
 
@@ -63,11 +64,11 @@ namespace EncounterMe
             await _checkAddressCommands.GetCoordinatesFromAddress(address);
 
             MapPin newOne = new MapPin(name, description, address, type, style,
-                                       hours, _checkAddressCommands.Location, "no name");
+                                       hours, _checkAddressCommands.Location.Latitude, _checkAddressCommands.Location.Longitude, "no name");
 
             ListOfPins.Add(newOne);
 
-            if(newOne.Location != null)
+            if(newOne.Latitude != 0 && newOne.Longitude != 0)
                 newOne.CreateAPin();
 
            
@@ -75,28 +76,19 @@ namespace EncounterMe
         public void AddPinByCoordinatesToList(MapPin mapPin)
         {
             ListOfPins.Add(mapPin);
-            mapPin.CreateAPin();
+            if (mapPin.Latitude != 0 && mapPin.Longitude != 0)
+                mapPin.CreateAPin();
         }
 
         public void AddPinByCoordinatesToList(string name, Address address, Location location, int type, int style, string description, WorkingHours hours, Image photo)
         {
-            MapPin newOne = new MapPin(name, description, address, type, style,
-                                       hours, _checkAddressCommands.Location, "no name");
+            MapPin newOne = new MapPin(name, description, address, type, style, hours,
+                                      _checkAddressCommands.Location.Latitude, _checkAddressCommands.Location.Longitude, "no name");
 
             ListOfPins.Add(newOne);
             newOne.CreateAPin();
           
-        }
-
-        public void WriteAPinInFile(MapPin pin)
-        {
-            IO.WriteToBinaryFile<MapPin>(append: true, filePath: s_filePath, objectToWrite: pin);
-        }
-
-        public void GetListOfPinsFromFile()
-        {
-            ListOfPins = IO.ReadFromBinaryFile<List<MapPin>>(s_filePath);
-        }
+        }*/
 
     }
 }

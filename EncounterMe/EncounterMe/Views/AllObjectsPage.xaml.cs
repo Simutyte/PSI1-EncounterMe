@@ -75,7 +75,6 @@ namespace EncounterMe.Views
                 return;
             }
 
-            //await Shell.Current.DisplayAlert("Map Pin selected", pinToPass.Name, "okey");
             await Shell.Current.Navigation.PushAsync(new IndividualObjectPage(pinToPass));
 
 
@@ -97,11 +96,6 @@ namespace EncounterMe.Views
             await Shell.Current.Navigation.PushAsync(new IndividualObjectPage(pinToPass));
         }
 
-       void Delete_Clicked(object sender, EventArgs e)
-        {
-            var pinToDelete = ((MenuItem)sender).BindingContext as MapPin;
-            App.s_mapPinService.TryToDelete(pinToDelete);
-        }
 
     }
 }

@@ -30,7 +30,7 @@
                     <ViewCell >
                         <ViewCell.ContextActions>
                             <MenuItem Text="More info" Clicked="More_Info_Clicked"/>
-                            <MenuItem Text="Delete" Clicked="Delete_Clicked"/>
+                         
 
                         </ViewCell.ContextActions>
                         <Grid Padding="10">

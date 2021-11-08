@@ -10,7 +10,6 @@ namespace EncounterMe.Pins
     [Serializable]
     public class Address
     {
-        public int AddressID { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
         public string PostalCode { get; set; }
@@ -23,14 +22,7 @@ namespace EncounterMe.Pins
             this.PostalCode = code;
             this.Street = street;
         }
-        /*public Address(int id, string country, string city, string code, string street)
-        {
-            AddressID = id;
-            this.Country = country;
-            this.City = city;
-            this.PostalCode = code;
-            this.Street = street;
-        }*/
+
         public Address()
         {
 

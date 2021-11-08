@@ -35,23 +35,6 @@ namespace EncounterMe.Services
             }
         }
 
-        
-        public async void TryToDelete(MapPin mapPin)
-        {
-            try
-            {
-                if (mapPin != null)
-                {
-                    await ApiMapPinService.DeleteMapPin(mapPin);
-                    LoadList();
-                }
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
 
         //surašo gautus mapPin iš duomenų bazės į listOfPins
         public async void LoadList()
@@ -70,7 +53,6 @@ namespace EncounterMe.Services
                         _pinsList.ListOfPins.Add(mapPin);
                      
                     }
-                    CorrectCoordinates();
                     UploadPins();
                 }
             }
@@ -80,22 +62,7 @@ namespace EncounterMe.Services
             }
         }
 
-        //Kadangi saugom duomenų bazėj latitude and longitude kaip double, čia bandau kiekvienam mapPin įrašyt tuos duomenis į location
-        //Kadangi visur iš to location naudojam tik longitude ir latitude gal būtų lengviau ateity tiesiog tuos double naudot?
-        public void CorrectCoordinates()
-        {
-            try
-            {
-                foreach(MapPin mapPin in _pinsList.ListOfPins)
-                {
-                    mapPin.CorrectLocation();
-                }
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
+   
 
         //kiekvienam mapPin bando sukurt po Pin, kadangi duomenų bazėj jo neina išsaugot
         public void UploadPins()
@@ -104,7 +71,7 @@ namespace EncounterMe.Services
             {
                 foreach (MapPin mapPin in _pinsList.ListOfPins)
                 {
-                    if(mapPin.Location != null)
+                    if(mapPin.Latitude != 0 && mapPin.Longitude != 0)
                     {
                         mapPin.CreateAPin();
                     }

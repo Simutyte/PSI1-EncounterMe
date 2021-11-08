@@ -17,10 +17,7 @@ namespace EncounterMe
 
         public string Name { get; set; }
 
-
         public string Description { get; set; }
-
-        public int AddressID { get; set; }
 
         public Address Address { get; set; }
 
@@ -39,19 +36,12 @@ namespace EncounterMe
         public double Latitude { get; set; }
 
         //-------------------------------------
-        [field: NonSerialized]
-        public string StringAddress { get; set; }
 
-        [field: NonSerialized]
+
         public Image Image { get; set; }
 
-        [field: NonSerialized]
-        public Location Location { get; set; }
-
-        [field: NonSerialized]
         public Evaluation Evaluation { get; set; }
-
-        [field: NonSerialized]
+           
         public Pin Pin { get; set; }
 
         public MapPin()
@@ -60,7 +50,7 @@ namespace EncounterMe
         }
 
         public MapPin( String name, string description, Address address, int type = 0, int styleType = 0,
-                       WorkingHours hours = null, Location location = null, string image = "no image")
+                       WorkingHours hours = null, double latitude = 0, double longitude = 0, string image = "no image")
         {
             Name = name;
             Address = address;
@@ -69,9 +59,8 @@ namespace EncounterMe
             StyleType =(StyleType) styleType;
             Description = description;
             ImageName = image;
-            Location = location;
-            Longitude = location.Longitude;
-            Latitude = location.Latitude;
+            Longitude = longitude;
+            Latitude = latitude;
 
         }
 
@@ -87,11 +76,5 @@ namespace EncounterMe
                 throw new ArgumentException("Object is not MapPin");
         }
 
-        public void CorrectLocation()
-        {
-            Location = new Location();
-            Location.Latitude = Latitude;
-            Location.Longitude = Longitude;
-        }
     }
 }

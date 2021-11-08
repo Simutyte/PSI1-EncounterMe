@@ -10,8 +10,6 @@ namespace EncounterMe.Pins
     [Serializable]
     public class WorkingHours
     {
-        public int WorkingHoursID { get; set; }
-
         public TimeSpan OpeningTime { get; set; }
 
         public TimeSpan ClosingTime { get; set; }
@@ -27,12 +25,6 @@ namespace EncounterMe.Pins
             ClosingTime = close;
         }
 
-       /* public WorkingHours(int id, TimeSpan open, TimeSpan close)
-        {
-            WorkingHoursID = id;
-            OpeningTime = open;
-            ClosingTime = close;
-        }*/
 
     }
 }

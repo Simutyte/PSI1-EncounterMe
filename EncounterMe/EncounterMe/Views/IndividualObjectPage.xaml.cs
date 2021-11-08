@@ -22,20 +22,16 @@ namespace EncounterMe.Views
         public IndividualObjectPage(MapPin pinToRender)
         {
             InitializeComponent();
-            _pinLocation = pinToRender.Location;
             _pin = pinToRender;
             this.BindingContext = pinToRender;
         }
-
-        private Location _pinLocation;
-        
 
         //Calculates distance from current location to pin location and 
         private async void CheckIn_Clicked(object sender, EventArgs e)
         {
             var request = new GeolocationRequest(GeolocationAccuracy.Best);
             var currentLocation = await Geolocation.GetLocationAsync(request);
-            double distance = Location.CalculateDistance(currentLocation.Latitude, currentLocation.Longitude, _pinLocation.Latitude, _pinLocation.Longitude, DistanceUnits.Kilometers);
+            double distance = Location.CalculateDistance(currentLocation.Latitude, currentLocation.Longitude, _pin.Latitude, _pin.Longitude, DistanceUnits.Kilometers);
 
             //Checks if you are within 20m of the specified place
             if (distance > 0.02)

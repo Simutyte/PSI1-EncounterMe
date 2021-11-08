@@ -66,7 +66,7 @@ namespace EncounterMe.Views.Popups
                 int _style = StyleTypePicker.SelectedIndex;
                 int _type = ObjectTypePicker.SelectedIndex;
 
-                MapPin MapPin = new MapPin(entryObjectName.Text, entryObjectDescription.Text, _address, _type, _style, _hours, _location);
+                MapPin MapPin = new MapPin(entryObjectName.Text, entryObjectDescription.Text, _address, _type, _style, _hours, _location.Latitude, _location.Longitude);
 
                 App.s_mapPinService.TryToAdd(MapPin); 
                 await PopupNavigation.Instance.PopAsync();

@@ -42,18 +42,9 @@ namespace EncounterMe.Services
             Console.WriteLine(myStringContent);
             var response = await s_httpClient.PostAsync("MapPins", myStringContent);
 
-            //var response = await s_httpClient.PostAsync("MapPins",
-               //new StringContent(JsonSerializer.Serialize(MapPin), Encoding.UTF8, "application/json"));
-
             response.EnsureSuccessStatusCode();
         }
-        public static async Task DeleteMapPin(MapPin MapPin)
-        {
-            var response = await s_httpClient.DeleteAsync($"MapPins/{MapPin.Id}");
-
-            response.EnsureSuccessStatusCode();
-
-        }
+       
         public static async Task<MapPin> GetMapPin(int id)
         {
            
@@ -86,16 +77,13 @@ namespace EncounterMe.Services
             return JsonSerializer.Deserialize<IEnumerable<MapPin>>(responseAsString, options);
         }
 
-        /* var response = await s_httpClient.GetAsync("MapPins");
+        //užkomentuota nes kolkas nebus naudojama
+        /*public static async Task DeleteMapPin(MapPin MapPin)
+       {
+           var response = await s_httpClient.DeleteAsync($"MapPins/{MapPin.Id}");
 
-            Console.WriteLine(response);
-            response.EnsureSuccessStatusCode();
+           response.EnsureSuccessStatusCode();
 
-            var responseJson = await response.Content.ReadAsStringAsync();
-            Console.WriteLine(responseJson);
-            List<MapPin> myMapPins = JsonConvert.DeserializeObject<List<MapPin>>(responseJson);
-
-            //var responseAsString = await response.Content.ReadAsStringAsync();
-            return myMapPins;*/
+       }*/
     }
 }
