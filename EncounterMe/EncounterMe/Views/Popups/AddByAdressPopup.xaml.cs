@@ -45,7 +45,7 @@ namespace EncounterMe.Views.Popups
                 int _type = ObjectTypePicker.SelectedIndex;
 
                 MapPin MapPin = new MapPin(entryObjectName.Text, entryObjectDescription.Text, _address, _type, _style,
-                                           _hours, _checkAddressCommands.Location.Latitude, _checkAddressCommands.Location.Longitude);
+                                           _hours, _checkAddressCommands.Location.Latitude, _checkAddressCommands.Location.Longitude, entryObjectImage.Text);
 
                 App.s_mapPinService.TryToAdd(MapPin);
                 await PopupNavigation.Instance.PopAsync();

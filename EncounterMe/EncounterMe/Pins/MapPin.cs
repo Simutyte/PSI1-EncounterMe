@@ -37,9 +37,6 @@ namespace EncounterMe
 
         //-------------------------------------
 
-
-        public Image Image { get; set; }
-
         public Evaluation Evaluation { get; set; }
            
         public Pin Pin { get; set; }
@@ -50,7 +47,8 @@ namespace EncounterMe
         }
 
         public MapPin( String name, string description, Address address, int type = 0, int styleType = 0,
-                       WorkingHours hours = null, double latitude = 0, double longitude = 0, string image = "no image")
+                       WorkingHours hours = null, double latitude = 0, double longitude = 0,
+                       string image = "https://www.topdeal.lt/wp-content/themes/consultix/images/no-image-found-360x250.png")
         {
             Name = name;
             Address = address;

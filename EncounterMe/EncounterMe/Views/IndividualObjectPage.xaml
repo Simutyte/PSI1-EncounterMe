@@ -19,7 +19,7 @@
                 </StackLayout>
                 
                 <StackLayout Orientation="Vertical">
-                    <Image Source="home.png"
+                    <Image Source="{Binding ImageName}"
                        WidthRequest="80"
                        HeightRequest="80"
                        Margin="2,1,4,1"/>

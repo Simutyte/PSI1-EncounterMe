@@ -38,7 +38,7 @@
                                    HasShadow="True">
                                 <StackLayout Orientation="Horizontal">
                                     <StackLayout Orientation="Vertical" >
-                                        <Image Source="home.png"
+                                        <Image Source="{Binding ImageName}"
                                                WidthRequest="66"
                                                HeightRequest="66"
                                                Margin="2,1,4,1"/>
