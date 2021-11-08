@@ -15,7 +15,7 @@ namespace EncounterMe.Pins
             mapPin.Pin = new Pin()
             {
                 Label = mapPin.Name,
-                Address = mapPin.Address.Country + mapPin.Address.City + mapPin.Address.PostalCode + mapPin.Address.Street,
+                Address = mapPin.Address.Country + " " + mapPin.Address.City + " " + mapPin.Address.Street + " " + mapPin.Address.PostalCode,
                 Type = PinType.Place,
                 Position = new Position(mapPin.Location.Latitude, mapPin.Location.Longitude)
             };

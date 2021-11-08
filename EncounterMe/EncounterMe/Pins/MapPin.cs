@@ -34,6 +34,10 @@ namespace EncounterMe
 
         public StyleType StyleType { get; set; }
 
+        public double Longitude { get; set; }
+
+        public double Latitude { get; set; }
+
         //-------------------------------------
         [field: NonSerialized]
         public string StringAddress { get; set; }
@@ -58,29 +62,17 @@ namespace EncounterMe
         public MapPin( String name, string description, Address address, int type = 0, int styleType = 0,
                        WorkingHours hours = null, Location location = null, string image = "no image")
         {
-            this.Name = name;
-            this.Address = address;
-            this.Hours = hours;
-            this.Type = (ObjectType) type;
-            this.StyleType =(StyleType) styleType;
-            this.Description = description;
-            this.ImageName = image;
-            this.Location = location;
-           
+            Name = name;
+            Address = address;
+            Hours = hours;
+            Type = (ObjectType) type;
+            StyleType =(StyleType) styleType;
+            Description = description;
+            ImageName = image;
+            Location = location;
+            Longitude = location.Longitude;
+            Latitude = location.Latitude;
 
-        }
-        public MapPin(string name, Address address, WorkingHours hours = null, Location location = null,
-                      ObjectType type = 0, StyleType styleType = 0, string description = "No description", Image image = null)
-        {
-            this.Name = name;
-            this.Address = address;
-            this.Location = location;
-            this.Hours = hours;
-            this.Type = type;
-            this.StyleType = styleType;
-            this.Description = description;
-            this.Image = image;
-            StringAddress = $"{address.Country} {address.City} {address.Street}";
         }
 
         public int CompareTo(object obj)
@@ -93,6 +85,13 @@ namespace EncounterMe
                 return Name.CompareTo(otherMapPin.Name);
             else
                 throw new ArgumentException("Object is not MapPin");
+        }
+
+        public void CorrectLocation()
+        {
+            Location = new Location();
+            Location.Latitude = Latitude;
+            Location.Longitude = Longitude;
         }
     }
 }

@@ -27,5 +27,9 @@ namespace MapPinAPI.Models
         public ObjectType Type { get; set; }
 
         public StyleType StyleType { get; set; }
+
+        public double Longitude { get; set; }
+
+        public double Latitude { get; set; }
     }
 }

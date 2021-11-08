@@ -58,12 +58,12 @@ namespace EncounterMe
                 mapPin.CreateAPin();
         }
 
-        public async void AddPinByAddressToList(string name, Address address, int type, int style, string details, WorkingHours hours, Image photo)
+        public async void AddPinByAddressToList(string name, Address address, int type, int style, string description, WorkingHours hours, Image photo)
         {
             await _checkAddressCommands.GetCoordinatesFromAddress(address);
 
-            MapPin newOne = new MapPin(name, address, hours, _checkAddressCommands.Location, 
-                                      (ObjectType)type, (StyleType)style, details, photo);
+            MapPin newOne = new MapPin(name, description, address, type, style,
+                                       hours, _checkAddressCommands.Location, "no name");
 
             ListOfPins.Add(newOne);
 
@@ -78,10 +78,10 @@ namespace EncounterMe
             mapPin.CreateAPin();
         }
 
-        public void AddPinByCoordinatesToList(string name, Address address, Location location, int type, int style, string details, WorkingHours hours, Image photo)
+        public void AddPinByCoordinatesToList(string name, Address address, Location location, int type, int style, string description, WorkingHours hours, Image photo)
         {
-            MapPin newOne = new MapPin(name, address,hours, location, 
-                                      (ObjectType)type, (StyleType)style, details, photo);
+            MapPin newOne = new MapPin(name, description, address, type, style,
+                                       hours, _checkAddressCommands.Location, "no name");
 
             ListOfPins.Add(newOne);
             newOne.CreateAPin();

@@ -64,6 +64,8 @@ namespace EncounterMe.Services
             var responseAsString = await response.Content.ReadAsStringAsync();
             return JsonSerializer.Deserialize<MapPin>(responseAsString);
         }
+
+        //grąžina visą sąrašą mapPin
         public static async Task<IEnumerable<MapPin>> GetMapPins()
         {
             Console.WriteLine("Pateko i API");

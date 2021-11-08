@@ -57,6 +57,7 @@ namespace EncounterMe.Views.Popups
             {
 
                 Address _address = new Address(entryObjectCountry.Text, entryObjectCity.Text, entryObjectPostalCode.Text, entryObjectStreetAndNumber.Text);
+                
 
                 TimeSpan _open = new TimeSpan(12, 00, 00);  //TODO
                 TimeSpan _close = new TimeSpan(12, 00, 00);  //TODO

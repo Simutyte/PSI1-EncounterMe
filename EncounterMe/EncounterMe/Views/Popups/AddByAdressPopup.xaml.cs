@@ -13,7 +13,7 @@ namespace EncounterMe.Views.Popups
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AddByAdressPopup : PopupPage
     {
-        //CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
+        CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
         public AddByAdressPopup()
         {
             InitializeComponent();
@@ -35,6 +35,7 @@ namespace EncounterMe.Views.Popups
             else
             {
                 Address _address = new Address(entryObjectCountry.Text, entryObjectCity.Text, entryObjectPostalCode.Text, entryObjectStreetAndNumber.Text);
+                await _checkAddressCommands.GetCoordinatesFromAddress(_address);
 
                 TimeSpan _open = new TimeSpan(12, 00, 00);  //TODO
                 TimeSpan _close = new TimeSpan(12, 00, 00);  //TODO
@@ -43,7 +44,7 @@ namespace EncounterMe.Views.Popups
                 int _style = StyleTypePicker.SelectedIndex;
                 int _type = ObjectTypePicker.SelectedIndex;
 
-                MapPin MapPin = new MapPin(entryObjectName.Text, entryObjectDescription.Text, _address, _type, _style, _hours);
+                MapPin MapPin = new MapPin(entryObjectName.Text, entryObjectDescription.Text, _address, _type, _style, _hours, _checkAddressCommands.Location);
 
                 App.s_mapPinService.TryToAdd(MapPin);
                 await PopupNavigation.Instance.PopAsync();
