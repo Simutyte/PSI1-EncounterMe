@@ -21,34 +21,20 @@ namespace EncounterMe.Views
         public AllObjectsPage()
         {
             InitializeComponent();
-
             PinsList pinsList = PinsList.GetPinsList();
             _myPinList = pinsList;
 
-            Adding(_myPinList.ListOfPins);
-            _myPinList.ListOfPins.Sort();
+            if(_myPinList.ListOfPins != null)
+            {
+                _myPinList.ListOfPins.Sort();
+
+            }
+
             listView.ItemsSource = GetAllObjects();
             BindingContext = this;
         }
 
-        //Pridedu bendram patikrinimui
-        public void Adding(List<MapPin> list)
-        {
-            Xamarin.Essentials.Location goodLocation = new Xamarin.Essentials.Location();
-            goodLocation.Latitude = 37.4219983333333;
-            goodLocation.Longitude = -122.084;
-
-            Xamarin.Essentials.Location badLocation = new Xamarin.Essentials.Location();
-            badLocation.Latitude = 10;
-            badLocation.Longitude = 10;
-
-
-            list.Add(new MapPin("Muziejus", new Address { Country = "Lithuania", City = "Kaunas", Street = "Kauno g. 15A" }, goodLocation, new WorkingHours { }, ObjectType.Museum));
-            list.Add(new MapPin("Basanaviciaus paminklas", new Address { Country = "Lithuania", City = "Marijampole", Street = "Basanaviciaus g. 4" }, goodLocation, new WorkingHours { }, ObjectType.Monument));
-            list.Add(new MapPin("Ramybes Parkas", new Address { Country = "Lithuania", City = "Kaunas", Street = "Kauno g. 7" }, goodLocation, new WorkingHours { }, ObjectType.Park));
-            list.Add(new MapPin("Petro Povilo baznycia", new Address { Country = "Lithuania", City = "Vilnius", Street = "Vilniaus g. 4" }, badLocation, new WorkingHours { }, ObjectType.Church));
-            list.Add(new MapPin("Didysis akvariumas", new Address { Country = "Lithuania", City = "Plunge", Street = "Parko g. 14" }, badLocation, new WorkingHours { }, ObjectType.Entertainment));
-        }
+      
 
         //Gauna pasikeitusį listOfPins pagal įvestą tekstą
         IEnumerable<MapPin> GetAllObjects(string searchText = null)
@@ -89,7 +75,6 @@ namespace EncounterMe.Views
                 return;
             }
 
-            //await Shell.Current.DisplayAlert("Map Pin selected", pinToPass.Name, "okey");
             await Shell.Current.Navigation.PushAsync(new IndividualObjectPage(pinToPass));
 
 
@@ -110,6 +95,7 @@ namespace EncounterMe.Views
 
             await Shell.Current.Navigation.PushAsync(new IndividualObjectPage(pinToPass));
         }
+
 
     }
 }

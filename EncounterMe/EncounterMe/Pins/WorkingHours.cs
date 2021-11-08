@@ -7,16 +7,24 @@ using System.Text;
 
 namespace EncounterMe.Pins
 {
-    public struct WorkingHours
+    [Serializable]
+    public class WorkingHours
     {
         public TimeSpan OpeningTime { get; set; }
 
         public TimeSpan ClosingTime { get; set; }
+
+        public WorkingHours()
+        {
+
+        }
 
         public WorkingHours(TimeSpan open, TimeSpan close)
         {
             OpeningTime = open;
             ClosingTime = close;
         }
+
+
     }
 }

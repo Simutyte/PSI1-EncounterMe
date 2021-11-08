@@ -8,7 +8,7 @@ using System.Text;
 namespace EncounterMe.Pins
 {
     [Serializable]
-    public struct Address
+    public class Address
     {
         public string Country { get; set; }
         public string City { get; set; }
@@ -21,6 +21,11 @@ namespace EncounterMe.Pins
             this.City = city;
             this.PostalCode = code;
             this.Street = street;
+        }
+
+        public Address()
+        {
+
         }
     }
 }

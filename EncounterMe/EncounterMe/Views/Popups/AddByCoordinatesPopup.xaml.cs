@@ -51,11 +51,27 @@ namespace EncounterMe.Views.Popups
                 string.IsNullOrWhiteSpace(entryObjectCountry.Text) || string.IsNullOrWhiteSpace(entryObjectDescription.Text) ||
                 string.IsNullOrWhiteSpace(entryObjectStreetAndNumber.Text) || string.IsNullOrWhiteSpace(entryObjectPostalCode.Text))
             {
-                await DisplayAlert("Entered data", "Name and address fields must be filled", "OK");
+                await DisplayAlert("Entered data", "Fields were not generated automatically, please, fill them manually", "OK");
             }
             else
             {
-                PinsList pinsList = PinsList.GetPinsList();
+
+                Address _address = new Address(entryObjectCountry.Text, entryObjectCity.Text, entryObjectPostalCode.Text, entryObjectStreetAndNumber.Text);
+                
+
+                TimeSpan _open = new TimeSpan(12, 00, 00);  //TODO
+                TimeSpan _close = new TimeSpan(12, 00, 00);  //TODO
+                WorkingHours _hours = new WorkingHours(_open, _close);
+
+                int _style = StyleTypePicker.SelectedIndex;
+                int _type = ObjectTypePicker.SelectedIndex;
+
+                MapPin MapPin = new MapPin(entryObjectName.Text, entryObjectDescription.Text, _address, _type, _style, _hours, _location.Latitude, _location.Longitude);
+
+                App.s_mapPinService.TryToAdd(MapPin); 
+                await PopupNavigation.Instance.PopAsync();
+
+               /* PinsList pinsList = PinsList.GetPinsList();
                 PinsList list = pinsList;
 
                 string _name = entryObjectName.Text;
@@ -73,7 +89,7 @@ namespace EncounterMe.Views.Popups
                 int _type = ObjectTypePicker.SelectedIndex;
 
                 list.AddPinByCoordinatesToList(_name, _address, _location, _type, _style, _description, _hours, photo);
-                await PopupNavigation.Instance.PopAsync();
+                await PopupNavigation.Instance.PopAsync();*/
             }
         }
     }

@@ -5,7 +5,9 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncounterMe.Android", "EncounterMe\EncounterMe.Android\EncounterMe.Android.csproj", "{A05E7F8C-5632-4751-8855-AD28999A462C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncounterMe", "EncounterMe\EncounterMe\EncounterMe.csproj", "{FCF4ECEC-22F2-4B68-88CE-A258FE62B2AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncounterMe", "EncounterMe\EncounterMe\EncounterMe.csproj", "{FCF4ECEC-22F2-4B68-88CE-A258FE62B2AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapPinAPI", "MapPinAPI\MapPinAPI.csproj", "{AEBD4429-A0CC-4CB0-84C0-D4F69A763902}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,6 +27,10 @@ Global
 		{FCF4ECEC-22F2-4B68-88CE-A258FE62B2AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FCF4ECEC-22F2-4B68-88CE-A258FE62B2AC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FCF4ECEC-22F2-4B68-88CE-A258FE62B2AC}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{AEBD4429-A0CC-4CB0-84C0-D4F69A763902}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEBD4429-A0CC-4CB0-84C0-D4F69A763902}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEBD4429-A0CC-4CB0-84C0-D4F69A763902}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEBD4429-A0CC-4CB0-84C0-D4F69A763902}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -55,7 +55,7 @@ namespace EncounterMe.Views
 
             foreach (MapPin mapPin in _myPinList.ListOfPins)
             {
-                if (mapPin.Location != null && mapPin.Pin != null)
+                if (mapPin.Pin != null)
                 {
                     MyMap.Pins.Add(mapPin.Pin);
                 }

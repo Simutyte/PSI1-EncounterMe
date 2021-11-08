@@ -10,15 +10,38 @@ namespace EncounterMe.Pins
 {
     public static class AddPin
     {
+        
         public static void CreateAPin(this MapPin mapPin)
         {
-            mapPin.Pin = new Pin()
+            if(CheckLatitude(mapPin.Latitude) && CheckLongitude(mapPin.Longitude))
             {
-                Label = mapPin.Name,
-                Address = mapPin.Address.Country + mapPin.Address.City + mapPin.Address.PostalCode + mapPin.Address.Street,
-                Type = PinType.Place,
-                Position = new Position(mapPin.Location.Latitude, mapPin.Location.Longitude)
-            };
+                mapPin.Pin = new Pin()
+                {
+                    Label = mapPin.Name,
+                    Address = mapPin.Address.Country + " " + mapPin.Address.City + " " + mapPin.Address.Street + " " + mapPin.Address.PostalCode,
+                    Type = PinType.Place,
+                    Position = new Position(mapPin.Latitude, mapPin.Longitude)
+                };
+            }
+            
+        }
+
+        private static bool CheckLatitude(double lat)
+        {
+            if(lat <= 90 && lat >= -90)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        private static bool CheckLongitude(double longit)
+        {
+            if (longit <= 180 && longit >= -180)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
