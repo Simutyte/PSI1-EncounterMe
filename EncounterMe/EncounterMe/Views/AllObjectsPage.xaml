@@ -30,7 +30,7 @@
                     <ViewCell >
                         <ViewCell.ContextActions>
                             <MenuItem Text="More info" Clicked="More_Info_Clicked"/>
-                            <MenuItem Text="Delete"/>
+                            <MenuItem Text="Delete" Clicked="Delete_Clicked"/>
 
                         </ViewCell.ContextActions>
                         <Grid Padding="10">
@@ -48,8 +48,20 @@
                                            VerticalOptions="Center"/>
                                         <Label Text="{Binding Type}"
                                                VerticalOptions="Center"/>
-                                        <Label Text="{Binding StringAddress}"
-                                               VerticalOptions="Center"/>
+                                        <Label>
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Address.Country}"/>
+                                                    <Span Text=" "/>
+                                                    <Span Text="{Binding Address.City}"/>
+                                                    <Span Text=" "/>
+                                                    <Span Text="{Binding Address.Street}"/>
+                                                    <Span Text=" "/>
+                                                    <Span Text="{Binding Address.PostalCode}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+
                                         <Label Text="{Binding Description}"
                                                VerticalOptions="Center"/>
 

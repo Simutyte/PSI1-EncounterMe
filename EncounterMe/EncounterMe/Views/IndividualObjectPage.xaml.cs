@@ -48,8 +48,8 @@ namespace EncounterMe.Views
                 //Needs implementation
                 //visited = 1
 
-                User user = User.Instance;
-                user.SetMyVisitedObjects(_pin);
+               // User user = User.Instance;
+                //user.SetMyVisitedObjects(_pin);
 
                 await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
             }

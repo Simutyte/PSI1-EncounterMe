@@ -53,9 +53,21 @@
                     <Label Text="Address:"
                            FontSize="Subtitle"
                            VerticalOptions="Center"/>
-                    <Label Text="{Binding StringAddress}"
-                           FontSize="Subtitle"
-                           VerticalOptions="Center"/>
+
+                    <Label FontSize="Subtitle"
+                           VerticalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{Binding Address.Country}"/>
+                                <Span Text=" "/>
+                                <Span Text="{Binding Address.City}"/>
+                                <Span Text=" "/>
+                                <Span Text="{Binding Address.Street}"/>
+                                <Span Text=" "/>
+                                <Span Text="{Binding Address.PostalCode}"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
                 </StackLayout>
 
                 <StackLayout Orientation="Vertical">
