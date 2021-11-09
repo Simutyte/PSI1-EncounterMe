@@ -21,9 +21,9 @@ namespace EncounterMe
 
         public Address Address { get; set; }
 
-        public int HoursID { get; set; }
+        public string OpeningHours { get; set; }
 
-        public WorkingHours Hours { get; set; }
+        public string ClosingHours { get; set; }
 
         public String ImageName { get; set; }
 
@@ -47,12 +47,13 @@ namespace EncounterMe
         }
 
         public MapPin(string name, string description, Address address, int type = 0, int styleType = 0,
-                       WorkingHours hours = null, double latitude = 0, double longitude = 0,
+                       string open = "", string close = "", double latitude = 0, double longitude = 0,
                        string image = "")
         {
             Name = name;
             Address = address;
-            Hours = hours;
+            OpeningHours = open;
+            ClosingHours = close;
             Type = (ObjectType)type;
             StyleType = (StyleType)styleType;
             Description = description;
