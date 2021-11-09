@@ -9,7 +9,7 @@ namespace EncounterMe.Services
     {
         public void OnPinAdded(object source, AddedPinEventArgs args)
         {
-            Console.WriteLine("Object named " + args.Pin.Name + " succesfully added");
+            AppShell.Current.DisplayAlert("Notification", "Object named " + args.Pin.Name + " succesfully added", "Ok");
         }
     }
 }

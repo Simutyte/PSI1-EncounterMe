@@ -69,7 +69,10 @@ namespace EncounterMe.Views.Popups
                                            _open, _close, _location.Latitude, _location.Longitude, entryObjectImage.Text);
 
                 var notificationsService = new NotificationsService();
+                var objectsPage = new AllObjectsPage();     // kažkaip reik gaut ta page be 'new'
+
                 App.s_mapPinService.PinAdded += notificationsService.OnPinAdded;
+                App.s_mapPinService.PinAdded += objectsPage.OnRefreshList;
 
                 App.s_mapPinService.TryToAdd(MapPin);
 

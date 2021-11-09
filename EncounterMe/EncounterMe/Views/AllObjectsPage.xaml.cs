@@ -27,14 +27,28 @@ namespace EncounterMe.Views
             if(_myPinList.ListOfPins != null)
             {
                 _myPinList.ListOfPins.Sort();
-
             }
 
             listView.ItemsSource = GetAllObjects();
             BindingContext = this;
         }
 
-      
+        public void OnRefreshList(object source, EventArgs args)
+        {
+            listView.RefreshCommand = new Command(() => {
+
+                RefreshData();
+                listView.IsRefreshing = false;
+            });
+        }
+
+        public void RefreshData()
+        {
+            listView.ItemsSource = null;
+            listView.ItemsSource = GetAllObjects();
+        }
+
+
 
         //Gauna pasikeitusį listOfPins pagal įvestą tekstą
         IEnumerable<MapPin> GetAllObjects(string searchText = null)
