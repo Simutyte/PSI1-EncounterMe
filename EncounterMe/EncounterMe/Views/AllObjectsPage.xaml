@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Title="Objects"
-             xmlns:popup="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
-             xmlns:viewModels="clr-namespace:EncounterMe.ViewModels" xmlns:Pins="clr-namespace:EncounterMe"
+            xmlns:Pins="clr-namespace:EncounterMe" xmlns:cardView="clr-namespace:CardView;assembly=CardView" xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="EncounterMe.Views.AllObjectsPage"
              x:Name="AllObjects">
 
@@ -30,10 +29,123 @@
                     <ViewCell >
                         <ViewCell.ContextActions>
                             <MenuItem Text="More info" Clicked="More_Info_Clicked"/>
-                         
-
                         </ViewCell.ContextActions>
-                        <Grid Padding="10">
+                        
+                        <pv:PancakeView HeightRequest="200"
+                                        Margin="5,10"
+                                        CornerRadius="5"
+                                        BackgroundColor="Transparent">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                
+                                <Image HeightRequest="115"
+                                       Aspect="AspectFill"
+                                       Source="{Binding ImageName}"/>
+                                
+                                <Image Source="heart.png"
+                                       HorizontalOptions="End"
+                                       Margin="12"
+                                       HeightRequest="25"
+                                       VerticalOptions="Start"/>
+                                
+                                <Grid VerticalOptions="End"
+                                      Margin="15">
+                                    <pv:PancakeView CornerRadius="13"
+                                                    Padding="15,5"
+                                                    BackgroundColor="Black"
+                                                    Opacity="0.7" 
+                                                    HorizontalOptions="Start"
+                                                    VerticalOptions="Start">
+                                        
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="5"
+                                                     HorizontalOptions="Start">
+                                            
+                                            <Image HeightRequest="12"
+                                                   WidthRequest="12"
+                                                   Source="justPin.png"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Start"/>
+                                            
+                                            <Label Text="{Binding Address.City}"
+                                                   FontSize="14"
+                                                   TextColor="White"
+                                                   FontAttributes="Bold"
+                                                   VerticalOptions="Center"/>
+                                        </StackLayout>
+                                    </pv:PancakeView>
+                                </Grid>
+                                
+                                <StackLayout Grid.Row="1"
+                                             Spacing="7"
+                                             Margin="20,5"
+                                             BackgroundColor="Transparent">
+                                    
+                                    
+                                        <Label Text="{Binding Name}"
+                                               FontSize="Subtitle"
+                                               FontAttributes="Bold"
+                                               FontFamily="ThemeFontBold"
+                                               TextColor="DarkSlateGray"/>
+                                        
+                                       
+                                  <StackLayout Orientation="Horizontal"
+                                                 Spacing="10">
+
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="5">
+                                            <Label Text="Type:"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                            <Label Text="{Binding Type}"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                        </StackLayout>
+
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="5">
+                                            <Label Text="Style:"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                            <Label Text="{Binding StyleType}"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                        </StackLayout>
+                                    </StackLayout>
+                                    
+                                    <StackLayout>
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="2">
+                                            <Image WidthRequest="20"
+                                                   Margin="0,0,4,0"
+                                                   Source="clock.png"/>
+                                            <Label Text="{Binding OpeningHours}"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                            <Label Text="-"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                            <Label Text="{Binding ClosingHours}"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                        </StackLayout>
+                                      </StackLayout>
+                                    
+                                </StackLayout>
+                            </Grid>
+                        </pv:PancakeView>
+
+                        <!--<Grid Padding="10">
                             <Frame CornerRadius="10"
                                    HasShadow="True">
                                 <StackLayout Orientation="Horizontal">
@@ -70,7 +182,8 @@
                                     
                               </StackLayout>
                             </Frame>
-                        </Grid>
+                        </Grid>-->
+                        
                     </ViewCell>
 
                 </DataTemplate>

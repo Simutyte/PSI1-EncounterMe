@@ -50,5 +50,12 @@ namespace EncounterMe.Views
                 await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
             }
         }
+
+
+        private async void Go_Back_Clicked(object sender, EventArgs e)
+        {
+            await Shell.Current.Navigation.PopAsync();
+            
+        }
     }
 }

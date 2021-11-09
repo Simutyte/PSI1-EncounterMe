@@ -1,11 +1,173 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:Pins="clr-namespace:EncounterMe" 
-             x:Class="EncounterMe.Views.IndividualObjectPage">
+             xmlns:Pins="clr-namespace:EncounterMe" xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             x:Class="EncounterMe.Views.IndividualObjectPage"
+             Shell.NavBarIsVisible="False">
     <ContentPage.Content>
 
-        <Grid>
+        <Grid HorizontalOptions="FillAndExpand"
+              VerticalOptions="FillAndExpand"
+              x:DataType="Pins:MapPin">
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.2*"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <Image Aspect="AspectFill"
+                   Source="{Binding ImageName}"
+                   HorizontalOptions="FillAndExpand"
+                   VerticalOptions="FillAndExpand" />
+
+            <ImageButton BackgroundColor="Transparent"
+                         Aspect="Fill"
+                         Source="back.png"
+                         Margin="25"
+                         WidthRequest="30"
+                         HeightRequest="20" 
+                         HorizontalOptions="Start"
+                         VerticalOptions="Start"
+                         Clicked="Go_Back_Clicked"/>
+
+            <pv:PancakeView x:Name="DetailsView"
+                            Grid.Row="1"
+                            CornerRadius="30,30,0,0"
+                            Padding="35,35,35,0"
+                            Margin="0,-40,0,0" 
+                            BackgroundColor="White"
+                            VerticalOptions="FillAndExpand">
+                
+                <ScrollView HorizontalOptions="FillAndExpand"
+                            VerticalOptions="FillAndExpand"
+                            VerticalScrollBarVisibility="Never">
+                    
+                    <StackLayout Spacing="15"
+                                 HorizontalOptions="FillAndExpand">
+                        
+                        
+                            <StackLayout Orientation="Horizontal"
+                                         Spacing="5"
+                                         HorizontalOptions="CenterAndExpand">
+                          
+                                <Label Text="{Binding Name}"
+                                       FontSize="Title"
+                                       TextColor="Black"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center"/>
+                            </StackLayout>
+                            
+                        
+                        <BoxView HeightRequest="1" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BackgroundColor="#E4E4E4"/>
+                        <StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label FontSize="Body"
+                                       TextColor="#515151"
+                                       VerticalOptions="Center">
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="{Binding Address.Country}"/>
+                                            <Span Text=" "/>
+                                            <Span Text="{Binding Address.City}"/>
+                                            <Span Text=" "/>
+                                            <Span Text="{Binding Address.Street}"/>
+                                            <Span Text=" "/>
+                                            <Span Text="{Binding Address.PostalCode}"/>
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                            </StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Working hours:"
+                                       FontSize="Body"
+                                       TextColor="#515151"
+                                       VerticalOptions="Center"/>
+                                <Label Text="{Binding OpeningHours}"
+                                       FontSize="Body"
+                                       TextColor="#515151"
+                                       VerticalOptions="Center"/>
+                                <Label Text="-"
+                                       FontSize="Body"
+                                       TextColor="#515151"
+                                       VerticalOptions="Center"/>
+                                <Label Text="{Binding ClosingHours}"
+                                       FontSize="Body"
+                                       TextColor="#515151"
+                                       VerticalOptions="Center"/>
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Object type:"
+                                       FontSize="Body"
+                                       TextColor="#515151"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"/>
+
+                                <Label Text="{Binding Type}"
+                                       FontSize="Body"
+                                       TextColor="#515151"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"/>                 
+                            </StackLayout>
+
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Object style:"
+                                       FontSize="Body"
+                                       TextColor="#515151"
+                                       VerticalOptions="Center"
+                                       HorizontalOptions="Center"/>
+
+                                <Label Text="{Binding StyleType}"
+                                       VerticalOptions="Center"
+                                       FontSize="Body"
+                                       TextColor="#515151"
+                                       HorizontalOptions="Center"/>             
+                            </StackLayout>
+
+
+
+                        </StackLayout>
+                        
+                        <BoxView HeightRequest="1"
+                                 VerticalOptions="Start"
+                                 HorizontalOptions="FillAndExpand"
+                                 BackgroundColor="#E4E4E4"/>
+                        
+                        <StackLayout Orientation="Vertical"
+                                     Spacing="5">
+                            <Label Text="Description:"
+                                   FontSize="Body"
+                                   TextColor="#515151"/>
+                            <Label Text="{Binding Description}"
+                                   FontSize="Body"
+                                   TextColor="#515151"/>
+                        </StackLayout>
+                    </StackLayout>
+                </ScrollView>
+            </pv:PancakeView>
+            
+            <pv:PancakeView Grid.Row="2" HeightRequest="50" BackgroundGradientStartPoint="0,0" BackgroundGradientEndPoint="1,0" >
+                <pv:PancakeView.BackgroundGradientStops>
+                    <pv:GradientStopCollection>
+                        <pv:GradientStop Color="#54c49c" Offset="0" />
+                        <pv:GradientStop Color="#44b4ae" Offset="0.5" />
+                        <pv:GradientStop Color="#54c49c" Offset="1" />
+                    </pv:GradientStopCollection>
+                </pv:PancakeView.BackgroundGradientStops>
+                <Button x:Name="CheckIn"
+                        Text="Check In"
+                        TextColor="White"
+                        FontSize="15"
+                        FontFamily="ThemeFontBold"
+                        VerticalOptions="CenterAndExpand"
+                        BackgroundColor="Transparent"
+                        Clicked="CheckIn_Clicked"/>
+            </pv:PancakeView>
+        </Grid>
+        
+        <!--<Grid>
             <StackLayout Orientation="Vertical"
                          VerticalOptions="FillAndExpand">
                 
@@ -94,7 +256,7 @@
                            VerticalOptions="Center"/>
                 </StackLayout>
 
-                <!--jei nori kad būtų aukščiau mygtukas padaryk verticalOptions = "end"-->
+               
                 <StackLayout VerticalOptions="EndAndExpand">
                     <Button x:Name="CheckIn"
                             Text="Check In"
@@ -105,7 +267,7 @@
                             Clicked="CheckIn_Clicked"/>
                 </StackLayout>
             </StackLayout>
-        </Grid>
+        </Grid>-->
 
 
     </ContentPage.Content>
