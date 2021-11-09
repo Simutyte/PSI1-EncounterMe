@@ -38,7 +38,7 @@ namespace EncounterMe
         //-------------------------------------
 
         public Evaluation Evaluation { get; set; }
-           
+
         public Pin Pin { get; set; }
 
         public MapPin()
@@ -46,20 +46,19 @@ namespace EncounterMe
 
         }
 
-        public MapPin( String name, string description, Address address, int type = 0, int styleType = 0,
+        public MapPin(string name, string description, Address address, int type = 0, int styleType = 0,
                        WorkingHours hours = null, double latitude = 0, double longitude = 0,
-                       string image = "https://www.topdeal.lt/wp-content/themes/consultix/images/no-image-found-360x250.png")
+                       string image = "")
         {
             Name = name;
             Address = address;
             Hours = hours;
-            Type = (ObjectType) type;
-            StyleType =(StyleType) styleType;
+            Type = (ObjectType)type;
+            StyleType = (StyleType)styleType;
             Description = description;
-            ImageName = image;
+            ImageName = (image == "") ? "https://www.topdeal.lt/wp-content/themes/consultix/images/no-image-found-360x250.png" : image;
             Longitude = longitude;
             Latitude = latitude;
-
         }
 
         public int CompareTo(object obj)
