@@ -19,7 +19,6 @@ namespace EncounterMe.Pins
         Monument = 5,
         Mound = 6,
         Museum = 7,
-        Park = 8,
-        ReviewLocations = 9
+        Park = 8    
     }
 }
