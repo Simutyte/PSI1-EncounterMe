@@ -19,6 +19,8 @@
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
     <PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2196" />
+    <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
+    <PackageReference Include="XamarinForms.CardView" Version="1.1.1.5" />
   </ItemGroup>
 
   <ItemGroup>
