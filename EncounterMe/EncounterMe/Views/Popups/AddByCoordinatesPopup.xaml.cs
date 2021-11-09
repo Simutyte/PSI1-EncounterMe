@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EncounterMe.Pins;
+using EncounterMe.Services;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Essentials;
@@ -67,28 +68,12 @@ namespace EncounterMe.Views.Popups
                 MapPin MapPin = new MapPin(entryObjectName.Text, entryObjectDescription.Text, _address, _type, _style,
                                            _open, _close, _location.Latitude, _location.Longitude, entryObjectImage.Text);
 
-                App.s_mapPinService.TryToAdd(MapPin); 
+                var notificationsService = new NotificationsService();
+                App.s_mapPinService.PinAdded += notificationsService.OnPinAdded;
+
+                App.s_mapPinService.TryToAdd(MapPin);
+
                 await PopupNavigation.Instance.PopAsync();
-
-               /* PinsList pinsList = PinsList.GetPinsList();
-                PinsList list = pinsList;
-
-                string _name = entryObjectName.Text;
-                string _description = entryObjectDescription.Text;
-
-                Address _address = new Address(entryObjectCountry.Text, entryObjectCity.Text, entryObjectPostalCode.Text, entryObjectStreetAndNumber.Text);
-
-                TimeSpan _open = new TimeSpan(12, 00, 00);  //TODO
-                TimeSpan _close = new TimeSpan(12, 00, 00);  //TODO
-                WorkingHours _hours = new WorkingHours(_open, _close);
-
-                Image photo = new Image();
-
-                int _style = StyleTypePicker.SelectedIndex;
-                int _type = ObjectTypePicker.SelectedIndex;
-
-                list.AddPinByCoordinatesToList(_name, _address, _location, _type, _style, _description, _hours, photo);
-                await PopupNavigation.Instance.PopAsync();*/
             }
         }
     }

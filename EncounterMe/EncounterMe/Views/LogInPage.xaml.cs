@@ -26,7 +26,6 @@ namespace EncounterMe.Views
             }
             else
             {
-
                 UserDB userDB = new UserDB();
 
                 if (userDB.LoginValidate(entryLogUsername.Text, entryLogPassword.Text))
