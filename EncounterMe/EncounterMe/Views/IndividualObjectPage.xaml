@@ -70,6 +70,21 @@
                     </Label>
                 </StackLayout>
 
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Working hours:"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding OpeningHours}"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
+                    <Label Text="-"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding ClosingHours}"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
+                </StackLayout>
+
                 <StackLayout Orientation="Vertical">
                     <Label Text="Desription:"
                            FontSize="Subtitle"

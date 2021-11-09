@@ -18,9 +18,9 @@ namespace MapPinAPI.Models
 
         public Address Address { get; set; }
 
-        public int HoursID { get; set; }
+        public string OpeningHours { get; set; }
 
-        public WorkingHours Hours { get; set; }
+        public string ClosingHours { get; set; }
 
         public String ImageName { get; set; }
 
@@ -31,5 +31,6 @@ namespace MapPinAPI.Models
         public double Longitude { get; set; }
 
         public double Latitude { get; set; }
+
     }
 }

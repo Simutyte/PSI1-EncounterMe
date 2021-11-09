@@ -11,7 +11,6 @@ namespace MapPinAPI.Models
         //čia yra mūsų lentelės duomenų bazėj
         public DbSet<MapPin> MapPins { get; set; }
         public DbSet<Address> Addresses { get; set; }
-        public DbSet<WorkingHours> WorkingHours { get; set; }
 
         //patikrina ar duomenų bazė sukurta
         public MapPinContext(DbContextOptions<MapPinContext> options) : base(options)
@@ -24,9 +23,6 @@ namespace MapPinAPI.Models
         {
             modelBuilder.Entity<MapPin>()
                 .HasOne<Address>(s => s.Address);
-
-            modelBuilder.Entity<MapPin>()
-               .HasOne<WorkingHours>(s => s.Hours);
         
         }
 

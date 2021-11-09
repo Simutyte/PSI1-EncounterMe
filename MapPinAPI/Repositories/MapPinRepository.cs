@@ -40,7 +40,6 @@ namespace MapPinAPI.Repositories
            foreach( var MapPin in _context.MapPins)
             {
                 _context.Entry(MapPin).Reference(a => a.Address).Load();
-                _context.Entry(MapPin).Reference(h => h.Hours).Load();
             }
             return await _context.MapPins.ToListAsync();
         }
@@ -50,7 +49,6 @@ namespace MapPinAPI.Repositories
         {
             var MapPin = await _context.MapPins.FindAsync(id);
             _context.Entry(MapPin).Reference(a => a.Address).Load();
-            _context.Entry(MapPin).Reference(h => h.Hours).Load();
             return await _context.MapPins.FindAsync(id);
         }
 
