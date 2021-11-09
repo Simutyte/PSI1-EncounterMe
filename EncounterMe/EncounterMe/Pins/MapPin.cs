@@ -25,7 +25,7 @@ namespace EncounterMe
 
         public string ClosingHours { get; set; }
 
-        public String ImageName { get; set; }
+        public string ImageName { get; set; }
 
         public ObjectType Type { get; set; }
 
