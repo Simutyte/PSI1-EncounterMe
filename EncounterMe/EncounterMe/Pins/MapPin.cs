@@ -56,7 +56,7 @@ namespace EncounterMe
             Type = (ObjectType)type;
             StyleType = (StyleType)styleType;
             Description = description;
-            ImageName = (image == "") ? "https://www.topdeal.lt/wp-content/themes/consultix/images/no-image-found-360x250.png" : image;
+            ImageName = string.IsNullOrWhiteSpace(image) ? "https://www.topdeal.lt/wp-content/themes/consultix/images/no-image-found-360x250.png" : image;
             Longitude = longitude;
             Latitude = latitude;
         }
