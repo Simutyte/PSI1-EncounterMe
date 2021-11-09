@@ -21,9 +21,9 @@ namespace EncounterMe
 
         public Address Address { get; set; }
 
-        public int HoursID { get; set; }
+        public string OpeningHours { get; set; }
 
-        public WorkingHours Hours { get; set; }
+        public string ClosingHours { get; set; }
 
         public String ImageName { get; set; }
 
@@ -37,11 +37,8 @@ namespace EncounterMe
 
         //-------------------------------------
 
-
-        public Image Image { get; set; }
-
         public Evaluation Evaluation { get; set; }
-           
+
         public Pin Pin { get; set; }
 
         public MapPin()
@@ -49,19 +46,20 @@ namespace EncounterMe
 
         }
 
-        public MapPin( String name, string description, Address address, int type = 0, int styleType = 0,
-                       WorkingHours hours = null, double latitude = 0, double longitude = 0, string image = "no image")
+        public MapPin(string name, string description, Address address, int type = 0, int styleType = 0,
+                       string open = "", string close = "", double latitude = 0, double longitude = 0,
+                       string image = "")
         {
             Name = name;
             Address = address;
-            Hours = hours;
-            Type = (ObjectType) type;
-            StyleType =(StyleType) styleType;
+            OpeningHours = open;
+            ClosingHours = close;
+            Type = (ObjectType)type;
+            StyleType = (StyleType)styleType;
             Description = description;
-            ImageName = image;
+            ImageName = string.IsNullOrWhiteSpace(image) ? "https://www.topdeal.lt/wp-content/themes/consultix/images/no-image-found-360x250.png" : image;
             Longitude = longitude;
             Latitude = latitude;
-
         }
 
         public int CompareTo(object obj)

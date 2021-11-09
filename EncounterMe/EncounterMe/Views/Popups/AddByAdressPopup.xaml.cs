@@ -37,15 +37,14 @@ namespace EncounterMe.Views.Popups
                 Address _address = new Address(entryObjectCountry.Text, entryObjectCity.Text, entryObjectPostalCode.Text, entryObjectStreetAndNumber.Text);
                 await _checkAddressCommands.GetCoordinatesFromAddress(_address);
 
-                TimeSpan _open = new TimeSpan(12, 00, 00);  //TODO
-                TimeSpan _close = new TimeSpan(12, 00, 00);  //TODO
-                WorkingHours _hours = new WorkingHours(_open, _close);
+                string _open = entryOpenTime.Time.Hours + ":" + entryOpenTime.Time.Minutes;
+                string _close = entryCloseTime.Time.Hours + ":" + entryCloseTime.Time.Minutes;
 
                 int _style = StyleTypePicker.SelectedIndex;
                 int _type = ObjectTypePicker.SelectedIndex;
 
                 MapPin MapPin = new MapPin(entryObjectName.Text, entryObjectDescription.Text, _address, _type, _style,
-                                           _hours, _checkAddressCommands.Location.Latitude, _checkAddressCommands.Location.Longitude);
+                                           _open, _close, _checkAddressCommands.Location.Latitude, _checkAddressCommands.Location.Longitude, entryObjectImage.Text);
 
                 App.s_mapPinService.TryToAdd(MapPin);
                 await PopupNavigation.Instance.PopAsync();

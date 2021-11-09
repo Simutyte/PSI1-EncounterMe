@@ -19,7 +19,7 @@
                 </StackLayout>
                 
                 <StackLayout Orientation="Vertical">
-                    <Image Source="home.png"
+                    <Image Source="{Binding ImageName}"
                        WidthRequest="80"
                        HeightRequest="80"
                        Margin="2,1,4,1"/>
@@ -68,6 +68,21 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
+                </StackLayout>
+
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="Working hours:"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding OpeningHours}"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
+                    <Label Text="-"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
+                    <Label Text="{Binding ClosingHours}"
+                           FontSize="Subtitle"
+                           VerticalOptions="Center"/>
                 </StackLayout>
 
                 <StackLayout Orientation="Vertical">
