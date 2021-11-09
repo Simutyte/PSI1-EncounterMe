@@ -103,7 +103,10 @@ namespace EncounterMe.Views
             bool checkSymbol = isSymbol.IsMatch(password);
             bool checkLenght = isLenght.IsMatch(password);
 
-            bool passwordsMatch = string.Equals(entryRegPassword.Text, entryRegPasswordConfirm.Text);
+            Func<string, string, bool> obj = new Func<string, string, bool>(CheckPasswordsMatch);
+            bool passwordsMatch = obj.Invoke(entryRegPassword.Text, entryRegPasswordConfirm.Text);
+
+            //bool passwordsMatch = string.Equals(entryRegPassword.Text, entryRegPasswordConfirm.Text);
 
             bool passed = false;
 
@@ -139,6 +142,11 @@ namespace EncounterMe.Views
 
             //didnt pass something
             return passed;
+        }
+
+        public static bool CheckPasswordsMatch(string pass1, string pass2)
+        {
+            return string.Equals(pass1, pass2) ? true : false;
         }
     }
 }
