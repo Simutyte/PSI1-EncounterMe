@@ -17,6 +17,15 @@ namespace EncounterMe.Services
             _pinsList = PinsListTemp;
         }
 
+        public delegate void PinAddedEventHandler(object source, AddedPinEventArgs args);
+
+        public event PinAddedEventHandler PinAdded;
+
+        protected virtual void OnPinAdded(AddedPinEventArgs args)
+        {
+            if (PinAdded != null)
+                PinAdded(this, args);
+        }
 
         public async void TryToAdd(MapPin mapPin)
         {
@@ -25,6 +34,7 @@ namespace EncounterMe.Services
                 if(mapPin != null)
                 {
                     await ApiMapPinService.AddMapPin(mapPin);
+                    OnPinAdded(new AddedPinEventArgs(mapPin));
                     LoadList();
                 }
                 

@@ -3,6 +3,7 @@
 
 using System;
 using EncounterMe.Pins;
+using EncounterMe.Services;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Forms;
@@ -45,6 +46,9 @@ namespace EncounterMe.Views.Popups
 
                 MapPin MapPin = new MapPin(entryObjectName.Text, entryObjectDescription.Text, _address, _type, _style,
                                            _open, _close, _checkAddressCommands.Location.Latitude, _checkAddressCommands.Location.Longitude, entryObjectImage.Text);
+
+                var notificationsService = new NotificationsService();
+                App.s_mapPinService.PinAdded += notificationsService.OnPinAdded;
 
                 App.s_mapPinService.TryToAdd(MapPin);
 

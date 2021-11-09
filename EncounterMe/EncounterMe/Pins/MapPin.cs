@@ -73,6 +73,5 @@ namespace EncounterMe
             else
                 throw new ArgumentException("Object is not MapPin");
         }
-
     }
 }
