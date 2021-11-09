@@ -15,6 +15,15 @@ using EncounterMe.Users;
 
 namespace EncounterMe.Views
 {
+
+    //Needs implementation for location visited
+
+    // User user = User.Instance;
+    //user.SetMyVisitedObjects(_pin);
+
+
+    delegate bool IsCloseEnough(double distance);
+
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IndividualObjectPage : ContentPage
     {
@@ -29,26 +38,27 @@ namespace EncounterMe.Views
         //Calculates distance from current location to pin location and 
         private async void CheckIn_Clicked(object sender, EventArgs e)
         {
+
             var request = new GeolocationRequest(GeolocationAccuracy.Best);
             var currentLocation = await Geolocation.GetLocationAsync(request);
             double distance = Location.CalculateDistance(currentLocation.Latitude, currentLocation.Longitude, _pin.Latitude, _pin.Longitude, DistanceUnits.Kilometers);
 
-            //Checks if you are within 20m of the specified place
-            if (distance > 0.02)
+            IsCloseEnough isCloseEnough = new IsCloseEnough(Allow);
+            IsCloseEnough isCloseEnough1 = new IsCloseEnough(delegate(double dist)
             {
-                double distanceFromPin = distance - 0.02;
-                await DisplayAlert("Alert", "You are " + (int)distanceFromPin + " meters off", "Ok");
-            }
-            else
-            {
-                //Needs implementation
-                //visited = 1
+                return distance <= 20 ? true : false;
+            });
 
-               // User user = User.Instance;
-                //user.SetMyVisitedObjects(_pin);
-
+            if (isCloseEnough(distance))
                 await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
-            }
+            else
+                await DisplayAlert("Alert", "You are too far away from the location", "Ok");
+        }
+
+
+        public static bool Allow(double distance)
+        {
+            return distance <= 20 ? true : false;
         }
     }
 }

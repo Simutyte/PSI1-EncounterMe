@@ -73,13 +73,13 @@ namespace EncounterMe.Views
                 if (location != null)
                 {
                     //Moving to location and starting live tracking
-                    MoveToLocation(location);
+                    UpdateCurrentLocation(location);
                     TrackingLiveLocation();
                 }
             }
             catch (FeatureNotSupportedException)
             {
-                throw;
+                DisplayAlert("Alert", "This feature is not supported on your device", "Ok");
             }
             catch (FeatureNotEnabledException)
             {
@@ -133,17 +133,15 @@ namespace EncounterMe.Views
                 {
                     var request = new GeolocationRequest(GeolocationAccuracy.Best);
                     var location = await Geolocation.GetLocationAsync(request);
-                    Position p = new Position(location.Latitude, location.Longitude);
-                    MapSpan mapSpan = MapSpan.FromCenterAndRadius(p, Distance.FromKilometers(1));
+                    UpdateCurrentLocation(location);
                 });
                 return true;
             });
         }
 
-        //Moves map to given location
-        void MoveToLocation(Location position)
+        void UpdateCurrentLocation(Location loc)
         {
-            Position p = new Position(position.Latitude, position.Longitude);
+            Position p = new Position(loc.Latitude, loc.Longitude);
             MapSpan mapSpan = MapSpan.FromCenterAndRadius(p, Distance.FromKilometers(1));
             MyMap.MoveToRegion(mapSpan);
         }
