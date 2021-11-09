@@ -37,9 +37,7 @@ namespace EncounterMe.Views.Popups
                 Address _address = new Address(entryObjectCountry.Text, entryObjectCity.Text, entryObjectPostalCode.Text, entryObjectStreetAndNumber.Text);
                 await _checkAddressCommands.GetCoordinatesFromAddress(_address);
 
-                TimeSpan _open = new TimeSpan(12, 00, 00);  //TODO
-                TimeSpan _close = new TimeSpan(12, 00, 00);  //TODO
-                WorkingHours _hours = new WorkingHours(_open, _close);
+                WorkingHours _hours = new WorkingHours(entryOpenTime.Time, entryCloseTime.Time);
 
                 int _style = StyleTypePicker.SelectedIndex;
                 int _type = ObjectTypePicker.SelectedIndex;

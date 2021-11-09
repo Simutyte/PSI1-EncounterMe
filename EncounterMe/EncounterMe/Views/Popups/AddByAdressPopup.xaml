@@ -217,14 +217,14 @@
                                                TextColor="#2E8B57"
                                                FontSize="Medium"/>
 
-                                        <TimePicker x:Name="OpenTime"/>
+                                        <TimePicker x:Name="entryOpenTime"/>
 
                                         <Label Padding="8,4"
                                                Text="To"
                                                TextColor="#2E8B57"
                                                FontSize="Medium"/>
 
-                                        <TimePicker x:Name="CloseTime"/>
+                                        <TimePicker x:Name="entryCloseTime"/>
                                     </StackLayout>
 
                                 </Frame>
