@@ -22,7 +22,8 @@ namespace EncounterMe.Views
 
             if (string.IsNullOrWhiteSpace(entryLogUsername.Text) || string.IsNullOrWhiteSpace(entryLogPassword.Text))
             {
-                await DisplayAlert("Entered data", "All fields must be filled", "OK");
+                //Uncomment when implemented
+                //await DisplayAlert("Entered data", "All fields must be filled", "OK");
             }
             else
             {
