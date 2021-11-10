@@ -249,6 +249,10 @@ namespace EncounterMe.Views
             //Requesting current location
             var requestLocation = new GeolocationRequest(GeolocationAccuracy.Default);
             var startLocation = await Geolocation.GetLocationAsync(requestLocation);
+            Console.WriteLine(endLocation.Latitude);
+            Console.WriteLine(endLocation.Longitude);
+            Console.WriteLine(startLocation.Latitude);
+            Console.WriteLine(startLocation.Longitude);
 
             string result = "";
 
