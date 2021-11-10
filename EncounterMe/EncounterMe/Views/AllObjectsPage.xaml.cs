@@ -32,7 +32,6 @@ namespace EncounterMe.Views
 
             listView.ItemsSource = GetAllObjects();
             BindingContext = this;
-
         }
 
       

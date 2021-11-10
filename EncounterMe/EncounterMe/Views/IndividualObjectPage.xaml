@@ -5,9 +5,7 @@
              x:Class="EncounterMe.Views.IndividualObjectPage"
              Shell.NavBarIsVisible="False">
 
-
     <ContentPage.Content>
-
         <Grid HorizontalOptions="FillAndExpand"
               VerticalOptions="FillAndExpand"
               x:DataType="Pins:MapPin">

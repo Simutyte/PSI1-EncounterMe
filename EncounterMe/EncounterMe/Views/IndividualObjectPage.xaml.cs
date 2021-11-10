@@ -70,8 +70,9 @@ namespace EncounterMe.Views
 
         private async void Display_Route_On_Map(object sender, EventArgs e)
         {
+            //Location location = new Location { Latitude = _pin.Latitude, Longitude = _pin.Longitude };
             Location location = new Location { Latitude = 38.01655470103673, Longitude = -121.88968844314147 };
-            //await Navigation.PushAsync(new MapPage(location));
+            await AppShell.Current.GoToAsync($"//home/tab/MapPage?title={location}");
         }
 
     }

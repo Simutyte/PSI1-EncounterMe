@@ -27,9 +27,6 @@ namespace EncounterMe
         private async void Navigate(object route)
         {
             ShellNavigationState state = Shell.Current.CurrentState;
-            Console.WriteLine(state.ToString());
-            Console.WriteLine(state.Location.ToString());
-            Console.WriteLine(route.ToString());
             await Shell.Current.GoToAsync($"{state.Location}/{route.ToString()}");
             Shell.Current.FlyoutIsPresented = false;
            

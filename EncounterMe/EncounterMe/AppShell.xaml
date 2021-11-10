@@ -50,6 +50,7 @@
 
     <FlyoutItem Title="Home"
                 x:Name="Home"
+                Route="home"
                 Icon="home.png">
         
         <Tab Title="Main Page"
@@ -59,6 +60,7 @@
         </Tab>
         
         <Tab Title="Map"
+             Route="tab"
              Icon="map.png" >
             <ShellContent ContentTemplate="{DataTemplate views:MapPage}"/>
         </Tab>
