@@ -23,7 +23,8 @@ using Newtonsoft.Json;
 namespace EncounterMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    [QueryProperty(nameof(Title), "title")]
+    [QueryProperty( nameof(Lat), "lat")]
+    [QueryProperty(nameof(Longi), "longi")]
     public partial class MapPage : ContentPage
     {
 
@@ -31,19 +32,36 @@ namespace EncounterMe.Views
 
         private PinsList _myPinList;
 
-        private Location title = null;
+        private double lat = 0;
+        private double longi = 0;
 
-        public Location Title
+        public double Lat
         {
             get
             {
-                return title;
+                return lat;
             }
             set
             {
-                title = value;
+                lat = value;
             }
         }
+
+        public double Longi
+        {
+            get
+            {
+                return longi;
+            }
+            set
+            {
+                longi = value;
+            }
+        }
+
+
+
+
 
 
         private bool _chosenLocationPermission;
@@ -51,11 +69,7 @@ namespace EncounterMe.Views
 
         public MapPage()
         {
-            if (title != null)
-            {
-                DisplayRoute(title);
-                title = null;
-            }
+            
                 
 
             _chosenLocationPermission = false;
@@ -73,6 +87,19 @@ namespace EncounterMe.Views
             AnimationView.IsVisible = false;
             CenterPin.IsVisible = false;
             GenerateMapPins();
+
+            
+            if (lat != 0 && longi != 0)
+            {
+                Location locationForRoute = new Location();
+                locationForRoute.Longitude = (double)longi;
+                locationForRoute.Latitude = (double)lat;
+
+                Console.WriteLine(locationForRoute.Longitude);
+                Console.WriteLine(locationForRoute.Latitude);
+                DisplayRoute(locationForRoute);
+                locationForRoute = null;
+            }
         }
 
 

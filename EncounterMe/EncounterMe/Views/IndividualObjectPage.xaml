@@ -31,12 +31,12 @@
                          VerticalOptions="Start"
                          Clicked="Go_Back_Clicked"/>
 
-            <ImageButton BackgroundColor="Black"
+            <ImageButton BackgroundColor="Transparent"
                          Aspect="Fill"
-                         Source="implementMEEE"
+                         Source="navigationCursor.png"
                          Margin="25"
                          WidthRequest="30"
-                         HeightRequest="20" 
+                         HeightRequest="30" 
                          HorizontalOptions="End"
                          VerticalOptions="Start"
                          Clicked="Display_Route_On_Map"/>

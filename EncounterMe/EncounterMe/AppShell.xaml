@@ -61,7 +61,7 @@
         
         <Tab Title="Map"
              Route="tab"
-             Icon="map.png" >
+             Icon="map.png">
             <ShellContent ContentTemplate="{DataTemplate views:MapPage}"/>
         </Tab>
         
