@@ -3,7 +3,7 @@
 
 namespace EncounterMe.Services
 {
-    public interface IGpsDependencyService
+    public interface IGpsSettings
     {
         void OpenSettings();
         bool IsGpsEnabled();

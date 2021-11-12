@@ -23,7 +23,7 @@ using Newtonsoft.Json;
 namespace EncounterMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    [QueryProperty( nameof(Lat), "lat")]
+    [QueryProperty(nameof(Lat), "lat")]
     [QueryProperty(nameof(Longi), "longi")]
     public partial class MapPage : ContentPage
     {
@@ -34,6 +34,7 @@ namespace EncounterMe.Views
 
         private double lat = 0;
         private double longi = 0;
+
 
         public double Lat
         {
@@ -58,26 +59,18 @@ namespace EncounterMe.Views
                 longi = value;
             }
         }
-
-
-
-
-
+    
 
         private bool _chosenLocationPermission;
         private bool _chosenGpsPermission;
 
         public MapPage()
         {
-            
-                
-
             _chosenLocationPermission = false;
             _chosenGpsPermission = false;
 
             InitializeComponent();
             DisplayCurrentLocation();
-
         }
 
         protected override void OnAppearing()
@@ -91,14 +84,14 @@ namespace EncounterMe.Views
             
             if (lat != 0 && longi != 0)
             {
-                Location locationForRoute = new Location();
-                locationForRoute.Longitude = (double)longi;
-                locationForRoute.Latitude = (double)lat;
-
-                Console.WriteLine(locationForRoute.Longitude);
-                Console.WriteLine(locationForRoute.Latitude);
-                DisplayRoute(locationForRoute);
-                locationForRoute = null;
+                Location endLoc = new Location
+                {
+                    Latitude = lat,
+                    Longitude = longi
+                };
+                DisplayRoute(endLoc);
+                lat = 0;
+                longi = 0;
             }
         }
 
@@ -173,7 +166,7 @@ namespace EncounterMe.Views
             if (answer)
             {
                 //Opens settings and starts tracking live location
-                IGpsDependencyService GpsDependency = DependencyService.Get<IGpsDependencyService>();
+                IGpsSettings GpsDependency = DependencyService.Get<IGpsSettings>();         //Referencing the interface
                 GpsDependency.OpenSettings();
                 DisplayCurrentLocation();
             }
@@ -243,92 +236,91 @@ namespace EncounterMe.Views
         }
 
 
-        //Keep in mind, that this API uses format long:lat
+        
         public async void DisplayRoute(Location endLocation)
         {
             //Requesting current location
             var requestLocation = new GeolocationRequest(GeolocationAccuracy.Default);
             var startLocation = await Geolocation.GetLocationAsync(requestLocation);
-            Console.WriteLine(endLocation.Latitude);
-            Console.WriteLine(endLocation.Longitude);
-            Console.WriteLine(startLocation.Latitude);
-            Console.WriteLine(startLocation.Longitude);
 
-            string result = "";
-
-            if (endLocation != null)
+            try
             {
-                try
-                {
-                    //URL to API
-                    string URL = $"http://api.openrouteservice.org/v2/directions/driving-car?" +
-                    $"api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
-                    $"&start={startLocation.Longitude},{startLocation.Latitude}" +
-                    $"&end={endLocation.Longitude},{endLocation.Latitude}";
+                string[][] coordinatesArray = GetAndParseJson(startLocation, endLocation);
+                DrawPolylines(coordinatesArray);
 
-                    //Getting a request
-                    HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
-                    request.Method = "GET";
-                    var webResponse = request.GetResponse();
-                    var webStream = webResponse.GetResponseStream();
-                    var responseReader = new StreamReader(webStream);
-                    string response = responseReader.ReadToEnd();
-                    responseReader.Close();
-
-                    //Parsing the Json
-                    JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
-                    dynamic dobj = jsonSerializer.Deserialize<dynamic>(response);
-
-                    //If Json is wrong, it wont have the parameter 'features'
-                    result = dobj["features"][0].ToString();
-
-                    JObject directionsJObject = JObject.Parse(result);
-                    JToken coordinatesJToken = (JToken)directionsJObject.SelectToken("$.geometry.coordinates");
-                    JArray coordinatesJArr = JArray.Parse(coordinatesJToken.ToString());
-                    string[][] coordinatesArray = JsonConvert.DeserializeObject<string[][]>(coordinatesJArr.ToString());
-
-                    //Initialize locations for polylines
-                    Location location1 = new Location
-                    {
-                        Longitude = Convert.ToDouble(coordinatesArray[0][0]),
-                        Latitude = Convert.ToDouble(coordinatesArray[0][1])
-                    };
-                    Location location2 = new Location();
-
-                    //Drawing lines
-                    for (int i = 1; i < coordinatesArray.Length; i++)
-                    {
-                        location2.Longitude = Convert.ToDouble(coordinatesArray[i][0]);
-                        location2.Latitude = Convert.ToDouble(coordinatesArray[i][1]);
-                        Xamarin.Forms.Maps.Polyline polyline = new Xamarin.Forms.Maps.Polyline
-                        {
-                            StrokeColor = Color.Blue,
-                            StrokeWidth = 12,
-                            Geopath =
-                            {
-                                new Position(location1.Latitude, location1.Longitude),
-                                new Position(location2.Latitude, location2.Longitude)
-                            }
-                        };
-
-                        MyMap.MapElements.Add(polyline);
-                        location1.Longitude = location2.Longitude;
-                        location1.Latitude = location2.Latitude;
-                    }
-
-                }
-                catch (Exception e)
-                {
-                    await DisplayAlert("Alert", "Something went wrong.\nPlase try again", "Ok");
-                    Console.WriteLine("Exception at getting coordinates / parsing json. Message: " + e.ToString());
-                    await Navigation.PopAsync();
-                }
             }
-            else
+            catch (Exception e)
             {
-                await DisplayAlert("Alert", "No destination location", "Ok");
-            }    
+                await DisplayAlert("Alert", "Something went wrong.\nPlase try again", "Ok");
+                Console.WriteLine("Exception at getting coordinates / parsing json. Message: " + e.ToString());
+                await Navigation.PopAsync();
+            }
         }
+
+        //The current logic is that it won't parse a different message than defined, therefore causing an exception
+        public string[][] GetAndParseJson(Location startLocation, Location endLocation)
+        {
+            //URL to API
+            string URL = $"http://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
+            $"&start={startLocation.Longitude},{startLocation.Latitude}" +
+            $"&end={endLocation.Longitude},{endLocation.Latitude}";
+
+            //Getting a request
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
+            request.Method = "GET";
+            var webResponse = request.GetResponse();
+            var webStream = webResponse.GetResponseStream();
+            var responseReader = new StreamReader(webStream);
+            string response = responseReader.ReadToEnd();
+            responseReader.Close();
+
+            //Parsing the Json
+            JavaScriptSerializer jsonSerializer = new JavaScriptSerializer();
+            dynamic dobj = jsonSerializer.Deserialize<dynamic>(response);
+
+            //If Json is wrong, it wont have the parameter 'features' -- extend Exceptions
+            string result = dobj["features"][0].ToString();
+
+            JObject directionsJObject = JObject.Parse(result);
+            JToken coordinatesJToken = (JToken)directionsJObject.SelectToken("$.geometry.coordinates");
+            JArray coordinatesJArr = JArray.Parse(coordinatesJToken.ToString());
+            return JsonConvert.DeserializeObject<string[][]>(coordinatesJArr.ToString());
+        }
+
+        //Keep in mind, that this API uses format long:lat
+        public void DrawPolylines(string[][] coordinatesArray)
+        {
+            //Initialize locations for polylines
+            Location location2 = new Location();
+            Location location1 = new Location
+            {
+                Longitude = Convert.ToDouble(coordinatesArray[0][0]),
+                Latitude = Convert.ToDouble(coordinatesArray[0][1])
+            };
+
+            //Drawing lines
+            for (int i = 1; i < coordinatesArray.Length; i++)
+            {
+                location2.Longitude = Convert.ToDouble(coordinatesArray[i][0]);
+                location2.Latitude = Convert.ToDouble(coordinatesArray[i][1]);
+                Polyline polyline = new Polyline
+                {
+                    StrokeColor = Color.Blue,
+                    StrokeWidth = 12,
+                    Geopath =
+                    {
+                        new Position(location1.Latitude, location1.Longitude),
+                        new Position(location2.Latitude, location2.Longitude)
+                    }
+                };
+
+                MyMap.MapElements.Add(polyline);
+                location1.Longitude = location2.Longitude;
+                location1.Latitude = location2.Latitude;
+            }
+
+        }
+
 
     }
 }

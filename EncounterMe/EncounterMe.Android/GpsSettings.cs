@@ -8,10 +8,11 @@ using EncounterMe.Services;
 using Xamarin.Forms;
 
 
-[assembly: Dependency(typeof(GpsDependencyService))]
+//Registering the implementation
+[assembly: Dependency(typeof(GpsSettings))]
 namespace EncounterMe.Droid.Customizers
 {
-    public class GpsDependencyService : IGpsDependencyService
+    public class GpsSettings : IGpsSettings
     {
         public bool IsGpsEnabled()
         {

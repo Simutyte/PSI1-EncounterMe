@@ -2,16 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using EncounterMe.Views;
 using Xamarin.Essentials;
-using EncounterMe.Users;
 
 namespace EncounterMe.Views
 {
@@ -44,10 +37,13 @@ namespace EncounterMe.Views
             double distance = Location.CalculateDistance(currentLocation.Latitude, currentLocation.Longitude, _pin.Latitude, _pin.Longitude, DistanceUnits.Kilometers);
 
             IsCloseEnough isCloseEnough = new IsCloseEnough(Allow);
-            IsCloseEnough isCloseEnough1 = new IsCloseEnough(delegate(double dist)
+
+
+            IsCloseEnough isCloseEnough1 = new IsCloseEnough(delegate (double dist)
             {
-                return distance <= 20 ? true : false;
+                return distance <= 20;
             });
+
 
             if (isCloseEnough(distance))
                 await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
@@ -58,7 +54,7 @@ namespace EncounterMe.Views
 
         public static bool Allow(double distance)
         {
-            return distance <= 20 ? true : false;
+            return distance <= 20;
         }
 
 
@@ -71,12 +67,13 @@ namespace EncounterMe.Views
         private async void Display_Route_On_Map(object sender, EventArgs e)
         {
             //Used for testing
-            //double lat = 38.01655470103673;
-            //double longi = -121.88968844314147;
+            //double lat = 38.01655470103673,
+            //double longi = -121.88968844314147
 
             //Real
             double lat = _pin.Latitude;
             double longi = _pin.Longitude;
+
 
             await AppShell.Current.GoToAsync($"//home/tab/MapPage?lat={lat}&longi={longi}");
         }
