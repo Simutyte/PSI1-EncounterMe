@@ -74,7 +74,7 @@ namespace EncounterMe.Views
             double lat = _pin.Latitude;
             double longi = _pin.Longitude;
 
-            await AppShell.Current.GoToAsync($"//home/tab/MapPage?lat={lat}&longi={longi}");
+            await AppShell.Current.GoToAsync($"//home/tab/MapPage?lat={lat}&longi={longi}&drawing=true");
         }
 
     }

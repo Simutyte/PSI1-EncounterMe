@@ -15,6 +15,7 @@ using System.IO;
 using Nancy.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.ComponentModel;
 
 
 //TODO: make route interactive (+rep jei be additional json parse)
@@ -25,6 +26,7 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     [QueryProperty(nameof(Lat), "lat")]
     [QueryProperty(nameof(Longi), "longi")]
+    [QueryProperty(nameof(DrawingRoute), "drawing")]
     public partial class MapPage : ContentPage
     {
 
@@ -34,8 +36,19 @@ namespace EncounterMe.Views
 
         private double lat = 0;
         private double longi = 0;
-        //private bool _currentlyDrawingRoute = false;
+        private bool _drawingRoute = false;
 
+        public bool DrawingRoute
+        {
+            get
+            {
+                return _drawingRoute;
+            }
+            set
+            {
+                _drawingRoute = value;
+            }
+        }
         public double Lat
         {
             get
@@ -82,20 +95,25 @@ namespace EncounterMe.Views
             GenerateMapPins();
 
             
-            if (lat != 0 && longi != 0)
+            if (_drawingRoute)
             {
                 Location endLoc = new Location
                 {
                     Latitude = lat,
                     Longitude = longi
                 };
-                //_currentlyDrawingRoute = true;
+
                 DisplayRoute(endLoc);
-                lat = 0;
-                longi = 0;
-                //_currentlyDrawingRoute = false;
+                _drawingRoute = false;
             }
         }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            _drawingRoute = false;
+        }
+        
 
 
         public void GenerateMapPins()
@@ -134,7 +152,7 @@ namespace EncounterMe.Views
             catch (FeatureNotEnabledException)
             {
                 //If user was not yet prompted to enable gps
-                if (_chosenGpsPermission == false)
+                if (!_chosenGpsPermission)
                 {
                     PromptToEnableGPS();
                 }
@@ -142,14 +160,14 @@ namespace EncounterMe.Views
             catch (PermissionException)
             {
                 //If location permission is not already enabled and not yet chosen, prompt the user and call the method once again
-                if (_chosenLocationPermission == false)
+                if (!_chosenLocationPermission)
                 {
                     PromptToEnableLocationPermission();
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                Console.WriteLine("Exception in DisplayCurrentLocation. Message: " + e.ToString());
             }
         }
         async void PromptToEnableLocationPermission()
@@ -170,6 +188,7 @@ namespace EncounterMe.Views
                 //Opens settings and starts tracking live location
                 IGpsSettings GpsDependency = DependencyService.Get<IGpsSettings>();         //Referencing the interface
                 GpsDependency.OpenSettings();
+                DisplayCurrentLocation();
                 DisplayCurrentLocation();
             }
         }
@@ -239,15 +258,16 @@ namespace EncounterMe.Views
 
 
         
-        public async void DisplayRoute(Location endLocation)
-        {
+        public async void DisplayRoute(Location endLocation, string type = "driving-car")
+        {             
+
             //Requesting current location
             var requestLocation = new GeolocationRequest(GeolocationAccuracy.Default);
             var startLocation = await Geolocation.GetLocationAsync(requestLocation);
 
             try
             {
-                string[][] coordinatesArray = GetAndParseJson(startLocation, endLocation);
+                string[][] coordinatesArray = GetAndParseJson(startLocation, endLocation, type);
                 DrawPolylines(coordinatesArray);
 
             }
@@ -260,12 +280,15 @@ namespace EncounterMe.Views
         }
 
         //The current logic is that it won't parse a different message than defined, therefore causing an exception
-        public string[][] GetAndParseJson(Location startLocation, Location endLocation)
+        public string[][] GetAndParseJson(Location startLocation, Location endLocation, string type)
         {
+            DisplayAlert("a", type, "ok");
             //URL to API
-            string URL = $"http://api.openrouteservice.org/v2/directions/driving-car?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
+            string URL = $"http://api.openrouteservice.org/v2/directions/" +
+            $"{type}?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
             $"&start={startLocation.Longitude},{startLocation.Latitude}" +
             $"&end={endLocation.Longitude},{endLocation.Latitude}";
+            Console.Write(URL);
 
             //Getting a request
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
@@ -323,11 +346,45 @@ namespace EncounterMe.Views
 
         }
 
-        //public void UpdatingRoute(Location currentUserLoc)
-        //{
-            
-        //}
 
+
+        //Currently car is by deafult, cant change to it on purpose
+        //TODO: make car button, find a good way
+
+        //Walk
+        private void ImageButton_Pressed(object sender, EventArgs e)
+        {
+            Location loc = new Location
+            {
+                Latitude = lat,
+                Longitude = longi
+            };
+            DisplayRoute(loc, "foot-walking");
+        }
+
+        //Bike
+        private void ImageButton_Pressed_1(object sender, EventArgs e)
+        {
+            Location loc = new Location
+            {
+                Latitude = lat,
+                Longitude = longi
+            };
+            DisplayRoute(loc, "cycling-regular");
+        }
+
+
+        //Wheelchair
+        private void ImageButton_Pressed_2(object sender, EventArgs e)
+        {
+            Location loc = new Location
+            {
+                Latitude = lat,
+                Longitude = longi
+            };
+            DisplayRoute(loc, "wheelchair");
+        }
     }
 }
+
 
