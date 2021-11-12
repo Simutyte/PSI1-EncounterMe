@@ -34,7 +34,7 @@ namespace EncounterMe.Views
 
         private double lat = 0;
         private double longi = 0;
-
+        //private bool _currentlyDrawingRoute = false;
 
         public double Lat
         {
@@ -89,9 +89,11 @@ namespace EncounterMe.Views
                     Latitude = lat,
                     Longitude = longi
                 };
+                //_currentlyDrawingRoute = true;
                 DisplayRoute(endLoc);
                 lat = 0;
                 longi = 0;
+                //_currentlyDrawingRoute = false;
             }
         }
 
@@ -196,8 +198,8 @@ namespace EncounterMe.Views
 
         void Add_Pin_Button_Clicked(object sender, EventArgs e)
         {
-            AnimationView.IsVisible = true;
-            CenterPin.IsVisible = true;
+            AnimationView.IsVisible = !AnimationView.IsVisible;
+            CenterPin.IsVisible = !CenterPin.IsVisible;
         }
 
         //Kad dar kartą paspaudus addPin mygtuką vėl atsirastų animacija
@@ -321,6 +323,10 @@ namespace EncounterMe.Views
 
         }
 
+        //public void UpdatingRoute(Location currentUserLoc)
+        //{
+            
+        //}
 
     }
 }
