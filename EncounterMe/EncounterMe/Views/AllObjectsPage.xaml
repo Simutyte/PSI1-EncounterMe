@@ -22,7 +22,8 @@
                   x:Name="listView"
                   HasUnevenRows="True"
                   ItemSelected="listView_ItemSelected"
-                  ItemTapped="listView_ItemTapped">
+                  ItemTapped="listView_ItemTapped"
+                  IsPullToRefreshEnabled="False">
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="Pins:MapPin">
