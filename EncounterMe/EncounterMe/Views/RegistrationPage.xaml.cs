@@ -8,6 +8,7 @@ using EncounterMe.Users;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using System.Threading.Tasks;
+using EncounterMe.Services;
 
 //Entity framework?
 
@@ -16,9 +17,16 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegistrationPage : ContentPage
     {
+        public delegate void SuccessfulRegistrationEventHandler(object sender, RegistationEventArgs args);
+        public event EventHandler<RegistationEventArgs> SuccessfulRegistration;
         public RegistrationPage()
         {
             InitializeComponent();
+        }
+
+        protected virtual void OnSuccessfulRegistration(RegistationEventArgs args)
+        {
+            SuccessfulRegistration?.Invoke(this, args);
         }
 
         async void Register_Button_Clicked(object sender, EventArgs args)
@@ -70,6 +78,14 @@ namespace EncounterMe.Views
                             if (string.Equals(returnValue, "Sucessfully Added"))
                             {
                                 await DisplayAlert("Registration", returnValue, "OK");
+
+                                var mail = new MailService();
+                                SuccessfulRegistration += mail.OnSuccessfulRegistration;
+
+                                var eventArgs = new RegistationEventArgs();
+                                eventArgs.Email = entryRegEmail.Text;
+                                OnSuccessfulRegistration(eventArgs);
+
                                 await Shell.Current.GoToAsync($"//{nameof(LogInPage)}");
                             }
                             else
