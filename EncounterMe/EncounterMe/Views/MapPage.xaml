@@ -52,7 +52,7 @@
                      BackgroundColor="Transparent"
                      Clicked="Confirm_Add_Pin_Button_Clicked"/>
 
-        <pv:PancakeView HorizontalOptions="Start" VerticalOptions="End" Margin="30" CornerRadius="40" Padding="15">
+        <pv:PancakeView x:Name="RouteTypes" HorizontalOptions="Start" VerticalOptions="End" Margin="30" CornerRadius="40" Padding="15" IsVisible="False">
             <pv:PancakeView.BackgroundGradientStops>
                 <pv:GradientStopCollection>
                     <pv:GradientStop Color="LightBlue" Offset="0"/>
@@ -72,9 +72,10 @@
                     </Image>
                 </behaviors:Expander.Header>
                 <StackLayout Spacing="30" Margin="0,20">
-                    <ImageButton Source="plus.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Pressed="ImageButton_Pressed"/>
-                    <ImageButton Source="home.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Pressed="ImageButton_Pressed_1"/>
-                    <ImageButton Source="map.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Pressed="ImageButton_Pressed_2"/>
+                    <ImageButton Source="plus.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Pressed="Button_Type_Foot"/>
+                    <ImageButton Source="home.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Pressed="Button_Type_Cycling"/>
+                    <ImageButton Source="map.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Pressed="Button_Type_Wheelchair"/>
+                    <ImageButton Source="plus.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Pressed="Button_Type_Car"/>
                     
 
                 </StackLayout>

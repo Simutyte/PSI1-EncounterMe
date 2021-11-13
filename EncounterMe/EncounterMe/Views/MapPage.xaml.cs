@@ -15,7 +15,6 @@ using System.IO;
 using Nancy.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.ComponentModel;
 
 
 //TODO: make route interactive (+rep jei be additional json parse)
@@ -31,22 +30,22 @@ namespace EncounterMe.Views
     {
 
         private Location _location = new Location();
-
+        private string[][] _coordinatesArray;
         private PinsList _myPinList;
 
         private double lat = 0;
         private double longi = 0;
-        private bool _drawingRoute = false;
+        private bool _isDrawingRoute = false;
 
         public bool DrawingRoute
         {
             get
             {
-                return _drawingRoute;
+                return _isDrawingRoute;
             }
             set
             {
-                _drawingRoute = value;
+                _isDrawingRoute = value;
             }
         }
         public double Lat
@@ -95,7 +94,7 @@ namespace EncounterMe.Views
             GenerateMapPins();
 
             
-            if (_drawingRoute)
+            if (_isDrawingRoute)
             {
                 Location endLoc = new Location
                 {
@@ -104,14 +103,14 @@ namespace EncounterMe.Views
                 };
 
                 DisplayRoute(endLoc);
-                _drawingRoute = false;
+                _isDrawingRoute = false;
             }
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            _drawingRoute = false;
+            _isDrawingRoute = false;
         }
         
 
@@ -258,8 +257,10 @@ namespace EncounterMe.Views
 
 
         
-        public async void DisplayRoute(Location endLocation, string type = "driving-car")
-        {             
+        public async void DisplayRoute(Location endLocation, string type = "foot-walking")
+        {
+            //Showing types button
+            RouteTypes.IsVisible = true;
 
             //Requesting current location
             var requestLocation = new GeolocationRequest(GeolocationAccuracy.Default);
@@ -268,7 +269,7 @@ namespace EncounterMe.Views
             try
             {
                 string[][] coordinatesArray = GetAndParseJson(startLocation, endLocation, type);
-                DrawPolylines(coordinatesArray);
+                DrawPolylines();
 
             }
             catch (Exception e)
@@ -282,13 +283,11 @@ namespace EncounterMe.Views
         //The current logic is that it won't parse a different message than defined, therefore causing an exception
         public string[][] GetAndParseJson(Location startLocation, Location endLocation, string type)
         {
-            DisplayAlert("a", type, "ok");
             //URL to API
             string URL = $"http://api.openrouteservice.org/v2/directions/" +
             $"{type}?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
             $"&start={startLocation.Longitude},{startLocation.Latitude}" +
             $"&end={endLocation.Longitude},{endLocation.Latitude}";
-            Console.Write(URL);
 
             //Getting a request
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
@@ -309,25 +308,26 @@ namespace EncounterMe.Views
             JObject directionsJObject = JObject.Parse(result);
             JToken coordinatesJToken = (JToken)directionsJObject.SelectToken("$.geometry.coordinates");
             JArray coordinatesJArr = JArray.Parse(coordinatesJToken.ToString());
-            return JsonConvert.DeserializeObject<string[][]>(coordinatesJArr.ToString());
+            _coordinatesArray = JsonConvert.DeserializeObject<string[][]>(coordinatesJArr.ToString());
+            return _coordinatesArray;
         }
 
         //Keep in mind, that this API uses format long:lat
-        public void DrawPolylines(string[][] coordinatesArray)
+        public void DrawPolylines()
         {
+
             //Initialize locations for polylines
             Location location2 = new Location();
-            Location location1 = new Location
-            {
-                Longitude = Convert.ToDouble(coordinatesArray[0][0]),
-                Latitude = Convert.ToDouble(coordinatesArray[0][1])
+            Location location1 = new Location {
+                Longitude = Convert.ToDouble(_coordinatesArray[0][0]),
+                Latitude = Convert.ToDouble(_coordinatesArray[0][1])
             };
 
             //Drawing lines
-            for (int i = 1; i < coordinatesArray.Length; i++)
+            for (int i = 0; i < _coordinatesArray.Length; i++)
             {
-                location2.Longitude = Convert.ToDouble(coordinatesArray[i][0]);
-                location2.Latitude = Convert.ToDouble(coordinatesArray[i][1]);
+                location2.Longitude = Convert.ToDouble(_coordinatesArray[i][0]);
+                location2.Latitude = Convert.ToDouble(_coordinatesArray[i][1]);
                 Polyline polyline = new Polyline
                 {
                     StrokeColor = Color.Blue,
@@ -338,51 +338,64 @@ namespace EncounterMe.Views
                         new Position(location2.Latitude, location2.Longitude)
                     }
                 };
-
                 MyMap.MapElements.Add(polyline);
+                
                 location1.Longitude = location2.Longitude;
                 location1.Latitude = location2.Latitude;
             }
 
+            DisplayCurrentLocation();
         }
 
 
 
-        //Currently car is by deafult, cant change to it on purpose
-        //TODO: make car button, find a good way
-
+        //Is it possible to write this with only 1 button?
         //Walk
-        private void ImageButton_Pressed(object sender, EventArgs e)
+        private void Button_Type_Foot(object sender, EventArgs e)
         {
             Location loc = new Location
             {
                 Latitude = lat,
                 Longitude = longi
             };
+            MyMap.MapElements.Clear();
             DisplayRoute(loc, "foot-walking");
         }
 
         //Bike
-        private void ImageButton_Pressed_1(object sender, EventArgs e)
+        private void Button_Type_Cycling(object sender, EventArgs e)
         {
             Location loc = new Location
             {
                 Latitude = lat,
                 Longitude = longi
             };
+            MyMap.MapElements.Clear();
             DisplayRoute(loc, "cycling-regular");
         }
 
 
         //Wheelchair
-        private void ImageButton_Pressed_2(object sender, EventArgs e)
+        private void Button_Type_Wheelchair(object sender, EventArgs e)
         {
             Location loc = new Location
             {
                 Latitude = lat,
                 Longitude = longi
             };
+            MyMap.MapElements.Clear();
             DisplayRoute(loc, "wheelchair");
+        }
+
+        private void Button_Type_Car(object sender, EventArgs e)
+        {
+            Location loc = new Location
+            {
+                Latitude = lat,
+                Longitude = longi
+            };
+            MyMap.MapElements.Clear();
+            DisplayRoute(loc, "driving-car");
         }
     }
 }
