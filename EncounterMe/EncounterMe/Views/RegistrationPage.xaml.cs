@@ -17,7 +17,6 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegistrationPage : ContentPage
     {
-        public delegate void SuccessfulRegistrationEventHandler(object sender, RegistationEventArgs args);
         public event EventHandler<RegistationEventArgs> SuccessfulRegistration;
         public RegistrationPage()
         {
