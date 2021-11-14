@@ -73,7 +73,7 @@ namespace EncounterMe.Views.Popups
 
                 App.s_mapPinService.TryToAdd(MapPin);
 
-                await PopupNavigation.Instance.PopAsync();
+                await PopupNavigation.Instance.PopAllAsync();
             }
         }
     }

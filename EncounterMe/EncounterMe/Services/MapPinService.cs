@@ -8,6 +8,8 @@ using EncounterMe.Pins;
 
 namespace EncounterMe.Services
 {
+    public delegate void PinAddedEventHandler<T>(object source, T args);
+
     public class MapPinService
     {
         private PinsList _pinsList;
@@ -17,14 +19,19 @@ namespace EncounterMe.Services
             _pinsList = PinsListTemp;
         }
 
-        public delegate void PinAddedEventHandler(object source, AddedPinEventArgs args);
-
-        public event PinAddedEventHandler PinAdded;
+        public event PinAddedEventHandler<AddedPinEventArgs> PinAdded;
+        public event PinAddedEventHandler<EventArgs> RefreshList;
 
         protected virtual void OnPinAdded(AddedPinEventArgs args)
         {
             if (PinAdded != null)
                 PinAdded(this, args);
+        }
+
+        protected virtual void OnRefreshList(EventArgs args)
+        {
+            if (RefreshList != null)
+                RefreshList(this, args);
         }
 
         public async void TryToAdd(MapPin mapPin)
@@ -35,6 +42,7 @@ namespace EncounterMe.Services
                 {
                     await ApiMapPinService.AddMapPin(mapPin);
                     OnPinAdded(new AddedPinEventArgs(mapPin));
+                    OnRefreshList(EventArgs.Empty);
                     LoadList();
                 }
                 

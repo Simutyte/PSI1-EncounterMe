@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using EncounterMe.Pins;
 using EncounterMe.Views.Popups;
 using MvvmHelpers;
@@ -27,20 +28,33 @@ namespace EncounterMe.Views
             if(_myPinList.ListOfPins != null)
             {
                 _myPinList.ListOfPins.Sort();
-
             }
+
+            listView.RefreshCommand = new Command(() =>
+            {
+                listView.ItemsSource = null;
+                listView.ItemsSource = GetAllObjects();
+                listView.IsRefreshing = false;
+                listView.IsPullToRefreshEnabled = false;
+            });
 
             listView.ItemsSource = GetAllObjects();
             BindingContext = this;
+
+            App.s_mapPinService.RefreshList += OnRefreshList;
         }
 
-      
+        public void OnRefreshList(object source, EventArgs args)
+        {
+            listView.IsPullToRefreshEnabled = true;
+        }
 
         //Gauna pasikeitusį listOfPins pagal įvestą tekstą
         IEnumerable<MapPin> GetAllObjects(string searchText = null)
         {
             if(string.IsNullOrEmpty(searchText))
             {
+                _myPinList.ListOfPins.Sort();
                 return _myPinList.ListOfPins;
             }
 
