@@ -20,7 +20,7 @@ namespace EncounterMe.Services
         }
 
         public event PinAddedEventHandler<AddedPinEventArgs> PinAdded;
-        public event PinAddedEventHandler<EventArgs> RefrechList;
+        public event PinAddedEventHandler<EventArgs> RefreshList;
 
         protected virtual void OnPinAdded(AddedPinEventArgs args)
         {
@@ -28,10 +28,10 @@ namespace EncounterMe.Services
                 PinAdded(this, args);
         }
 
-        protected virtual void OnRefrechList(EventArgs args)
+        protected virtual void OnRefreshList(EventArgs args)
         {
-            if (RefrechList != null)
-                RefrechList(this, args);
+            if (RefreshList != null)
+                RefreshList(this, args);
         }
 
         public async void TryToAdd(MapPin mapPin)
@@ -42,7 +42,7 @@ namespace EncounterMe.Services
                 {
                     await ApiMapPinService.AddMapPin(mapPin);
                     OnPinAdded(new AddedPinEventArgs(mapPin));
-                    OnRefrechList(EventArgs.Empty);
+                    OnRefreshList(EventArgs.Empty);
                     LoadList();
                 }
                 

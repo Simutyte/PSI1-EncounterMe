@@ -41,7 +41,7 @@ namespace EncounterMe.Views
             listView.ItemsSource = GetAllObjects();
             BindingContext = this;
 
-            App.s_mapPinService.RefrechList += OnRefreshList;
+            App.s_mapPinService.RefreshList += OnRefreshList;
         }
 
         public void OnRefreshList(object source, EventArgs args)
