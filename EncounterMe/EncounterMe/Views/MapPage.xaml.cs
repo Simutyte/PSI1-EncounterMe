@@ -15,6 +15,7 @@ using System.IO;
 using Nancy.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using System.Globalization;
 
 
 //TODO: make route interactive (+rep jei be additional json parse)
@@ -85,6 +86,13 @@ namespace EncounterMe.Views
 
             InitializeComponent();
             DisplayCurrentLocation();
+
+            Console.WriteLine("-------------------------------------------------------------------------------------");
+            Console.WriteLine("CurrentCulture is {0}.", CultureInfo.CurrentCulture.Name);
+            Console.WriteLine("CurrentCulture is {0}.", CultureInfo.CurrentUICulture.Name);
+            Console.WriteLine("CurrentCulture is {0}.", CultureInfo.InvariantCulture);
+            Console.WriteLine("CurrentCulture is {0}.", CultureInfo.DefaultThreadCurrentCulture);
+            Console.WriteLine("CurrentCulture is {0}.", CultureInfo.InstalledUICulture);
         }
 
         protected override void OnAppearing()
@@ -270,7 +278,7 @@ namespace EncounterMe.Views
 
             try
             {
-                string[][] coordinatesArray = GetAndParseJson(startLocation, endLocation, type);
+                GetAndParseJson(startLocation, endLocation, type);
                 DrawPolylines();
 
             }
@@ -283,18 +291,28 @@ namespace EncounterMe.Views
         }
 
         //The current logic is that it won't parse a different message than defined, therefore causing an exception
-        public string[][] GetAndParseJson(Location startLocation, Location endLocation, string type)
+        public void GetAndParseJson(Location startLocation, Location endLocation, string type)
         {
-            string startLat = startLocation.Latitude.ToString().Replace(',','.');
-            string startLon = startLocation.Longitude.ToString().Replace(',', '.');
-            string endLat = endLocation.Latitude.ToString().Replace(',', '.');
-            string endLon = endLocation.Longitude.ToString().Replace(',', '.');
+            //string startLat = startLocation.Latitude.ToString().Replace(',','.');
+            //string startLon = startLocation.Longitude.ToString().Replace(',', '.');
+            //string endLat = endLocation.Latitude.ToString().Replace(',', '.');
+            //string endLon = endLocation.Longitude.ToString().Replace(',', '.');
+
+            //Url: http://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a&start=-122.084,37.4219983333333&end=-121.902472302318,37.3736916169144
+
+
+            string startLat = "37,4219983333333".Replace(',', '.');
+            string startLon = "-122,084".Replace(',', '.');
+            string endLat = "37,3736916169144".Replace(',', '.');
+            string endLon = "-121,902472302318".Replace(',', '.');
 
             //URL to API
-            string URL = $"http://api.openrouteservice.org/v2/directions/" +
-            $"{type}?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
-            $"&start={startLon},{startLat}" +
-            $"&end={endLon},{endLat}";
+            //string URL = $"http://api.openrouteservice.org/v2/directions/" +
+            //$"{type}?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
+            //$"&start={startLon},{startLat}" +
+            //$"&end={endLon},{endLat}";
+
+            string URL = "http://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a&start=-122.084,37.4219983333333&end=-121.902472302318,37.3736916169144";
 
             Console.WriteLine("Url: " + URL);
 
@@ -318,13 +336,12 @@ namespace EncounterMe.Views
             JToken coordinatesJToken = (JToken)directionsJObject.SelectToken("$.geometry.coordinates");
             JArray coordinatesJArr = JArray.Parse(coordinatesJToken.ToString());
             _coordinatesArray = JsonConvert.DeserializeObject<string[][]>(coordinatesJArr.ToString());
-            return _coordinatesArray;
         }
 
         //Keep in mind, that this API uses format long:lat
         public void DrawPolylines()
         {
-
+    
             //Clears all previous lines
             MyMap.MapElements.Clear();
 
@@ -436,6 +453,12 @@ namespace EncounterMe.Views
             MyMap.MapElements.Add(polyline);
             _firstPolyline = polyline;
         }
+
+        public void CalculateOffsetFromPath()
+        {
+            
+        }
+
     }
 }
 
