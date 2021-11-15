@@ -110,6 +110,11 @@ namespace EncounterMe.Views
             await Shell.Current.Navigation.PushAsync(new IndividualObjectPage(pinToPass));
         }
 
+        void Favourite_clicked(object sender, EventArgs e)
+        {
+            var btn = (ImageButton)sender;
+            var favouritePin = (MapPin)btn.CommandParameter;
 
+        }
     }
 }

@@ -1,14 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:Users="clr-namespace:EncounterMe.Users"
              Shell.TabBarIsVisible="true"
              Title="Profile"
              x:Class="EncounterMe.Views.ProfilePage">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to your profile!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+
+
+    <ScrollView VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand"
+                x:DataType ="Users:User">
+        <Grid VerticalOptions="FillAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Image Source="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+                   Aspect="Fill"
+                   HeightRequest="280"
+                   VerticalOptions="StartAndExpand"/>
+       
+            <Frame Grid.Row="1"
+                   HasShadow="True"
+                   CornerRadius="10"
+                   Margin="20,-50,20,0"
+                   Padding="18"
+                   HeightRequest="60"
+                   VerticalOptions="StartAndExpand">
+                
+                <Grid HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <StackLayout Orientation="Vertical"
+                                 Spacing="6"
+                                 HorizontalOptions="CenterAndExpand">
+                        
+                        <Label Text="{Binding Username}"
+                               FontSize="20"
+                               FontAttributes="Bold"
+                               TextColor="Black"
+                               HorizontalOptions="CenterAndExpand"/>
+
+                        <Label Text="{Binding Email}"
+                               FontSize="12"
+                               TextColor="#2C3E50"
+                               HorizontalOptions="CenterAndExpand"/>
+                        
+                        
+                    </StackLayout>
+                 </Grid>
+            </Frame>
+            <Frame Grid.Row="2"
+                   HasShadow="True"
+                   HeightRequest="115"
+                   CornerRadius="10"
+                   Margin="20"
+                   Padding="18"
+                   VerticalOptions="StartAndExpand"
+                   HorizontalOptions="FillAndExpand">
+                
+                <Grid RowSpacing="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Label Text="About me"
+                           FontSize="17"
+                           TextColor="#2C3E50"/>
+                    
+                    <Label Grid.Row="1"
+                           Text="I love walking aroud"
+                           FontSize="14"
+                           TextColor="#707070"/>
+                </Grid>
+            </Frame>
+        </Grid>
+    </ScrollView>
+    
 </ContentPage>

@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using System.Text;
 using EncounterMe.Views;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace EncounterMe.Services
 {
@@ -16,9 +18,16 @@ namespace EncounterMe.Services
       
         }
 
-        public void OnSuccessfulRegistration(object source, RegistationEventArgs args)
+        public async void OnSuccessfulRegistration(object source, RegistationEventArgs args)
         {
-            MailMessage mail = new MailMessage();
+            var sendGridClient = new SendGridClient(""); //įrašyt key
+            var from = new EmailAddress("EncounterMePSI@gmail.com", "Encounter Me");
+            var to = new EmailAddress(args.Email);
+            var id = "d-0ac86aa6b3df44ed927c08b99f84bd52";
+            var msg = MailHelper.CreateSingleTemplateEmail(from, to, id, null);
+            await sendGridClient.SendEmailAsync(msg);
+
+            /*MailMessage mail = new MailMessage();
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
 
             mail.From = new MailAddress("encounterMePSI@gmail.com");
@@ -32,7 +41,7 @@ namespace EncounterMe.Services
             SmtpServer.UseDefaultCredentials = false;
             SmtpServer.Credentials = new System.Net.NetworkCredential("encounterMePSI@gmail.com", "EncounterMe2021");
 
-            SmtpServer.Send(mail);
+            SmtpServer.Send(mail);*/
         }
     }
 }

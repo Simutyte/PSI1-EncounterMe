@@ -46,11 +46,13 @@
                                        Aspect="AspectFill"
                                        Source="{Binding ImageName}"/>
                                 
-                                <Image Source="heart.png"
-                                       HorizontalOptions="End"
-                                       Margin="12"
-                                       HeightRequest="25"
-                                       VerticalOptions="Start"/>
+                                <ImageButton Source="heart.png"
+                                             HorizontalOptions="End"
+                                             Margin="12"
+                                             HeightRequest="25"
+                                             VerticalOptions="Start"
+                                             Clicked ="Favourite_clicked"
+                                             CommandParameter="{Binding .}"/>
                                 
                                 <Grid VerticalOptions="End"
                                       Margin="15">

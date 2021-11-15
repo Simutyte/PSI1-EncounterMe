@@ -10,15 +10,16 @@ using System;
 
 namespace EncounterMe.Users
 {
-    class UserDB
+    public class UserDB
     {
         private SQLiteConnection _mySQLiteConnection;
-
+        public int? CurrentUserId { get; set; }
         public UserDB()
         {
             var dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "UserDatabase.db");
             _mySQLiteConnection = new SQLiteConnection(dbPath);
             _mySQLiteConnection.CreateTable<User>();
+            CurrentUserId = -1;
         }
 
         public User GetUserByID(int id)
@@ -31,17 +32,17 @@ namespace EncounterMe.Users
             _mySQLiteConnection.Delete<User>(id);
         }
 
-        public string AddUser(User user)
+        public bool AddUser(User user)
         {
             var data = _mySQLiteConnection.Table<User>();
             var d1 = data.Where(x => x.Username == user.Username || x.Email == user.Email).FirstOrDefault();
             if (d1 == null)
             {
                 _mySQLiteConnection.Insert(user);
-                return "Sucessfully Added";
+                return true;
             }
             else
-                return "Username or mail already exist";
+                return false;
         }
 
         public bool LoginValidate(string username, string pass)
@@ -51,6 +52,7 @@ namespace EncounterMe.Users
 
             if (d1 != null)
             {
+                CurrentUserId = d1.ID;
                 return true;
             }
             else

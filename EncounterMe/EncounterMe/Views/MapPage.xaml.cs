@@ -79,7 +79,7 @@ namespace EncounterMe.Views
             }
             catch (FeatureNotSupportedException)
             {
-                DisplayAlert("Alert", "This feature is not supported on your device", "Ok");
+                await DisplayAlert("Alert", "This feature is not supported on your device", "Ok");
             }
             catch (FeatureNotEnabledException)
             {
