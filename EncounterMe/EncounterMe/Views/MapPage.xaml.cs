@@ -28,10 +28,12 @@ namespace EncounterMe.Views
     [QueryProperty(nameof(DrawingRoute), "drawing")]
     public partial class MapPage : ContentPage
     {
+        public event Action<Location> UserLocationChangedEvent;
 
         private Location _location = new Location();
         private string[][] _coordinatesArray;
         private PinsList _myPinList;
+        private MapElement _firstPolyline = null;
 
         private double lat = 0;
         private double longi = 0;
@@ -96,6 +98,7 @@ namespace EncounterMe.Views
             
             if (_isDrawingRoute)
             {
+                UserLocationChangedEvent += new Action<Location>(UserLocationChangedEventHandler);
                 Location endLoc = new Location
                 {
                     Latitude = lat,
@@ -103,7 +106,6 @@ namespace EncounterMe.Views
                 };
 
                 DisplayRoute(endLoc);
-                _isDrawingRoute = false;
             }
         }
 
@@ -195,13 +197,14 @@ namespace EncounterMe.Views
         //Constantly runs in the background, tracks current location and updates it
         private void TrackingLiveLocation()
         {
-            Device.StartTimer(TimeSpan.FromSeconds(1), () =>
+            Device.StartTimer(TimeSpan.FromSeconds(2), () =>
             {
                 Task.Run(async () =>
                 {
                     var request = new GeolocationRequest(GeolocationAccuracy.Default);
                     var location = await Geolocation.GetLocationAsync(request);
                     UpdateCurrentLocation(location);
+                    UserLocationChangedEvent(location);
                 });
                 return true;
             });
@@ -316,6 +319,9 @@ namespace EncounterMe.Views
         public void DrawPolylines()
         {
 
+            //Clears all previous lines
+            MyMap.MapElements.Clear();
+
             //Initialize locations for polylines
             Location location2 = new Location();
             Location location1 = new Location {
@@ -343,13 +349,11 @@ namespace EncounterMe.Views
                 location1.Longitude = location2.Longitude;
                 location1.Latitude = location2.Latitude;
             }
-
-            DisplayCurrentLocation();
         }
 
 
-
         //Is it possible to write this with only 1 button?
+
         //Walk
         private void Button_Type_Foot(object sender, EventArgs e)
         {
@@ -358,7 +362,6 @@ namespace EncounterMe.Views
                 Latitude = lat,
                 Longitude = longi
             };
-            MyMap.MapElements.Clear();
             DisplayRoute(loc, "foot-walking");
         }
 
@@ -370,7 +373,6 @@ namespace EncounterMe.Views
                 Latitude = lat,
                 Longitude = longi
             };
-            MyMap.MapElements.Clear();
             DisplayRoute(loc, "cycling-regular");
         }
 
@@ -392,10 +394,42 @@ namespace EncounterMe.Views
             Location loc = new Location
             {
                 Latitude = lat,
-                Longitude = longi
+                Longitude = longi   
             };
-            MyMap.MapElements.Clear();
             DisplayRoute(loc, "driving-car");
+        }
+
+
+        //Draws polyline from current location to the beggining of route
+        //could be better, if the line was dotted
+        private void UserLocationChangedEventHandler(Location loc)
+        {
+            if (_firstPolyline != null)
+            {
+                MyMap.MapElements.Remove(_firstPolyline);
+            }
+            
+            //DrawPolylines();
+            Location firstPolyline = new Location
+            {
+                Latitude = Convert.ToDouble(_coordinatesArray[0][1]),
+                Longitude = Convert.ToDouble(_coordinatesArray[0][0])
+            };
+
+            Polyline polyline = new Polyline
+            {
+                
+                StrokeColor = Color.Blue,
+                StrokeWidth = 12,
+                Geopath =
+                {
+                    new Position(loc.Latitude, loc.Longitude),
+                    new Position(firstPolyline.Latitude, firstPolyline.Longitude)
+                }
+            };
+
+            MyMap.MapElements.Add(polyline);
+            _firstPolyline = polyline;
         }
     }
 }

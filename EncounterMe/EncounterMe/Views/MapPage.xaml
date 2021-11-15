@@ -66,7 +66,7 @@
                             <DataTrigger TargetType="Image"
                                          Binding="{Binding Source={RelativeSource AncestorType={x:Type behaviors:Expander}}, Path=IsExpanded}"
                                          Value="True">
-                                <Setter Property="Source" Value="route.png"/>
+                                <!--<Setter Property="Source" Value="route.png"/>-->
                             </DataTrigger>
                         </Image.Triggers>
                     </Image>
