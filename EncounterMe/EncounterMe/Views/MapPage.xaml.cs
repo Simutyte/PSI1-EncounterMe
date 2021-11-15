@@ -259,7 +259,6 @@ namespace EncounterMe.Views
         }
 
 
-        
         public async void DisplayRoute(Location endLocation, string type = "foot-walking")
         {
             //Showing types button
@@ -286,11 +285,18 @@ namespace EncounterMe.Views
         //The current logic is that it won't parse a different message than defined, therefore causing an exception
         public string[][] GetAndParseJson(Location startLocation, Location endLocation, string type)
         {
+            string startLat = startLocation.Latitude.ToString();
+            string startLon = startLocation.Longitude.ToString();
+            string endLat = endLocation.Latitude.ToString();
+            string endLon = endLocation.Longitude.ToString();
+
             //URL to API
             string URL = $"http://api.openrouteservice.org/v2/directions/" +
             $"{type}?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
-            $"&start={startLocation.Longitude},{startLocation.Latitude}" +
-            $"&end={endLocation.Longitude},{endLocation.Latitude}";
+            $"&start={startLon},{startLat}" +
+            $"&end={endLon},{endLat}";
+
+            Console.WriteLine("Url: " + URL);
 
             //Getting a request
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
@@ -385,7 +391,6 @@ namespace EncounterMe.Views
                 Latitude = lat,
                 Longitude = longi
             };
-            MyMap.MapElements.Clear();
             DisplayRoute(loc, "wheelchair");
         }
 

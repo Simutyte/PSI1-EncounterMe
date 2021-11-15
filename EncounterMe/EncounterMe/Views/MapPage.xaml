@@ -76,7 +76,7 @@
                     <ImageButton Source="home.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Pressed="Button_Type_Cycling"/>
                     <ImageButton Source="map.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Pressed="Button_Type_Wheelchair"/>
                     <ImageButton Source="plus.png" WidthRequest="30" HeightRequest="30" Rotation="180" BackgroundColor="Transparent" Pressed="Button_Type_Car"/>
-                    
+
 
                 </StackLayout>
             </behaviors:Expander>
@@ -84,10 +84,4 @@
 
         </pv:PancakeView>
     </Grid>
-
-
-        
-
-
-
 </ContentPage>
