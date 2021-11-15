@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EncounterMe.Services;
 using EncounterMe.Users;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -15,22 +16,45 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FavouritesPage : ContentPage
     {
+        public List<MapPin> FavouriteMapPinList { get; set; }
         private User User { get; }
         public FavouritesPage()
         {
             InitializeComponent();
-
+            
+            BindingContext = this;
             if (App.s_userDb.CurrentUserId != null)
             {
 
-                User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
+                User = App.s_userDb.GetUserWithChildren((int)App.s_userDb.CurrentUserId);
             }
 
-            if (User != null)
+           
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if(User != null)
             {
                 if (User.HasFavourite)
                 {
-                    //čia sąrašo priskyrimas į listview 
+                    
+                    if(App.s_mapPinService.FavouritePins.Count > 0)
+                    {
+                        
+                        FavouriteMapPinList = App.s_mapPinService.FavouritePins;
+                        //DisplayAlert("is konstr", "uzkrove: " + FavouriteMapPinList[0].Name, "ok");
+                        listView.ItemsSource = FavouriteMapPinList;
+                        BindingContext = this;
+                    }
+                    else
+                    {
+                        DisplayAlert("nk nera", "nk nera", "ok");
+                    }
+                    
+                        
+                    
                 }
                 else
                 {
@@ -48,7 +72,31 @@ namespace EncounterMe.Views
                     layout.Children.Add(label);
                     this.Content = layout;
                 }
+
             }
+            
+
+        }
+
+
+        async void listView_ItemSelected(object sender, ItemTappedEventArgs e)
+        {
+
+            var pinToPass = ((ListView)sender).SelectedItem as MapPin;
+            if (pinToPass == null)
+            {
+                return;
+            }
+
+            await Shell.Current.Navigation.PushAsync(new IndividualObjectPage(pinToPass));
+
+
+        }
+
+        void listView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
         }
     }
+
 }

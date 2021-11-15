@@ -1,16 +1,141 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:Pins="clr-namespace:EncounterMe"
              Shell.TabBarIsVisible="true"
              Title="Favourites"
              x:Class="EncounterMe.Views.FavouritesPage">
-    
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to your favourite objects!"
-                   VerticalOptions="CenterAndExpand" 
-                   HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
-    
+
+    <StackLayout>
+
+        <!--ItemsSource="{Binding allObjectsCollection}"-->
+        <ListView BackgroundColor="Transparent"
+                  x:Name="listView"
+                  HasUnevenRows="True"
+                  IsPullToRefreshEnabled="False"
+                  ItemSelected="listView_ItemSelected"
+                  ItemTapped="listView_ItemTapped">
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="Pins:MapPin">
+                    <ViewCell >
+                        
+                        <pv:PancakeView HeightRequest="200"
+                                        Margin="5,10"
+                                        CornerRadius="5"
+                                        BackgroundColor="Transparent">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Image HeightRequest="115"
+                                       Aspect="AspectFill"
+                                       Source="{Binding ImageName}"/>
+
+                                
+                                <Grid VerticalOptions="End"
+                                      Margin="15">
+                                    <pv:PancakeView CornerRadius="13"
+                                                    Padding="15,5"
+                                                    BackgroundColor="Black"
+                                                    Opacity="0.7" 
+                                                    HorizontalOptions="Start"
+                                                    VerticalOptions="Start">
+
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="5"
+                                                     HorizontalOptions="Start">
+
+                                            <Image HeightRequest="12"
+                                                   WidthRequest="12"
+                                                   Source="justPin.png"
+                                                   VerticalOptions="Center"
+                                                   HorizontalOptions="Start"/>
+
+                                            <Label Text="{Binding Address.City}"
+                                                   FontSize="14"
+                                                   TextColor="White"
+                                                   FontAttributes="Bold"
+                                                   VerticalOptions="Center"/>
+                                        </StackLayout>
+                                    </pv:PancakeView>
+                                </Grid>
+
+                                <StackLayout Grid.Row="1"
+                                             Spacing="7"
+                                             Margin="20,5"
+                                             BackgroundColor="Transparent">
+
+
+                                    <Label Text="{Binding Name}"
+                                               FontSize="Subtitle"
+                                               FontAttributes="Bold"
+                                               FontFamily="ThemeFontBold"
+                                               TextColor="DarkSlateGray"/>
+
+
+                                    <StackLayout Orientation="Horizontal"
+                                                 Spacing="10">
+
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="5">
+                                            <Label Text="Type:"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                            <Label Text="{Binding Type}"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                        </StackLayout>
+
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="5">
+                                            <Label Text="Style:"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                            <Label Text="{Binding StyleType}"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                        </StackLayout>
+                                    </StackLayout>
+
+                                    <StackLayout>
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="2">
+                                            <Image WidthRequest="20"
+                                                   Margin="0,0,4,0"
+                                                   Source="clock.png"/>
+                                            <Label Text="{Binding OpeningHours}"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                            <Label Text="-"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                            <Label Text="{Binding ClosingHours}"
+                                                   FontSize="Small"
+                                                   FontFamily="ThemeFontRegular"
+                                                   TextColor="DarkSlateGray"/>
+                                        </StackLayout>
+                                    </StackLayout>
+
+                                </StackLayout>
+                            </Grid>
+                        </pv:PancakeView>
+
+
+
+                    </ViewCell>
+
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+    </StackLayout>
+
 </ContentPage>

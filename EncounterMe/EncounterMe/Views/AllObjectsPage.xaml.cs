@@ -110,10 +110,28 @@ namespace EncounterMe.Views
             await Shell.Current.Navigation.PushAsync(new IndividualObjectPage(pinToPass));
         }
 
-        void Favourite_clicked(object sender, EventArgs e)
+        async void Favourite_clicked(object sender, EventArgs e)
         {
             var btn = (ImageButton)sender;
             var favouritePin = (MapPin)btn.CommandParameter;
+
+            if (favouritePin != null)
+            {
+                if (App.s_userDb.UpdateUser((int)App.s_userDb.CurrentUserId, favouritePin))
+                {
+                    await DisplayAlert("Congratulations", "Object " + favouritePin.Name + " was added to your favourites", "ok");
+                    App.s_mapPinService.LoadFavourites(App.s_userDb.GetUserWithChildren((int)App.s_userDb.CurrentUserId));
+                    
+                }
+                else
+                {
+                    await DisplayAlert("Sorry", "Add failed", "ok");
+                }
+            }
+            else
+            {
+                await DisplayAlert("Sorry", "Add failed bc is null", "ok");
+            }
 
         }
     }

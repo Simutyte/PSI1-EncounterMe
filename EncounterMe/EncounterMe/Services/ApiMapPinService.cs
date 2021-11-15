@@ -53,7 +53,11 @@ namespace EncounterMe.Services
             response.EnsureSuccessStatusCode();
 
             var responseAsString = await response.Content.ReadAsStringAsync();
-            return JsonSerializer.Deserialize<MapPin>(responseAsString);
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true
+            };
+            return JsonSerializer.Deserialize<MapPin>(responseAsString, options);
         }
 
         //grąžina visą sąrašą mapPin

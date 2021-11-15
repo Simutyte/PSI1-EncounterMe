@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using EncounterMe.Pins;
+using EncounterMe.Users;
 
 namespace EncounterMe.Services
 {
@@ -13,10 +14,14 @@ namespace EncounterMe.Services
     public class MapPinService
     {
         private PinsList _pinsList;
+        public List<MapPin> FavouritePins;
         public MapPinService()
         {
             PinsList PinsListTemp= PinsList.GetPinsList();
             _pinsList = PinsListTemp;
+
+            FavouritePins = new List<MapPin>();
+            
         }
 
         public event PinAddedEventHandler<AddedPinEventArgs> PinAdded;
@@ -100,6 +105,21 @@ namespace EncounterMe.Services
                 Console.WriteLine(ex);
             }
 
+        }
+
+        public async void LoadFavourites(User user)
+        {
+            if (FavouritePins != null)
+                FavouritePins.Clear();
+
+            foreach (var pin2 in user.FavouriteObjects)
+            {
+                
+                var mapPin = await ApiMapPinService.GetMapPin(pin2.ObjectId);
+                
+                Console.WriteLine(mapPin.Name); //sito neistrinti kitaip nesukels nariu, del await viskas - permastyt kaip
+                FavouritePins.Add(mapPin);
+            }
         }
     }
 }

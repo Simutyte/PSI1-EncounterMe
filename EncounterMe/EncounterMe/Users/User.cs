@@ -4,7 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using EncounterMe.Pins;
 using SQLite;
+using SQLiteNetExtensions.Attributes;
 
 namespace EncounterMe.Users
 {
@@ -22,6 +24,10 @@ namespace EncounterMe.Users
 
         public bool HasFavourite { get; set; }
 
+        [OneToMany(CascadeOperations = CascadeOperation.All)]
+        public List<FavouritePin> FavouriteObjects { get; set; }
+        //public Lazy<List<FavouritePin>> FavouriteObjects { get; set; }
+
         //public List<Lazy<MapPin>> MyFavoriteObjects { get; set; }
 
         //public List<Lazy<MapPin>> MyVisitedObjects { get; set; }
@@ -29,8 +35,21 @@ namespace EncounterMe.Users
         public User()
         {
             HasFavourite = false;
+            FavouriteObjects = new List<FavouritePin>();
+            //FavouriteObjects = new Lazy<List<FavouritePin>>(() => new List<FavouritePin>());
         }
 
+        public FavouritePin GetFavouritePin(MapPin mapPin)
+        {
+            FavouritePin favouritePin = new FavouritePin()
+            {
+                ObjectId = mapPin.Id,
+                UserId = (int)App.s_userDb.CurrentUserId
+            };
+
+            return favouritePin;
+
+        }
         //public void SetMyFavoriteObjects(MapPin pin)
         //{
         //    MyFavoriteObjects.Add(new Lazy<MapPin>(() => pin));
