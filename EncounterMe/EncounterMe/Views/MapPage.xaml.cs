@@ -285,10 +285,10 @@ namespace EncounterMe.Views
         //The current logic is that it won't parse a different message than defined, therefore causing an exception
         public string[][] GetAndParseJson(Location startLocation, Location endLocation, string type)
         {
-            string startLat = startLocation.Latitude.ToString();
-            string startLon = startLocation.Longitude.ToString();
-            string endLat = endLocation.Latitude.ToString();
-            string endLon = endLocation.Longitude.ToString();
+            string startLat = startLocation.Latitude.ToString().Replace(',','.');
+            string startLon = startLocation.Longitude.ToString().Replace(',', '.');
+            string endLat = endLocation.Latitude.ToString().Replace(',', '.');
+            string endLon = endLocation.Longitude.ToString().Replace(',', '.');
 
             //URL to API
             string URL = $"http://api.openrouteservice.org/v2/directions/" +
