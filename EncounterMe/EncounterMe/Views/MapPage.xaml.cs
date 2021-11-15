@@ -293,7 +293,7 @@ namespace EncounterMe.Views
         //The current logic is that it won't parse a different message than defined, therefore causing an exception
         public void GetAndParseJson(Location startLocation, Location endLocation, string type)
         {
-            //string startLat = startLocation.Latitude.ToString().Replace(',','.');
+            //string startLat = startLocation.Latitude.ToString().Replace(',', '.');
             //string startLon = startLocation.Longitude.ToString().Replace(',', '.');
             //string endLat = endLocation.Latitude.ToString().Replace(',', '.');
             //string endLon = endLocation.Longitude.ToString().Replace(',', '.');
@@ -307,12 +307,12 @@ namespace EncounterMe.Views
             string endLon = "-121,902472302318".Replace(',', '.');
 
             //URL to API
-            //string URL = $"http://api.openrouteservice.org/v2/directions/" +
-            //$"{type}?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
-            //$"&start={startLon},{startLat}" +
-            //$"&end={endLon},{endLat}";
+            string URL = $"http://api.openrouteservice.org/v2/directions/" +
+            $"{type}?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
+            $"&start={startLon},{startLat}" +
+            $"&end={endLon},{endLat}";
 
-            string URL = "http://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a&start=-122.084,37.4219983333333&end=-121.902472302318,37.3736916169144";
+            //string URL = "http://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a&start=-122.084,37.4219983333333&end=-121.902472302318,37.3736916169144";
 
             Console.WriteLine("Url: " + URL);
 
