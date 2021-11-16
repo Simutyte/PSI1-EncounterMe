@@ -41,38 +41,43 @@ namespace EncounterMe.Users
             _mySQLiteConnection.Delete<User>(id);
         }
 
-        public bool UpdateUser(int id, MapPin pin)
+
+        public List<FavouritePin> GetAllFavPins()
         {
-            
-            var d1 = GetUserWithChildren(id);
+            var data = _mySQLiteConnection.Table<FavouritePin>();
+            return  data.ToList();
+        }
 
-            if (d1 != null)
+        public bool AddFavPin(MapPin pin)
+        {
+            var data = _mySQLiteConnection.Table<FavouritePin>();
+            var pinToAdd = GetFavouritePin(pin);
+
+            var d1 = data.Where(x => x.UserId == pinToAdd.UserId && x.ObjectId == pinToAdd.ObjectId).FirstOrDefault();
+            if (d1 == null)
             {
-                d1.HasFavourite = true;
-
-                var favPin = d1.GetFavouritePin(pin);
-                _mySQLiteConnection.Insert(favPin);
-
-                //d1.FavouriteObjects.Value.Add(favPin);
-                d1.FavouriteObjects.Add(favPin);
+                Console.WriteLine("pateko i vidu");
+                var user = GetUserByID((int)CurrentUserId);
+                user.HasFavourite = true;
+                _mySQLiteConnection.Update(user);
                 
-                if (d1.FavouriteObjects.Count == 0)
-                {
-                    AppShell.Current.DisplayAlert("buvo 0", "buvo 0", "ok");
-                    //Console.WriteLine("BUVO 0!!!!!!!!!!!!!!");
-                }
-                else
-                {
-                    AppShell.Current.DisplayAlert("nebuvo 0", "buvo "+ d1.FavouriteObjects.Count, "ok");
-                }
 
-
-                
-                _mySQLiteConnection.UpdateWithChildren(d1);
-                
+                _mySQLiteConnection.Insert(pinToAdd);
                 return true;
             }
-            return false;
+            else
+                return false;
+        }
+
+        public FavouritePin GetFavouritePin(MapPin mapPin)
+        {
+            FavouritePin favouritePin = new FavouritePin()
+            {
+                ObjectId = mapPin.Id,
+                UserId = (int)App.s_userDb.CurrentUserId
+            };
+
+            return favouritePin;
 
         }
 
@@ -97,7 +102,7 @@ namespace EncounterMe.Users
             if (d1 != null)
             {
                 CurrentUserId = d1.ID;
-                //App.s_mapPinService.LoadFavourites(App.s_userDb.GetUserWithChildren((int)App.s_userDb.CurrentUserId));
+                
                 return true;
             }
             else

@@ -14,13 +14,11 @@ namespace EncounterMe.Services
     public class MapPinService
     {
         private PinsList _pinsList;
-        public Lazy<List<MapPin>> FavouritePins;
+       
         public MapPinService()
         {
             PinsList PinsListTemp= PinsList.GetPinsList();
             _pinsList = PinsListTemp;
-
-            FavouritePins = new Lazy<List<MapPin>>();
             
         }
 
@@ -107,19 +105,5 @@ namespace EncounterMe.Services
 
         }
 
-        public async void LoadFavourites(User user)
-        {
-            if (FavouritePins.IsValueCreated)
-                FavouritePins.Value.Clear();
-
-            foreach (var pin2 in user.FavouriteObjects)
-            {
-                
-                var mapPin = await ApiMapPinService.GetMapPin(pin2.ObjectId);
-                
-               
-                FavouritePins.Value.Add(mapPin);
-            }
-        }
     }
 }

@@ -117,15 +117,15 @@ namespace EncounterMe.Views
 
             if (favouritePin != null)
             {
-                if (App.s_userDb.UpdateUser((int)App.s_userDb.CurrentUserId, favouritePin))
+                if (App.s_userDb.AddFavPin(favouritePin))
                 {
                     await DisplayAlert("Congratulations", "Object " + favouritePin.Name + " was added to your favourites", "ok");
-                    App.s_mapPinService.LoadFavourites(App.s_userDb.GetUserWithChildren((int)App.s_userDb.CurrentUserId));
+                    
                     
                 }
                 else
                 {
-                    await DisplayAlert("Sorry", "Add failed", "ok");
+                    await DisplayAlert("Sorry", "You already added this object to your favourites", "ok");
                 }
             }
             else
