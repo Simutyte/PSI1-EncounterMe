@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using EncounterMe.Services;
 using EncounterMe.Users;
@@ -17,6 +18,7 @@ namespace EncounterMe.Views
     public partial class FavouritesPage : ContentPage
     {
         public Lazy<List<MapPin>> FavouriteMapPinList { get; set; }
+        private bool success = false;
         private User User { get; }
         public FavouritesPage()
         {
@@ -42,6 +44,9 @@ namespace EncounterMe.Views
                     
                     if(App.s_mapPinService.FavouritePins.Value.Count > 0)
                     {
+                        if (FavouriteMapPinList.IsValueCreated)
+                            FavouriteMapPinList.Value.Clear();
+
                         foreach(var MapPin in App.s_mapPinService.FavouritePins.Value)
                         {
                             FavouriteMapPinList.Value.Add(MapPin);
@@ -79,6 +84,8 @@ namespace EncounterMe.Views
             
 
         }
+
+        
 
 
         async void listView_ItemSelected(object sender, ItemTappedEventArgs e)

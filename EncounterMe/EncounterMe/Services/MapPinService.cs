@@ -109,7 +109,7 @@ namespace EncounterMe.Services
 
         public async void LoadFavourites(User user)
         {
-            if (FavouritePins != null)
+            if (FavouritePins.IsValueCreated)
                 FavouritePins.Value.Clear();
 
             foreach (var pin2 in user.FavouriteObjects)
