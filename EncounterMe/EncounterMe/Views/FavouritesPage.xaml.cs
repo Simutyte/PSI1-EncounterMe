@@ -16,12 +16,12 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class FavouritesPage : ContentPage
     {
-        public List<MapPin> FavouriteMapPinList { get; set; }
+        public Lazy<List<MapPin>> FavouriteMapPinList { get; set; }
         private User User { get; }
         public FavouritesPage()
         {
             InitializeComponent();
-            
+            FavouriteMapPinList = new Lazy<List<MapPin>>();
             BindingContext = this;
             if (App.s_userDb.CurrentUserId != null)
             {
@@ -40,12 +40,14 @@ namespace EncounterMe.Views
                 if (User.HasFavourite)
                 {
                     
-                    if(App.s_mapPinService.FavouritePins.Count > 0)
+                    if(App.s_mapPinService.FavouritePins.Value.Count > 0)
                     {
-                        
-                        FavouriteMapPinList = App.s_mapPinService.FavouritePins;
-                        //DisplayAlert("is konstr", "uzkrove: " + FavouriteMapPinList[0].Name, "ok");
-                        listView.ItemsSource = FavouriteMapPinList;
+                        foreach(var MapPin in App.s_mapPinService.FavouritePins.Value)
+                        {
+                            FavouriteMapPinList.Value.Add(MapPin);
+                        }
+                       
+                        listView.ItemsSource = FavouriteMapPinList.Value;
                         BindingContext = this;
                     }
                     else
