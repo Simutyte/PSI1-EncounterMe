@@ -32,6 +32,14 @@
                                 <Image HeightRequest="115"
                                        Aspect="AspectFill"
                                        Source="{Binding ImageName}"/>
+                                
+                                <ImageButton Source="delete.png"
+                                             HorizontalOptions="End"
+                                             Margin="12"
+                                             HeightRequest="25"
+                                             VerticalOptions="Start"
+                                             Clicked ="Delete_clicked"
+                                             CommandParameter="{Binding .}"/>
 
                                 
                                 <Grid VerticalOptions="End"

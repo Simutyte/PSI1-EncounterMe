@@ -25,7 +25,7 @@ namespace EncounterMe.Views
         {
             InitializeComponent();
             FavouriteMapPinList = new Lazy<List<MapPin>>();
-            BindingContext = this;
+            //BindingContext = this;
             if (App.s_userDb.CurrentUserId != null)
             {
 
@@ -49,6 +49,7 @@ namespace EncounterMe.Views
             {
                 if (User.HasFavourite)
                 {
+                    Console.WriteLine("yra favourite");
                     UpdateFavourites();
                     listView.ItemsSource = FavouriteMapPinList.Value;
                     BindingContext = this;
@@ -56,6 +57,7 @@ namespace EncounterMe.Views
                 }
                 else
                 {
+                    Console.WriteLine("nera favourite");
                     var layout = new StackLayout
                     {
                         HorizontalOptions = LayoutOptions.CenterAndExpand,
@@ -127,7 +129,29 @@ namespace EncounterMe.Views
 
         }
 
-     
+        void Delete_clicked(object sender, EventArgs e)
+        {
+            /*Console.WriteLine("pries viska");
+            var btn = (ImageButton)sender;
+            Console.WriteLine("po imgbutton");
+            var deletePin = (MapPin)btn.CommandParameter;
+            Console.WriteLine("po priskyrimo");
+            if (deletePin != null)
+            {
+                App.s_userDb.DeleteFavPin(deletePin);
+                Console.WriteLine("pries kvieciant onAppearing");
+                await DisplayAlert("Deleted", "Your object was deleted", "ok");
+                OnAppearing();
+                //AfterDeleted();
+            }
+            else
+            {
+                await DisplayAlert("Sorry", "Delete failed bc is null", "ok");
+            }*/
+
+        }
+
+        
 
         void listView_ItemSelected(object sender, ItemTappedEventArgs e)
         {

@@ -23,7 +23,7 @@ namespace EncounterMe.Services
             var sendGridClient = new SendGridClient(""); //įrašyt key
             var from = new EmailAddress("EncounterMePSI@gmail.com", "Encounter Me");
             var to = new EmailAddress(args.Email);
-            var id = "d-0ac86aa6b3df44ed927c08b99f84bd52";
+            var id = "d-a94f5402bdc9411daba5266b1b56b297";
             var msg = MailHelper.CreateSingleTemplateEmail(from, to, id, null);
             await sendGridClient.SendEmailAsync(msg);
 

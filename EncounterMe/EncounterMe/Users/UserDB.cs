@@ -31,16 +31,46 @@ namespace EncounterMe.Users
             return _mySQLiteConnection.Table<User>().Where(i => i.ID == id).FirstOrDefault();
         }
 
-        public User GetUserWithChildren(int id)
-        {
-            return _mySQLiteConnection.GetAllWithChildren<User>().Where(i => i.ID == id).FirstOrDefault();
-        }
+        
 
         public void DeleteUser(int id)
         {
             _mySQLiteConnection.Delete<User>(id);
         }
 
+        public void DeleteFavPin(MapPin mapPin)
+        {
+            var data = _mySQLiteConnection.Table<FavouritePin>();
+            var pinToDelete = GetFavouritePin(mapPin);
+
+            var d1 = data.Where(x => x.UserId == pinToDelete.UserId && x.ObjectId == pinToDelete.ObjectId).FirstOrDefault();
+
+            if(d1 != null)
+            {
+                Console.WriteLine("viduje trynimo");
+                _mySQLiteConnection.Delete(d1);
+                if(!CheckFavLeft((int)CurrentUserId))
+                {
+                    var user = GetUserByID((int)CurrentUserId);
+                    user.HasFavourite = false;
+                    _mySQLiteConnection.Update(user);
+                }
+            }
+        }
+
+        public bool CheckFavLeft(int id)
+        {
+            var data = _mySQLiteConnection.Table<FavouritePin>();
+            foreach(var pin in data)
+            {
+                if(pin.UserId == id)
+                {
+                    return true;
+                }
+            }
+            return false;
+
+        }
 
         public List<FavouritePin> GetAllFavPins()
         {
@@ -56,13 +86,14 @@ namespace EncounterMe.Users
             var d1 = data.Where(x => x.UserId == pinToAdd.UserId && x.ObjectId == pinToAdd.ObjectId).FirstOrDefault();
             if (d1 == null)
             {
-                Console.WriteLine("pateko i vidu");
+                Console.WriteLine("pateko i vidu pridejimo");
                 var user = GetUserByID((int)CurrentUserId);
                 user.HasFavourite = true;
                 _mySQLiteConnection.Update(user);
                 
 
                 _mySQLiteConnection.Insert(pinToAdd);
+               
                 return true;
             }
             else
