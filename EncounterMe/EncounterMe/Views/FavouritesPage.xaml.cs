@@ -89,8 +89,8 @@ namespace EncounterMe.Views
                     if (FavouriteMapPinList.IsValueCreated)
                         FavouriteMapPinList.Value.Clear();
 
-                    List<FavouritePin> AllPins = App.s_userDb.GetAllFavPins();
-                    foreach(FavouritePin pin in AllPins)
+                   
+                    foreach(FavouritePin pin in App.s_userDb.GetAllFavPins())
                     {
                         if(pin.UserId == (int)App.s_userDb.CurrentUserId)
                         {
