@@ -299,7 +299,7 @@ namespace EncounterMe.Views
             {
                 await DisplayAlert("Alert", "Something went wrong.\nPlase try again", "Ok");
                 Console.WriteLine("Exception at getting coordinates / parsing json. Message: " + e.ToString());
-                //await Navigation.PopAsync();
+                await Navigation.PopAsync();
             }
         }
 
