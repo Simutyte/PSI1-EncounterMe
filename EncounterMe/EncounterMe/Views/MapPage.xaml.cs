@@ -95,7 +95,7 @@ namespace EncounterMe.Views
 
             InitializeComponent();
             DisplayCurrentLocation();
-            
+
         }
 
         protected override void OnAppearing()
@@ -208,10 +208,11 @@ namespace EncounterMe.Views
         //Constantly runs in the background, tracks current location and updates it
         private void TrackingLiveLocation()
         {
+            Location lastKnown = new Location();
             if (!_isTimerRunning)
             {
                 _isTimerRunning = true;
-                Device.StartTimer(TimeSpan.FromSeconds(5), () =>
+                Device.StartTimer(TimeSpan.FromSeconds(3), () =>
                 {
                     Task.Run(async () =>
                     {
@@ -220,9 +221,13 @@ namespace EncounterMe.Views
                         {
                             var request = new GeolocationRequest(GeolocationAccuracy.Default);
                             var location = await Geolocation.GetLocationAsync(request);
+                            //Checks if we are drawing route and if the location changed at all
                             if (_isDrawingRoute)
                             {
-                                UserLocationChangedEvent(location);
+                                if (location.Latitude != lastKnown.Latitude && location.Longitude != lastKnown.Longitude)
+                                {
+                                    UserLocationChangedEvent(location);
+                                }
                             }     
                         });
                     });
@@ -292,8 +297,8 @@ namespace EncounterMe.Views
             try
             {
                 GetAndParseJson(startLocation, endLocation);
-                //Thread.Sleep(1000);
                 DrawPolylines();
+                //RedrawFirstPolyline(startLocation);
             }
             catch (Exception e)
             {
@@ -361,7 +366,7 @@ namespace EncounterMe.Views
             };
 
             string[][] arr = _coordinatesArray;
-
+            
             //Drawing lines
             for (int i = 1; i < arr.Length; i++)
             {
@@ -372,10 +377,10 @@ namespace EncounterMe.Views
                     StrokeColor = Color.Blue,
                     StrokeWidth = 12,
                     Geopath =
-                {
-                    new Position(location1.Latitude, location1.Longitude),
-                    new Position(location2.Latitude, location2.Longitude)
-                }
+                    {
+                        new Position(location1.Latitude, location1.Longitude),
+                        new Position(location2.Latitude, location2.Longitude)
+                    }
                 };
 
                 //Adding polyline to list and to map
@@ -443,18 +448,19 @@ namespace EncounterMe.Views
         //could be better, if the line was dotted
         private void UserLocationChangedEventHandler(Location currentLocation)
         {
+            //Calculating the difference of last registered location and current location
             double distance = Location.CalculateDistance(_lastRegisteredLocation.Latitude, _lastRegisteredLocation.Longitude,
                                                                 currentLocation.Latitude, currentLocation.Longitude, DistanceUnits.Kilometers);
 
-            //Calculates offset
+            //Calculates distance offset (used for further calculations)
             double distanceOffset = 0.1 * _averageDistance;     //TODO : check what works with offset percentage
 
-            if (distance != 0 && _averageDistance != 0)
+            if (distance > 0 && _averageDistance > 0)
             {
                 if (distance < _averageDistance + distanceOffset)
                 {
-                    _lastRegisteredLocation = currentLocation;
-                    RedrawFirstPolyline(currentLocation);
+                    //_lastRegisteredLocation = currentLocation;
+                    //RedrawFirstPolyline(currentLocation);
                 }
                 else
                 {
