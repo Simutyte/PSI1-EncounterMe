@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using System.Globalization;
 using EncounterMe.Services;
 using EncounterMe.Users;
 using Xamarin.Forms;
@@ -20,8 +21,17 @@ namespace EncounterMe
             s_mapPinService = new MapPinService();
             s_mapPinService.LoadList(); //užloadinam duomenis į PinsList.ListOfPins
             s_userDb = new UserDB();
+            SetCultureToUSEnglish();
             MainPage = new AppShell();
         }
+        
+        private void SetCultureToUSEnglish()
+        {
+            CultureInfo englishUSCulture = new CultureInfo("en-US");
+            CultureInfo.DefaultThreadCurrentCulture = englishUSCulture;
+            CultureInfo.DefaultThreadCurrentUICulture = englishUSCulture;
+        }
+
 
         protected override void OnStart()
         {

@@ -18,7 +18,10 @@ namespace EncounterMe.Views
 
         async void Log_In_Button_Clicked(object sender, EventArgs args)
         {
+
+            //Delete this and uncomment DisplayAlert
             //await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+
 
             if (string.IsNullOrWhiteSpace(entryLogUsername.Text) || string.IsNullOrWhiteSpace(entryLogPassword.Text))
             {
