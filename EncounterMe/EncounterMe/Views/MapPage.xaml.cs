@@ -297,9 +297,16 @@ namespace EncounterMe.Views
             }
             catch (Exception e)
             {
-                await DisplayAlert("Alert", "Something went wrong.\nPlase try again", "Ok");
-                Console.WriteLine("Exception at getting coordinates / parsing json. Message: " + e.ToString());
-                await Navigation.PopAsync();
+                if (_routeType == "wheelchair")
+                {
+                    await DisplayAlert("Alert", "Couldn't find a path.\nPossibly because there isn't a way for wheelchair users", "Ok");
+                }
+                else
+                {
+                    await DisplayAlert("Alert", "Something went wrong.\nPlase try again", "Ok");
+                    Console.WriteLine("Exception at getting coordinates / parsing json. Message: " + e.ToString());
+                    await Navigation.PopAsync();
+                }
             }
         }
 
@@ -344,7 +351,8 @@ namespace EncounterMe.Views
         {
             //Clears previous polylines
             MyMap.MapElements.Clear();
-            
+
+            //Initiate end points of a polyline
             Location location2 = new Location();
             Location location1 = new Location
             {
@@ -355,7 +363,7 @@ namespace EncounterMe.Views
             string[][] arr = _coordinatesArray;
 
             //Drawing lines
-            for (int i = 0; i < arr.Length; i++)
+            for (int i = 1; i < arr.Length; i++)
             {
                 location2.Longitude = Convert.ToDouble(arr[i][0]);
                 location2.Latitude = Convert.ToDouble(arr[i][1]);
@@ -369,16 +377,19 @@ namespace EncounterMe.Views
                     new Position(location2.Latitude, location2.Longitude)
                 }
                 };
+
+                //Adding polyline to list and to map
                 _polylineList.Add(polyline);
                 MyMap.MapElements.Add(polyline);
 
-                location1.Longitude = location2.Longitude;
                 location1.Latitude = location2.Latitude;
+                location1.Longitude = location2.Longitude;
+
             }
         }
 
 
-        //Walk
+        //Walking
         private void Button_Type_Foot(object sender, EventArgs e)   
         {
             Location loc = new Location
@@ -390,7 +401,7 @@ namespace EncounterMe.Views
             DisplayRoute(loc);
         }
 
-        //Bike
+        //Cycling
         private void Button_Type_Cycling(object sender, EventArgs e)
         {
             Location loc = new Location
@@ -415,6 +426,7 @@ namespace EncounterMe.Views
             DisplayRoute(loc);
         }
 
+        //Driving
         private void Button_Type_Car(object sender, EventArgs e)
         {
             Location loc = new Location
