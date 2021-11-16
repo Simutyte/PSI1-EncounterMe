@@ -12,7 +12,7 @@ namespace EncounterMe.Views
     public partial class MainPage : ContentPage
     {
 
-        private User User { get; }
+        private User User { get; set; }
 
         public MainPage()
         {
@@ -29,6 +29,17 @@ namespace EncounterMe.Views
 
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (App.s_userDb.CurrentUserId != null)
+            {
+
+                User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
+            }
+
+            this.BindingContext = User;
+        }
 
         async void Log_Out_Button_Clicked(object sender, EventArgs args)
         {

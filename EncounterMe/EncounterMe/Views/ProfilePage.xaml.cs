@@ -15,7 +15,7 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProfilePage : ContentPage
     {
-        private User User { get; }
+        private User User { get; set; }
         public ProfilePage()
         {
             InitializeComponent();
@@ -27,8 +27,18 @@ namespace EncounterMe.Views
             }
 
             this.BindingContext = User;
+        }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (App.s_userDb.CurrentUserId != null)
+            {
 
+                User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
+            }
+
+            this.BindingContext = User;
         }
     }
 }
