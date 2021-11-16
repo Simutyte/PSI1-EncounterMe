@@ -8,7 +8,7 @@ using SQLite;
 
 namespace EncounterMe.Users
 {
-    class User
+    public class User
     {
         [PrimaryKey, AutoIncrement]
         public int ID { get; set; }
@@ -20,13 +20,15 @@ namespace EncounterMe.Users
         [MaxLength(100), Unique]
         public string Email { get; set; }
 
+        public bool HasFavourite { get; set; }
+
         //public List<Lazy<MapPin>> MyFavoriteObjects { get; set; }
 
         //public List<Lazy<MapPin>> MyVisitedObjects { get; set; }
 
         public User()
         {
-
+            HasFavourite = false;
         }
 
         //public void SetMyFavoriteObjects(MapPin pin)

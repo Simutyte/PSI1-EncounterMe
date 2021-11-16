@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using EncounterMe.Users;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -15,9 +15,20 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProfilePage : ContentPage
     {
+        private User User { get; }
         public ProfilePage()
         {
             InitializeComponent();
+
+            if (App.s_userDb.CurrentUserId != null)
+            {
+
+                User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
+            }
+
+            this.BindingContext = User;
+
+
         }
     }
 }

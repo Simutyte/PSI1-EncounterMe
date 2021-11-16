@@ -71,12 +71,12 @@ namespace EncounterMe.Views
                         };
                         try
                         {
-                            string returnValue = userDB.AddUser(user);
+                            bool returnValue = userDB.AddUser(user);
 
                             //Nedaryt su string
-                            if (string.Equals(returnValue, "Sucessfully Added"))
+                            if (returnValue)
                             {
-                                await DisplayAlert("Registration", returnValue, "OK");
+                                await DisplayAlert("Registration", "Sucessfully Added", "OK");
 
                                 var mail = new MailService();
                                 SuccessfulRegistration += mail.OnSuccessfulRegistration;
@@ -89,7 +89,7 @@ namespace EncounterMe.Views
                             }
                             else
                             {
-                                await DisplayAlert("Registration", returnValue, "OK");
+                                await DisplayAlert("Registration", "Username or mail already exist", "OK");
                             }
                         }
                         catch (Exception ex)
