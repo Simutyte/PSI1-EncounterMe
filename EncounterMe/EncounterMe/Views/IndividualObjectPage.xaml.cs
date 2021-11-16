@@ -5,6 +5,7 @@ using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
+using EncounterMe.Pins;
 
 namespace EncounterMe.Views
 {
@@ -21,11 +22,45 @@ namespace EncounterMe.Views
     public partial class IndividualObjectPage : ContentPage
     {
         private MapPin _pin;
+        
         public IndividualObjectPage(MapPin pinToRender)
         {
             InitializeComponent();
             _pin = pinToRender;
             this.BindingContext = pinToRender;
+        }
+
+       
+        public async void selected_measurement(object sender, EventArgs e)
+        {
+            int selectedIndex = MeasurementPicker.SelectedIndex;
+            Console.WriteLine(selectedIndex);
+            if (selectedIndex != -1)
+            {
+                var request = new GeolocationRequest(GeolocationAccuracy.Best);
+                var currentLocation = await Geolocation.GetLocationAsync(request);
+                if (selectedIndex == 0)
+                    Ats.Text = GetDistance(MetersDelegate, currentLocation, _pin);
+                else if (selectedIndex == 1)
+                    Ats.Text = GetDistance(KilometersDelegate, currentLocation, _pin);
+                else if (selectedIndex == 2)
+                    Ats.Text = GetDistance(YardsDelegate, currentLocation, _pin);
+                else
+                    Ats.Text = GetDistance(MilesDelegate, currentLocation, _pin);
+            }
+            else
+                Ats.Text = "";
+        }
+        
+
+        Delegate KilometersDelegate = Calculating.GetDistanceInKm;
+        Delegate MilesDelegate = Calculating.GetDistanceInMiles;
+        Delegate MetersDelegate = Calculating.GetDistanceInM;
+        Delegate YardsDelegate = Calculating.GetDistanceInYards;
+
+        static string GetDistance(Delegate d, Location loc, MapPin pin)
+        {
+            return d(loc, pin).ToString();
         }
 
         //Calculates distance from current location to pin location and 
@@ -78,4 +113,7 @@ namespace EncounterMe.Views
         }
 
     }
+
+    public delegate double Delegate(Location location, MapPin pin);
+    
 }

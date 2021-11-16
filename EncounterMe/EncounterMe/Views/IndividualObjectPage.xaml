@@ -154,6 +154,46 @@
                                    FontSize="Body"
                                    TextColor="#515151"/>
                         </StackLayout>
+                        
+                        <BoxView HeightRequest="1"
+                                 VerticalOptions="Start"
+                                 HorizontalOptions="FillAndExpand"
+                                 BackgroundColor="#E4E4E4"/>
+                        
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="Distance from you (pick unit of measurement):"
+                                   FontSize="Body"
+                                   TextColor="#515151"/>
+                            
+                            <StackLayout Orientation="Horizontal"
+                                         HeightRequest="70">
+                                
+                                <Grid RowDefinitions="60">
+                                    <Picker x:Name="MeasurementPicker"
+                                            WidthRequest="110"
+                                            FontSize="Body"
+                                            Grid.Row="0"
+                                            SelectedIndexChanged="selected_measurement" 
+                                            Grid.Column="0"
+                                            TextColor="#515151">
+                                        <Picker.Items>
+                                            <x:String>Meters</x:String>
+                                            <x:String>Kilometers</x:String>
+                                            <x:String>Yards</x:String>
+                                            <x:String>Miles</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                    
+                                    <Label x:Name="Ats"
+                                           
+                                           FontSize="Body"
+                                           TextColor="#515151"
+                                           Grid.Row="0"
+                                           Margin="18"
+                                           Grid.Column="1"/>
+                                </Grid>
+                            </StackLayout>
+                    </StackLayout>
                     </StackLayout>
                 </ScrollView>
             </pv:PancakeView>
