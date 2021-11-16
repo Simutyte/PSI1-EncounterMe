@@ -15,12 +15,13 @@ using System.IO;
 using Nancy.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Threading;
 using System.Collections.Generic;
 
 
-//TODO: make route interactive (+rep jei be additional json parse)
 
+//TODO: fix first polyline
+//TODO: make route interactive
+//TODO: 
 
 namespace EncounterMe.Views
 {
@@ -36,8 +37,8 @@ namespace EncounterMe.Views
         private Location _lastRegisteredLocation = new Location();
 
         private List<Polyline> _polylineList = new List<Polyline>();
-        private PinsList _myPinList;
-        private MapElement _firstPolyline = null;
+        private PinsList _myPinList = null;
+        private MapElement _firstPolyline = new MapElement();
 
         private string _routeType = "foot-walking";
         private string[][] _coordinatesArray;
@@ -94,7 +95,7 @@ namespace EncounterMe.Views
 
             InitializeComponent();
             DisplayCurrentLocation();
-
+            
         }
 
         protected override void OnAppearing()
@@ -105,7 +106,7 @@ namespace EncounterMe.Views
             CenterPin.IsVisible = false;
             GenerateMapPins();
 
-            
+
             if (_isDrawingRoute)
             {
                 UserLocationChangedEvent += new Action<Location>(UserLocationChangedEventHandler);
@@ -138,7 +139,7 @@ namespace EncounterMe.Views
                 {
                     MyMap.Pins.Add(mapPin.Pin);
                 }
-            }            
+            }
         }
 
         private async void DisplayCurrentLocation()
@@ -219,12 +220,15 @@ namespace EncounterMe.Views
                         {
                             var request = new GeolocationRequest(GeolocationAccuracy.Default);
                             var location = await Geolocation.GetLocationAsync(request);
-                            UserLocationChangedEvent(location);
+                            if (_isDrawingRoute)
+                            {
+                                UserLocationChangedEvent(location);
+                            }     
                         });
                     });
                     return true;
                 });
-            }   
+            }
         }
 
         void UpdateCurrentLocation(Location loc)
