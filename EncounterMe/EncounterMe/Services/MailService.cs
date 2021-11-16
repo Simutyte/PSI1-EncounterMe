@@ -20,7 +20,8 @@ namespace EncounterMe.Services
 
         public async void OnSuccessfulRegistration(object source, RegistationEventArgs args)
         {
-            var sendGridClient = new SendGridClient(""); //įrašyt key
+            var apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");
+            var sendGridClient = new SendGridClient(apiKey); //įrašyt key
             var from = new EmailAddress("EncounterMePSI@gmail.com", "Encounter Me");
             var to = new EmailAddress(args.Email);
             var id = "d-a94f5402bdc9411daba5266b1b56b297";
