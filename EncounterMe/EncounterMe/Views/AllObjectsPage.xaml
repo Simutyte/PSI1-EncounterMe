@@ -47,6 +47,7 @@
                                        Source="{Binding ImageName}"/>
                                 
                                 <ImageButton Source="heart.png"
+                                             BackgroundColor="Transparent"
                                              HorizontalOptions="End"
                                              Margin="12"
                                              HeightRequest="25"

@@ -62,7 +62,7 @@ namespace EncounterMe.Views
                     else
                     {
                         //if passed
-                        UserDB userDB = new UserDB();
+                       
                         User user = new User
                         {
                             Username = entryRegUsername.Text,
@@ -71,7 +71,7 @@ namespace EncounterMe.Views
                         };
                         try
                         {
-                            bool returnValue = userDB.AddUser(user);
+                            bool returnValue = App.s_userDb.AddUser(user);
 
                             //Nedaryt su string
                             if (returnValue)

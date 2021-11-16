@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Mail;
 using System.Text;
 using EncounterMe.Views;
@@ -20,7 +21,9 @@ namespace EncounterMe.Services
 
         public async void OnSuccessfulRegistration(object source, RegistationEventArgs args)
         {
-            var sendGridClient = new SendGridClient(""); //įrašyt key
+            
+            string apiKey = Environment.GetEnvironmentVariable("SENDGRID_API_KEY");//neveikia isirasyt key
+            var sendGridClient = new SendGridClient(apiKey); //įrašyt key
             var from = new EmailAddress("EncounterMePSI@gmail.com", "Encounter Me");
             var to = new EmailAddress(args.Email);
             var id = "d-0ac86aa6b3df44ed927c08b99f84bd52";
