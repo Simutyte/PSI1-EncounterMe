@@ -15,7 +15,8 @@ using System.IO;
 using Nancy.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
-using System.Globalization;
+using System.Threading;
+using System.Collections.Generic;
 
 
 //TODO: make route interactive (+rep jei be additional json parse)
@@ -32,13 +33,24 @@ namespace EncounterMe.Views
         public event Action<Location> UserLocationChangedEvent;
 
         private Location _location = new Location();
-        private string[][] _coordinatesArray;
+        private Location _lastRegisteredLocation = new Location();
+
+        private List<Polyline> _polylineList = new List<Polyline>();
         private PinsList _myPinList;
         private MapElement _firstPolyline = null;
 
+        private string _routeType = "foot-walking";
+        private string[][] _coordinatesArray;
+        
+        private bool _isTimerRunning = false;
+        private bool _isDrawingRoute = false;
+        private bool _chosenLocationPermission;
+        private bool _chosenGpsPermission;
+
+        private double _averageDistance;
         private double lat = 0;
         private double longi = 0;
-        private bool _isDrawingRoute = false;
+        
 
         public bool DrawingRoute
         {
@@ -74,10 +86,6 @@ namespace EncounterMe.Views
                 longi = value;
             }
         }
-    
-
-        private bool _chosenLocationPermission;
-        private bool _chosenGpsPermission;
 
         public MapPage()
         {
@@ -87,12 +95,6 @@ namespace EncounterMe.Views
             InitializeComponent();
             DisplayCurrentLocation();
 
-            Console.WriteLine("-------------------------------------------------------------------------------------");
-            Console.WriteLine("CurrentCulture is {0}.", CultureInfo.CurrentCulture.Name);
-            Console.WriteLine("CurrentCulture is {0}.", CultureInfo.CurrentUICulture.Name);
-            Console.WriteLine("CurrentCulture is {0}.", CultureInfo.InvariantCulture);
-            Console.WriteLine("CurrentCulture is {0}.", CultureInfo.DefaultThreadCurrentCulture);
-            Console.WriteLine("CurrentCulture is {0}.", CultureInfo.InstalledUICulture);
         }
 
         protected override void OnAppearing()
@@ -130,13 +132,13 @@ namespace EncounterMe.Views
             PinsList pinsList = PinsList.GetPinsList();
             _myPinList = pinsList;
 
-            foreach (MapPin mapPin in _myPinList.ListOfPins)
+            foreach (MapPin mapPin in _myPinList.ListOfPins.ToArray())
             {
                 if (mapPin.Pin != null)
                 {
                     MyMap.Pins.Add(mapPin.Pin);
                 }
-            }
+            }            
         }
 
         private async void DisplayCurrentLocation()
@@ -198,24 +200,31 @@ namespace EncounterMe.Views
                 IGpsSettings GpsDependency = DependencyService.Get<IGpsSettings>();         //Referencing the interface
                 GpsDependency.OpenSettings();
                 DisplayCurrentLocation();
-                DisplayCurrentLocation();
             }
         }
+
 
         //Constantly runs in the background, tracks current location and updates it
         private void TrackingLiveLocation()
         {
-            Device.StartTimer(TimeSpan.FromSeconds(2), () =>
+            if (!_isTimerRunning)
             {
-                Task.Run(async () =>
+                _isTimerRunning = true;
+                Device.StartTimer(TimeSpan.FromSeconds(5), () =>
                 {
-                    var request = new GeolocationRequest(GeolocationAccuracy.Default);
-                    var location = await Geolocation.GetLocationAsync(request);
-                    UpdateCurrentLocation(location);
-                    UserLocationChangedEvent(location);
+                    Task.Run(async () =>
+                    {
+                        await Task.Delay(2000);
+                        Device.BeginInvokeOnMainThread(async () =>
+                        {
+                            var request = new GeolocationRequest(GeolocationAccuracy.Default);
+                            var location = await Geolocation.GetLocationAsync(request);
+                            UserLocationChangedEvent(location);
+                        });
+                    });
+                    return true;
                 });
-                return true;
-            });
+            }   
         }
 
         void UpdateCurrentLocation(Location loc)
@@ -267,7 +276,7 @@ namespace EncounterMe.Views
         }
 
 
-        public async void DisplayRoute(Location endLocation, string type = "foot-walking")
+        public async void DisplayRoute(Location endLocation)
         {
             //Showing types button
             RouteTypes.IsVisible = true;
@@ -278,43 +287,28 @@ namespace EncounterMe.Views
 
             try
             {
-                GetAndParseJson(startLocation, endLocation, type);
+                GetAndParseJson(startLocation, endLocation);
+                //Thread.Sleep(1000);
                 DrawPolylines();
-
             }
             catch (Exception e)
             {
                 await DisplayAlert("Alert", "Something went wrong.\nPlase try again", "Ok");
                 Console.WriteLine("Exception at getting coordinates / parsing json. Message: " + e.ToString());
-                await Navigation.PopAsync();
+                //await Navigation.PopAsync();
             }
         }
 
         //The current logic is that it won't parse a different message than defined, therefore causing an exception
-        public void GetAndParseJson(Location startLocation, Location endLocation, string type)
+        public void GetAndParseJson(Location startLocation, Location endLocation)
         {
-            //string startLat = startLocation.Latitude.ToString().Replace(',', '.');
-            //string startLon = startLocation.Longitude.ToString().Replace(',', '.');
-            //string endLat = endLocation.Latitude.ToString().Replace(',', '.');
-            //string endLon = endLocation.Longitude.ToString().Replace(',', '.');
-
-            //Url: http://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a&start=-122.084,37.4219983333333&end=-121.902472302318,37.3736916169144
-
-
-            string startLat = "37,4219983333333".Replace(',', '.');
-            string startLon = "-122,084".Replace(',', '.');
-            string endLat = "37,3736916169144".Replace(',', '.');
-            string endLon = "-121,902472302318".Replace(',', '.');
 
             //URL to API
             string URL = $"http://api.openrouteservice.org/v2/directions/" +
-            $"{type}?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
-            $"&start={startLon},{startLat}" +
-            $"&end={endLon},{endLat}";
+            $"{_routeType}?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a" +
+            $"&start={startLocation.Longitude},{startLocation.Latitude}" +
+            $"&end={endLocation.Longitude},{endLocation.Latitude}";
 
-            //string URL = "http://api.openrouteservice.org/v2/directions/foot-walking?api_key=5b3ce3597851110001cf62480ee65daaadbe486f9218ad7d5288ad0a&start=-122.084,37.4219983333333&end=-121.902472302318,37.3736916169144";
-
-            Console.WriteLine("Url: " + URL);
 
             //Getting a request
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
@@ -333,59 +327,63 @@ namespace EncounterMe.Views
             string result = dobj["features"][0].ToString();
 
             JObject directionsJObject = JObject.Parse(result);
-            JToken coordinatesJToken = (JToken)directionsJObject.SelectToken("$.geometry.coordinates");
+            JToken coordinatesJToken = directionsJObject.SelectToken("$.geometry.coordinates");
             JArray coordinatesJArr = JArray.Parse(coordinatesJToken.ToString());
             _coordinatesArray = JsonConvert.DeserializeObject<string[][]>(coordinatesJArr.ToString());
+
+            //Recalculates the average distance after the array has changed
+            CalculateAverage();
         }
 
         //Keep in mind, that this API uses format long:lat
         public void DrawPolylines()
         {
-    
-            //Clears all previous lines
+            //Clears previous polylines
             MyMap.MapElements.Clear();
-
-            //Initialize locations for polylines
+            
             Location location2 = new Location();
-            Location location1 = new Location {
+            Location location1 = new Location
+            {
                 Longitude = Convert.ToDouble(_coordinatesArray[0][0]),
                 Latitude = Convert.ToDouble(_coordinatesArray[0][1])
             };
 
+            string[][] arr = _coordinatesArray;
+
             //Drawing lines
-            for (int i = 0; i < _coordinatesArray.Length; i++)
+            for (int i = 0; i < arr.Length; i++)
             {
-                location2.Longitude = Convert.ToDouble(_coordinatesArray[i][0]);
-                location2.Latitude = Convert.ToDouble(_coordinatesArray[i][1]);
+                location2.Longitude = Convert.ToDouble(arr[i][0]);
+                location2.Latitude = Convert.ToDouble(arr[i][1]);
                 Polyline polyline = new Polyline
                 {
                     StrokeColor = Color.Blue,
                     StrokeWidth = 12,
                     Geopath =
-                    {
-                        new Position(location1.Latitude, location1.Longitude),
-                        new Position(location2.Latitude, location2.Longitude)
-                    }
+                {
+                    new Position(location1.Latitude, location1.Longitude),
+                    new Position(location2.Latitude, location2.Longitude)
+                }
                 };
+                _polylineList.Add(polyline);
                 MyMap.MapElements.Add(polyline);
-                
+
                 location1.Longitude = location2.Longitude;
                 location1.Latitude = location2.Latitude;
             }
         }
 
 
-        //Is it possible to write this with only 1 button?
-
         //Walk
-        private void Button_Type_Foot(object sender, EventArgs e)
+        private void Button_Type_Foot(object sender, EventArgs e)   
         {
             Location loc = new Location
             {
                 Latitude = lat,
                 Longitude = longi
             };
-            DisplayRoute(loc, "foot-walking");
+            _routeType = "foot-walking";
+            DisplayRoute(loc);
         }
 
         //Bike
@@ -396,7 +394,8 @@ namespace EncounterMe.Views
                 Latitude = lat,
                 Longitude = longi
             };
-            DisplayRoute(loc, "cycling-regular");
+            _routeType = "cycling-regular";
+            DisplayRoute(loc);
         }
 
 
@@ -408,7 +407,8 @@ namespace EncounterMe.Views
                 Latitude = lat,
                 Longitude = longi
             };
-            DisplayRoute(loc, "wheelchair");
+            _routeType = "wheelchair";
+            DisplayRoute(loc);
         }
 
         private void Button_Type_Car(object sender, EventArgs e)
@@ -418,19 +418,49 @@ namespace EncounterMe.Views
                 Latitude = lat,
                 Longitude = longi   
             };
-            DisplayRoute(loc, "driving-car");
+            _routeType = "driving-car";
+            DisplayRoute(loc);
         }
 
 
         //Draws polyline from current location to the beggining of route
         //could be better, if the line was dotted
-        private void UserLocationChangedEventHandler(Location loc)
+        private void UserLocationChangedEventHandler(Location currentLocation)
+        {
+            double distance = Location.CalculateDistance(_lastRegisteredLocation.Latitude, _lastRegisteredLocation.Longitude,
+                                                                currentLocation.Latitude, currentLocation.Longitude, DistanceUnits.Kilometers);
+
+            //Calculates offset
+            double distanceOffset = 0.1 * _averageDistance;     //TODO : check what works with offset percentage
+
+            if (distance != 0 && _averageDistance != 0)
+            {
+                if (distance < _averageDistance + distanceOffset)
+                {
+                    _lastRegisteredLocation = currentLocation;
+                    RedrawFirstPolyline(currentLocation);
+                }
+                else
+                {
+                    Location loc = new Location
+                    {
+                        Latitude = lat,
+                        Longitude = longi
+                    };
+                    _lastRegisteredLocation = currentLocation;
+
+                    DisplayRoute(loc);
+                }
+            }
+        }
+
+        public void RedrawFirstPolyline(Location currentLocation)
         {
             if (_firstPolyline != null)
             {
                 MyMap.MapElements.Remove(_firstPolyline);
             }
-            
+
             //DrawPolylines();
             Location firstPolyline = new Location
             {
@@ -440,25 +470,40 @@ namespace EncounterMe.Views
 
             Polyline polyline = new Polyline
             {
-                
+
                 StrokeColor = Color.Blue,
                 StrokeWidth = 12,
                 Geopath =
-                {
-                    new Position(loc.Latitude, loc.Longitude),
-                    new Position(firstPolyline.Latitude, firstPolyline.Longitude)
-                }
+            {
+                new Position(currentLocation.Latitude, currentLocation.Longitude),
+                new Position(firstPolyline.Latitude, firstPolyline.Longitude)
+            }
             };
 
             MyMap.MapElements.Add(polyline);
             _firstPolyline = polyline;
+
         }
 
-        public void CalculateOffsetFromPath()
+        public void CalculateAverage()
         {
-            
-        }
+            double sum = 0;
+            Location loc1 = new Location();
+            Location loc2 = new Location();
 
+            for (int i = 0; i < _coordinatesArray.Length - 1; i++)
+            {
+                loc1.Latitude = Convert.ToDouble(_coordinatesArray[i][1]);
+                loc1.Longitude = Convert.ToDouble(_coordinatesArray[i][0]);
+                loc2.Latitude = Convert.ToDouble(_coordinatesArray[i + 1][1]);
+                loc2.Longitude = Convert.ToDouble(_coordinatesArray[i + 1][0]);
+
+                sum += Location.CalculateDistance(loc1.Latitude, loc1.Longitude, loc2.Latitude, loc2.Longitude, DistanceUnits.Kilometers);
+            }
+            
+            _averageDistance = sum / (_coordinatesArray.Length - 1);
+
+        }
     }
 }
 

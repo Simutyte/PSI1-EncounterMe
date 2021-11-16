@@ -41,7 +41,7 @@ namespace EncounterMe.Views
 
             IsCloseEnough isCloseEnough1 = new IsCloseEnough(delegate (double dist)
             {
-                return distance <= 20;
+                return distance <= 0.02;
             });
 
 
@@ -54,7 +54,7 @@ namespace EncounterMe.Views
 
         public static bool Allow(double distance)
         {
-            return distance <= 20;
+            return distance <= 0.02;
         }
 
 
