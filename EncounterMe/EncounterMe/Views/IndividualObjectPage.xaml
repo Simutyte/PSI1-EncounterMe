@@ -4,8 +4,8 @@
              xmlns:Pins="clr-namespace:EncounterMe" xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="EncounterMe.Views.IndividualObjectPage"
              Shell.NavBarIsVisible="False">
-    <ContentPage.Content>
 
+    <ContentPage.Content>
         <Grid HorizontalOptions="FillAndExpand"
               VerticalOptions="FillAndExpand"
               x:DataType="Pins:MapPin">
@@ -30,6 +30,16 @@
                          HorizontalOptions="Start"
                          VerticalOptions="Start"
                          Clicked="Go_Back_Clicked"/>
+
+            <ImageButton BackgroundColor="Transparent"
+                         Aspect="Fill"
+                         Source="navigationCursor.png"
+                         Margin="25"
+                         WidthRequest="30"
+                         HeightRequest="30" 
+                         HorizontalOptions="End"
+                         VerticalOptions="Start"
+                         Clicked="Display_Route_On_Map"/>
 
             <pv:PancakeView x:Name="DetailsView"
                             Grid.Row="1"
