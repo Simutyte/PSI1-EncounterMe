@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using EncounterMe.Pins;
 using EncounterMe.Services;
 using EncounterMe.Users;
 using Xamarin.Forms;
@@ -41,10 +42,13 @@ namespace EncounterMe.Views
             {
                 if (User.HasFavourite)
                 {
-                    
-                    if(App.s_mapPinService.FavouritePins.Value.Count > 0)
-                    {
-                        if (FavouriteMapPinList.IsValueCreated)
+                    UpdateFavourites();
+                    listView.ItemsSource = FavouriteMapPinList.Value;
+                    BindingContext = this;
+
+                    //if (App.s_mapPinService.FavouritePins.Value.Count > 0)
+                    //{
+                        /*if (FavouriteMapPinList.IsValueCreated)
                             FavouriteMapPinList.Value.Clear();
 
                         foreach(var MapPin in App.s_mapPinService.FavouritePins.Value)
@@ -52,13 +56,15 @@ namespace EncounterMe.Views
                             FavouriteMapPinList.Value.Add(MapPin);
                         }
                        
+                        listView.ItemsSource = FavouriteMapPinList.Value;*/
+                       /* UpdateFavourites();
                         listView.ItemsSource = FavouriteMapPinList.Value;
                         BindingContext = this;
                     }
                     else
                     {
                         DisplayAlert("nk nera", "nk nera", "ok");
-                    }
+                    }*/
                     
                         
                     
@@ -85,8 +91,59 @@ namespace EncounterMe.Views
 
         }
 
-        
+        private void UpdateFavourites()
+        {
+            Console.WriteLine(User.FavouriteObjects.Count);
+            Thread thread1 = new Thread(() =>
+            {
+                try
+                {
+                    //Console.WriteLine("Esu thread1 try");
+                    if (FavouriteMapPinList.IsValueCreated)
+                        FavouriteMapPinList.Value.Clear();
 
+                    foreach (var pin2 in User.FavouriteObjects)
+                    {
+                        //Console.WriteLine("Esu thread1 foreeach viduj pries await");
+                        var mapPin = ApiMapPinService.GetMapPin(pin2.ObjectId).Result;
+
+                        //Console.WriteLine("Esu thread1 foreeach viduj po await");
+
+                        FavouriteMapPinList.Value.Add( mapPin);
+                        //Console.WriteLine("Esu thread1 foreeach viduj po pridejimo");
+                    }
+
+                    success = true;
+                    Console.WriteLine("Esu thread1 po success pakeitimo");
+                }
+                catch (Exception ex)
+                {
+                    //Console.WriteLine(ex);
+                    success = false;
+                }
+            });
+
+            Thread thread2 = new Thread(() =>
+            {
+                //Console.WriteLine("Esu thread2 ");
+                if (success)
+                {
+                    DisplayAlert("Favourite objects", "Your favourite objects were updated", "ok");
+                }
+                else
+                {
+                    DisplayAlert("Favourite objects", "Sorry, something went wrong, we can't show your favourite objects", "ok");
+                }
+            });
+
+            
+            thread1.Start();
+            thread1.Join();
+            thread2.Start();
+
+        }
+
+     
 
         async void listView_ItemSelected(object sender, ItemTappedEventArgs e)
         {

@@ -97,7 +97,7 @@ namespace EncounterMe.Users
             if (d1 != null)
             {
                 CurrentUserId = d1.ID;
-                App.s_mapPinService.LoadFavourites(App.s_userDb.GetUserWithChildren((int)App.s_userDb.CurrentUserId));
+                //App.s_mapPinService.LoadFavourites(App.s_userDb.GetUserWithChildren((int)App.s_userDb.CurrentUserId));
                 return true;
             }
             else

@@ -47,7 +47,7 @@ namespace EncounterMe.Services
        
         public static async Task<MapPin> GetMapPin(int id)
         {
-           
+            Console.WriteLine("Esu GetMapPin API service");
             var response = await s_httpClient.GetAsync($"MapPins/{id}");
 
             response.EnsureSuccessStatusCode();
