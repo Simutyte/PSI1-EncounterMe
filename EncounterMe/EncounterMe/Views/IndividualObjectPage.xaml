@@ -92,7 +92,7 @@
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="Working hours:"
                                        FontSize="Body"
-                                       TextColor="#515151"
+                                       TextColor="Black"
                                        VerticalOptions="Center"/>
                                 <Label Text="{Binding OpeningHours}"
                                        FontSize="Body"
@@ -111,7 +111,7 @@
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="Object type:"
                                        FontSize="Body"
-                                       TextColor="#515151"
+                                       TextColor="Black"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Center"/>
 
@@ -125,7 +125,7 @@
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="Object style:"
                                        FontSize="Body"
-                                       TextColor="#515151"
+                                       TextColor="Black"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Center"/>
 
@@ -149,10 +149,92 @@
                                      Spacing="5">
                             <Label Text="Description:"
                                    FontSize="Body"
-                                   TextColor="#515151"/>
+                                   TextColor="Black"/>
                             <Label Text="{Binding Description}"
                                    FontSize="Body"
                                    TextColor="#515151"/>
+                        </StackLayout>
+                        
+                        <BoxView HeightRequest="1"
+                                 VerticalOptions="Start"
+                                 HorizontalOptions="FillAndExpand"
+                                 BackgroundColor="#E4E4E4"/>
+                        
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="Distance from you (pick unit of measurement):"
+                                   FontSize="Body"
+                                   TextColor="Black"/>
+                            
+                            <StackLayout Orientation="Horizontal"
+                                         HeightRequest="70">
+                                
+                                <Grid RowDefinitions="60">
+                                    <Picker x:Name="MeasurementPicker"
+                                            WidthRequest="110"
+                                            FontSize="Body"
+                                            Grid.Row="0"
+                                            SelectedIndexChanged="selected_measurement" 
+                                            Grid.Column="0"
+                                            TextColor="#515151">
+                                        <Picker.Items>
+                                            <x:String>Meters</x:String>
+                                            <x:String>Kilometers</x:String>
+                                            <x:String>Yards</x:String>
+                                            <x:String>Miles</x:String>
+                                        </Picker.Items>
+                                    </Picker>
+                                    
+                                    <Label x:Name="Ats"
+                                           
+                                           FontSize="Body"
+                                           TextColor="#515151"
+                                           Grid.Row="0"
+                                           Margin="18"
+                                           Grid.Column="1"/>
+                                </Grid>
+                            </StackLayout>
+                            
+                            <BoxView HeightRequest="1"
+                                 VerticalOptions="Start"
+                                 HorizontalOptions="FillAndExpand"
+                                 BackgroundColor="#E4E4E4"/>
+
+                            <StackLayout Orientation="Vertical">
+
+                                <Label  Text="Other objects:"
+                                        FontSize="Body"
+                                        TextColor="Black"/>
+
+                                <Label  Text="Close from this object:"
+                                        FontSize="Body"
+                                        TextColor="#515151"/>
+                                
+                                <Label  x:Name="CloseObjects"
+                                        Text=""
+                                        FontSize="Body"
+                                        TextColor="#515151"/>
+                                
+                                <Label  Text="Away from this object:"
+                                        FontSize="Body"
+                                        TextColor="#515151"/>
+
+                                <Label  x:Name="AwayObjects"
+                                        Text=""
+                                        FontSize="Body"
+                                        TextColor="#515151"/>
+                                
+                                <Label  Text="Far away from this object:"
+                                        FontSize="Body"
+                                        TextColor="#515151"/>
+
+                                <Label  x:Name="FarAwayObjects"
+                                        Text=""
+                                        FontSize="Body"
+                                        TextColor="#515151"/>
+
+
+                            </StackLayout>
+                                
                         </StackLayout>
                     </StackLayout>
                 </ScrollView>
