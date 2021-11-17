@@ -6,6 +6,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using EncounterMe.Pins;
+using System.Collections.Generic;
 
 namespace EncounterMe.Views
 {
@@ -21,14 +22,19 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IndividualObjectPage : ContentPage
     {
-        public delegate double Delegate(Location location, MapPin pin);
+        public delegate bool Filter(double x);
         private MapPin _pin;
         
         public IndividualObjectPage(MapPin pinToRender)
         {
             InitializeComponent();
+            PinsList list = PinsList.GetPinsList();
             _pin = pinToRender;
             this.BindingContext = pinToRender;
+
+            CloseObjects.Text = AllObjects(list.ListOfPins, _pin, IsClose);
+            AwayObjects.Text = AllObjects(list.ListOfPins, _pin, IsAway);
+            FarAwayObjects.Text = AllObjects(list.ListOfPins, _pin, IsFarAway);
         }
 
        
@@ -41,23 +47,40 @@ namespace EncounterMe.Views
                 var request = new GeolocationRequest(GeolocationAccuracy.Best);
                 var currentLocation = await Geolocation.GetLocationAsync(request);
                 if (selectedIndex == 0)
-                    Ats.Text = GetDistance(Calculating.GetDistanceInMeters, currentLocation, _pin);
+                    Ats.Text = Calculating.GetDistanceInMeters( currentLocation, _pin).ToString();
                 else if (selectedIndex == 1)
-                    Ats.Text = GetDistance(Calculating.GetDistanceInKm, currentLocation, _pin);
+                    Ats.Text = Calculating.GetDistanceInKm( currentLocation, _pin).ToString();
                 else if (selectedIndex == 2)
-                    Ats.Text = GetDistance(Calculating.GetDistanceInYards, currentLocation, _pin);
+                    Ats.Text = Calculating.GetDistanceInYards( currentLocation, _pin).ToString();
                 else
-                    Ats.Text = GetDistance(Calculating.GetDistanceInMiles, currentLocation, _pin);
+                    Ats.Text = Calculating.GetDistanceInMiles( currentLocation, _pin).ToString();
             }
             else
                 Ats.Text = "";
         }
         
+        
 
-
-        static string GetDistance(Delegate d, Location loc, MapPin pin)
+        static string AllObjects(List<MapPin> list, MapPin currentPin, Filter filter)
         {
-            return d(loc, pin).ToString();
+            string Objects = "";
+            Location loc = new Location() { Latitude = currentPin.Latitude, Longitude = currentPin.Longitude };
+
+            foreach (MapPin pin in list)
+            {
+                var distance = Calculating.GetDistanceInKm(loc, pin);
+                if (filter(distance) && pin.Id != currentPin.Id)
+                {
+                    Objects += pin.Name + ' ' + Math.Round(distance, 2).ToString() + " km" + '\n';
+                }
+            }
+
+            if (String.IsNullOrWhiteSpace(Objects))
+            {
+                return "There is none";
+            }
+            else
+                return Objects;
         }
 
         //Calculates distance from current location to pin location and 
@@ -109,6 +132,20 @@ namespace EncounterMe.Views
             await AppShell.Current.GoToAsync($"//home/tab/MapPage?lat={lat}&longi={longi}&drawing=true");
         }
 
+        static bool IsClose(double x)
+        {
+            return x <= 20;
+        }
+
+        static bool IsAway(double x)
+        {
+            return (x > 20 && x <=100);
+        }
+
+        static bool IsFarAway(double x)
+        {
+            return x > 100;
+        }
     }
 
     
