@@ -27,7 +27,7 @@ namespace EncounterMe.Pins
 
         }
 
-        public static double GetDistanceInM(Location location, MapPin pin)
+        public static double GetDistanceInMeters(Location location, MapPin pin)
         {
             Console.WriteLine("skaiciuoju metrais");
             Console.WriteLine(GetDistanceInKm(location, pin) * 1000);

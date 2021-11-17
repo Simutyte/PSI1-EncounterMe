@@ -21,6 +21,7 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class IndividualObjectPage : ContentPage
     {
+        public delegate double Delegate(Location location, MapPin pin);
         private MapPin _pin;
         
         public IndividualObjectPage(MapPin pinToRender)
@@ -40,23 +41,19 @@ namespace EncounterMe.Views
                 var request = new GeolocationRequest(GeolocationAccuracy.Best);
                 var currentLocation = await Geolocation.GetLocationAsync(request);
                 if (selectedIndex == 0)
-                    Ats.Text = GetDistance(MetersDelegate, currentLocation, _pin);
+                    Ats.Text = GetDistance(Calculating.GetDistanceInMeters, currentLocation, _pin);
                 else if (selectedIndex == 1)
-                    Ats.Text = GetDistance(KilometersDelegate, currentLocation, _pin);
+                    Ats.Text = GetDistance(Calculating.GetDistanceInKm, currentLocation, _pin);
                 else if (selectedIndex == 2)
-                    Ats.Text = GetDistance(YardsDelegate, currentLocation, _pin);
+                    Ats.Text = GetDistance(Calculating.GetDistanceInYards, currentLocation, _pin);
                 else
-                    Ats.Text = GetDistance(MilesDelegate, currentLocation, _pin);
+                    Ats.Text = GetDistance(Calculating.GetDistanceInMiles, currentLocation, _pin);
             }
             else
                 Ats.Text = "";
         }
         
 
-        Delegate KilometersDelegate = Calculating.GetDistanceInKm;
-        Delegate MilesDelegate = Calculating.GetDistanceInMiles;
-        Delegate MetersDelegate = Calculating.GetDistanceInM;
-        Delegate YardsDelegate = Calculating.GetDistanceInYards;
 
         static string GetDistance(Delegate d, Location loc, MapPin pin)
         {
@@ -114,6 +111,6 @@ namespace EncounterMe.Views
 
     }
 
-    public delegate double Delegate(Location location, MapPin pin);
+    
     
 }
