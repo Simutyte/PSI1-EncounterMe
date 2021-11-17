@@ -55,7 +55,7 @@ namespace EncounterMe.Views.Popups
             }
             else
             {
-                if(AddressExist(entryObjectCountry.Text, entryObjectCity.Text, entryObjectPostalCode.Text, entryObjectStreetAndNumber.Text).Result)
+                if(await AddressExist(entryObjectCountry.Text, entryObjectCity.Text, entryObjectPostalCode.Text, entryObjectStreetAndNumber.Text))
                 {
                     Address _address = new Address(entryObjectCountry.Text, entryObjectCity.Text, entryObjectPostalCode.Text, entryObjectStreetAndNumber.Text);
                     await _checkAddressCommands.GetCoordinatesFromAddress(_address);
