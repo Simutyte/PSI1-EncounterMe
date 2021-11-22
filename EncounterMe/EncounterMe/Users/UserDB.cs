@@ -109,6 +109,12 @@ namespace EncounterMe.Users
 
         }
 
+        
+        public void UpdateUser(User user)
+        {
+            _mySQLiteConnection.Update(user);
+        }
+
         public bool AddUser(User user)
         {
             var data = _mySQLiteConnection.Table<User>();

@@ -79,11 +79,11 @@ namespace EncounterMe.Views
                                 await DisplayAlert("Registration", "Sucessfully Added", "OK");
 
                                 var mail = new MailService();
-                                SuccessfulRegistration += mail.OnSuccessfulRegistration;
+                                //SuccessfulRegistration += mail.OnSuccessfulRegistration;
 
                                 var eventArgs = new RegistationEventArgs();
                                 eventArgs.Email = entryRegEmail.Text;
-                                OnSuccessfulRegistration(eventArgs);
+                               // OnSuccessfulRegistration(eventArgs);
 
                                 await Shell.Current.GoToAsync($"//{nameof(LogInPage)}");
                             }
