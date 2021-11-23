@@ -153,7 +153,7 @@ namespace EncounterMe.Views
             //double longi = -121.88968844314147
 
             //Real
-            double lat = _pin.Latitude;
+            double lat = _pin.Latitude; 
             double longi = _pin.Longitude;
 
             await AppShell.Current.GoToAsync($"//home/tab/MapPage?lat={lat}&longi={longi}&drawing=true");

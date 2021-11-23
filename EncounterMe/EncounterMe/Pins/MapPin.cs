@@ -35,6 +35,8 @@ namespace EncounterMe
 
         public double Latitude { get; set; }
 
+        public double DistanceToUser { get; set; }
+
         //-------------------------------------
 
         public Evaluation Evaluation { get; set; }
