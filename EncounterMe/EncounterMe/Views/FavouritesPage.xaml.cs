@@ -33,7 +33,7 @@ namespace EncounterMe.Views
             }
             else
             {
-                DisplayAlert("Favorites", "Currently you have no favorite objects", "Ok");
+                DisplayAlert("Alert", "Problems with getting data", "Ok");
             }
             
         }
