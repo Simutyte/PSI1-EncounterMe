@@ -509,10 +509,6 @@ namespace EncounterMe.Views
                 Longitude = Convert.ToDouble(_coordinatesArray[0][0])
             };
 
-            Console.WriteLine("My polylines");
-            Console.WriteLine(firstPolyline.Latitude.ToString());
-            Console.WriteLine(firstPolyline.Longitude.ToString());
-
             Polyline polyline = new Polyline
             {
 
@@ -535,14 +531,7 @@ namespace EncounterMe.Views
         {
             double sum = 0;
             Location loc1 = new Location();
-            Location loc2 = new Location();
-
-
-            //var sum1 = _coordinatesArray.Aggregate(0, (a, b) => a
-            //+ b.Aggregate(0,
-            //    (c, d) => c
-            //    + Location.CalculateDistance(Convert.ToDouble(c)
-            //    );
+            Location loc2 = new Location(); 
 
             for (int i = 0; i < _coordinatesArray.Length - 1; i++)
             {
@@ -557,7 +546,6 @@ namespace EncounterMe.Views
             _averageDistance = sum / (_coordinatesArray.Length - 1);
 
         }
-
     }
 }
 

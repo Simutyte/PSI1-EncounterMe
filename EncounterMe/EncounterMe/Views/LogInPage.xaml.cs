@@ -20,12 +20,12 @@ namespace EncounterMe.Views
         {
 
             //Delete this and uncomment DisplayAlert
-            await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
+            //await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
 
 
             if (string.IsNullOrWhiteSpace(entryLogUsername.Text) || string.IsNullOrWhiteSpace(entryLogPassword.Text))
             {
-                //await DisplayAlert("Entered data", "All fields must be filled", "OK");
+                await DisplayAlert("Entered data", "All fields must be filled", "OK");
             }
             else
             {
