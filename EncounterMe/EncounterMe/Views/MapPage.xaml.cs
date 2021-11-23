@@ -29,6 +29,7 @@ namespace EncounterMe.Views
     [QueryProperty(nameof(Lat), "lat")]
     [QueryProperty(nameof(Longi), "longi")]
     [QueryProperty(nameof(DrawingRoute), "drawing")]
+    [QueryProperty(nameof(DisplayPin), "pin")]
     public partial class MapPage : ContentPage
     {
         public event Action<Location> UserLocationChangedEvent;
@@ -47,11 +48,23 @@ namespace EncounterMe.Views
         private bool _isDrawingRoute = false;
         private bool _chosenLocationPermission;
         private bool _chosenGpsPermission;
+        private bool _displayPin = false;
 
         private double _averageDistance;
         private double lat = 0;
         private double longi = 0;
         
+        public bool DisplayPin
+        {
+            get
+            {
+                return _displayPin;
+            }
+            set
+            {
+                _displayPin = value;
+            }
+        }
 
         public bool DrawingRoute
         {
@@ -107,6 +120,14 @@ namespace EncounterMe.Views
             GenerateMapPins();
 
 
+            //Checks if we need to display a pin(coming from "all objects -> add object -> by pin to maps") 
+            if (_displayPin)
+            {
+                AnimationView.IsVisible = !AnimationView.IsVisible;
+                CenterPin.IsVisible = !CenterPin.IsVisible;
+            }
+
+            //Checks if we need to draw a route (coming form individual objects page)
             if (_isDrawingRoute)
             {
                 UserLocationChangedEvent += new Action<Location>(UserLocationChangedEventHandler);

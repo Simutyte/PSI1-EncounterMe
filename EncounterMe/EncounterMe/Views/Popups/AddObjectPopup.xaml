@@ -51,7 +51,8 @@
                 FontAttributes="Bold"
                 FontSize="Medium"
                 BackgroundColor="#2E8B57"
-                CornerRadius="30" />
+                CornerRadius="30"
+                Clicked="Add_By_Current_Coordinates_Button_Clicked"/>
 
     </StackLayout>
 </popup:PopupPage>

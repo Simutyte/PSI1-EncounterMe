@@ -19,6 +19,7 @@
                    MapType="Street"/>
 
         <Image x:Name="CenterPin"
+               Margin="0, 0, 0, 45"
                Source="mapPin.png"
                HeightRequest="50"
                WidthRequest="50"
@@ -62,17 +63,10 @@
                         Opacity="0.7"
                         IsVisible="False">
 
-            <!--<pv:PancakeView.BackgroundGradientStops>
-                <pv:GradientStopCollection>
-                    <pv:GradientStop Color="LightBlue" Offset="0"/>
-                    <pv:GradientStop Color="Green" Offset="1"/>
-                </pv:GradientStopCollection>
-            </pv:PancakeView.BackgroundGradientStops>-->
-
             <behaviors:Expander HorizontalOptions="Start"
                                 VerticalOptions="End"
                                 Rotation="180">
-                
+
                 <behaviors:Expander.Header>
                     <Image Source="arrowup.png"
                            WidthRequest="30"
@@ -82,7 +76,6 @@
                             <DataTrigger TargetType="Image"
                                          Binding="{Binding Source={RelativeSource AncestorType={x:Type behaviors:Expander}}, Path=IsExpanded}"
                                          Value="True">
-                                <!--<Setter Property="Source" Value="route.png"/>-->
                             </DataTrigger>
                         </Image.Triggers>
                     </Image>
@@ -116,12 +109,8 @@
                                  BackgroundColor="Transparent"
                                  Pressed="Button_Type_Car"/>
 
-                    
-
                 </StackLayout>
             </behaviors:Expander>
-
-
         </pv:PancakeView>
     </Grid>
 </ContentPage>

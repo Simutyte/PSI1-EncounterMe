@@ -31,6 +31,10 @@ namespace EncounterMe.Views
 
                 User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
             }
+            else
+            {
+                DisplayAlert("Favorites", "Currently you have no favorite objects", "Ok");
+            }
             
         }
 
