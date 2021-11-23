@@ -31,6 +31,10 @@ namespace EncounterMe.Views
 
                 User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
             }
+            else
+            {
+                DisplayAlert("Alert", "Problems with getting data", "Ok");
+            }
             
         }
 

@@ -272,7 +272,7 @@
 
                             <!--Description laukelis-->
                             <StackLayout Margin="0,10,0,25">
-                                <Label Text="Object desricption:"
+                                <Label Text="Object description:"
                                        TextColor="#2E8B57"
                                        FontSize="Medium"/>
 

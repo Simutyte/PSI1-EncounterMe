@@ -4,6 +4,7 @@
 using System;
 using Rg.Plugins.Popup.Pages;
 using Rg.Plugins.Popup.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -24,8 +25,15 @@ namespace EncounterMe.Views.Popups
 
         async void Add_By_Pin_Button_Clicked(object sender, EventArgs args)
         {
-            await Shell.Current.Navigation.PushAsync(new MapPage());
+            await AppShell.Current.GoToAsync($"//home/tab/MapPage?pin=true");
             await PopupNavigation.Instance.PopAsync();
         }
+        async void Add_By_Current_Coordinates_Button_Clicked(object sender, EventArgs args)
+        {
+            var requestLocation = new GeolocationRequest(GeolocationAccuracy.Default);
+            var location = await Geolocation.GetLocationAsync(requestLocation);
+            await PopupNavigation.Instance.PushAsync(new AddByCoordinatesPopup(location));
+        }
+        
     }
 }
