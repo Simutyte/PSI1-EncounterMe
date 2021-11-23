@@ -26,7 +26,7 @@ namespace EncounterMe.Droid.CustomRenderer
             {
                 
                 Control.SetBackgroundColor(Android.Graphics.Color.Transparent);
-                Control.SetTextColor(Android.Graphics.Color.DarkGreen);             
+                //Control.SetTextColor(Android.Graphics.Color.DarkGreen);             
             }
         }
     }

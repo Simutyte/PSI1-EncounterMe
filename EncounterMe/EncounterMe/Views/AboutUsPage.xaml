@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              Shell.TabBarIsVisible="False"
              Title="About us"
-             x:Class="EncounterMe.Views.AboutUsPage">
+             x:Class="EncounterMe.Views.AboutUsPage"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
+                                               Light={StaticResource WindowBcColor}}">
     <ContentPage.Content>
         <StackLayout>
             <Label Text="Welcome to about us page"

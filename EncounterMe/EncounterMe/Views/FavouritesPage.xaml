@@ -3,14 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:Pins="clr-namespace:EncounterMe"
              Shell.TabBarIsVisible="true"
              Title="Favourites"
-             x:Class="EncounterMe.Views.FavouritesPage">
+             x:Class="EncounterMe.Views.FavouritesPage"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
+                                               Light={StaticResource WindowBcColor}}">
 
     <StackLayout x:Name="MainStackLayout">
 
-        <ListView BackgroundColor="Transparent"
+        <ListView Style="{StaticResource AllObjectsListView}"
                   x:Name="listView"
-                  HasUnevenRows="True"
-                  IsPullToRefreshEnabled="False"
                   ItemSelected="listView_ItemSelected"
                   ItemTapped="listView_ItemTapped">
 
@@ -18,10 +18,16 @@
                 <DataTemplate x:DataType="Pins:MapPin">
                     <ViewCell >
 
-                        <pv:PancakeView HeightRequest="200"
+                        <pv:PancakeView HeightRequest="220"
                                         Margin="5,10"
                                         CornerRadius="5"
-                                        BackgroundColor="Transparent">
+                                         BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark},
+                                                                          Light=#ECEBEA}">
+                            <pv:PancakeView.Border >
+                                <pv:Border Color="{AppThemeBinding Dark={StaticResource SecondBcDark},
+                                                                          Light=LightGray}" Thickness="1"/>
+                            </pv:PancakeView.Border>
+                            
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
@@ -79,7 +85,8 @@
                                                FontSize="Subtitle"
                                                FontAttributes="Bold"
                                                FontFamily="ThemeFontBold"
-                                               TextColor="DarkSlateGray"/>
+                                               TextColor="{AppThemeBinding Dark=White,
+                                                                           Light=DarkSlateGray}"/>
 
 
                                     <StackLayout Orientation="Horizontal"
@@ -88,25 +95,21 @@
                                         <StackLayout Orientation="Horizontal"
                                                      Spacing="5">
                                             <Label Text="Type:"
-                                                   FontSize="Small"
-                                                   FontFamily="ThemeFontRegular"
-                                                   TextColor="DarkSlateGray"/>
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                            
                                             <Label Text="{Binding Type}"
-                                                   FontSize="Small"
-                                                   FontFamily="ThemeFontRegular"
-                                                   TextColor="DarkSlateGray"/>
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                            
                                         </StackLayout>
 
                                         <StackLayout Orientation="Horizontal"
                                                      Spacing="5">
                                             <Label Text="Style:"
-                                                   FontSize="Small"
-                                                   FontFamily="ThemeFontRegular"
-                                                   TextColor="DarkSlateGray"/>
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                            
                                             <Label Text="{Binding StyleType}"
-                                                   FontSize="Small"
-                                                   FontFamily="ThemeFontRegular"
-                                                   TextColor="DarkSlateGray"/>
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                            
                                         </StackLayout>
                                     </StackLayout>
 
@@ -117,17 +120,14 @@
                                                    Margin="0,0,4,0"
                                                    Source="clock.png"/>
                                             <Label Text="{Binding OpeningHours}"
-                                                   FontSize="Small"
-                                                   FontFamily="ThemeFontRegular"
-                                                   TextColor="DarkSlateGray"/>
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                            
                                             <Label Text="-"
-                                                   FontSize="Small"
-                                                   FontFamily="ThemeFontRegular"
-                                                   TextColor="DarkSlateGray"/>
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                            
                                             <Label Text="{Binding ClosingHours}"
-                                                   FontSize="Small"
-                                                   FontFamily="ThemeFontRegular"
-                                                   TextColor="DarkSlateGray"/>
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                            
                                         </StackLayout>
                                     </StackLayout>
 

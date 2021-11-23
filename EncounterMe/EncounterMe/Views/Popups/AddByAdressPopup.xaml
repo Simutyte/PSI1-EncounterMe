@@ -7,7 +7,8 @@
                  xmlns:viewModels="clr-namespace:EncounterMe.ViewModels"
                  xmlns:converter="clr-namespace:EncounterMe.Pins"
                  x:Class="EncounterMe.Views.Popups.AddByAdressPopup"
-                 x:DataType="viewModels:AddObjectByAddressViewModel">
+                 x:DataType="viewModels:AddObjectByAddressViewModel"
+                 >
 
     <popup:PopupPage.Animation>
         <animations:ScaleAnimation 
@@ -39,10 +40,7 @@
             <Grid>
 
                 <StackLayout Margin="15,20,15,20">
-                    <Frame BackgroundColor="#F0F0F0"
-                           HasShadow="True"
-                           CornerRadius="2"
-                           HorizontalOptions="FillAndExpand">
+                    <Frame Style="{StaticResource PopupPageMainFrame}">
                         <StackLayout>
 
                             <!--Pavadinimas-->
@@ -56,8 +54,7 @@
                             <!--Name laukelis-->
                             <StackLayout Margin="0,10,0,0">
                                 <Label Text="Object name:"
-                                       TextColor="#2E8B57"
-                                       FontSize="Medium"/>
+                                       Style="{StaticResource LabelForTitleOfEntry}"/>
 
                                 <Frame BackgroundColor="Transparent"
                                        BorderColor="#6c8578"
@@ -68,9 +65,7 @@
                                     <StackLayout Orientation="Horizontal">
                                         <local:LogInCustomEntry x:Name="entryObjectName"
                                                                 Placeholder="Object name"
-                                                                TextColor="#416459"
-                                                                HorizontalOptions="FillAndExpand"
-                                                                Margin="15,0,15,0" />
+                                                                Style="{StaticResource Entry}" />
                                     </StackLayout>
 
                                 </Frame>
@@ -79,72 +74,44 @@
                             <!--Adress laukelis-->
                             <StackLayout Margin="0,10,0,0">
                                 <Label Text="Object adress:"
-                                       TextColor="#2E8B57"
-                                       FontSize="Medium"/>
+                                       Style="{StaticResource LabelForTitleOfEntry}"/>
 
-                                <Frame BackgroundColor="Transparent"
-                                       BorderColor="#6c8578"
-                                       CornerRadius="50"
-                                       HorizontalOptions="FillAndExpand"
-                                       Padding="0"
-                                       Margin="0">
+                                <Frame Style="{StaticResource EntryFrame}">
                                     <StackLayout Orientation="Horizontal">
                                         <local:LogInCustomEntry x:Name="entryObjectCountry"
                                                                 Keyboard="Default"
                                                                 Placeholder="Country"
-                                                                TextColor="#416459"
-                                                                HorizontalOptions="FillAndExpand"
-                                                                Margin="15,0,15,0" />
+                                                                Style="{StaticResource Entry}" />
                                     </StackLayout>
                                 </Frame>
 
-                                <Frame BackgroundColor="Transparent"
-                                       BorderColor="#6c8578"
-                                       CornerRadius="50"
-                                       HorizontalOptions="FillAndExpand"
-                                       Padding="0" Margin="0">
+                                <Frame Style="{StaticResource EntryFrame}">
 
                                     <StackLayout Orientation="Horizontal">
                                         <local:LogInCustomEntry x:Name="entryObjectCity"
                                                                 Keyboard="Default"
                                                                 Placeholder="City"
-                                                                TextColor="#416459"
-                                                                HorizontalOptions="FillAndExpand"
-                                                                Margin="15,0,15,0" />
+                                                                Style="{StaticResource Entry}" />
                                     </StackLayout>
                                 </Frame>
 
-                                <Frame BackgroundColor="Transparent"
-                                       BorderColor="#6c8578"
-                                       CornerRadius="50"
-                                       HorizontalOptions="FillAndExpand"
-                                       Padding="0"
-                                       Margin="0">
+                                <Frame Style="{StaticResource EntryFrame}">
 
                                     <StackLayout Orientation="Horizontal">
                                         <local:LogInCustomEntry x:Name="entryObjectPostalCode"
                                                                 Keyboard="Numeric"
                                                                 Placeholder="PostalCode"
-                                                                TextColor="#416459"
-                                                                HorizontalOptions="FillAndExpand"
-                                                                Margin="15,0,15,0" />
+                                                                Style="{StaticResource Entry}" />
                                     </StackLayout>
                                 </Frame>
 
-                                <Frame BackgroundColor="Transparent"
-                                       BorderColor="#6c8578"
-                                       CornerRadius="50"
-                                       HorizontalOptions="FillAndExpand"
-                                       Padding="0"
-                                       Margin="0">
+                                <Frame Style="{StaticResource EntryFrame}">
 
                                     <StackLayout Orientation="Horizontal">
                                         <local:LogInCustomEntry x:Name="entryObjectStreetAndNumber"
                                                                 Keyboard="Default"
                                                                 Placeholder="StreetAndNumber"
-                                                                TextColor="#416459"
-                                                                HorizontalOptions="FillAndExpand"
-                                                                Margin="15,0,15,0" />
+                                                                Style="{StaticResource Entry}" />
                                     </StackLayout>
                                 </Frame>
 
@@ -153,15 +120,9 @@
                             <!--Object type laukelis-->
                             <StackLayout Margin="0,10,0,0">
                                 <Label Text="Object type:"
-                                       TextColor="#2E8B57"
-                                       FontSize="Medium"/>
-                                
-                                <Frame BackgroundColor="Transparent"
-                                       BorderColor="#6c8578"
-                                       CornerRadius="50"
-                                       HorizontalOptions="FillAndExpand"
-                                       Padding="0"
-                                       Margin="0">
+                                       Style="{StaticResource LabelForTitleOfEntry}"/>
+
+                                <Frame Style="{StaticResource EntryFrame}">
 
                                     <StackLayout Orientation="Horizontal">
                                         <Picker Margin="4,0,4,0"
@@ -177,15 +138,9 @@
                             <!--Object style laukelis-->
                             <StackLayout Margin="0,10,0,0">
                                 <Label Text="Object style:"
-                                       TextColor="#2E8B57"
-                                       FontSize="Medium"/>
+                                       Style="{StaticResource LabelForTitleOfEntry}"/>
 
-                                <Frame BackgroundColor="Transparent"
-                                       BorderColor="#6c8578"
-                                       CornerRadius="50"
-                                       HorizontalOptions="FillAndExpand"
-                                       Padding="0"
-                                       Margin="0">
+                                <Frame Style="{StaticResource EntryFrame}">
 
                                     <StackLayout Orientation="Horizontal">
                                         <Picker Margin="4,0,4,0"
@@ -201,15 +156,9 @@
                             <!--Hours laukelis-->
                             <StackLayout Margin="0,10,0,0">
                                 <Label Text="Working hours:"
-                                       TextColor="#2E8B57"
-                                       FontSize="Medium"/>
+                                       Style="{StaticResource LabelForTitleOfEntry}"/>
 
-                                <Frame BackgroundColor="Transparent"
-                                       BorderColor="#6c8578"
-                                       CornerRadius="50"
-                                       HorizontalOptions="FillAndExpand"
-                                       Padding="0"
-                                       Margin="0">
+                                <Frame Style="{StaticResource EntryFrame}">
 
                                     <StackLayout Orientation="Horizontal">
                                         <Label Padding="8,4"
@@ -234,14 +183,14 @@
                             <!--Description laukelis-->
                             <StackLayout Margin="0,10,0,25">
                                 <Label Text="Object description:"
-                                       TextColor="#2E8B57"
-                                       FontSize="Medium"/>
+                                       Style="{StaticResource LabelForTitleOfEntry}"/>
 
                                 <StackLayout Orientation="Horizontal" >
                                     <Editor x:Name="entryObjectDescription"
                                             HeightRequest="80"
                                             Placeholder="Object description"
-                                            TextColor="#416459"
+                                            TextColor="{AppThemeBinding Dark=White, Light=#416459}"
+                                            PlaceholderColor="{AppThemeBinding Dark=White, Light=#416459}"
                                             HorizontalOptions="FillAndExpand"
                                             VerticalOptions="FillAndExpand"/>
                                 </StackLayout>
@@ -251,14 +200,14 @@
                             <!--Image URL laukelis-->
                             <StackLayout Margin="0,10,0,25">
                                 <Label Text="Object image:"
-                                       TextColor="#2E8B57"
-                                       FontSize="Medium"/>
+                                       Style="{StaticResource LabelForTitleOfEntry}"/>
 
                                 <StackLayout Orientation="Horizontal" >
                                     <Editor x:Name="entryObjectImage"
                                             HeightRequest="80"
                                             Placeholder="Image URL"
-                                            TextColor="#416459"
+                                             TextColor="{AppThemeBinding Dark=White, Light=#416459}"
+                                            PlaceholderColor="{AppThemeBinding Dark=White, Light=#416459}"
                                             HorizontalOptions="FillAndExpand"
                                             VerticalOptions="FillAndExpand"/>
                                 </StackLayout>
@@ -273,15 +222,11 @@
                                          HeightRequest="50">
 
                                 <Button Text="Cancel"
-                                        TextColor="#F0F0F0"
-                                        BackgroundColor="#2E8B57"
-                                        CornerRadius="30"
+                                        Style="{StaticResource PopupButton}"
                                         Clicked="Cancel_Button_Clicked"  />
 
                                 <Button Text="Add"
-                                        TextColor="#F0F0F0"
-                                        BackgroundColor="#2E8B57"
-                                        CornerRadius="30"
+                                        Style="{StaticResource PopupButton}"
                                         Clicked="Add_Button_Clicked"  />
 
                             </StackLayout>

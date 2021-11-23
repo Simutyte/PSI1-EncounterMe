@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:Users="clr-namespace:EncounterMe.Users"
              Shell.TabBarIsVisible="true"
              Title="Profile"
-             x:Class="EncounterMe.Views.ProfilePage">
+             x:Class="EncounterMe.Views.ProfilePage"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
+                                               Light={StaticResource WindowBcColor}}">
 
 
     <ScrollView VerticalOptions="FillAndExpand"
@@ -38,7 +40,8 @@
                    Margin="20,-50,20,0"
                    Padding="18"
                    HeightRequest="60"
-                   VerticalOptions="StartAndExpand">
+                   VerticalOptions="StartAndExpand"
+                   BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark}, Light=White}">
                 
                 <Grid HorizontalOptions="FillAndExpand"
                       VerticalOptions="FillAndExpand">
@@ -54,12 +57,12 @@
                         <Label Text="{Binding Username}"
                                FontSize="20"
                                FontAttributes="Bold"
-                               TextColor="Black"
+                               TextColor="{AppThemeBinding Dark=White, Light=Black}"
                                HorizontalOptions="CenterAndExpand"/>
 
                         <Label Text="{Binding Email}"
-                               FontSize="12"
-                               TextColor="#2C3E50"
+                               FontSize="14"
+                               TextColor="{AppThemeBinding Dark=White, Light=#2C3E50}"
                                HorizontalOptions="CenterAndExpand"/>
                         
                         
@@ -73,7 +76,8 @@
                    Margin="20"
                    Padding="18"
                    VerticalOptions="StartAndExpand"
-                   HorizontalOptions="FillAndExpand">
+                   HorizontalOptions="FillAndExpand"
+                   BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark}, Light=White}">
                 
                 <Grid RowSpacing="20">
                     <Grid.RowDefinitions>
@@ -84,7 +88,7 @@
                     <Label Text="About me"
                            Grid.Row="0"
                            FontSize="17"
-                           TextColor="#2C3E50"/>
+                           TextColor="{AppThemeBinding Dark=White, Light=#2C3E50}"/>
 
                     <ImageButton Source="edit.png"
                                  Grid.Row="0"
@@ -99,7 +103,7 @@
                     <Label Grid.Row="1"
                            Text="{Binding AboutMe}"
                            FontSize="14"
-                           TextColor="#707070"/>
+                           TextColor="{AppThemeBinding Dark=White, Light=#707070}"/>
                 </Grid>
             </Frame>
         </Grid>

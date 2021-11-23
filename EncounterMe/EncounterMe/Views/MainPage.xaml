@@ -2,7 +2,9 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:Users="clr-namespace:EncounterMe.Users"
              Title="ENCOUNTER ME"
-             x:Class="EncounterMe.Views.MainPage">
+             x:Class="EncounterMe.Views.MainPage"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
+                                               Light={StaticResource WindowBcColor}}">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="logOut.png"

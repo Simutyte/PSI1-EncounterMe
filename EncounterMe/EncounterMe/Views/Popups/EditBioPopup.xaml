@@ -55,21 +55,17 @@
 
                 <!--Mygtukai-->
                 <StackLayout Orientation="Horizontal"
-                                             HorizontalOptions="Center"
-                                             Margin="0,0,0,0"
-                                             HeightRequest="50">
+                             HorizontalOptions="Center"
+                             Margin="0,0,0,0"
+                             HeightRequest="50">
 
                     <Button Text="Cancel"
-                                            TextColor="#F0F0F0"
-                                            BackgroundColor="#2E8B57"
-                                            CornerRadius="30"
-                                            Clicked="Cancel_Button_Clicked"  />
+                            Style="{StaticResource PopupButton}"
+                            Clicked="Cancel_Button_Clicked"  />
 
                     <Button Text="Add"
-                                            TextColor="#F0F0F0"
-                                            BackgroundColor="#2E8B57"
-                                            CornerRadius="30"
-                                            Clicked="Add_Button_Clicked"  />
+                            Style="{StaticResource PopupButton}"
+                            Clicked="Add_Button_Clicked"  />
 
                 </StackLayout>
             </StackLayout>
