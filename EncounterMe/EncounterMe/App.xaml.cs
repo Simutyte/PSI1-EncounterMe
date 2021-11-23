@@ -3,8 +3,10 @@
 
 using System;
 using System.Globalization;
+using EncounterMe.Helpers;
 using EncounterMe.Services;
 using EncounterMe.Users;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -21,6 +23,7 @@ namespace EncounterMe
             s_mapPinService = new MapPinService();
             s_mapPinService.LoadList(); //užloadinam duomenis į PinsList.ListOfPins
             s_userDb = new UserDB();
+            TheTheme.SetTheme();
             SetCultureToUSEnglish();
             MainPage = new AppShell();
         }
@@ -35,15 +38,27 @@ namespace EncounterMe
 
         protected override void OnStart()
         {
-           
+            OnResume();
         }
 
         protected override void OnSleep()
         {
+            TheTheme.SetTheme();
+            RequestedThemeChanged -= App_RequestedThemeChanged;
         }
 
         protected override void OnResume()
         {
+            TheTheme.SetTheme();
+            RequestedThemeChanged += App_RequestedThemeChanged;
+        }
+
+        private void App_RequestedThemeChanged(object sender, AppThemeChangedEventArgs e)
+        {
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                TheTheme.SetTheme();
+            });
         }
     }
 }

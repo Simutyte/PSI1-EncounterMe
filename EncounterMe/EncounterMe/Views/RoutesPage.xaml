@@ -4,7 +4,9 @@
              xmlns:Pins="clr-namespace:EncounterMe"
              xmlns:viewModels="clr-namespace:EncounterMe.ViewModels"
              Title="Routes"
-             x:Class="EncounterMe.Views.RoutesPage">
+             x:Class="EncounterMe.Views.RoutesPage"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
+                                               Light={StaticResource WindowBcColor}}">
 
     <ContentPage.BindingContext>
         <viewModels:RoutePageViewModel/>
@@ -17,11 +19,17 @@
             <SearchBar x:Name="SearchObjects"
                        HorizontalOptions="FillAndExpand"
                        Placeholder="Search for city"
+                       BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark},
+                                                     Light={StaticResource WindowBcColor}}"
+                       TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                               Light={StaticResource TextColor}}"
+                        PlaceholderColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                      Light={StaticResource TextColor}}"
                        TextChanged="SearchBar_TextChanged"/>
         </StackLayout>
 
         <!--ItemsSource="{Binding allObjectsCollection}"-->
-        <ListView BackgroundColor="Transparent"
+        <ListView 
                   x:Name="RoutesListView"
                   HasUnevenRows="True">
 
@@ -29,17 +37,20 @@
                 <DataTemplate x:DataType="Pins:MapPin">
                     <ViewCell >
                         <Grid Padding="10">
-                            <Frame CornerRadius="10"
-                                   HasShadow="True">
+                            <Frame Style="{StaticResource ListViewCell}">
                                 <StackLayout>
                                     <StackLayout>
                                         <Label Text="{Binding Name}"
+                                               Style="{StaticResource BaseLabel}"
                                            VerticalOptions="Center"/>
+                                        
                                         <Label Text="{Binding Type}"
+                                                Style="{StaticResource BaseLabel}"
                                                VerticalOptions="Center"/>
                                         <Label Text="{Binding StyleType}"
+                                                Style="{StaticResource BaseLabel}"
                                                VerticalOptions="Center"/>
-                                        <Label>
+                                        <Label  Style="{StaticResource BaseLabel}">
                                             <Label.FormattedText>
                                                 <FormattedString>
                                                     <Span Text="{Binding Address.Country}"/>
@@ -53,6 +64,7 @@
                                             </Label.FormattedText>
                                         </Label>
                                         <Label Text="{Binding Description}"
+                                                Style="{StaticResource BaseLabel}"
                                                VerticalOptions="Center"/>
 
                                     </StackLayout>
@@ -68,11 +80,13 @@
 
         <StackLayout Orientation="Horizontal"
                      HeightRequest="50"
-                     BackgroundColor="#e3e3e3">
+                     BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark},
+                                                     Light=#ECEBEA}">
 
             <Frame HeightRequest="50"
                    HasShadow="False"
-                   BackgroundColor="Transparent"
+                   BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark},
+                                                     Light=#ECEBEA}"
                    HorizontalOptions="FillAndExpand"
                    Padding="0"
                    Margin="0"
@@ -83,15 +97,19 @@
                              x:Name="ObjectTypePicker"
                              VerticalOptions="End"
                              HorizontalOptions="FillAndExpand"
+                            BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark},
+                                                     Light=#ECEBEA}"
                              ItemsSource="{Binding ObjectTypeNames}"
                              SelectedIndexChanged="Picker_index_Changed"/>
 
             </Frame>
             <ImageButton Source="cross.png"
                          Clicked="Cross_Button_Clicked"
+                         Aspect="AspectFit"
                          WidthRequest="30"
                          HeightRequest="30"
-                         BackgroundColor="Transparent"
+                         BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark},
+                                                     Light=#ECEBEA}"
                          Margin="0,0,5,0"/>
         </StackLayout>
     </StackLayout>

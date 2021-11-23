@@ -9,24 +9,38 @@
              Shell.MenuItemTemplate="{StaticResource MenuTemplate}"
              Shell.ForegroundColor="#2E8B57"
              TitleColor="#2E8B57"
-             BackgroundColor="#F0F0F0"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark}, Light=#F0F0F0}"
              NavigationPage.HasNavigationBar="True"
-             x:Class="EncounterMe.AppShell">
+             x:Class="EncounterMe.AppShell"
+             FlyoutBackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark}, Light={StaticResource BgColor}}"
+             >
+
+    <Shell.FlyoutContent>
+        
+                <DataTemplate>
+                    <Label 
+                           TextColor="White"
+                           FontSize="Large" />
+                </DataTemplate>
+          
+    </Shell.FlyoutContent>
 
 
-   
     
     <Shell.Resources>
         <ResourceDictionary>
             <Color x:Key="ThemeColor">#2E8B57</Color>
             <Color x:Key="GrayColor">Gray</Color>
             <Color x:Key="BgColor">#F0F0F0</Color>
+            
             <Style x:Key="BaseStyle" TargetType="Element">
-                <Setter Property="Shell.TabBarBackgroundColor" Value="{StaticResource BgColor}"/>
-                <Setter Property="Shell.TabBarForegroundColor" Value="{StaticResource BgColor}"/>
-                <Setter Property="Shell.TabBarUnselectedColor" Value="{StaticResource GrayColor}"/>
+                <Setter Property="Shell.TabBarBackgroundColor" Value="{AppThemeBinding Dark={StaticResource SecondBcDark}, Light={StaticResource BgColor}}"/>
+                <Setter Property="Shell.TabBarForegroundColor" Value="{AppThemeBinding Dark={StaticResource SecondBcDark}, Light={StaticResource BgColor}}"/>
+                <Setter Property="Shell.TabBarUnselectedColor" Value="{AppThemeBinding Dark=#949494, Light={StaticResource GrayColor}}"/>
                 <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource ThemeColor}"/>
+               
             </Style>
+
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}"/>
             <DataTemplate x:Key="MenuTemplate">
                 <StackLayout Orientation="Horizontal">
@@ -36,7 +50,7 @@
                            HeightRequest="36"
                            HorizontalOptions="Start"
                            VerticalOptions="Center"/>
-                    <Label Text="{Binding Title}" TextColor="#686868" FontSize="16" VerticalOptions="Center"/>
+                    <Label Text="{Binding Title}" TextColor="{AppThemeBinding Dark=White, Light=#686868}" FontSize="16" VerticalOptions="Center"/>
                 </StackLayout>
             </DataTemplate>
         </ResourceDictionary>
@@ -54,7 +68,8 @@
                 Icon="home.png">
         
         <Tab Title="Main Page"
-             Icon="mainPage.png" >
+             Icon="mainPage.png"
+             >
             <ShellContent ContentTemplate="{DataTemplate views:MainPage}"
                           Route="MainPage"/>
         </Tab>

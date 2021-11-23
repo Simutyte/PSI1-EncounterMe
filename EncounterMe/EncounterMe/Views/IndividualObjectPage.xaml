@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:Pins="clr-namespace:EncounterMe" xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="EncounterMe.Views.IndividualObjectPage"
-             Shell.NavBarIsVisible="False">
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
+                                               Light={StaticResource WindowBcColor}}">
 
     <ContentPage.Content>
         <Grid HorizontalOptions="FillAndExpand"
@@ -23,7 +25,7 @@
 
             <ImageButton BackgroundColor="Transparent"
                          Aspect="Fill"
-                         Source="photo.png"
+                         Source="back.png"
                          Margin="25"
                          WidthRequest="30"
                          HeightRequest="20" 
@@ -46,7 +48,8 @@
                             CornerRadius="30,30,0,0"
                             Padding="35,35,35,0"
                             Margin="0,-40,0,0" 
-                            BackgroundColor="White"
+                            BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
+                                                              Light={StaticResource WindowBcColor}}"
                             VerticalOptions="FillAndExpand">
                 
                 <ScrollView HorizontalOptions="FillAndExpand"
@@ -63,7 +66,8 @@
                           
                                 <Label Text="{Binding Name}"
                                        FontSize="Title"
-                                       TextColor="Black"
+                                       TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light=Black}" 
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"/>
                             </StackLayout>
@@ -74,7 +78,9 @@
 
                             <StackLayout Orientation="Horizontal">
                                 <Label FontSize="Body"
-                                       TextColor="#515151"
+                                       TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light=#515151}" 
+                                       
                                        VerticalOptions="Center">
                                     <Label.FormattedText>
                                         <FormattedString>
@@ -92,32 +98,38 @@
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="Working hours:"
                                        FontSize="Body"
-                                       TextColor="Black"
+                                       TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light=Black}"
                                        VerticalOptions="Center"/>
                                 <Label Text="{Binding OpeningHours}"
                                        FontSize="Body"
-                                       TextColor="#515151"
+                                       TextColor="{AppThemeBinding Dark=LightGray,
+                                                                   Light=#515151}"
                                        VerticalOptions="Center"/>
                                 <Label Text="-"
                                        FontSize="Body"
-                                       TextColor="#515151"
+                                       TextColor="{AppThemeBinding Dark=LightGray,
+                                                                   Light=#515151}"
                                        VerticalOptions="Center"/>
                                 <Label Text="{Binding ClosingHours}"
                                        FontSize="Body"
-                                       TextColor="#515151"
+                                       TextColor="{AppThemeBinding Dark=LightGray,
+                                                                   Light=#515151}"
                                        VerticalOptions="Center"/>
                             </StackLayout>
 
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="Object type:"
                                        FontSize="Body"
-                                       TextColor="Black"
+                                       TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light=Black}"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Center"/>
 
                                 <Label Text="{Binding Type}"
                                        FontSize="Body"
-                                       TextColor="#515151"
+                                       TextColor="{AppThemeBinding Dark=LightGray,
+                                                                   Light=#515151}"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Center"/>                 
                             </StackLayout>
@@ -125,14 +137,16 @@
                             <StackLayout Orientation="Horizontal">
                                 <Label Text="Object style:"
                                        FontSize="Body"
-                                       TextColor="Black"
+                                       TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light=Black}"
                                        VerticalOptions="Center"
                                        HorizontalOptions="Center"/>
 
                                 <Label Text="{Binding StyleType}"
                                        VerticalOptions="Center"
                                        FontSize="Body"
-                                       TextColor="#515151"
+                                       TextColor="{AppThemeBinding Dark=LightGray,
+                                                                   Light=#515151}"
                                        HorizontalOptions="Center"/>             
                             </StackLayout>
 
@@ -149,10 +163,12 @@
                                      Spacing="5">
                             <Label Text="Description:"
                                    FontSize="Body"
-                                   TextColor="Black"/>
+                                   TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light=Black}"/>
                             <Label Text="{Binding Description}"
                                    FontSize="Body"
-                                   TextColor="#515151"/>
+                                   TextColor="{AppThemeBinding Dark=LightGray,
+                                                                   Light=#515151}"/>
                         </StackLayout>
                         
                         <BoxView HeightRequest="1"
@@ -163,7 +179,8 @@
                         <StackLayout Orientation="Vertical">
                             <Label Text="Distance from you (pick unit of measurement):"
                                    FontSize="Body"
-                                   TextColor="Black"/>
+                                   TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light=Black}"/>
                             
                             <StackLayout Orientation="Horizontal"
                                          HeightRequest="70">
@@ -175,7 +192,8 @@
                                             Grid.Row="0"
                                             SelectedIndexChanged="selected_measurement" 
                                             Grid.Column="0"
-                                            TextColor="#515151">
+                                            TextColor="{AppThemeBinding Dark=LightGray,
+                                                                        Light=#515151}">
                                         <Picker.Items>
                                             <x:String>Meters</x:String>
                                             <x:String>Kilometers</x:String>
@@ -187,7 +205,8 @@
                                     <Label x:Name="Ats"
                                            
                                            FontSize="Body"
-                                           TextColor="#515151"
+                                           TextColor="{AppThemeBinding Dark=LightGray,
+                                                                   Light=#515151}"
                                            Grid.Row="0"
                                            Margin="18"
                                            Grid.Column="1"/>
@@ -202,35 +221,43 @@
                             <StackLayout Orientation="Vertical">
 
                                 <Label  Text="Other objects:"
+                                        Padding="0,4,5,15"
                                         FontSize="Body"
-                                        TextColor="Black"/>
+                                        TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light=Black}"/>
 
                                 <Label  Text="Close from this object:"
                                         FontSize="Body"
-                                        TextColor="#515151"/>
+                                        TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light=#515151}"/>
                                 
                                 <Label  x:Name="CloseObjects"
                                         Text=""
                                         FontSize="Body"
-                                        TextColor="#515151"/>
+                                        TextColor="{AppThemeBinding Dark=LightGray,
+                                                                   Light=#515151}"/>
                                 
                                 <Label  Text="Away from this object:"
                                         FontSize="Body"
-                                        TextColor="#515151"/>
+                                        TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light=#515151}"/>
 
                                 <Label  x:Name="AwayObjects"
                                         Text=""
                                         FontSize="Body"
-                                        TextColor="#515151"/>
+                                        TextColor="{AppThemeBinding Dark=LightGray,
+                                                                   Light=#515151}"/>
                                 
                                 <Label  Text="Far away from this object:"
                                         FontSize="Body"
-                                        TextColor="#515151"/>
+                                        TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
+                                                                   Light=#515151}"/>
 
                                 <Label  x:Name="FarAwayObjects"
                                         Text=""
                                         FontSize="Body"
-                                        TextColor="#515151"/>
+                                        TextColor="{AppThemeBinding Dark=LightGray,
+                                                                   Light=#515151}"/>
 
 
                             </StackLayout>
