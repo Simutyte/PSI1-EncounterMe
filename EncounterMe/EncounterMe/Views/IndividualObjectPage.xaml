@@ -23,7 +23,7 @@
 
             <ImageButton BackgroundColor="Transparent"
                          Aspect="Fill"
-                         Source="back.png"
+                         Source="photo.png"
                          Margin="25"
                          WidthRequest="30"
                          HeightRequest="20" 

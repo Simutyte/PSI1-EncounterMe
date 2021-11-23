@@ -16,11 +16,22 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Image Source="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
+            <Image x:Name="ProfileImage"
+                   Source="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
                    Aspect="Fill"
                    HeightRequest="280"
                    VerticalOptions="StartAndExpand"/>
-       
+            
+            <ImageButton Source="photo2.png"
+                         HeightRequest="30"
+                         WidthRequest="30"
+                         BackgroundColor="Transparent"
+                         Aspect="Fill"
+                         HorizontalOptions="End"
+                         VerticalOptions="Start"
+                         Margin="25"
+                         Clicked="Photo_Clicked"/>
+
             <Frame Grid.Row="1"
                    HasShadow="True"
                    CornerRadius="10"
@@ -69,12 +80,24 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
+                    
                     <Label Text="About me"
+                           Grid.Row="0"
                            FontSize="17"
                            TextColor="#2C3E50"/>
-                    
+
+                    <ImageButton Source="edit.png"
+                                 Grid.Row="0"
+                                 HeightRequest="20"
+                                 WidthRequest="20"
+                                 BackgroundColor="Transparent"
+                                 Aspect="Fill"
+                                 HorizontalOptions="End"
+                                 VerticalOptions="Start"
+                                 Clicked="Edit_Bio_Clicked"/>
+
                     <Label Grid.Row="1"
-                           Text="I love walking aroud"
+                           Text="{Binding AboutMe}"
                            FontSize="14"
                            TextColor="#707070"/>
                 </Grid>

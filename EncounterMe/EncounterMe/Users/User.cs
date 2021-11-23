@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using SQLite;
 
@@ -22,6 +23,10 @@ namespace EncounterMe.Users
 
         public bool HasFavourite { get; set; }
 
+        public string PhotoPath { get; set; }
+
+        public string AboutMe { get; set; }
+
         //public List<Lazy<MapPin>> MyFavoriteObjects { get; set; }
 
         //public List<Lazy<MapPin>> MyVisitedObjects { get; set; }
@@ -29,7 +34,10 @@ namespace EncounterMe.Users
         public User()
         {
             HasFavourite = false;
+            AboutMe = "Info about me";
         }
+
+        
 
         //public void SetMyFavoriteObjects(MapPin pin)
         //{

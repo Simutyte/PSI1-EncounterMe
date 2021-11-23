@@ -86,9 +86,6 @@
     <PackageReference Include="Xamarin.GooglePlayServices.Location">
       <Version>118.0.0.1</Version>
     </PackageReference>
-    <PackageReference Include="XamarinForms.CardView">
-      <Version>1.1.1.5</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomRenderer\LogInEntryRenderer.cs" />
@@ -223,6 +220,12 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\delete.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\photo2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

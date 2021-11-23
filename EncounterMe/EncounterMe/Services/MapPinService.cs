@@ -34,6 +34,7 @@ namespace EncounterMe.Services
                 RefreshList(this, args);
         }
 
+
         public async void TryToAdd(MapPin mapPin)
         {
             try
