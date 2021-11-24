@@ -15,7 +15,7 @@ namespace EncounterMe.Pins
         public Location Location = new Location();
         public Address Address = new Address();
 
-        private bool _existAddress { get; set; }
+        public bool ExistAddress { get; set; }
 
         public CheckAddressCommands()
         {
@@ -31,10 +31,10 @@ namespace EncounterMe.Pins
                 var location = (await Geocoding.GetLocationsAsync($"{address.Street}, {address.City}, {address.PostalCode}, {address.Country}")).FirstOrDefault();
                 if (location == null)
                 {
-                    _existAddress = false;
+                    ExistAddress = false;
                     return;
                 }
-                _existAddress = true;
+                ExistAddress = true;
                 Location = location;
             }
             catch(Exception)
