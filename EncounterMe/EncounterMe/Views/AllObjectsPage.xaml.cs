@@ -9,6 +9,7 @@ using EncounterMe.Pins;
 using EncounterMe.Views.Popups;
 using MvvmHelpers;
 using Rg.Plugins.Popup.Services;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -28,6 +29,7 @@ namespace EncounterMe.Views
             if(_myPinList.ListOfPins != null)
             {
                 _myPinList.ListOfPins.Sort();
+                CalculateDistances();
             }
 
             listView.RefreshCommand = new Command(() =>
@@ -61,7 +63,10 @@ namespace EncounterMe.Views
             var objectsQuery = from mapPin in _myPinList.ListOfPins
                                where mapPin.Name.ToLower().Contains(searchText.ToLower())
                                select mapPin;
-            return objectsQuery;           
+
+            var objectsQueryOrderedByDistance = objectsQuery.OrderBy(pin => pin.DistanceToUser);
+
+            return objectsQueryOrderedByDistance;
         }
 
         private void ListView_Refreshing(object sender, EventArgs e)
@@ -132,6 +137,18 @@ namespace EncounterMe.Views
                 await DisplayAlert("Sorry", "Add failed bc is null", "ok");
             }
 
+        }
+
+        public async void CalculateDistances()
+        {
+            var request = new GeolocationRequest(GeolocationAccuracy.Default);
+            var location = await Geolocation.GetLocationAsync(request);
+
+            foreach(var pin in _myPinList.ListOfPins)
+            {
+                pin.DistanceToUser = Location.CalculateDistance(location.Latitude, location.Longitude,
+                                                                pin.Latitude, pin.Longitude, DistanceUnits.Kilometers);
+            }
         }
     }
 }

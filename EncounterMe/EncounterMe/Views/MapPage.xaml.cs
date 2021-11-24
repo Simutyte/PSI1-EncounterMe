@@ -237,7 +237,6 @@ namespace EncounterMe.Views
                 {
                     Task.Run(async () =>
                     {
-                        await Task.Delay(2000);
                         Device.BeginInvokeOnMainThread(async () =>
                         {
                             var request = new GeolocationRequest(GeolocationAccuracy.Default);
@@ -319,7 +318,7 @@ namespace EncounterMe.Views
             {
                 GetAndParseJson(startLocation, endLocation);
                 DrawPolylines();
-                //RedrawFirstPolyline(startLocation);
+                RedrawFirstPolyline(startLocation);
             }
             catch (Exception e)
             {
@@ -480,8 +479,8 @@ namespace EncounterMe.Views
             {
                 if (distance < _averageDistance + distanceOffset)
                 {
-                    //_lastRegisteredLocation = currentLocation;
-                    //RedrawFirstPolyline(currentLocation);
+                    _lastRegisteredLocation = currentLocation;
+                    RedrawFirstPolyline(currentLocation);
                 }
                 else
                 {
@@ -504,8 +503,7 @@ namespace EncounterMe.Views
                 MyMap.MapElements.Remove(_firstPolyline);
             }
 
-            //DrawPolylines();
-            Location firstPolyline = new Location
+            Location firstPolyline= new Location
             {
                 Latitude = Convert.ToDouble(_coordinatesArray[0][1]),
                 Longitude = Convert.ToDouble(_coordinatesArray[0][0])
@@ -514,8 +512,9 @@ namespace EncounterMe.Views
             Polyline polyline = new Polyline
             {
 
-                StrokeColor = Color.Blue,
+                StrokeColor = Color.LightBlue,
                 StrokeWidth = 12,
+
                 Geopath =
             {
                 new Position(currentLocation.Latitude, currentLocation.Longitude),
@@ -532,7 +531,7 @@ namespace EncounterMe.Views
         {
             double sum = 0;
             Location loc1 = new Location();
-            Location loc2 = new Location();
+            Location loc2 = new Location(); 
 
             for (int i = 0; i < _coordinatesArray.Length - 1; i++)
             {
