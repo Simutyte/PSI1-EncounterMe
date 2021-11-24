@@ -26,6 +26,7 @@ namespace EncounterMe.Views
 
         private IEnumerable<MapPin> GetSortedMapPins()
         {
+            CalculateDistances();
             var objectsQueryOrderedByDistance = _mapPins.OrderBy(pin => pin.DistanceToUser);
 
             //objectsQueryOrderedByDistance.First().DistanceBetweenPoints = "Start point";
