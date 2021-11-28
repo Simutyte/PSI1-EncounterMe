@@ -14,6 +14,7 @@
 
     <StackLayout>
 
+        <!--
         <StackLayout Orientation="Horizontal">
 
             <SearchBar x:Name="SearchObjects"
@@ -27,57 +28,60 @@
                                                       Light={StaticResource TextColor}}"
                        TextChanged="SearchBar_TextChanged"/>
         </StackLayout>
-
+        -->
+        
         <!--ItemsSource="{Binding allObjectsCollection}"-->
         <ListView 
                   x:Name="RoutesListView"
+                  ItemSelected="listView_ItemSelected"
+                  ItemTapped="listView_ItemTapped"
                   HasUnevenRows="True">
 
             <ListView.ItemTemplate>
-                <DataTemplate x:DataType="Pins:MapPin">
-                    <ViewCell >
+                <DataTemplate x:DataType="Pins:Route">
+                    <ViewCell>
                         <Grid Padding="10">
                             <Frame Style="{StaticResource ListViewCell}">
                                 <StackLayout>
                                     <StackLayout>
-                                        <Label Text="{Binding Name}"
-                                               Style="{StaticResource BaseLabel}"
+                                        <Label Text="{Binding City}"
+                                           FontSize="20"
+                                           Style="{StaticResource BaseLabel}"
+                                           FontAttributes="Bold"
                                            VerticalOptions="Center"/>
-                                        
-                                        <Label Text="{Binding Type}"
-                                                Style="{StaticResource BaseLabel}"
-                                               VerticalOptions="Center"/>
-                                        <Label Text="{Binding StyleType}"
-                                                Style="{StaticResource BaseLabel}"
-                                               VerticalOptions="Center"/>
-                                        <Label  Style="{StaticResource BaseLabel}">
+                                        <Label
+                                           FontSize="16"
+                                           Style="{StaticResource BaseLabel}"
+                                           VerticalOptions="Center">
                                             <Label.FormattedText>
                                                 <FormattedString>
-                                                    <Span Text="{Binding Address.Country}"/>
-                                                    <Span Text=" "/>
-                                                    <Span Text="{Binding Address.City}"/>
-                                                    <Span Text=" "/>
-                                                    <Span Text="{Binding Address.Street}"/>
-                                                    <Span Text=" "/>
-                                                    <Span Text="{Binding Address.PostalCode}"/>
+                                                    <Span Text="Style type : "/>
+                                                    <Span Text="{Binding Style}"/>
                                                 </FormattedString>
                                             </Label.FormattedText>
                                         </Label>
-                                        <Label Text="{Binding Description}"
-                                                Style="{StaticResource BaseLabel}"
-                                               VerticalOptions="Center"/>
-
+                                        <Label
+                                           FontSize="16"
+                                           Style="{StaticResource BaseLabel}"
+                                           VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Number of objects : "/>
+                                                    <Span Text="{Binding Count}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
                                     </StackLayout>
                                 </StackLayout>
                             </Frame>
                         </Grid>
                     </ViewCell>
-
                 </DataTemplate>
             </ListView.ItemTemplate>
 
         </ListView>
 
+        <!--
         <StackLayout Orientation="Horizontal"
                      HeightRequest="50"
                      BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark},
@@ -112,5 +116,7 @@
                                                      Light=#ECEBEA}"
                          Margin="0,0,5,0"/>
         </StackLayout>
+        -->
+        
     </StackLayout>
 </ContentPage>

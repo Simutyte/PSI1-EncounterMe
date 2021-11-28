@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:Pins="clr-namespace:EncounterMe"
+             Title="Load route"
+             x:Class="EncounterMe.Views.LoadRoutePage"
+             BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
+                                               Light={StaticResource WindowBcColor}}">
+
+
+    <StackLayout>
+        <ListView x:Name="RoutesListView"
+                  HasUnevenRows="True">
+
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="Pins:MapPin">
+                    <ViewCell >
+                        <Grid Padding="5">
+                            <Frame Style="{StaticResource ListViewCell}">
+                                <StackLayout>
+                                    <StackLayout>
+                                        <Label Text="{Binding Name}"
+                                           FontSize="20"
+                                           Style="{StaticResource BaseLabel}"
+                                           FontAttributes="Bold"
+                                           VerticalOptions="Center"/>
+                                        <Label
+                                           FontSize="16"
+                                           Style="{StaticResource BaseLabel}"
+                                           VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Address.Country}"/>
+                                                    <Span Text=", "/>
+                                                    <Span Text="{Binding Address.City}"/>
+                                                    <Span Text=", "/>
+                                                    <Span Text="{Binding Address.Street}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label
+                                           FontSize="11"
+                                           Style="{StaticResource BaseLabel}"
+                                           VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="{Binding Latitude}"/>
+                                                    <Span Text=", "/>
+                                                    <Span Text="{Binding Longitude}"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <Label
+                                           FontSize="11"
+                                           Style="{StaticResource BaseLabel}"
+                                           VerticalOptions="Center">
+                                            <Label.FormattedText>
+                                                <FormattedString>
+                                                    <Span Text="Distance from you to an object "/>
+                                                    <Span Text="{Binding DistanceToUser}"/>
+                                                    <Span Text=" km"/>
+                                                </FormattedString>
+                                            </Label.FormattedText>
+                                        </Label>
+                                        <!--
+                                        <Label Text="{Binding DistanceBetweenPoints}"
+                                            FontSize="11"
+                                            Style="{StaticResource BaseLabel}"
+                                            VerticalOptions="Center"/>
+                                        -->
+                                    </StackLayout>
+                                </StackLayout>
+                            </Frame>
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+    </StackLayout>
+</ContentPage>

@@ -6,41 +6,11 @@ using EncounterMe.Pins;
 
 namespace EncounterMe
 {
-    class Route<MapPin>
+    class Route
     {
-        public StyleType StyleType { get; set; }
-
-        public ObjectType ObjectType { get; set; }
-
-        private readonly PinsList _objectsList = PinsList.GetPinsList();
-
-        public List<EncounterMe.MapPin> RouteOfObjects { get; set; }
-
-
-        public void CreateARouteByStyleTypeAndCity(string city, int type)
-        {
-            StyleType = (StyleType)type;
-
-            foreach (EncounterMe.MapPin pin in _objectsList.ListOfPins)
-            {
-                if (pin.StyleType == StyleType && pin.Address.City == city)
-                {
-                    RouteOfObjects.Add(pin);
-                }
-            }
-        }
-
-        public void CreateARouteByTypeAndCity(string city, int type)
-        {
-            ObjectType = (ObjectType)type;
-
-            foreach (EncounterMe.MapPin pin in _objectsList.ListOfPins)
-            {
-                if (pin.Type == ObjectType && pin.Address.City == city)
-                {
-                    RouteOfObjects.Add(pin);
-                }
-            }
-        }
+        public string City { get; set; }
+        public StyleType Style { get; set; }
+        public IEnumerable<MapPin> MapPins { get; set; }
+        public int Count { get; set; }
     }
 }

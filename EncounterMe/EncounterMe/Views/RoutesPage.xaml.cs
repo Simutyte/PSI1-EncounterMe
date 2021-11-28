@@ -24,24 +24,30 @@ namespace EncounterMe.Views
             _myPinList = pinsList;
 
             RoutesListView.ItemsSource = GetAllObjects();
-            // BindingContext = this;
         }
 
         private string _textValue;
         
-
-        IEnumerable<MapPin> GetAllObjects(string searchText = null)
+        IEnumerable<Route> GetAllObjects(string searchText = null)
         {
+            var objectsByCityAndStyle = _myPinList.ListOfPins.GroupBy(e => new { e.Address.City, e.StyleType }).Where(e => e.Count() > 1).Select(e => new Route
+            {
+                City = e.Key.City,
+                Style = e.Key.StyleType,
+                MapPins = e.AsEnumerable(),
+                Count = e.Count()
+            });
+
             if (string.IsNullOrEmpty(searchText))
             {
                 _textValue = string.Empty;
-                return _myPinList.ListOfPins;
+                return objectsByCityAndStyle;
             }
-            _textValue = searchText;
-            var objectsQuery = from mapPin in _myPinList.ListOfPins
-                               where mapPin.Address.City != null && mapPin.Address.City.ToLower().Contains(searchText.ToLower())
-                               select mapPin;
-            return objectsQuery;
+            else
+            {
+                _textValue = searchText;
+                return objectsByCityAndStyle.Where(e => e.City.ToLower().Contains(searchText.ToLower()));
+            }
         }
 
         private void ListView_Refreshing(object sender, EventArgs e)
@@ -50,30 +56,44 @@ namespace EncounterMe.Views
             RoutesListView.EndRefresh();
         }
 
-        private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        private async void listView_ItemSelected(object sender, ItemTappedEventArgs e)
         {
-            RoutesListView.ItemsSource = GetAllObjects(e.NewTextValue);
+            var objectGroup = ((ListView)sender).SelectedItem as Route;
+            if (objectGroup == null)
+            {
+                return;
+            }
+
+            await Shell.Current.Navigation.PushAsync(new LoadRoutePage(objectGroup.MapPins));
         }
 
-        void Picker_index_Changed(object sender, EventArgs e)
+        void listView_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            int selectedIndex = ObjectTypePicker.SelectedIndex;
-            if (selectedIndex != -1)
-                RoutesListView.ItemsSource = GetSpecificObjects(selectedIndex);
+            ((ListView)sender).SelectedItem = null;
         }
 
-        IEnumerable<MapPin> GetSpecificObjects(int index)
-        {
-            var objectsQuery = from mapPin in _myPinList.ListOfPins
-                               where index == (int)mapPin.Type
-                               select mapPin;
-            return objectsQuery;
-        }
+        //private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+        //    RoutesListView.ItemsSource = GetAllObjects(e.NewTextValue);
+        //}
 
-        private void Cross_Button_Clicked(object sender, EventArgs e)
-        {
-            ObjectTypePicker.SelectedIndex = -1;
-            RoutesListView.ItemsSource = GetAllObjects(_textValue);
-        }
+        //void Picker_index_Changed(object sender, EventArgs e)
+        //{
+        //    int selectedIndex = ObjectTypePicker.SelectedIndex;
+        //    if (selectedIndex != -1)
+        //        RoutesListView.ItemsSource = GetSpecificObjects(selectedIndex);
+        //}
+
+        //IEnumerable<Route> GetSpecificObjects(int index)
+        //{
+        //    var objectsQuery = GetAllObjects().Where(e => (int)e.Style == index);
+        //    return objectsQuery;
+        //}
+
+        //private void Cross_Button_Clicked(object sender, EventArgs e)
+        //{
+        //    ObjectTypePicker.SelectedIndex = -1;
+        //    RoutesListView.ItemsSource = GetAllObjects(_textValue);
+        //}
     }
 }
