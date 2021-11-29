@@ -55,24 +55,24 @@
                 <ScrollView HorizontalOptions="FillAndExpand"
                             VerticalOptions="FillAndExpand"
                             VerticalScrollBarVisibility="Never">
-                    
+
                     <StackLayout Spacing="15"
                                  HorizontalOptions="FillAndExpand">
-                        
-                        
-                            <StackLayout Orientation="Horizontal"
+
+
+                        <StackLayout Orientation="Horizontal"
                                          Spacing="5"
                                          HorizontalOptions="CenterAndExpand">
-                          
-                                <Label Text="{Binding Name}"
+
+                            <Label Text="{Binding Name}"
                                        FontSize="Title"
                                        TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
                                                                    Light=Black}" 
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center"/>
-                            </StackLayout>
-                            
-                        
+                        </StackLayout>
+
+
                         <BoxView HeightRequest="1" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BackgroundColor="#E4E4E4"/>
                         <StackLayout>
 
@@ -131,7 +131,7 @@
                                        TextColor="{AppThemeBinding Dark=LightGray,
                                                                    Light=#515151}"
                                        VerticalOptions="Center"
-                                       HorizontalOptions="Center"/>                 
+                                       HorizontalOptions="Center"/>
                             </StackLayout>
 
                             <StackLayout Orientation="Horizontal">
@@ -147,18 +147,18 @@
                                        FontSize="Body"
                                        TextColor="{AppThemeBinding Dark=LightGray,
                                                                    Light=#515151}"
-                                       HorizontalOptions="Center"/>             
+                                       HorizontalOptions="Center"/>
                             </StackLayout>
 
 
 
                         </StackLayout>
-                        
+
                         <BoxView HeightRequest="1"
                                  VerticalOptions="Start"
                                  HorizontalOptions="FillAndExpand"
                                  BackgroundColor="#E4E4E4"/>
-                        
+
                         <StackLayout Orientation="Vertical"
                                      Spacing="5">
                             <Label Text="Description:"
@@ -170,21 +170,21 @@
                                    TextColor="{AppThemeBinding Dark=LightGray,
                                                                    Light=#515151}"/>
                         </StackLayout>
-                        
+
                         <BoxView HeightRequest="1"
                                  VerticalOptions="Start"
                                  HorizontalOptions="FillAndExpand"
                                  BackgroundColor="#E4E4E4"/>
-                        
+
                         <StackLayout Orientation="Vertical">
                             <Label Text="Distance from you (pick unit of measurement):"
                                    FontSize="Body"
                                    TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
                                                                    Light=Black}"/>
-                            
+
                             <StackLayout Orientation="Horizontal"
                                          HeightRequest="70">
-                                
+
                                 <Grid RowDefinitions="60">
                                     <Picker x:Name="MeasurementPicker"
                                             WidthRequest="110"
@@ -201,7 +201,7 @@
                                             <x:String>Miles</x:String>
                                         </Picker.Items>
                                     </Picker>
-                                    
+
                                     <Label x:Name="Ats"
                                            
                                            FontSize="Body"
@@ -212,7 +212,7 @@
                                            Grid.Column="1"/>
                                 </Grid>
                             </StackLayout>
-                            
+
                             <BoxView HeightRequest="1"
                                  VerticalOptions="Start"
                                  HorizontalOptions="FillAndExpand"
@@ -230,13 +230,13 @@
                                         FontSize="Body"
                                         TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
                                                                    Light=#515151}"/>
-                                
+
                                 <Label  x:Name="CloseObjects"
                                         Text=""
                                         FontSize="Body"
                                         TextColor="{AppThemeBinding Dark=LightGray,
                                                                    Light=#515151}"/>
-                                
+
                                 <Label  Text="Away from this object:"
                                         FontSize="Body"
                                         TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
@@ -247,7 +247,7 @@
                                         FontSize="Body"
                                         TextColor="{AppThemeBinding Dark=LightGray,
                                                                    Light=#515151}"/>
-                                
+
                                 <Label  Text="Far away from this object:"
                                         FontSize="Body"
                                         TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
@@ -261,8 +261,52 @@
 
 
                             </StackLayout>
-                                
                         </StackLayout>
+                        <StackLayout>
+                            <Label
+                                    Text="Rate an object: "
+                                    FontSize="Body"
+                                    TextColor="{AppThemeBinding Dark=LightGray,
+                                                                   Light=#515151}"/>
+
+                            <Pins:RatingSlider x:Name="positionSlider"
+                              HorizontalOptions="FillAndExpand"
+                              ItemSpacing="5"
+                              SelectedPosition="0"
+                              NumberOfItems="5" />
+
+                            <Label TextColor="{AppThemeBinding Dark=LightGray,
+                                                               Light=#515151}">
+                                <Label.Triggers>
+                                    <DataTrigger TargetType="Label"
+                                                 Binding="{Binding Source={x:Reference positionSlider}, Path=SelectedPosition}"
+                                                 Value="1">
+                                        <Setter Property="Text" Value="Poor" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label"
+                                                 Binding="{Binding Source={x:Reference positionSlider}, Path=SelectedPosition}"
+                                                 Value="2">
+                                        <Setter Property="Text" Value="Fair" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label"
+                                                 Binding="{Binding Source={x:Reference positionSlider}, Path=SelectedPosition}"
+                                                 Value="3">
+                                        <Setter Property="Text" Value="Average" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label"
+                                                 Binding="{Binding Source={x:Reference positionSlider}, Path=SelectedPosition}"
+                                                 Value="4">
+                                        <Setter Property="Text" Value="Good" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Label"
+                                                 Binding="{Binding Source={x:Reference positionSlider}, Path=SelectedPosition}"
+                                                 Value="5">
+                                        <Setter Property="Text" Value="Excellent" />
+                                    </DataTrigger>
+                                </Label.Triggers>
+                            </Label>
+                        </StackLayout>
+                        
                     </StackLayout>
                 </ScrollView>
             </pv:PancakeView>

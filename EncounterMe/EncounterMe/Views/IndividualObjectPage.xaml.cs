@@ -33,8 +33,7 @@ namespace EncounterMe.Views
             list = PinList.ListOfPins;
             _pin = pinToRender;
             this.BindingContext = pinToRender;
-
-            
+            positionSlider.SelectedPosition = 2; // <- čia galim nustatyti koks jau buvo userio ivertinimas
         }
 
        
@@ -69,8 +68,7 @@ namespace EncounterMe.Views
                 CloseObjects.Text = "Please pick unit of measurement";
                 AwayObjects.Text = "Please pick unit of measurement";
                 FarAwayObjects.Text = "Please pick unit of measurement";
-            }
-                
+            }               
         }
 
         public static double? GetDistanceByIndex(int i, Location loc, MapPin _pin)
@@ -142,8 +140,8 @@ namespace EncounterMe.Views
 
         private async void Go_Back_Clicked(object sender, EventArgs e)
         {
+            int i = positionSlider.SelectedPosition;  //Gaunam ivertinimą
             await Shell.Current.Navigation.PopAsync();
-            
         }
 
         private async void Display_Route_On_Map(object sender, EventArgs e)
@@ -181,8 +179,5 @@ namespace EncounterMe.Views
                 return x > 100000;
             return x > 100;
         }
-    }
-
-    
-    
+    }   
 }
