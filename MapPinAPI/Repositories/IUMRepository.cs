@@ -11,12 +11,12 @@ namespace MapPinAPI.Repositories
 {
     public interface IUMRepository 
     {
-        /*Task<IEnumerable<UserMapPin>> Get();
+        Task<IEnumerable<UserMapPin>> Get();
 
-        IEnumerable<UserMapPin> Get(int UserId);
+        Task<IEnumerable<UserMapPin>> Get(int UserId);
 
         Task<UserMapPin> Create(UserMapPin mapPin);
 
-        Task Delete(int UserId, int MapPinId);*/
+        Task Delete(int UserId, int MapPinId);
     }
 }

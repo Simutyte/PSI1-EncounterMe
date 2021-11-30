@@ -21,7 +21,7 @@ namespace MapPinAPI.Repositories
         }
 
         //puslapy tai yra post - sukuria ir prideda į duomenų bazę naują mapPin
-        /*public async Task<UserMapPin> Create(UserMapPin userMapPin)
+        public async Task<UserMapPin> Create(UserMapPin userMapPin)
         {
             _context.UserMapPins.Add(userMapPin);
             await _context.SaveChangesAsync();
@@ -45,14 +45,16 @@ namespace MapPinAPI.Repositories
         }
 
         //pagal id gaunam vieną mapPin. Vykdom užloadinimą dėl tų pačių priežasčių kaip ir kitam get
-        public IEnumerable<UserMapPin> Get(int UserId)
+        public async Task<IEnumerable<UserMapPin>> Get(int UserId)
         {
-
             var userMapPins = _context.UserMapPins
-                .FromSqlRaw("SELECT * FROM UserMapPins WHERE UserMapPins.UserId = @id", UserId);
+                .FromSqlInterpolated($"SELECT * FROM UserMapPins WHERE UserId={UserId}").ToListAsync();
+                //.FromSqlRaw("SELECT * FROM UserMapPins WHERE UserId=@id", param ).ToListAsync();
 
-            return userMapPins;
-        }*/
+            return await userMapPins;
+        }
+
+      
 
     }
 }

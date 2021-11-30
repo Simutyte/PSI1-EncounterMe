@@ -33,7 +33,23 @@ namespace MapPinAPI.Repositories
             _context.Addresses.Remove(addressToDelete);
             _context.MapPins.Remove(mapPinToDelete);
 
+            await AdditionalDelete(id);
+
             await _context.SaveChangesAsync();
+        }
+
+        //Jog jei istrinam MapPin issitrintu ir visi rysiai su juo
+        public async Task AdditionalDelete(int MapPinId)
+        {
+            var userMapPins = await _context.UserMapPins
+                .FromSqlInterpolated($"SELECT * FROM UserMapPins WHERE MapPinId={MapPinId}").ToListAsync();
+
+            foreach (var umPin in userMapPins)
+            {
+                var userMapPinToDelete = await _context.UserMapPins.FindAsync(umPin.UserId, MapPinId);
+                _context.UserMapPins.Remove(userMapPinToDelete);
+            }
+
         }
 
         //gauna sąrašą visų mapPin

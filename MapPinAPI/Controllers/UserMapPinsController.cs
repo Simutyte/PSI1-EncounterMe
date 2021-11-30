@@ -16,7 +16,7 @@ namespace MapPinAPI.Controllers
     {
         private readonly IUMRepository _repository;
 
-        /*public UserMapPinsController(IUMRepository umRepository)
+        public UserMapPinsController(IUMRepository umRepository)
         {
             _repository = umRepository;
         }
@@ -30,16 +30,16 @@ namespace MapPinAPI.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}")]
-        public IEnumerable<UserMapPin> GetUserMapPin(int id)
+        public async Task<IEnumerable<UserMapPin>> GetUserMapPin(int id)
         {
-            return _repository.Get(id);
-        }*/
+            return await _repository.Get(id);
+        }
 
 
 
         // POST: api/Users
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        /*[HttpPost]
+        [HttpPost]
         public async Task<ActionResult<UserMapPin>> PostUserMapPin([FromBody] UserMapPin user)
         {
             
@@ -52,13 +52,13 @@ namespace MapPinAPI.Controllers
         }
 
         // DELETE: api/Users/5
-        [HttpDelete("{id},{id}")]
-        public async Task<IActionResult> DeleteUserMapPin(int UserId, int MapPinId)
+        [HttpDelete("{id1},{id2}")]
+        public async Task<IActionResult> DeleteUserMapPin(int id1, int id2)
         {
 
-            await _repository.Delete(UserId, MapPinId);
+            await _repository.Delete(id1, id2);
             return NoContent();
-        }*/
+        }
 
     }
 }

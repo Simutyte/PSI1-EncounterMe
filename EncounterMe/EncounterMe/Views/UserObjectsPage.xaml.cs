@@ -19,15 +19,37 @@ namespace EncounterMe.Views
         public UserObjectsPage()
         {
             InitializeComponent();
-           
-            MyMapPins = App.s_mapPinService.UserOwnerMapPins;
-            listView.ItemsSource = App.s_mapPinService.UserOwnerMapPins; 
+
+            OnAppearing();
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            MyMapPins = App.s_mapPinService.UserOwnerMapPins;
+
+            if (App.s_mapPinService.UserOwnerMapPins.Count > 0)
+            {
+                this.Content = MainStackLayout;
+                listView.ItemsSource = App.s_mapPinService.UserOwnerMapPins;
+            }
+            else
+            {
+                var layout = new StackLayout
+                {
+                    HorizontalOptions = LayoutOptions.CenterAndExpand,
+                    VerticalOptions = LayoutOptions.CenterAndExpand
+                };
+
+                Label label = new Label
+                {
+                    HorizontalOptions = LayoutOptions.Center,
+                    Text = "I'm sorry, but you haven't created your \nobjects yet",
+                    FontSize = 20
+                };
+                layout.Children.Add(label);
+
+                this.Content = layout;
+            }
         }
 
         async void Delete_clicked(object sender, EventArgs e)
@@ -51,6 +73,18 @@ namespace EncounterMe.Views
                 await DisplayAlert("Sorry", "Delete failed bc is null", "ok");
             }
 
+        }
+
+        void listView_ItemSelected(object sender, ItemTappedEventArgs e)
+        {
+
+            ((ListView)sender).SelectedItem = null;
+
+        }
+
+        void listView_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
         }
     }
 }

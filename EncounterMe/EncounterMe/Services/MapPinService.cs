@@ -17,10 +17,13 @@ namespace EncounterMe.Services
         private PinsList _pinsList;
 
         public List<MapPin> UserOwnerMapPins;
+
+        public List<MapPin> UserFavouriteMapPins;
         public User CurrentUser { get; set; }
         public MapPinService()
         {
             UserOwnerMapPins = new List<MapPin>();
+            UserFavouriteMapPins = new List<MapPin>();
             PinsList PinsListTemp= PinsList.GetPinsList();
             _pinsList = PinsListTemp;
         }
@@ -78,6 +81,7 @@ namespace EncounterMe.Services
                         _pinsList.ListOfPins.Add(mapPin);
                      
                     }
+                    await UploadFavourites();
                     Task.WaitAll();
                     UploadPins();
                     LoadOwnerObjects();
@@ -110,6 +114,44 @@ namespace EncounterMe.Services
                 Console.WriteLine(ex);
             }
 
+        }
+
+        public async void AddFavourite(MapPin mapPin)
+        {
+            UserMapPin userMapPin = new UserMapPin()
+            {
+                UserId = CurrentUser.Id,
+                MapPinId = mapPin.Id
+            };
+
+            await APIUserMapPinService.AddUserMapPin(userMapPin);
+            await UploadFavourites();
+            Task.WaitAll();
+        }
+
+        public async Task UploadFavourites()
+        {
+            var UserFavouriteIds = await APIUserMapPinService.GetUserMapPins(CurrentUser.Id);
+
+            if (UserFavouriteMapPins != null)
+                UserFavouriteMapPins.Clear();
+
+            foreach(var UM in UserFavouriteIds)
+            {
+                if(_pinsList.ListOfPins != null)
+                {
+                    var result = _pinsList.ListOfPins.Find(i => i.Id == UM.MapPinId);
+                    if (result != null)
+                        UserFavouriteMapPins.Add(result);
+                }
+            }
+        }
+
+        public async void DeleteFavourite(MapPin mapPin)
+        {
+            await APIUserMapPinService.DeleteUserMapPin(CurrentUser.Id, mapPin.Id);
+            await UploadFavourites();
+            Task.WaitAll();
         }
 
         public void LoadOwnerObjects()

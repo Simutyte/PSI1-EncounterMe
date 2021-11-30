@@ -31,7 +31,7 @@ namespace EncounterMe.Services
                 Console.WriteLine("Bandem sukurt httpclient ir nepavyko");
             }
         }
-       /* public static async Task AddUserMapPin(UserMapPin MapPin)
+        public static async Task AddUserMapPin(UserMapPin MapPin)
         {
             var options = new JsonSerializerOptions
             {
@@ -45,10 +45,11 @@ namespace EncounterMe.Services
             response.EnsureSuccessStatusCode();
         }
 
-        public static async Task<UserMapPin> GetUserMapPins(int id1, int id2)
+        //Gauti visus favourite objects id pagal userio id
+        public static async Task<IEnumerable<UserMapPin>> GetUserMapPins(int id1)
         {
 
-            var response = await s_httpClient.GetAsync($"UserMapPins/{id1},{id2}");
+            var response = await s_httpClient.GetAsync($"UserMapPins/{id1}");
 
             response.EnsureSuccessStatusCode();
 
@@ -58,10 +59,10 @@ namespace EncounterMe.Services
             {
                 PropertyNameCaseInsensitive = true
             };
-            return JsonSerializer.Deserialize<UserMapPin>(responseAsString, options);
+            return JsonSerializer.Deserialize<IEnumerable<UserMapPin>>(responseAsString, options);
         }
 
-        //grąžina visą sąrašą mapPin
+        //grąžina visa sarasa visu
         public static async Task<IEnumerable<UserMapPin>> GetUserMapPin()
         {
             Console.WriteLine("Pateko i API");
@@ -80,6 +81,14 @@ namespace EncounterMe.Services
 
 
             return JsonSerializer.Deserialize<IEnumerable<UserMapPin>>(responseAsString, options);
-        }*/
+        }
+
+        public static async Task DeleteUserMapPin(int id1, int id2)
+        {
+            var response = await s_httpClient.DeleteAsync($"UserMapPins/{id1},{id2}");
+
+            response.EnsureSuccessStatusCode();
+
+        }
     }
 }

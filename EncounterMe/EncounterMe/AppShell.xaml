@@ -107,7 +107,7 @@
         </Tab>
         
         <Tab Title="Your objects"
-             Icon="favourites.png">
+             Icon="objects.png">
             <ShellContent ContentTemplate="{DataTemplate views:UserObjectsPage}"/>
         </Tab>
         

@@ -27,8 +27,6 @@ namespace MapPinAPI.Models
         [DefaultValue(0)]
         public int Score { get; set; }
 
-        [DefaultValue(false)]
-        public bool HasFavourite { get; set; }
 
         //public List<MapPin> Favourites { get; set; }
         //public virtual List<MapPin> Favourites { get; set; }

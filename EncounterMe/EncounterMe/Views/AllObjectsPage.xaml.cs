@@ -121,16 +121,16 @@ namespace EncounterMe.Views
             var favouritePin = (MapPin)btn.CommandParameter;
             if (favouritePin != null)
             {
-                /*if (App.s_userDb.AddFavPin(favouritePin))
+                if(!App.s_mapPinService.UserFavouriteMapPins.Contains(favouritePin))
                 {
-                    await DisplayAlert("Congratulations", "Object " + favouritePin.Name + " was added to your favourites", "ok");
-
-
+                    App.s_mapPinService.AddFavourite(favouritePin);
+                    await DisplayAlert("Congrats", "Object " + favouritePin.Name + " was added to your favourites", "ok");
                 }
                 else
                 {
-                    await DisplayAlert("Sorry", "You already added this object to your favourites", "ok");
-                }*/
+                    await DisplayAlert("Sorry", "You have already added this object to your favourites", "ok");
+                }
+                
             }
             else
             {

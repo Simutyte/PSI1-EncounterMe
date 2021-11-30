@@ -25,8 +25,6 @@ namespace EncounterMe.Users
 
         public int Score { get; set; }
 
-        public bool HasFavourite { get; set; }
-
         //public List<MapPin> Favourites { get; set; }
         //public virtual List<MapPin> Favourites { get; set; }
 
@@ -38,7 +36,6 @@ namespace EncounterMe.Users
 
         public User()
         {
-            HasFavourite = false;
             AboutMe = "Info about me";
             
         }

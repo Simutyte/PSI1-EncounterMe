@@ -7,12 +7,17 @@ using System.Text;
 
 namespace EncounterMe.Pins
 {
-    class UserMapPin
+    public class UserMapPin
     {
         public int UserId { get; set; }
 
         public int MapPinId { get; set; }
 
         public int Value { get; set; }
+
+        public UserMapPin()
+        {
+
+        }
     }
 }
