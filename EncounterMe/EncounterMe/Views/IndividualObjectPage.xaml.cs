@@ -27,7 +27,7 @@ namespace EncounterMe.Views
         private List<MapPin> list;
 
         private EvaluationList _evaluationList = EvaluationList.GetEvaluationList();
-        
+
         public IndividualObjectPage(MapPin pinToRender)
         {
             InitializeComponent();
@@ -35,10 +35,14 @@ namespace EncounterMe.Views
             list = PinList.ListOfPins;
             _pin = pinToRender;
             this.BindingContext = pinToRender;
-            positionSlider.SelectedPosition = _evaluationList.GetMapPinEvaluationFromUserId(_pin.Id, 1); // <- čia galim nustatyti koks jau buvo userio ivertinimas
+            int oldValue = _evaluationList.GetMapPinEvaluationFromUserId(_pin.Id, 1);
+            if (oldValue != 0)
+            {
+                positionSlider.SelectedPosition = oldValue; // <- čia galim nustatyti koks jau buvo userio ivertinimas
+            }
         }
 
-       
+
         public async void selected_measurement(object sender, EventArgs e)
         {
             int selectedIndex = MeasurementPicker.SelectedIndex;
@@ -70,7 +74,7 @@ namespace EncounterMe.Views
                 CloseObjects.Text = "Please pick unit of measurement";
                 AwayObjects.Text = "Please pick unit of measurement";
                 FarAwayObjects.Text = "Please pick unit of measurement";
-            }               
+            }
         }
 
         public static double? GetDistanceByIndex(int i, Location loc, MapPin _pin)
@@ -86,7 +90,7 @@ namespace EncounterMe.Views
             else
                 return null;
         }
-        
+
 
         static string AllObjects(List<MapPin> list, MapPin currentPin, int i, Filter filter)
         {
@@ -142,10 +146,18 @@ namespace EncounterMe.Views
 
         private async void Go_Back_Clicked(object sender, EventArgs e)
         {
-            int i = positionSlider.SelectedPosition;  //Gaunam ivertinimą
-            if(i != _evaluationList.GetMapPinEvaluationFromUserId(_pin.Id, 1))
+            int maybeNewVaue = positionSlider.SelectedPosition;  //Gaunam ivertinimą
+            int oldValue = _evaluationList.GetMapPinEvaluationFromUserId(_pin.Id, 1);
+            if (maybeNewVaue != oldValue)
             {
-                _evaluationList.ChangeEvaluation(_pin.Id, 1, i);
+                if (oldValue == 0)
+                {
+                    _evaluationList.AddEvaluation(_pin.Id, 1, maybeNewVaue);
+                }
+                else
+                {
+                    _evaluationList.ChangeEvaluation(_pin.Id, 1, maybeNewVaue);
+                }
             }
             await Shell.Current.Navigation.PopAsync();
         }
@@ -171,12 +183,12 @@ namespace EncounterMe.Views
             return x <= 20;
         }
 
-        static bool IsAway(double x,int i)
+        static bool IsAway(double x, int i)
         {
-            if(i == 0)
+            if (i == 0)
                 return (x > 20000 && x <= 100000);
 
-            return (x > 20 && x <=100);
+            return (x > 20 && x <= 100);
         }
 
         static bool IsFarAway(double x, int i)
@@ -185,5 +197,5 @@ namespace EncounterMe.Views
                 return x > 100000;
             return x > 100;
         }
-    }   
+    }
 }

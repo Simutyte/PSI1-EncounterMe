@@ -43,17 +43,19 @@ namespace EncounterMe.Pins
 
         public void ChangeEvaluation(int mapPinId, int userId, int newValue)
         {
-            ListOfEvaluation.First(e => e.MapPinId == mapPinId && e.UserId == userId).Value = newValue;
+            ListOfEvaluation.FirstOrDefault(e => e.MapPinId == mapPinId && e.UserId == userId).Value = newValue;
         }
 
         public int GetMapPinEvaluationFromUserId(int mapPinId, int userId)
         {
-            return ListOfEvaluation.First(e => e.MapPinId == mapPinId && e.UserId == userId).Value;
+            var evaluation = ListOfEvaluation.FirstOrDefault(e => e.MapPinId == mapPinId && e.UserId == userId);
+            return evaluation == null ? 0 : evaluation.Value;
         }
 
         public double GetMapPinEvaluationAverage(int mapPinId)
         {
-            return ListOfEvaluation.Where(e => e.MapPinId == mapPinId).Average(e => e.Value);
+            var evaluations = ListOfEvaluation.Where(e => e.MapPinId == mapPinId);
+            return evaluations == null ? 0 : evaluations.Average(e => e.Value);
         }
     }
 }

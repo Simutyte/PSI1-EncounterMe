@@ -26,7 +26,7 @@ namespace EncounterMe.Views
             PinsList pinsList = PinsList.GetPinsList();
             _myPinList = pinsList;
 
-            if(_myPinList.ListOfPins != null)
+            if (_myPinList.ListOfPins != null)
             {
                 _myPinList.ListOfPins.Sort();
                 CalculateDistances();
@@ -54,7 +54,7 @@ namespace EncounterMe.Views
         //Gauna pasikeitusį listOfPins pagal įvestą tekstą
         IEnumerable<MapPin> GetAllObjects(string searchText = null)
         {
-            if(string.IsNullOrEmpty(searchText))
+            if (string.IsNullOrEmpty(searchText))
             {
                 _myPinList.ListOfPins.Sort();
                 return _myPinList.ListOfPins;
@@ -95,8 +95,6 @@ namespace EncounterMe.Views
             }
 
             await Shell.Current.Navigation.PushAsync(new IndividualObjectPage(pinToPass));
-
-
         }
 
         void listView_ItemTapped(object sender, ItemTappedEventArgs e)
@@ -104,10 +102,10 @@ namespace EncounterMe.Views
             ((ListView)sender).SelectedItem = null;
         }
 
-       async void More_Info_Clicked(object sender, EventArgs e)
+        async void More_Info_Clicked(object sender, EventArgs e)
         {
             var pinToPass = ((MenuItem)sender).BindingContext as MapPin;
-            if(pinToPass == null)
+            if (pinToPass == null)
             {
                 return;
             }
@@ -124,8 +122,6 @@ namespace EncounterMe.Views
                 if (App.s_userDb.AddFavPin(favouritePin))
                 {
                     await DisplayAlert("Congratulations", "Object " + favouritePin.Name + " was added to your favourites", "ok");
-
-
                 }
                 else
                 {
@@ -136,7 +132,6 @@ namespace EncounterMe.Views
             {
                 await DisplayAlert("Sorry", "Add failed bc is null", "ok");
             }
-
         }
 
         public async void CalculateDistances()
@@ -144,7 +139,7 @@ namespace EncounterMe.Views
             var request = new GeolocationRequest(GeolocationAccuracy.Default);
             var location = await Geolocation.GetLocationAsync(request);
 
-            foreach(var pin in _myPinList.ListOfPins)
+            foreach (var pin in _myPinList.ListOfPins)
             {
                 pin.DistanceToUser = Location.CalculateDistance(location.Latitude, location.Longitude,
                                                                 pin.Latitude, pin.Longitude, DistanceUnits.Kilometers);
