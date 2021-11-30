@@ -42,7 +42,6 @@ namespace EncounterMe.Views
             }
         }
 
-
         public async void selected_measurement(object sender, EventArgs e)
         {
             int selectedIndex = MeasurementPicker.SelectedIndex;
@@ -91,7 +90,6 @@ namespace EncounterMe.Views
                 return null;
         }
 
-
         static string AllObjects(List<MapPin> list, MapPin currentPin, int i, Filter filter)
         {
             string Objects = "";
@@ -137,12 +135,10 @@ namespace EncounterMe.Views
                 await DisplayAlert("Alert", "You are too far away from the location", "Ok");
         }
 
-
         public static bool Allow(double distance)
         {
             return distance <= 0.02;
         }
-
 
         private async void Go_Back_Clicked(object sender, EventArgs e)
         {

@@ -4,10 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using EncounterMe.Pins;
 using EncounterMe.Views.Popups;
-using MvvmHelpers;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -87,7 +85,6 @@ namespace EncounterMe.Views
 
         async void listView_ItemSelected(object sender, ItemTappedEventArgs e)
         {
-
             var pinToPass = ((ListView)sender).SelectedItem as MapPin;
             if (pinToPass == null)
             {
