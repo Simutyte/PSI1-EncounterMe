@@ -4,10 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using EncounterMe.Pins;
 using EncounterMe.Views.Popups;
-using MvvmHelpers;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Essentials;
 using Xamarin.Forms;
@@ -57,16 +54,14 @@ namespace EncounterMe.Views
             if(string.IsNullOrEmpty(searchText))
             {
                 _myPinList.ListOfPins.Sort();
-                return _myPinList.ListOfPins;
+                return _myPinList.ListOfPins.OrderBy(pin => pin.DistanceToUser);
             }
 
             var objectsQuery = from mapPin in _myPinList.ListOfPins
                                where mapPin.Name.ToLower().Contains(searchText.ToLower())
                                select mapPin;
 
-            var objectsQueryOrderedByDistance = objectsQuery.OrderBy(pin => pin.DistanceToUser);
-
-            return objectsQueryOrderedByDistance;
+            return objectsQuery.OrderBy(pin => pin.DistanceToUser);
         }
 
         private void ListView_Refreshing(object sender, EventArgs e)
@@ -95,7 +90,6 @@ namespace EncounterMe.Views
             }
 
             await Shell.Current.Navigation.PushAsync(new IndividualObjectPage(pinToPass));
-
 
         }
 
@@ -142,9 +136,9 @@ namespace EncounterMe.Views
         public async void CalculateDistances()
         {
             var request = new GeolocationRequest(GeolocationAccuracy.Default);
-            var location = await Geolocation.GetLocationAsync(request);
+            Location location = await Geolocation.GetLocationAsync(request);
 
-            foreach(var pin in _myPinList.ListOfPins)
+            foreach(MapPin pin in _myPinList.ListOfPins)
             {
                 pin.DistanceToUser = Location.CalculateDistance(location.Latitude, location.Longitude,
                                                                 pin.Latitude, pin.Longitude, DistanceUnits.Kilometers);

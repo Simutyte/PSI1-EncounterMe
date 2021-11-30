@@ -4,18 +4,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using EncounterMe.Pins;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
 
 namespace EncounterMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RoutesPage : ContentPage
     {
-        PinsList _myPinList;
+        private PinsList _myPinList;
+        private string _textValue;
         public RoutesPage()
         {
             InitializeComponent();
@@ -25,8 +24,6 @@ namespace EncounterMe.Views
 
             RoutesListView.ItemsSource = GetAllObjects();
         }
-
-        private string _textValue;
         
         IEnumerable<Route> GetAllObjects(string searchText = null)
         {

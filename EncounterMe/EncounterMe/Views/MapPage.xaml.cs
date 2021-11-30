@@ -7,7 +7,6 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using Xamarin.Forms.Maps;
 using EncounterMe.Services;
-using System.Threading.Tasks;
 using Rg.Plugins.Popup.Services;
 using EncounterMe.Views.Popups;
 using System.Net;
@@ -16,7 +15,6 @@ using Nancy.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-
 
 
 //TODO: fix first polyline
@@ -30,6 +28,7 @@ namespace EncounterMe.Views
     [QueryProperty(nameof(Longi), "longi")]
     [QueryProperty(nameof(DrawingRoute), "drawing")]
     [QueryProperty(nameof(DisplayPin), "pin")]
+    [QueryProperty(nameof(SpecificRoute), "route")]
     public partial class MapPage : ContentPage
     {
         public event Action<Location> UserLocationChangedEvent;
@@ -42,65 +41,18 @@ namespace EncounterMe.Views
         private MapElement _firstPolyline = new MapElement();
 
         private string _routeType = "foot-walking";
-        //private string[][] _coordinatesArray;
         private double[][] _coordsArray;
 
         private bool _isTimerRunning = false;
-        private bool _isDrawingRoute = false;
         private bool _chosenLocationPermission;
         private bool _chosenGpsPermission;
-        private bool _displayPin = false;
-
         private double _averageDistance;
-        private double lat = 0;
-        private double longi = 0;
-        
-        public bool DisplayPin
-        {
-            get
-            {
-                return _displayPin;
-            }
-            set
-            {
-                _displayPin = value;
-            }
-        }
 
-        public bool DrawingRoute
-        {
-            get
-            {
-                return _isDrawingRoute;
-            }
-            set
-            {
-                _isDrawingRoute = value;
-            }
-        }
-        public double Lat
-        {
-            get
-            {
-                return lat;
-            }
-            set
-            {
-                lat = value;
-            }
-        }
-
-        public double Longi
-        {
-            get
-            {
-                return longi;
-            }
-            set
-            {
-                longi = value;
-            }
-        }
+        public bool DisplayPin { get; set; } = false;
+        public bool DrawingRoute { get; set; } = false;
+        public bool SpecificRoute { get; set; } = false;
+        public double Lat { get; set; } = 0;
+        public double Longi { get; set; } = 0;
 
         public MapPage()
         {
@@ -120,35 +72,48 @@ namespace EncounterMe.Views
             CenterPin.IsVisible = false;
             GenerateMapPins();
 
-
             //Checks if we need to display a pin(coming from "all objects -> add object -> by pin to maps") 
-            if (_displayPin)
+            if (DisplayPin)
             {
                 AnimationView.IsVisible = !AnimationView.IsVisible;
                 CenterPin.IsVisible = !CenterPin.IsVisible;
             }
 
             //Checks if we need to draw a route (coming form individual objects page)
-            if (_isDrawingRoute)
+            if (DrawingRoute)
             {
                 UserLocationChangedEvent += new Action<Location>(UserLocationChangedEventHandler);
                 Location endLoc = new Location
                 {
-                    Latitude = lat,
-                    Longitude = longi
+                    Latitude = Lat,
+                    Longitude = Longi
                 };
 
                 DisplayRoute(endLoc);
+            }
+
+            if (SpecificRoute)
+            {
+                IEnumerable<MapPin> pinsToRender = LoadRoutePage.PinsToRender;
+                MyMap.Pins.Clear();
+                MyMap.MapElements.Clear();
+                foreach (var pin in pinsToRender)
+                {
+                    Pin pinToAdd = new Pin
+                    {
+                        Label = pin.Name,
+                        Position = new Position(pin.Latitude, pin.Longitude)
+                    };
+                    MyMap.Pins.Add(pinToAdd);
+                }
             }
         }
 
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            _isDrawingRoute = false;
+            DrawingRoute = false;
         }
-        
-
 
         public void GenerateMapPins()
         {
@@ -170,7 +135,7 @@ namespace EncounterMe.Views
             {
                 //Trying to display current location. GeolocationAccuracy.Default for quicker initialization
                 var request = new GeolocationRequest(GeolocationAccuracy.Default);
-                var location = await Geolocation.GetLocationAsync(request);
+                Location location = await Geolocation.GetLocationAsync(request);
 
                 if (location != null)
                 {
@@ -226,7 +191,6 @@ namespace EncounterMe.Views
             }
         }
 
-
         //Constantly runs in the background, tracks current location and updates it
         private void TrackingLiveLocation()
         {
@@ -236,21 +200,18 @@ namespace EncounterMe.Views
                 _isTimerRunning = true;
                 Device.StartTimer(TimeSpan.FromSeconds(3), () =>
                 {
-                    Task.Run(async () =>
+                    Device.BeginInvokeOnMainThread(async () =>
                     {
-                        Device.BeginInvokeOnMainThread(async () =>
+                        var request = new GeolocationRequest(GeolocationAccuracy.Default);
+                        Location location = await Geolocation.GetLocationAsync(request);
+                        //Checks if we are drawing route and if the location changed at all
+                        if (DrawingRoute)
                         {
-                            var request = new GeolocationRequest(GeolocationAccuracy.Default);
-                            var location = await Geolocation.GetLocationAsync(request);
-                            //Checks if we are drawing route and if the location changed at all
-                            if (_isDrawingRoute)
+                            if (location.Latitude != lastKnown.Latitude && location.Longitude != lastKnown.Longitude)
                             {
-                                if (location.Latitude != lastKnown.Latitude && location.Longitude != lastKnown.Longitude)
-                                {
-                                    UserLocationChangedEvent(location);
-                                }
-                            }     
-                        });
+                                UserLocationChangedEvent(location);
+                            }
+                        }     
                     });
                     return true;
                 });
@@ -313,7 +274,7 @@ namespace EncounterMe.Views
 
             //Requesting current location
             var requestLocation = new GeolocationRequest(GeolocationAccuracy.Default);
-            var startLocation = await Geolocation.GetLocationAsync(requestLocation);
+            Location startLocation = await Geolocation.GetLocationAsync(requestLocation);
 
             try
             {
@@ -330,7 +291,7 @@ namespace EncounterMe.Views
                 else
                 {
                     await DisplayAlert("Alert", "Something went wrong.\nPlase try again", "Ok");
-                    Console.WriteLine("Exception at getting coordinates / parsing json. Message: " + e.ToString());
+                    Console.WriteLine("Exception at getting coordinates / parsing json. Message: " + e.ToString());                    
                     await Navigation.PopAsync();
                 }
             }
@@ -346,6 +307,7 @@ namespace EncounterMe.Views
             $"&start={startLocation.Longitude},{startLocation.Latitude}" +
             $"&end={endLocation.Longitude},{endLocation.Latitude}";
 
+            Console.WriteLine(URL);
 
             //Getting a request
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(URL);
@@ -367,7 +329,6 @@ namespace EncounterMe.Views
             JToken coordinatesJToken = directionsJObject.SelectToken("$.geometry.coordinates");
             JArray coordinatesJArr = JArray.Parse(coordinatesJToken.ToString());
             _coordsArray = JsonConvert.DeserializeObject<double[][]>(coordinatesJArr.ToString());
-            //_coordinatesArray = JsonConvert.DeserializeObject<string[][]>(coordinatesJArr.ToString());
 
             //Recalculates the average distance after the array has changed
             CalculateAverage();
@@ -377,6 +338,7 @@ namespace EncounterMe.Views
         public void DrawPolylines()
         {
             //Clears previous polylines
+            _polylineList.Clear();
             MyMap.MapElements.Clear();
             
             //Initiate end points of a polyline
@@ -385,19 +347,14 @@ namespace EncounterMe.Views
             {
                 Longitude = _coordsArray[0][0],
                 Latitude = _coordsArray[0][1]
-                //Longitude = Convert.ToDouble(_coordinatesArray[0][0]),
-                //Latitude = Convert.ToDouble(_coordinatesArray[0][1])
             };
-
-            //string[][] arr = _coordinatesArray;
             
             //Drawing lines
             for (int i = 1; i < _coordsArray.Length; i++)
             {
                 location2.Longitude = _coordsArray[i][0];
                 location2.Latitude = _coordsArray[i][1];
-                //location2.Longitude = Convert.ToDouble(arr[i][0]);
-                //location2.Latitude = Convert.ToDouble(arr[i][1]);
+                
                 Polyline polyline = new Polyline
                 {
                     StrokeColor = Color.Blue,
@@ -419,14 +376,13 @@ namespace EncounterMe.Views
             }
         }
 
-
         //Walking
         private void Button_Type_Foot(object sender, EventArgs e)   
         {
             Location loc = new Location
             {
-                Latitude = lat,
-                Longitude = longi
+                Latitude = Lat,
+                Longitude = Longi
             };
             _routeType = "foot-walking";
             DisplayRoute(loc);
@@ -437,8 +393,8 @@ namespace EncounterMe.Views
         {
             Location loc = new Location
             {
-                Latitude = lat,
-                Longitude = longi
+                Latitude = Lat,
+                Longitude = Longi
             };
             _routeType = "cycling-regular";
             DisplayRoute(loc);
@@ -450,8 +406,8 @@ namespace EncounterMe.Views
         {
             Location loc = new Location
             {
-                Latitude = lat,
-                Longitude = longi
+                Latitude = Lat,
+                Longitude = Longi
             };
             _routeType = "wheelchair";
             DisplayRoute(loc);
@@ -462,8 +418,8 @@ namespace EncounterMe.Views
         {
             Location loc = new Location
             {
-                Latitude = lat,
-                Longitude = longi   
+                Latitude = Lat,
+                Longitude = Longi   
             };
             _routeType = "driving-car";
             DisplayRoute(loc);
@@ -472,32 +428,66 @@ namespace EncounterMe.Views
 
         //Draws polyline from current location to the beggining of route
         //could be better, if the line was dotted
-        private void UserLocationChangedEventHandler(Location currentLocation)
+        private async void UserLocationChangedEventHandler(Location currentLocation)
         {
-            //Calculating the difference of last registered location and current location
-            double distance = Location.CalculateDistance(_lastRegisteredLocation.Latitude, _lastRegisteredLocation.Longitude,
+            double distanceToDestination = Location.CalculateDistance(_lastRegisteredLocation.Latitude, _lastRegisteredLocation.Longitude,
                                                                 currentLocation.Latitude, currentLocation.Longitude, DistanceUnits.Kilometers);
 
-            //Calculates distance offset (used for further calculations)
-            double distanceOffset = 0.1 * _averageDistance;     //TODO : check what works with offset percentage
 
-            if (distance > 0 && _averageDistance > 0)
+            //Paziuret kaip ten su trinimais route ir panasiai
+            if (distanceToDestination < 0.02)
             {
-                if (distance < _averageDistance + distanceOffset)
+                await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
+                await CheckRoutes();
+
+            }
+            else
+            {
+                //Calculating the difference of last registered location and current location
+                double distanceFromLastLocation = Location.CalculateDistance(_lastRegisteredLocation.Latitude, _lastRegisteredLocation.Longitude,
+                                                                    currentLocation.Latitude, currentLocation.Longitude, DistanceUnits.Kilometers);
+
+                //Calculates distance offset (used for further calculations)
+                double distanceOffset = 0.1 * _averageDistance;     //TODO : check what works with offset percentage
+
+                if (distanceFromLastLocation > 0 && _averageDistance > 0)
                 {
-                    _lastRegisteredLocation = currentLocation;
-                    RedrawFirstPolyline(currentLocation);
+                    if (distanceFromLastLocation < _averageDistance + distanceOffset)
+                    {
+                        _lastRegisteredLocation = currentLocation;
+                        RedrawFirstPolyline(currentLocation);
+                    }
+                    else
+                    {
+                        Location loc = new Location
+                        {
+                            Latitude = Lat,
+                            Longitude = Longi
+                        };
+                        _lastRegisteredLocation = currentLocation;
+
+                        DisplayRoute(loc);
+                    }
+                }
+            }
+        }
+
+        public async void CheckRoutes()
+        {
+            if (SpecificRoute)
+            {
+                //check if its the last element
+                if (false)
+                {
+                    await DisplayAlert("Congratulations!", "You finished a route", "Ok");
                 }
                 else
                 {
-                    Location loc = new Location
+                    bool answer = await DisplayAlert("Alert", "Do you want to continue to the next location?", "Yes", "No");
+                    if (answer)
                     {
-                        Latitude = lat,
-                        Longitude = longi
-                    };
-                    _lastRegisteredLocation = currentLocation;
-
-                    DisplayRoute(loc);
+                        //kazkas naujo
+                    }
                 }
             }
         }
@@ -513,8 +503,6 @@ namespace EncounterMe.Views
             {
                 Latitude = _coordsArray[0][1],
                 Longitude = _coordsArray[0][0]
-                //Latitude = Convert.ToDouble(_coordinatesArray[0][1]),
-                //Longitude = Convert.ToDouble(_coordinatesArray[0][0])
             };
 
             Polyline polyline = new Polyline
@@ -547,10 +535,6 @@ namespace EncounterMe.Views
                 loc1.Longitude = _coordsArray[i][0];
                 loc2.Latitude = _coordsArray[i + 1][1];
                 loc2.Longitude = _coordsArray[i + 1][0];
-                /*loc1.Latitude = Convert.ToDouble(_coordinatesArray[i][1]);
-                loc1.Longitude = Convert.ToDouble(_coordinatesArray[i][0]);
-                loc2.Latitude = Convert.ToDouble(_coordinatesArray[i + 1][1]);
-                loc2.Longitude = Convert.ToDouble(_coordinatesArray[i + 1][0]);*/
 
                 sum += Location.CalculateDistance(loc1.Latitude, loc1.Longitude, loc2.Latitude, loc2.Longitude, DistanceUnits.Kilometers);
             }

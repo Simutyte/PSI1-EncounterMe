@@ -6,10 +6,18 @@
              x:Class="EncounterMe.Views.LoadRoutePage"
              BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
                                                Light={StaticResource WindowBcColor}}">
-
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="map.png" 
+            Clicked="Display_Pins_On_Map"/>
+        <ToolbarItem IconImageSource="navigationCursor.png" 
+            Clicked="Display_Route_On_Map"/>
+    </ContentPage.ToolbarItems>
 
     <StackLayout>
+
         <ListView x:Name="RoutesListView"
+                  ItemSelected="listView_ItemSelected"
+                  ItemTapped="listView_ItemTapped"
                   HasUnevenRows="True">
 
             <ListView.ItemTemplate>

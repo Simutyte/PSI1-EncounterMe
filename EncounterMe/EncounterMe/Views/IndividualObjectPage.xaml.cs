@@ -33,8 +33,7 @@ namespace EncounterMe.Views
             list = PinList.ListOfPins;
             _pin = pinToRender;
             this.BindingContext = pinToRender;
-
-            
+    
         }
 
        
@@ -120,13 +119,6 @@ namespace EncounterMe.Views
 
             IsCloseEnough isCloseEnough = new IsCloseEnough(Allow);
 
-
-            IsCloseEnough isCloseEnough1 = new IsCloseEnough(delegate (double dist)
-            {
-                return distance <= 0.02;
-            });
-
-
             if (isCloseEnough(distance))
                 await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
             else
@@ -139,19 +131,13 @@ namespace EncounterMe.Views
             return distance <= 0.02;
         }
 
-
         private async void Go_Back_Clicked(object sender, EventArgs e)
         {
             await Shell.Current.Navigation.PopAsync();
-            
         }
 
         private async void Display_Route_On_Map(object sender, EventArgs e)
-        {
-            //Used for testing
-            //double lat = 38.01655470103673,
-            //double longi = -121.88968844314147
-
+        { 
             //Real
             double lat = _pin.Latitude;
             double longi = _pin.Longitude;
