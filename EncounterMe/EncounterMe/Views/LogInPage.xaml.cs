@@ -29,10 +29,12 @@ namespace EncounterMe.Views
             }
             else
             {
-                
 
-                if (App.s_userDb.LoginValidate(entryLogUsername.Text, entryLogPassword.Text))
+                User user = await App.s_mapPinService.LogInValidate(entryLogUsername.Text, entryLogPassword.Text);
+                if (user != null)
                 {
+                    await App.s_mapPinService.GetCurrentUserAsync(user.Id);
+                    App.s_mapPinService.LoadOwnerObjects();
                    await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
                 }
                 else

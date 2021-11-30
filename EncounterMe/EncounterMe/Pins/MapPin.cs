@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 using EncounterMe.Pins;
+using EncounterMe.Users;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -35,6 +36,8 @@ namespace EncounterMe
 
         public double Latitude { get; set; }
 
+        public int CreatorId { get; set; }
+
         //-------------------------------------
 
         public double DistanceToUser { get; set; }
@@ -52,7 +55,7 @@ namespace EncounterMe
 
         public MapPin(string name, string description, Address address, int type = 0, int styleType = 0,
                        string open = "", string close = "", double latitude = 0, double longitude = 0,
-                       string image = "")
+                       string image = "", int? creatorId = null)
         {
             Name = name;
             Address = address;
@@ -64,6 +67,7 @@ namespace EncounterMe
             ImageName = string.IsNullOrWhiteSpace(image) ? "https://www.topdeal.lt/wp-content/themes/consultix/images/no-image-found-360x250.png" : image;
             Longitude = longitude;
             Latitude = latitude;
+            CreatorId = (int)creatorId;
         }
 
         public int CompareTo(object obj)

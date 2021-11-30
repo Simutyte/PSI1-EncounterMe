@@ -25,10 +25,10 @@ namespace EncounterMe.Views
         {
             InitializeComponent();
 
-            if (App.s_userDb.CurrentUserId != null)
+            if (App.s_mapPinService.CurrentUser != null)
             {
 
-                User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
+                User = App.s_mapPinService.CurrentUser;
             }
 
             if (!string.IsNullOrWhiteSpace(User.PhotoPath))
@@ -51,13 +51,13 @@ namespace EncounterMe.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (App.s_userDb.CurrentUserId != null)
+            if (App.s_mapPinService.CurrentUser != null)
             {
 
-                User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
+                User = App.s_mapPinService.CurrentUser;
             }
 
-            if(!string.IsNullOrWhiteSpace(User.PhotoPath))
+            if (!string.IsNullOrWhiteSpace(User.PhotoPath))
             {
                 ProfileImage.Source = ImageSource.FromFile(User.PhotoPath);
 
@@ -94,7 +94,7 @@ namespace EncounterMe.Views
                     var path = result.FullPath;
                     ProfileImage.Source = ImageSource.FromFile(path);
                     User.PhotoPath = path;
-                    App.s_userDb.UpdateUser(User);
+                    //App.s_userDb.UpdateUser(User);
                     
                 }
                 else

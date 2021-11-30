@@ -4,7 +4,9 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using EncounterMe.Pins;
+using EncounterMe.Users;
 
 namespace EncounterMe.Services
 {
@@ -13,8 +15,12 @@ namespace EncounterMe.Services
     public class MapPinService
     {
         private PinsList _pinsList;
+
+        public List<MapPin> UserOwnerMapPins;
+        public User CurrentUser { get; set; }
         public MapPinService()
         {
+            UserOwnerMapPins = new List<MapPin>();
             PinsList PinsListTemp= PinsList.GetPinsList();
             _pinsList = PinsListTemp;
         }
@@ -101,6 +107,58 @@ namespace EncounterMe.Services
                 Console.WriteLine(ex);
             }
 
+        }
+
+        public void LoadOwnerObjects()
+        {
+            //Console.WriteLine(CurrentUser.Id +" "+ CurrentUser.Username);
+            if(CurrentUser == null)
+                Console.WriteLine("Useris null");
+            if (UserOwnerMapPins != null)
+                UserOwnerMapPins.Clear();
+
+            try
+            {
+                
+                if (_pinsList.ListOfPins != null)
+                {
+                    foreach (var mapPin in _pinsList.ListOfPins)
+                    {
+                        Console.WriteLine(mapPin.CreatorId + "   " + CurrentUser.Id);
+                        if (mapPin.CreatorId == CurrentUser.Id)
+                        {
+                            UserOwnerMapPins.Add(mapPin);
+
+                        }
+                            
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+        }
+
+        public async Task GetCurrentUserAsync(int id)
+        {
+            CurrentUser = await ApiUserService.GetUser(id);
+           
+        }
+
+        public async Task<User> LogInValidate(string username, string pass)
+        {
+            var allUsers = await ApiUserService.GetUsers();
+
+            foreach(var u in allUsers)
+            {
+                if(string.Equals(u.Username, username) && string.Equals(u.Password, pass))
+                {
+                    return u;
+                }
+            }
+            return null;
         }
     }
 }

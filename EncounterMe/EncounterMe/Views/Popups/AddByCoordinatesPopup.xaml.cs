@@ -66,7 +66,8 @@ namespace EncounterMe.Views.Popups
                 int _type = ObjectTypePicker.SelectedIndex;
 
                 MapPin MapPin = new MapPin(entryObjectName.Text, entryObjectDescription.Text, _address, _type, _style,
-                                           _open, _close, _location.Latitude, _location.Longitude, entryObjectImage.Text);
+                                           _open, _close, _location.Latitude, _location.Longitude, entryObjectImage.Text,
+                                           App.s_mapPinService.CurrentUser.Id);
 
                 var notificationsService = new NotificationsService();
                 App.s_mapPinService.PinAdded += notificationsService.OnPinAdded;

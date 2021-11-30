@@ -26,7 +26,7 @@ namespace EncounterMe.Views
         {
             InitializeComponent();
             FavouriteMapPinList = new Lazy<List<MapPin>>();
-            if (App.s_userDb.CurrentUserId != null)
+           /* if (App.s_userDb.CurrentUserId != null)
             {
 
                 User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
@@ -34,7 +34,7 @@ namespace EncounterMe.Views
             else
             {
                 DisplayAlert("Alert", "Problems with getting data", "Ok");
-            }
+            }*/
             
         }
 
@@ -42,7 +42,7 @@ namespace EncounterMe.Views
         {
             base.OnAppearing();
 
-            if (App.s_userDb.CurrentUserId != null)
+            /*if (App.s_userDb.CurrentUserId != null)
             {
 
                 User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
@@ -78,13 +78,13 @@ namespace EncounterMe.Views
                     this.Content = layout;
                 }
                 
-            }
+            }*/
         }
 
         private void UpdateFavourites()
         {
 
-            Thread thread1 = new Thread(() =>
+            /*Thread thread1 = new Thread(() =>
             {
                 try
                 {
@@ -128,7 +128,7 @@ namespace EncounterMe.Views
 
             thread1.Start();
             thread1.Join();
-            thread2.Start();
+            thread2.Start();*/
 
         }
 

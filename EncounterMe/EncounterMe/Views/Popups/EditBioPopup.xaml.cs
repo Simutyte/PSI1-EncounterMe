@@ -22,7 +22,7 @@ namespace EncounterMe.Views.Popups
         {
             InitializeComponent();
 
-            if (App.s_userDb.CurrentUserId != null)
+            /*if (App.s_userDb.CurrentUserId != null)
             {
 
                 User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
@@ -31,7 +31,7 @@ namespace EncounterMe.Views.Popups
             if(!string.IsNullOrWhiteSpace(User.AboutMe))
             {
                 editorAboutMe.Text = User.AboutMe;
-            }
+            }*/
            
 
             
@@ -52,7 +52,7 @@ namespace EncounterMe.Views.Popups
             {
                 User.AboutMe = editorAboutMe.Text;
                 Console.WriteLine(User.AboutMe);
-                App.s_userDb.UpdateUser(User);
+               // App.s_userDb.UpdateUser(User);
                 await PopupNavigation.Instance.PopAsync();
                
             }

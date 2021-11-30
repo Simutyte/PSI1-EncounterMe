@@ -3,11 +3,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using SQLite;
+using System.ComponentModel;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace EncounterMe.Users
+namespace MapPinAPI.Models
 {
     public class User
     {
@@ -17,41 +17,24 @@ namespace EncounterMe.Users
 
         public string Password { get; set; }
 
-        public string Email { get; set; }
+        public string Email { get; set; }       
 
         public string PhotoPath { get; set; }
 
+        [DefaultValue("About me")]
         public string AboutMe { get; set; }
 
+        [DefaultValue(0)]
         public int Score { get; set; }
 
+        [DefaultValue(false)]
         public bool HasFavourite { get; set; }
 
         //public List<MapPin> Favourites { get; set; }
         //public virtual List<MapPin> Favourites { get; set; }
 
-  
+        //Navigation properties
 
-        //public List<Lazy<MapPin>> MyFavoriteObjects { get; set; }
 
-        //public List<Lazy<MapPin>> MyVisitedObjects { get; set; }
-
-        public User()
-        {
-            //HasFavourite = false;
-            
-        }
-
-        
-
-        //public void SetMyFavoriteObjects(MapPin pin)
-        //{
-        //    MyFavoriteObjects.Add(new Lazy<MapPin>(() => pin));
-        //}
-
-        //public void SetMyVisitedObjects(MapPin pin)
-        //{
-        //    MyVisitedObjects.Add(new Lazy<MapPin>(() => pin));
-        //}
     }
 }
