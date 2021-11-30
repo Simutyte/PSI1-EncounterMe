@@ -38,7 +38,8 @@ namespace EncounterMe.Users
 
         public User()
         {
-            //HasFavourite = false;
+            HasFavourite = false;
+            AboutMe = "Info about me";
             
         }
 

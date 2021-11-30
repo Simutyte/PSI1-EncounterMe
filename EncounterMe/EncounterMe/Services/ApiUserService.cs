@@ -92,9 +92,12 @@ namespace EncounterMe.Services
 
         public static async Task UpdateUser(User user)
         {
-            //var response = await s_httpClient.PutAsync($"Users/{user.Id}");
-
-            //response.EnsureSuccessStatusCode();
+            var json = JsonSerializer.Serialize<User>(user);
+            var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
+            //Console.WriteLine(json);
+            //Console.WriteLine(stringContent);
+            var response = await s_httpClient.PutAsync($"Users/{user.Id}", stringContent);
+            response.EnsureSuccessStatusCode();
 
         }
 

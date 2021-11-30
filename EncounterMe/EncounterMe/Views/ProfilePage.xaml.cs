@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EllipticCurve.Utils;
+using EncounterMe.Services;
 using EncounterMe.Users;
 using EncounterMe.Views.Popups;
 using Rg.Plugins.Popup.Services;
@@ -94,6 +95,7 @@ namespace EncounterMe.Views
                     var path = result.FullPath;
                     ProfileImage.Source = ImageSource.FromFile(path);
                     User.PhotoPath = path;
+                    await App.s_mapPinService.UpdatingUser(User);
                     //App.s_userDb.UpdateUser(User);
                     
                 }

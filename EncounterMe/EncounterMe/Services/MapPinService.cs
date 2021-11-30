@@ -141,6 +141,12 @@ namespace EncounterMe.Services
             }
         }
 
+        public async Task UpdatingUser(User user)
+        {
+            await ApiUserService.UpdateUser(user);
+            await GetCurrentUserAsync(user.Id);
+        }
+
         public async Task GetCurrentUserAsync(int id)
         {
             CurrentUser = await ApiUserService.GetUser(id);

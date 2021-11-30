@@ -22,16 +22,16 @@ namespace EncounterMe.Views.Popups
         {
             InitializeComponent();
 
-            /*if (App.s_userDb.CurrentUserId != null)
+            if (App.s_mapPinService.CurrentUser != null)
             {
 
-                User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
+                User = App.s_mapPinService.CurrentUser;
             }
 
-            if(!string.IsNullOrWhiteSpace(User.AboutMe))
+            if (!string.IsNullOrWhiteSpace(User.AboutMe))
             {
                 editorAboutMe.Text = User.AboutMe;
-            }*/
+            }
            
 
             
@@ -52,7 +52,8 @@ namespace EncounterMe.Views.Popups
             {
                 User.AboutMe = editorAboutMe.Text;
                 Console.WriteLine(User.AboutMe);
-               // App.s_userDb.UpdateUser(User);
+                await App.s_mapPinService.UpdatingUser(User);
+                // App.s_userDb.UpdateUser(User);
                 await PopupNavigation.Instance.PopAsync();
                
             }
