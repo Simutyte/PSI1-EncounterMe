@@ -28,7 +28,11 @@ namespace MapPinAPI.Repositories
         public async Task Delete(int id)
         {
             var mapPinToDelete = await _context.MapPins.FindAsync(id);
+            var addressToDelete = await _context.Addresses.FindAsync(mapPinToDelete.Address.AddressID);
+
+            _context.Addresses.Remove(addressToDelete);
             _context.MapPins.Remove(mapPinToDelete);
+
             await _context.SaveChangesAsync();
         }
 

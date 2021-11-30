@@ -108,7 +108,7 @@
         
         <Tab Title="Your objects"
              Icon="favourites.png">
-            <ShellContent ContentTemplate="{DataTemplate views:UsersObjectPage}"/>
+            <ShellContent ContentTemplate="{DataTemplate views:UserObjectsPage}"/>
         </Tab>
         
      </FlyoutItem>

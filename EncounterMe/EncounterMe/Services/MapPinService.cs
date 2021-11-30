@@ -78,8 +78,11 @@ namespace EncounterMe.Services
                         _pinsList.ListOfPins.Add(mapPin);
                      
                     }
+                    Task.WaitAll();
                     UploadPins();
+                    LoadOwnerObjects();
                 }
+                
             }
             catch(Exception ex)
             {
@@ -153,6 +156,11 @@ namespace EncounterMe.Services
            
         }
 
+        public async Task DeleteOwnedObjects(MapPin mapPin)
+        {
+            await ApiMapPinService.DeleteMapPin(mapPin);
+            LoadList();           
+        }
         public async Task<User> LogInValidate(string username, string pass)
         {
             var allUsers = await ApiUserService.GetUsers();

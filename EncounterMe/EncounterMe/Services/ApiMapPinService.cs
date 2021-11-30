@@ -83,12 +83,12 @@ namespace EncounterMe.Services
         }
 
         //užkomentuota nes kolkas nebus naudojama
-        /*public static async Task DeleteMapPin(MapPin MapPin)
+        public static async Task DeleteMapPin(MapPin MapPin)
        {
            var response = await s_httpClient.DeleteAsync($"MapPins/{MapPin.Id}");
 
            response.EnsureSuccessStatusCode();
 
-       }*/
+       }
     }
 }
