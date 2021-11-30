@@ -25,6 +25,8 @@ namespace EncounterMe.Views
         public delegate bool Filter(double x, int i);
         private MapPin _pin;
         private List<MapPin> list;
+
+        private EvaluationList _evaluationList = EvaluationList.GetEvaluationList();
         
         public IndividualObjectPage(MapPin pinToRender)
         {
@@ -33,7 +35,7 @@ namespace EncounterMe.Views
             list = PinList.ListOfPins;
             _pin = pinToRender;
             this.BindingContext = pinToRender;
-            positionSlider.SelectedPosition = 2; // <- čia galim nustatyti koks jau buvo userio ivertinimas
+            positionSlider.SelectedPosition = _evaluationList.GetMapPinEvaluationFromUserId(_pin.Id, 1); // <- čia galim nustatyti koks jau buvo userio ivertinimas
         }
 
        
@@ -141,6 +143,10 @@ namespace EncounterMe.Views
         private async void Go_Back_Clicked(object sender, EventArgs e)
         {
             int i = positionSlider.SelectedPosition;  //Gaunam ivertinimą
+            if(i != _evaluationList.GetMapPinEvaluationFromUserId(_pin.Id, 1))
+            {
+                _evaluationList.ChangeEvaluation(_pin.Id, 1, i);
+            }
             await Shell.Current.Navigation.PopAsync();
         }
 

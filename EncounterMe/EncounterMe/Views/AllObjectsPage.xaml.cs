@@ -150,5 +150,14 @@ namespace EncounterMe.Views
                                                                 pin.Latitude, pin.Longitude, DistanceUnits.Kilometers);
             }
         }
+
+        public void CalculateRatint()
+        {
+            EvaluationList _evaluationList = EvaluationList.GetEvaluationList();
+            foreach (var pin in _myPinList.ListOfPins)
+            {
+                pin.Evaluation = _evaluationList.GetMapPinEvaluationAverage(pin.Id);
+            }
+        }
     }
 }

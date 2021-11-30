@@ -41,7 +41,7 @@ namespace EncounterMe
 
         //public string DistanceBetweenPoints { get; set; }
 
-        public Evaluation Evaluation { get; set; }
+        public double Evaluation { get; set; }
 
         public Pin Pin { get; set; }
 

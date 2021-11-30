@@ -150,6 +150,16 @@
 
                                             <Label Text="{Binding ClosingHours}"
                                                    Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                            
+                                            <Label Text="                                                               "
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+
+                                            <Image WidthRequest="20"
+                                                   Margin="0,0,4,0"
+                                                   Source="clock.png"/>
+
+                                            <Label Text="{Binding Evaluation}"
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
                                         </StackLayout>
                                     </StackLayout>
 
