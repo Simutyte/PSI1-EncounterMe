@@ -34,7 +34,7 @@ namespace EncounterMe.Views
                 if (user != null)
                 {
                     await App.s_mapPinService.GetCurrentUserAsync(user.Id);
-                    App.s_mapPinService.LoadOwnerObjects();
+                   
                    await Shell.Current.GoToAsync($"//{nameof(MainPage)}");
                 }
                 else

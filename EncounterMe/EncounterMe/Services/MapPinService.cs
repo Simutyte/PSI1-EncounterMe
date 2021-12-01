@@ -81,8 +81,8 @@ namespace EncounterMe.Services
                         _pinsList.ListOfPins.Add(mapPin);
                      
                     }
-                    await UploadFavourites();
-                    Task.WaitAll();
+                    Task t = UploadFavourites();
+                    t.Wait();
                     UploadPins();
                     LoadOwnerObjects();
                 }
@@ -116,7 +116,7 @@ namespace EncounterMe.Services
 
         }
 
-        public async void AddFavourite(MapPin mapPin)
+        public void AddFavourite(MapPin mapPin)
         {
             UserMapPin userMapPin = new UserMapPin()
             {
@@ -124,9 +124,9 @@ namespace EncounterMe.Services
                 MapPinId = mapPin.Id
             };
 
-            await APIUserMapPinService.AddUserMapPin(userMapPin);
-            await UploadFavourites();
-            Task.WaitAll();
+            Task  t1 = APIUserMapPinService.AddUserMapPin(userMapPin);
+            Task t2 = UploadFavourites();
+            Task.WaitAll(t1, t2);
         }
 
         public async Task UploadFavourites()
@@ -147,11 +147,11 @@ namespace EncounterMe.Services
             }
         }
 
-        public async void DeleteFavourite(MapPin mapPin)
+        public void DeleteFavourite(MapPin mapPin)
         {
-            await APIUserMapPinService.DeleteUserMapPin(CurrentUser.Id, mapPin.Id);
-            await UploadFavourites();
-            Task.WaitAll();
+            Task t = APIUserMapPinService.DeleteUserMapPin(CurrentUser.Id, mapPin.Id);
+            Task t2 = UploadFavourites();
+            Task.WaitAll(t, t2);
         }
 
         public void LoadOwnerObjects()
@@ -195,6 +195,8 @@ namespace EncounterMe.Services
         public async Task GetCurrentUserAsync(int id)
         {
             CurrentUser = await ApiUserService.GetUser(id);
+            LoadOwnerObjects();
+            await UploadFavourites();
            
         }
 
