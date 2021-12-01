@@ -12,8 +12,7 @@ namespace MapPinAPI.Models
         public DbSet<MapPin> MapPins { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<User> Users { get; set; }
-
-        public DbSet<UserMapPin> UserMapPins{ get; set; }
+        public DbSet<FavouriteMapPin> FavouriteMapPins{ get; set; }
 
         //patikrina ar duomenų bazė sukurta
         public MapPinContext(DbContextOptions<MapPinContext> options) : base(options)
@@ -24,7 +23,8 @@ namespace MapPinAPI.Models
         //nurodom ryšius tarp lentelių
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserMapPin>()
+            //nustatom jog primary key bus 2 stulpeliai
+            modelBuilder.Entity<FavouriteMapPin>()
                 .HasKey(f => new { f.UserId, f.MapPinId });
 
             //MapPin ir address ryšys

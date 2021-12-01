@@ -9,13 +9,13 @@ using MapPinAPI.Models;
 
 namespace MapPinAPI.Repositories
 {
-    public interface IUMRepository 
+    public interface IFavouriteMapPinRepository 
     {
-        Task<IEnumerable<UserMapPin>> Get();
+        Task<IEnumerable<FavouriteMapPin>> Get();
 
-        Task<IEnumerable<UserMapPin>> Get(int UserId);
+        Task<IEnumerable<FavouriteMapPin>> Get(int UserId);
 
-        Task<UserMapPin> Create(UserMapPin mapPin);
+        Task<FavouriteMapPin> Create(FavouriteMapPin mapPin);
 
         Task Delete(int UserId, int MapPinId);
     }

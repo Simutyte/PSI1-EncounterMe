@@ -12,35 +12,38 @@ namespace MapPinAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserMapPinsController : ControllerBase
+    public class FavouriteMapPinsController : ControllerBase
     {
-        private readonly IUMRepository _repository;
+        private readonly IFavouriteMapPinRepository _repository;
 
-        public UserMapPinsController(IUMRepository umRepository)
+        public FavouriteMapPinsController(IFavouriteMapPinRepository fmRepository)
         {
-            _repository = umRepository;
+            _repository = fmRepository;
         }
 
-        // GET: api/Users
+        // GET: api/FavouriteMapPins
+        // Visų FavouriteMapPins gavimas
         [HttpGet]
-        public async Task<IEnumerable<UserMapPin>> GetUserMapPins()
+        public async Task<IEnumerable<FavouriteMapPin>> GetUserMapPins()
         {
             return await _repository.Get();
         }
 
-        // GET: api/Users/5
+        // GET: api/FavouriteMapPins/5
+        // Sąrašo FavouriteMapPins pagal id gavimas (gaunam visus userio kurio id = id, pamėgtų objektų id)
         [HttpGet("{id}")]
-        public async Task<IEnumerable<UserMapPin>> GetUserMapPin(int id)
+        public async Task<IEnumerable<FavouriteMapPin>> GetUserMapPin(int id)
         {
             return await _repository.Get(id);
         }
 
 
 
-        // POST: api/Users
+        // POST: api/FavouriteMapPins
+        // FavouriteMapPins įrašymas į db
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<UserMapPin>> PostUserMapPin([FromBody] UserMapPin user)
+        public async Task<ActionResult<FavouriteMapPin>> PostUserMapPin([FromBody] FavouriteMapPin user)
         {
             
             var newUserMapPin = await _repository.Create(user);
@@ -51,7 +54,8 @@ namespace MapPinAPI.Controllers
 
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/FavouriteMapPins/5,2
+        // FavouriteMapPin ištrynimas
         [HttpDelete("{id1},{id2}")]
         public async Task<IActionResult> DeleteUserMapPin(int id1, int id2)
         {

@@ -25,29 +25,64 @@ namespace MapPinAPI.Repositories
             return mapPin;
         }
 
+        //MapPin ištrynimas
         public async Task Delete(int id)
         {
             var mapPinToDelete = await _context.MapPins.FindAsync(id);
-            var addressToDelete = await _context.Addresses.FindAsync(mapPinToDelete.Address.AddressID);
 
-            _context.Addresses.Remove(addressToDelete);
-            _context.MapPins.Remove(mapPinToDelete);
+            if(mapPinToDelete != null)
+            {
+                var addressToDelete = await _context.Addresses.FindAsync(mapPinToDelete.Address.AddressID);
 
-            await AdditionalDelete(id);
+                if(addressToDelete != null)
+                    _context.Addresses.Remove(addressToDelete); //ištrinam ir adresą, jog nekauptų nereikalingų
 
-            await _context.SaveChangesAsync();
+                _context.MapPins.Remove(mapPinToDelete);
+
+                //čia reik kviest additionalDelete ir jis per anksti grįžta atgal
+                Task t = AdditionalDelete(id);
+                t.Wait();
+
+                //await AdditionalDelete(id);
+
+                await _context.SaveChangesAsync();
+
+                /*var FavouriteMapPins = await _context.FavouriteMapPins
+                .FromSqlInterpolated($"SELECT * FROM UserMapPins WHERE MapPinId={id}").ToListAsync();
+
+                if(FavouriteMapPins != null)
+                {
+                    foreach (var fmp in FavouriteMapPins)
+                    {
+                        var userMapPinToDelete = await _context.FavouriteMapPins.FindAsync(fmp.UserId, fmp.MapPinId);
+                        if(userMapPinToDelete != null)
+                            _context.FavouriteMapPins.Remove(userMapPinToDelete);
+
+                    }
+                }*/
+                
+            }
+
+           
         }
 
-        //Jog jei istrinam MapPin issitrintu ir visi rysiai su juo
+        //Jog jei istrinam MapPin išsitrintų ir visi FavouriteMapPins susiję su juo
         public async Task AdditionalDelete(int MapPinId)
         {
-            var userMapPins = await _context.UserMapPins
-                .FromSqlInterpolated($"SELECT * FROM UserMapPins WHERE MapPinId={MapPinId}").ToListAsync();
+            //dėl šito per anksti grįžta
+            var FavouriteMapPins =  _context.FavouriteMapPins
+                .FromSqlInterpolated($"SELECT * FROM UserMapPins WHERE MapPinId={MapPinId}").ToList();
 
-            foreach (var umPin in userMapPins)
+            if (FavouriteMapPins != null)
             {
-                var userMapPinToDelete = await _context.UserMapPins.FindAsync(umPin.UserId, MapPinId);
-                _context.UserMapPins.Remove(userMapPinToDelete);
+                foreach (var fmp in FavouriteMapPins)
+                {
+                    var userMapPinToDelete = await _context.FavouriteMapPins.FindAsync(fmp.UserId, fmp.MapPinId);
+                    if (userMapPinToDelete != null)
+                        _context.FavouriteMapPins.Remove(userMapPinToDelete);
+
+                }
+                await _context.SaveChangesAsync();
             }
 
         }

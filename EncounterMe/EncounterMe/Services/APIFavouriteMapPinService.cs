@@ -11,12 +11,13 @@ using EncounterMe.Pins;
 
 namespace EncounterMe.Services
 {
-    public static class APIUserMapPinService
+    //Klasė kuri sieja telefoną su db lentele FavouriteMapPins kur saugom ryšį tarp objekto ir vartotojo
+    public static class APIFavouriteMapPinService
     {
         static HttpClient s_httpClient;
         static string BaseUrl = "http://10.0.2.2:54134/api/";
 
-        static APIUserMapPinService()
+        static APIFavouriteMapPinService()
         {
             try
             {
@@ -31,7 +32,9 @@ namespace EncounterMe.Services
                 Console.WriteLine("Bandem sukurt httpclient ir nepavyko");
             }
         }
-        public static async Task AddUserMapPin(UserMapPin MapPin)
+
+        //Pridėjimas
+        public static async Task AddFavouriteMapPin(FavouriteMapPin MapPin)
         {
             var options = new JsonSerializerOptions
             {
@@ -40,16 +43,16 @@ namespace EncounterMe.Services
             var myStringContent = new StringContent(JsonSerializer.Serialize(MapPin, options), Encoding.UTF8, "application/json");
 
             Console.WriteLine(myStringContent);
-            var response = await s_httpClient.PostAsync("UserMapPins", myStringContent);
+            var response = await s_httpClient.PostAsync("FavouriteMapPins", myStringContent);
 
             response.EnsureSuccessStatusCode();
         }
 
-        //Gauti visus favourite objects id pagal userio id
-        public static async Task<IEnumerable<UserMapPin>> GetUserMapPins(int id1)
+        //Gaunam sąrašą visų objektų id pagal userio id. Čia gausim visus objekt'ų id, kuriuos yra pamėgęs vartotojas, kurio id paduodam
+        public static async Task<IEnumerable<FavouriteMapPin>> GetFavouriteMapPins(int id1) //čia id1 - vartotojo id
         {
 
-            var response = await s_httpClient.GetAsync($"UserMapPins/{id1}");
+            var response = await s_httpClient.GetAsync($"FavouriteMapPins/{id1}");      
 
             response.EnsureSuccessStatusCode();
 
@@ -59,15 +62,15 @@ namespace EncounterMe.Services
             {
                 PropertyNameCaseInsensitive = true
             };
-            return JsonSerializer.Deserialize<IEnumerable<UserMapPin>>(responseAsString, options);
+            return JsonSerializer.Deserialize<IEnumerable<FavouriteMapPin>>(responseAsString, options);
         }
 
-        //grąžina visa sarasa visu
-        public static async Task<IEnumerable<UserMapPin>> GetUserMapPin()
+        //grąžina visą sąrašą visų ryšių (nelabai gal reikalingas galim būtų ištrinti)
+        public static async Task<IEnumerable<FavouriteMapPin>> GetFavouriteMapPin()
         {
             Console.WriteLine("Pateko i API");
 
-            var response = await s_httpClient.GetAsync("UserMapPins");
+            var response = await s_httpClient.GetAsync("FavouriteMapPins");
 
             response.EnsureSuccessStatusCode();
 
@@ -80,12 +83,13 @@ namespace EncounterMe.Services
             };
 
 
-            return JsonSerializer.Deserialize<IEnumerable<UserMapPin>>(responseAsString, options);
+            return JsonSerializer.Deserialize<IEnumerable<FavouriteMapPin>>(responseAsString, options);
         }
 
-        public static async Task DeleteUserMapPin(int id1, int id2)
+        //ištrinam ryšį iš db
+        public static async Task DeleteFavouriteMapPin(int id1, int id2)
         {
-            var response = await s_httpClient.DeleteAsync($"UserMapPins/{id1},{id2}");
+            var response = await s_httpClient.DeleteAsync($"FavouriteMapPins/{id1},{id2}");
 
             response.EnsureSuccessStatusCode();
 

@@ -22,6 +22,7 @@ namespace MapPinAPI.Controllers
         }
 
         // GET: api/Users
+        // Visų userių gavimas
         [HttpGet]
         public async Task<IEnumerable<User>> GetUsers()
         {
@@ -29,6 +30,7 @@ namespace MapPinAPI.Controllers
         }
 
         // GET: api/Users/5
+        //Vieno userio gavimas
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
@@ -36,6 +38,7 @@ namespace MapPinAPI.Controllers
         }
 
         // PUT: api/Users/5
+        // Vieno userio update
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, [FromBody] User user)
@@ -53,6 +56,7 @@ namespace MapPinAPI.Controllers
         }
 
         // POST: api/Users
+        // Vieno userio pridėjimas
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<User>> PostUser([FromBody] User user)
@@ -67,6 +71,7 @@ namespace MapPinAPI.Controllers
         }
 
         // DELETE: api/Users/5
+        // Vieno userio ištrynimas
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {

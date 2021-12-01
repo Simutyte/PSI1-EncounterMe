@@ -11,6 +11,7 @@ using System.Text.Json.Serialization;
 
 namespace EncounterMe.Services
 {
+    //Klasė kuri sieja telefoną su db lentele MapPins kur saugom objektus (visus)
     public static class ApiMapPinService
     {
         static HttpClient s_httpClient;
@@ -31,6 +32,8 @@ namespace EncounterMe.Services
                 Console.WriteLine("Bandem sukurt httpclient ir nepavyko");
             }
         }
+
+        //Pridedam objektą į db
         public static async Task AddMapPin(MapPin MapPin)
         {
             var options = new JsonSerializerOptions
@@ -44,7 +47,8 @@ namespace EncounterMe.Services
 
             response.EnsureSuccessStatusCode();
         }
-       
+
+        //Gaunam 1 objektą pagal id
         public static async Task<MapPin> GetMapPin(int id)
         {
            
@@ -61,7 +65,7 @@ namespace EncounterMe.Services
             return JsonSerializer.Deserialize<MapPin>(responseAsString, options);
         }
 
-        //grąžina visą sąrašą mapPin
+        //grąžina visą sąrašą objektų
         public static async Task<IEnumerable<MapPin>> GetMapPins()
         {
             Console.WriteLine("Pateko i API");
@@ -82,13 +86,14 @@ namespace EncounterMe.Services
             return JsonSerializer.Deserialize<IEnumerable<MapPin>>(responseAsString, options);
         }
 
-        //užkomentuota nes kolkas nebus naudojama
-        public static async Task DeleteMapPin(MapPin MapPin)
-       {
-           var response = await s_httpClient.DeleteAsync($"MapPins/{MapPin.Id}");
 
+        //ištrinam objektą iš db
+        public static async Task DeleteMapPin(MapPin MapPin)
+        {
+           var response = await s_httpClient.DeleteAsync($"MapPins/{MapPin.Id}");
+            Console.WriteLine(response);
            response.EnsureSuccessStatusCode();
 
-       }
+        }
     }
 }

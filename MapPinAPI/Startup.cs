@@ -31,7 +31,7 @@ namespace MapPinAPI
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMapPinRepository, MapPinRepository>();
-            services.AddScoped<IUMRepository, UMRepository>();
+            services.AddScoped<IFavouriteMapPinRepository, FavouriteMapPinRepository>();
 
             services.AddControllers();
 

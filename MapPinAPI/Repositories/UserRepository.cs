@@ -53,6 +53,7 @@ namespace MapPinAPI.Repositories
             return null;
         }
 
+        //User ištrynimas
         public async Task Delete(int id)
         {
             var userToDelete = await _context.Users.FindAsync(id);
@@ -60,7 +61,7 @@ namespace MapPinAPI.Repositories
             await _context.SaveChangesAsync();
         }
 
-       
+        //Userio update
         public async Task Update(User user)
         {
             _context.Entry(user).State = EntityState.Modified;
@@ -71,11 +72,6 @@ namespace MapPinAPI.Repositories
         private bool RegistrationValidate(User user)
         {
             return _context.Users.Any(e => e.Username == user.Username || e.Email == user.Email);
-        }
-
-        private bool LoginValidate(User user)
-        {
-            return _context.Users.Any(e => e.Username == user.Username && e.Password == user.Password);
         }
     }
 }

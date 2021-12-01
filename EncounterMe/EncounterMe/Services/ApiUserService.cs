@@ -11,6 +11,7 @@ using EncounterMe.Users;
 
 namespace EncounterMe.Services
 {
+    //Klasė kuri sieja telefoną su db lentele Users kur saugom visus savo userius
     public static class ApiUserService
     {
         static HttpClient s_httpClient;
@@ -31,6 +32,8 @@ namespace EncounterMe.Services
                 Console.WriteLine("Bandem sukurt httpclient ir nepavyko");
             }
         }
+
+        //Userio pridėjimas, bool - dėl registracijos
         public static async Task<bool> AddUser(User user)
         {
             var options = new JsonSerializerOptions
@@ -39,9 +42,9 @@ namespace EncounterMe.Services
             };
             var myStringContent = new StringContent(JsonSerializer.Serialize(user, options), Encoding.UTF8, "application/json");
 
-            Console.WriteLine(myStringContent);
+           
             var response = await s_httpClient.PostAsync("Users", myStringContent);
-            Console.WriteLine("RESPONSE: "+response);
+ 
             if (response.IsSuccessStatusCode)
             {
                 response.EnsureSuccessStatusCode();
@@ -53,6 +56,7 @@ namespace EncounterMe.Services
             
         }
 
+        //Userio gavimas pagal id
         public static async Task<User> GetUser(int id)
         {
 
@@ -69,7 +73,7 @@ namespace EncounterMe.Services
             return JsonSerializer.Deserialize<User>(responseAsString, options);
         }
 
-        //grąžina visą sąrašą mapPin
+        //grąžina visą sąrašą userių
         public static async Task<IEnumerable<User>> GetUsers()
         {
             Console.WriteLine("Pateko i API");
@@ -90,24 +94,24 @@ namespace EncounterMe.Services
             return JsonSerializer.Deserialize<IEnumerable<User>>(responseAsString, options);
         }
 
+        //Updatinam userį db
         public static async Task UpdateUser(User user)
         {
             var json = JsonSerializer.Serialize<User>(user);
             var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-            //Console.WriteLine(json);
-            //Console.WriteLine(stringContent);
             var response = await s_httpClient.PutAsync($"Users/{user.Id}", stringContent);
             response.EnsureSuccessStatusCode();
 
         }
 
+        //ištrinam userį iš db
         public static async Task DeleteUser(User user)
-       {
+        {
            var response = await s_httpClient.DeleteAsync($"Users/{user.Id}");
 
            response.EnsureSuccessStatusCode();
 
-       }
+        }
     }
 }
 

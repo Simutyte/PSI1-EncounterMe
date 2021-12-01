@@ -3,21 +3,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace EncounterMe.Pins
+namespace MapPinAPI.Models
 {
-    public class UserMapPin
+    public class FavouriteMapPin
     {
         public int UserId { get; set; }
 
         public int MapPinId { get; set; }
-
-        public int Value { get; set; }
-
-        public UserMapPin()
-        {
-
-        }
     }
 }
