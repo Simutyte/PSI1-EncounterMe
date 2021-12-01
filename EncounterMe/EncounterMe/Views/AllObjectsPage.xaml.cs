@@ -28,6 +28,7 @@ namespace EncounterMe.Views
             {
                 _myPinList.ListOfPins.Sort();
                 CalculateDistances();
+                CalculateRatint();
             }
 
             listView.RefreshCommand = new Command(() =>

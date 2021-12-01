@@ -55,7 +55,7 @@ namespace EncounterMe.Pins
         public double GetMapPinEvaluationAverage(int mapPinId)
         {
             var evaluations = ListOfEvaluation.Where(e => e.MapPinId == mapPinId);
-            return evaluations == null ? 0 : evaluations.Average(e => e.Value);
+            return evaluations.Count() == 0 ? 0 : evaluations.Average(e => e.Value);
         }
     }
 }
