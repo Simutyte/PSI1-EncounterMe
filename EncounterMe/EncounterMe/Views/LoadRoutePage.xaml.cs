@@ -72,25 +72,9 @@ namespace EncounterMe.Views
 
         private async void Display_Route_On_Map(object sender, EventArgs e)
         {
-            var request = new GeolocationRequest(GeolocationAccuracy.Default);
-            Location location = await Geolocation.GetLocationAsync(request);
-            var first = _mapPins.Where(x => x.Latitude!= 0 && x.Longitude != 0).FirstOrDefault();
-            double minDistance = Location.CalculateDistance(location.Latitude, location.Longitude, first.Longitude, first.Longitude, DistanceUnits.Kilometers);
-            double distance;
-            MapPin pinForRoute = new MapPin();
-
-            //Finds the closest pin to current location
-            foreach (MapPin pin in _mapPins)
-            {
-                distance = Location.CalculateDistance(location.Latitude, location.Longitude, pin.Latitude, pin.Longitude, DistanceUnits.Kilometers);
-                if (distance < minDistance && distance != 0)
-                {
-                    minDistance = distance;
-                    pinForRoute = pin;
-                }
-            }
-
-            await AppShell.Current.GoToAsync($"//home/tab/MapPage?lat={pinForRoute.Latitude}&longi={pinForRoute.Longitude}&drawing=true");
+            _mapPins.OrderBy(x => x.DistanceToUser);
+            var pin = _mapPins.Where(x => x.Latitude != 0 && x.Longitude != 0).FirstOrDefault();
+            await AppShell.Current.GoToAsync($"//home/tab/MapPage?lat={pin.Latitude}&longi={pin.Longitude}&drawing=true");
         }
     }
 }

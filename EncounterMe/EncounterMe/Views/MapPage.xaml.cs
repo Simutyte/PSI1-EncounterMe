@@ -15,6 +15,7 @@ using Nancy.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
+using System.Linq;
 
 
 //TODO: fix first polyline
@@ -47,6 +48,7 @@ namespace EncounterMe.Views
         private bool _chosenLocationPermission;
         private bool _chosenGpsPermission;
         private double _averageDistance;
+        private bool _destinationReached = false;
 
         public bool DisplayPin { get; set; } = false;
         public bool DrawingRoute { get; set; } = false;
@@ -430,16 +432,30 @@ namespace EncounterMe.Views
         //could be better, if the line was dotted
         private async void UserLocationChangedEventHandler(Location currentLocation)
         {
-            double distanceToDestination = Location.CalculateDistance(_lastRegisteredLocation.Latitude, _lastRegisteredLocation.Longitude,
-                                                                currentLocation.Latitude, currentLocation.Longitude, DistanceUnits.Kilometers);
+            double distanceToDestination = Location.CalculateDistance(Lat, Longi, currentLocation.Latitude, currentLocation.Longitude, DistanceUnits.Kilometers);
 
 
             //Paziuret kaip ten su trinimais route ir panasiai
             if (distanceToDestination < 0.02)
             {
-                await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
-                await CheckRoutes();
+                Console.WriteLine("Check");
+                if (!_destinationReached)
+                {
+                    Console.WriteLine("Check1");
+                    await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
+                    _destinationReached = true;
+                    DrawingRoute = false;
 
+                    //reikia graziau sita issprest
+                    foreach (var x in _myPinList.ListOfPins)
+                    {
+                        if (x.Latitude == Lat && x.Longitude == Longi)
+                        {
+                            x.Visited = true;
+                        }
+                    }
+                    CheckRoutes();
+                }
             }
             else
             {
@@ -474,11 +490,24 @@ namespace EncounterMe.Views
 
         public async void CheckRoutes()
         {
+            Console.WriteLine("in routes");
             if (SpecificRoute)
             {
+                Console.WriteLine("in specific");
                 //check if its the last element
-                if (false)
+                IEnumerable<MapPin> pinsToRender = LoadRoutePage.PinsToRender;
+                List<MapPin> unvisitedPins = new List<MapPin>();
+                foreach (var pin in pinsToRender)
                 {
+                    if (!pin.Visited)
+                    {
+                        unvisitedPins.Add(pin);
+                    }
+                }
+
+                //var nextPinToRoute;
+                if (unvisitedPins.Count == 0)
+                { 
                     await DisplayAlert("Congratulations!", "You finished a route", "Ok");
                 }
                 else
@@ -486,7 +515,8 @@ namespace EncounterMe.Views
                     bool answer = await DisplayAlert("Alert", "Do you want to continue to the next location?", "Yes", "No");
                     if (answer)
                     {
-                        //kazkas naujo
+                        MapPin pin = unvisitedPins.First();
+                        await AppShell.Current.GoToAsync($"//home/tab/MapPage?lat={pin.Latitude}&longi={pin.Longitude}&drawing=true");
                     }
                 }
             }
