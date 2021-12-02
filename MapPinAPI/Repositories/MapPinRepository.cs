@@ -39,27 +39,9 @@ namespace MapPinAPI.Repositories
 
                 _context.MapPins.Remove(mapPinToDelete);
 
-                //čia reik kviest additionalDelete ir jis per anksti grįžta atgal
-                Task t = AdditionalDelete(id);
-                t.Wait();
-
-                //await AdditionalDelete(id);
+                await AdditionalDelete(id);
 
                 await _context.SaveChangesAsync();
-
-                /*var FavouriteMapPins = await _context.FavouriteMapPins
-                .FromSqlInterpolated($"SELECT * FROM UserMapPins WHERE MapPinId={id}").ToListAsync();
-
-                if(FavouriteMapPins != null)
-                {
-                    foreach (var fmp in FavouriteMapPins)
-                    {
-                        var userMapPinToDelete = await _context.FavouriteMapPins.FindAsync(fmp.UserId, fmp.MapPinId);
-                        if(userMapPinToDelete != null)
-                            _context.FavouriteMapPins.Remove(userMapPinToDelete);
-
-                    }
-                }*/
                 
             }
 
@@ -71,7 +53,7 @@ namespace MapPinAPI.Repositories
         {
             //dėl šito per anksti grįžta
             var FavouriteMapPins =  _context.FavouriteMapPins
-                .FromSqlInterpolated($"SELECT * FROM UserMapPins WHERE MapPinId={MapPinId}").ToList();
+                .FromSqlInterpolated($"SELECT * FROM FavouriteMapPins WHERE MapPinId={MapPinId}").ToList();
 
             if (FavouriteMapPins != null)
             {
@@ -82,7 +64,6 @@ namespace MapPinAPI.Repositories
                         _context.FavouriteMapPins.Remove(userMapPinToDelete);
 
                 }
-                await _context.SaveChangesAsync();
             }
 
         }
