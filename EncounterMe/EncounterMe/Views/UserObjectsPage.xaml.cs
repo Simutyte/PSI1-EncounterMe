@@ -5,39 +5,32 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using EncounterMe.Pins;
-using EncounterMe.Services;
-using EncounterMe.Users;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace EncounterMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class FavouritesPage : ContentPage
+    public partial class UserObjectsPage : ContentPage
     {
-        public List<MapPin> FavouriteMapPinList { get; set; }
-
-        private User User { get; set; }
-        public FavouritesPage()
+        public List<MapPin> MyMapPins { get; set; }
+        public UserObjectsPage()
         {
             InitializeComponent();
 
             OnAppearing();
-            
-            
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (App.s_mapPinService.UserFavouriteMapPins.Count > 0)
+            if (App.s_mapPinService.UserOwnerMapPins.Count > 0)
             {
                 this.Content = MainStackLayout;
-                listView.ItemsSource = App.s_mapPinService.UserFavouriteMapPins;
+                listView.ItemsSource = App.s_mapPinService.UserOwnerMapPins;
             }
             else
             {
@@ -49,7 +42,8 @@ namespace EncounterMe.Views
 
                 Label label = new Label
                 {
-                    Text = "I'm sorry, but you don't have any favourites",
+                    HorizontalOptions = LayoutOptions.Center,
+                    Text = "I'm sorry, but you haven't created your \nobjects yet",
                     FontSize = 20
                 };
                 layout.Children.Add(label);
@@ -58,14 +52,18 @@ namespace EncounterMe.Views
             }
         }
 
-
-         async void Delete_clicked(object sender, EventArgs e)
+        async void Delete_clicked(object sender, EventArgs e)
         {
+            Console.WriteLine("pries viska");
             var btn = (ImageButton)sender;
+            Console.WriteLine("po imgbutton");
             var deletePin = (MapPin)btn.CommandParameter;
+            Console.WriteLine("po priskyrimo");
             if (deletePin != null)
             {
-                App.s_mapPinService.DeleteFavourite(deletePin);
+                await App.s_mapPinService.DeleteOwnedObjects(deletePin);
+                //App.s_userDb.DeleteFavPin(deletePin);
+               
                 await DisplayAlert("Deleted", "Your object was deleted", "ok");
                 OnAppearing();
                 //AfterDeleted();
@@ -90,4 +88,3 @@ namespace EncounterMe.Views
         }
     }
 }
-

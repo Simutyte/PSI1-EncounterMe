@@ -42,8 +42,9 @@ namespace EncounterMe.Views
         private MapElement _firstPolyline = new MapElement();
 
         private string _routeType = "foot-walking";
-        private string[][] _coordinatesArray;
-        
+        //private string[][] _coordinatesArray;
+        private double[][] _coordsArray;
+
         private bool _isTimerRunning = false;
         private bool _isDrawingRoute = false;
         private bool _chosenLocationPermission;
@@ -365,7 +366,8 @@ namespace EncounterMe.Views
             JObject directionsJObject = JObject.Parse(result);
             JToken coordinatesJToken = directionsJObject.SelectToken("$.geometry.coordinates");
             JArray coordinatesJArr = JArray.Parse(coordinatesJToken.ToString());
-            _coordinatesArray = JsonConvert.DeserializeObject<string[][]>(coordinatesJArr.ToString());
+            _coordsArray = JsonConvert.DeserializeObject<double[][]>(coordinatesJArr.ToString());
+            //_coordinatesArray = JsonConvert.DeserializeObject<string[][]>(coordinatesJArr.ToString());
 
             //Recalculates the average distance after the array has changed
             CalculateAverage();
@@ -376,22 +378,26 @@ namespace EncounterMe.Views
         {
             //Clears previous polylines
             MyMap.MapElements.Clear();
-
+            
             //Initiate end points of a polyline
             Location location2 = new Location();
             Location location1 = new Location
             {
-                Longitude = Convert.ToDouble(_coordinatesArray[0][0]),
-                Latitude = Convert.ToDouble(_coordinatesArray[0][1])
+                Longitude = _coordsArray[0][0],
+                Latitude = _coordsArray[0][1]
+                //Longitude = Convert.ToDouble(_coordinatesArray[0][0]),
+                //Latitude = Convert.ToDouble(_coordinatesArray[0][1])
             };
 
-            string[][] arr = _coordinatesArray;
+            //string[][] arr = _coordinatesArray;
             
             //Drawing lines
-            for (int i = 1; i < arr.Length; i++)
+            for (int i = 1; i < _coordsArray.Length; i++)
             {
-                location2.Longitude = Convert.ToDouble(arr[i][0]);
-                location2.Latitude = Convert.ToDouble(arr[i][1]);
+                location2.Longitude = _coordsArray[i][0];
+                location2.Latitude = _coordsArray[i][1];
+                //location2.Longitude = Convert.ToDouble(arr[i][0]);
+                //location2.Latitude = Convert.ToDouble(arr[i][1]);
                 Polyline polyline = new Polyline
                 {
                     StrokeColor = Color.Blue,
@@ -505,8 +511,10 @@ namespace EncounterMe.Views
 
             Location firstPolyline= new Location
             {
-                Latitude = Convert.ToDouble(_coordinatesArray[0][1]),
-                Longitude = Convert.ToDouble(_coordinatesArray[0][0])
+                Latitude = _coordsArray[0][1],
+                Longitude = _coordsArray[0][0]
+                //Latitude = Convert.ToDouble(_coordinatesArray[0][1]),
+                //Longitude = Convert.ToDouble(_coordinatesArray[0][0])
             };
 
             Polyline polyline = new Polyline
@@ -533,17 +541,21 @@ namespace EncounterMe.Views
             Location loc1 = new Location();
             Location loc2 = new Location(); 
 
-            for (int i = 0; i < _coordinatesArray.Length - 1; i++)
+            for (int i = 0; i < _coordsArray.Length - 1; i++)
             {
-                loc1.Latitude = Convert.ToDouble(_coordinatesArray[i][1]);
+                loc1.Latitude = _coordsArray[i][1];
+                loc1.Longitude = _coordsArray[i][0];
+                loc2.Latitude = _coordsArray[i + 1][1];
+                loc2.Longitude = _coordsArray[i + 1][0];
+                /*loc1.Latitude = Convert.ToDouble(_coordinatesArray[i][1]);
                 loc1.Longitude = Convert.ToDouble(_coordinatesArray[i][0]);
                 loc2.Latitude = Convert.ToDouble(_coordinatesArray[i + 1][1]);
-                loc2.Longitude = Convert.ToDouble(_coordinatesArray[i + 1][0]);
+                loc2.Longitude = Convert.ToDouble(_coordinatesArray[i + 1][0]);*/
 
                 sum += Location.CalculateDistance(loc1.Latitude, loc1.Longitude, loc2.Latitude, loc2.Longitude, DistanceUnits.Kilometers);
             }
             
-            _averageDistance = sum / (_coordinatesArray.Length - 1);
+            _averageDistance = sum / (_coordsArray.Length - 1);
 
         }
     }

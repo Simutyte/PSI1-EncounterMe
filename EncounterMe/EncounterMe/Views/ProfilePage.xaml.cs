@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EllipticCurve.Utils;
+using EncounterMe.Services;
 using EncounterMe.Users;
 using EncounterMe.Views.Popups;
 using Rg.Plugins.Popup.Services;
@@ -25,49 +26,26 @@ namespace EncounterMe.Views
         {
             InitializeComponent();
 
-            if (App.s_userDb.CurrentUserId != null)
-            {
-
-                User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
-            }
-
-            if (!string.IsNullOrWhiteSpace(User.PhotoPath))
-            {
-                ProfileImage.Source = ImageSource.FromFile(User.PhotoPath);
-
-            }
-            else
-            {
-                ProfileImage.Source = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
-            }
-
-            
-
-            this.BindingContext = User;
-
-            
+            OnAppearing();            
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (App.s_userDb.CurrentUserId != null)
+            if (App.s_mapPinService.CurrentUser != null)
             {
-
-                User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
+                User = App.s_mapPinService.CurrentUser;
             }
 
-            if(!string.IsNullOrWhiteSpace(User.PhotoPath))
+            if (!string.IsNullOrWhiteSpace(User.PhotoPath))
             {
                 ProfileImage.Source = ImageSource.FromFile(User.PhotoPath);
-
             }
             else
             {
                 ProfileImage.Source = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
             }
-           
-
+          
             this.BindingContext = User;
         }
 
@@ -94,14 +72,12 @@ namespace EncounterMe.Views
                     var path = result.FullPath;
                     ProfileImage.Source = ImageSource.FromFile(path);
                     User.PhotoPath = path;
-                    App.s_userDb.UpdateUser(User);
-                    
+                    await App.s_mapPinService.UpdatingUser(User);
                 }
                 else
                 {
                     await DisplayAlert("Oops", "You didn't pick a photo", "ok");
                 }
-                
             }
             else
             {
