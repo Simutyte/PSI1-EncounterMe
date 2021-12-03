@@ -18,5 +18,6 @@ namespace MapPinAPI.Repositories
         //Task Update(MapPin mapPin);
 
         Task Delete(int id);
+
     }
 }

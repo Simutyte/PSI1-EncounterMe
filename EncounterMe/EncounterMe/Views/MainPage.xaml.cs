@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
+using EncounterMe.Services;
 using EncounterMe.Users;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -18,10 +19,10 @@ namespace EncounterMe.Views
         {
             InitializeComponent();
 
-            if (App.s_userDb.CurrentUserId != null)
+            if (App.s_mapPinService.CurrentUser != null)
             {
 
-                User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
+                User = App.s_mapPinService.CurrentUser;
             }
 
             this.BindingContext = User;
@@ -32,12 +33,11 @@ namespace EncounterMe.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            if (App.s_userDb.CurrentUserId != null)
+            if (App.s_mapPinService.CurrentUser != null)
             {
 
-                User = App.s_userDb.GetUserByID((int)App.s_userDb.CurrentUserId);
+                User = App.s_mapPinService.CurrentUser;
             }
-
             this.BindingContext = User;
         }
 

@@ -20,18 +20,21 @@ namespace MapPinAPI.Controllers
             _mapPinRepository = mapPinRepository;
         }
 
+        //Visų objektų gavimas
         [HttpGet]
         public async Task<IEnumerable<MapPin>> GetMapPins()
         {
             return await _mapPinRepository.Get();
         }
 
+        //vieno objekto gavimas pagal id
         [HttpGet("{id}")]
         public async Task<ActionResult<MapPin>> GetMapPins(int id)
         {
             return await _mapPinRepository.Get(id);
         }
 
+        //vieno objekto įrašymas į db
         [HttpPost]
         public async Task<ActionResult<MapPin>> PostMapPins([FromBody] MapPin mapPin)
         {
@@ -53,6 +56,7 @@ namespace MapPinAPI.Controllers
             return NoContent();
         }*/
 
+        //Vieno objekto ištrynimas iš db
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
@@ -62,6 +66,7 @@ namespace MapPinAPI.Controllers
 
             await _mapPinRepository.Delete(mapPinToDelete.Id);
             return NoContent();
+            
         }
     }
 }

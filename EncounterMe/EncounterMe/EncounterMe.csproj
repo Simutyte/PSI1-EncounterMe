@@ -32,6 +32,9 @@
     <Compile Update="Views\IndividualObjectPage.xaml.cs">
       <DependentUpon>IndividualObjectPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\UserObjectsPage.xaml.cs">
+      <DependentUpon>UserObjectsPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -87,6 +90,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SettingsPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\UserObjectsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

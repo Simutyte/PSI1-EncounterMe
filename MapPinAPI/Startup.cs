@@ -29,10 +29,15 @@ namespace MapPinAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMapPinRepository, MapPinRepository>();
-            services.AddDbContext<MapPinContext>(o => o.UseSqlite("Data source = MapPin.db"));
+            services.AddScoped<IFavouriteMapPinRepository, FavouriteMapPinRepository>();
 
             services.AddControllers();
+
+            services.AddDbContext<MapPinContext>(o => o.UseSqlite("Data source = MapPin.db"));
+
+           
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MapPinAPI", Version = "v1" });

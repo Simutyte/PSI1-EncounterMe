@@ -13,7 +13,7 @@ namespace EncounterMe.Users
 {
     public class UserDB
     {
-        private SQLiteConnection _mySQLiteConnection;
+        /*private SQLiteConnection _mySQLiteConnection;
         public int? CurrentUserId { get; set; }
         public UserDB()
         {
@@ -140,6 +140,6 @@ namespace EncounterMe.Users
             }
             else
                 return false;
-        }
+        }*/
     }
 }
