@@ -17,7 +17,6 @@
             <Style x:Key="AllObjectsListView" TargetType="ListView">
                 <Setter Property="HasUnevenRows" Value="True"/>
                 <Setter Property="BackgroundColor" Value="Transparent"/>
-                <Setter Property="IsPullToRefreshEnabled" Value="False"/>
                 <Setter Property="SeparatorVisibility" Value="Default"/>
             </Style>
 

@@ -35,7 +35,7 @@ namespace EncounterMe.Views
             list = PinList.ListOfPins;
             _pin = pinToRender;
             this.BindingContext = pinToRender;
-            int oldValue = _evaluationList.GetMapPinEvaluationFromUserId(_pin.Id, 1);
+            int oldValue = _evaluationList.GetMapPinEvaluationFromUserId(_pin.Id, App.s_mapPinService.CurrentUser.Id);
             if (oldValue != 0)
             {
                 positionSlider.SelectedPosition = oldValue; // <- čia galim nustatyti koks jau buvo userio ivertinimas
@@ -148,11 +148,11 @@ namespace EncounterMe.Views
             {
                 if (oldValue == 0)
                 {
-                    _evaluationList.AddEvaluation(_pin.Id, 1, maybeNewVaue);
+                    _evaluationList.AddEvaluation(_pin.Id, App.s_mapPinService.CurrentUser.Id, maybeNewVaue);
                 }
                 else
                 {
-                    _evaluationList.ChangeEvaluation(_pin.Id, 1, maybeNewVaue);
+                    _evaluationList.ChangeEvaluation(_pin.Id, App.s_mapPinService.CurrentUser.Id, maybeNewVaue);
                 }
             }
             await Shell.Current.Navigation.PopAsync();

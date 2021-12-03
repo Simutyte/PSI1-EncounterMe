@@ -19,13 +19,13 @@ namespace EncounterMe.Views
         public UserObjectsPage()
         {
             InitializeComponent();
-
-            OnAppearing();
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            listView.ItemsSource = null;
 
             if (App.s_mapPinService.UserOwnerMapPins.Count > 0)
             {

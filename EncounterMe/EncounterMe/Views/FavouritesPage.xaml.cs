@@ -23,16 +23,14 @@ namespace EncounterMe.Views
         private User User { get; set; }
         public FavouritesPage()
         {
-            InitializeComponent();
-
-            OnAppearing();
-            
-            
+            InitializeComponent();  
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            listView.ItemsSource = null;
 
             if (App.s_mapPinService.UserFavouriteMapPins.Count > 0)
             {

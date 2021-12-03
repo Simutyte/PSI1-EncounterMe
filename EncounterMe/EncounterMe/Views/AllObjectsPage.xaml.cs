@@ -23,7 +23,17 @@ namespace EncounterMe.Views
             InitializeComponent();
             PinsList pinsList = PinsList.GetPinsList();
             _myPinList = pinsList;
+        }
 
+        protected override void OnAppearing()
+        {
+            RefreshData();
+            base.OnAppearing();
+        }
+
+        public void RefreshData()
+        {
+            listView.ItemsSource = null;
             if (_myPinList.ListOfPins != null)
             {
                 _myPinList.ListOfPins.Sort();
@@ -31,23 +41,8 @@ namespace EncounterMe.Views
                 CalculateRatint();
             }
 
-            listView.RefreshCommand = new Command(() =>
-            {
-                listView.ItemsSource = null;
-                listView.ItemsSource = GetAllObjects();
-                listView.IsRefreshing = false;
-                listView.IsPullToRefreshEnabled = false;
-            });
-
             listView.ItemsSource = GetAllObjects();
             BindingContext = this;
-
-            App.s_mapPinService.RefreshList += OnRefreshList;
-        }
-
-        public void OnRefreshList(object source, EventArgs args)
-        {
-            listView.IsPullToRefreshEnabled = true;
         }
 
         //Gauna pasikeitusį listOfPins pagal įvestą tekstą
@@ -66,12 +61,6 @@ namespace EncounterMe.Views
             var objectsQueryOrderedByDistance = objectsQuery.OrderBy(pin => pin.DistanceToUser);
 
             return objectsQueryOrderedByDistance;
-        }
-
-        private void ListView_Refreshing(object sender, EventArgs e)
-        {
-            listView.ItemsSource = GetAllObjects();
-            listView.EndRefresh();
         }
 
         private void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
