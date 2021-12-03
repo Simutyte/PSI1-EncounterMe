@@ -143,23 +143,25 @@
                                                    Source="clock.png"/>
 
                                             <Label Text="{Binding OpeningHours}"
-                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"
+                                                   HorizontalOptions="Start"/>
 
                                             <Label Text="-"
-                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"
+                                                   HorizontalOptions="Start"/>
 
                                             <Label Text="{Binding ClosingHours}"
-                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
-                                            
-                                            <Label Text="                                                               "
-                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"
+                                                   HorizontalOptions="Start"/>
 
                                             <Image WidthRequest="20"
                                                    Margin="0,0,4,0"
-                                                   Source="clock.png"/>
+                                                   Source="clock.png"
+                                                   HorizontalOptions="EndAndExpand"/>
 
                                             <Label Text="{Binding Evaluation}"
-                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"
+                                                   HorizontalOptions="End"/>
                                         </StackLayout>
                                     </StackLayout>
 
