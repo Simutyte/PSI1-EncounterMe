@@ -54,7 +54,7 @@ namespace EncounterMe
 
         public MapPin(string name, string description, Address address, int type = 0, int styleType = 0,
                        string open = "", string close = "", double latitude = 0, double longitude = 0,
-                       string image = "", bool visited = false)
+                       string image = "")
         {
             Name = name;
             Address = address;
@@ -66,7 +66,6 @@ namespace EncounterMe
             ImageName = string.IsNullOrWhiteSpace(image) ? "https://www.topdeal.lt/wp-content/themes/consultix/images/no-image-found-360x250.png" : image;
             Longitude = longitude;
             Latitude = latitude;
-            Visited = visited;
         }
 
         public int CompareTo(object obj)
