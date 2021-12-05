@@ -49,6 +49,8 @@ namespace EncounterMe.Views
         private bool _chosenGpsPermission;
         private double _averageDistance;
         private bool _destinationReached = false;
+        private IEnumerable<MapPin> _specificRoutePins;
+
 
         public bool DisplayPin { get; set; } = false;
         public bool DrawingRoute { get; set; } = false;
@@ -73,7 +75,11 @@ namespace EncounterMe.Views
             AnimationView.IsVisible = false;
             CenterPin.IsVisible = false;
             GenerateMapPins();
+            GenerateDisplays();
+        }
 
+        public void GenerateDisplays()
+        {
             //Checks if we need to display a pin(coming from "all objects -> add object -> by pin to maps") 
             if (DisplayPin)
             {
@@ -82,7 +88,7 @@ namespace EncounterMe.Views
             }
 
             //Checks if we need to draw a route (coming form individual objects page)
-            if (DrawingRoute)
+            if (DrawingRoute && !SpecificRoute)
             {
                 UserLocationChangedEvent += new Action<Location>(UserLocationChangedEventHandler);
                 Location endLoc = new Location
@@ -92,14 +98,21 @@ namespace EncounterMe.Views
                 };
 
                 DisplayRoute(endLoc);
+                Console.WriteLine("For check");
             }
 
-            if (SpecificRoute)
+            //If it isnt a specific route, simply generate all pins
+            if (!SpecificRoute)
             {
-                IEnumerable<MapPin> pinsToRender = LoadRoutePage.PinsToRender;
+                GenerateMapPins();
+            }
+            else
+            {
+                
+                _specificRoutePins = LoadRoutePage.PinsToRender;
                 MyMap.Pins.Clear();
                 MyMap.MapElements.Clear();
-                foreach (var pin in pinsToRender)
+                foreach (var pin in _specificRoutePins)
                 {
                     Pin pinToAdd = new Pin
                     {
@@ -108,15 +121,21 @@ namespace EncounterMe.Views
                     };
                     MyMap.Pins.Add(pinToAdd);
                 }
+
+                if (DrawingRoute)
+                {
+                    UserLocationChangedEvent += new Action<Location>(UserLocationChangedEventHandler);
+                    //_specificRoutePins.OrderBy(x => x.DistanceToUser);
+                    var pin = _specificRoutePins.Where(x => x.Latitude != 0 && x.Longitude != 0 && !x.Visited).FirstOrDefault();
+                    Lat = pin.Latitude;
+                    Longi = pin.Longitude;
+                    Location endLoc = new Location(Lat = pin.Latitude, Longi = pin.Longitude);
+                    DisplayRoute(endLoc);
+                    _destinationReached = false;
+                    Console.WriteLine("check");
+                }
             }
         }
-
-        protected override void OnDisappearing()
-        {
-            base.OnDisappearing();
-            DrawingRoute = false;
-        }
-
         public void GenerateMapPins()
         {
             PinsList pinsList = PinsList.GetPinsList();
@@ -130,6 +149,14 @@ namespace EncounterMe.Views
                 }
             }
         }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            DrawingRoute = false;
+        }
+
+        
 
         private async void DisplayCurrentLocation()
         {
@@ -443,18 +470,30 @@ namespace EncounterMe.Views
                 {
                     Console.WriteLine("Check1");
                     await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
-                    _destinationReached = true;
-                    DrawingRoute = false;
 
-                    //reikia graziau sita issprest
-                    foreach (var x in _myPinList.ListOfPins)
+                    //make it visited
+                    _destinationReached = true;
+
+                    if (SpecificRoute)
                     {
-                        if (x.Latitude == Lat && x.Longitude == Longi)
+                        //_specificRoutePins = LoadRoutePage.PinsToRender;
+                        foreach (var x in LoadRoutePage.PinsToRender)
                         {
-                            x.Visited = true;
+                            //makes the closest pin visited
+                            if (!x.Visited)
+                            {
+                                x.Visited = true;
+                                _myPinList.ListOfPins.Find(pin => pin.Latitude == x.Latitude && pin.Longitude == x.Longitude).Visited = true;
+                                break;
+                            }
                         }
+                        _specificRoutePins = LoadRoutePage.PinsToRender;
+                        CheckRoutes();
                     }
-                    CheckRoutes();
+                    else
+                    {
+                        DrawingRoute = false;
+                    }
                 }
             }
             else
@@ -471,7 +510,7 @@ namespace EncounterMe.Views
                     if (distanceFromLastLocation < _averageDistance + distanceOffset)
                     {
                         _lastRegisteredLocation = currentLocation;
-                        RedrawFirstPolyline(currentLocation);
+                        //RedrawFirstPolyline(currentLocation);
                     }
                     else
                     {
@@ -495,13 +534,15 @@ namespace EncounterMe.Views
             {
                 Console.WriteLine("in specific");
                 //check if its the last element
-                IEnumerable<MapPin> pinsToRender = LoadRoutePage.PinsToRender;
+
                 List<MapPin> unvisitedPins = new List<MapPin>();
-                foreach (var pin in pinsToRender)
+
+                foreach (var pin in _specificRoutePins)
                 {
                     if (!pin.Visited)
                     {
                         unvisitedPins.Add(pin);
+                        Console.WriteLine(pin.Name);
                     }
                 }
 
@@ -509,14 +550,23 @@ namespace EncounterMe.Views
                 if (unvisitedPins.Count == 0)
                 { 
                     await DisplayAlert("Congratulations!", "You finished a route", "Ok");
+                    DrawingRoute = false;
                 }
                 else
                 {
                     bool answer = await DisplayAlert("Alert", "Do you want to continue to the next location?", "Yes", "No");
                     if (answer)
                     {
-                        MapPin pin = unvisitedPins.First();
-                        await AppShell.Current.GoToAsync($"//home/tab/MapPage?lat={pin.Latitude}&longi={pin.Longitude}&drawing=true");
+                        GenerateDisplays();
+                    }
+                    else
+                    {
+                        DrawingRoute = false;
+                        //Just display route pins
+                        _polylineList.Clear();
+                        MyMap.MapElements.Clear();
+                        _firstPolyline = null;
+
                     }
                 }
             }

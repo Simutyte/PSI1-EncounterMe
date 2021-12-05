@@ -72,9 +72,8 @@ namespace EncounterMe.Views
 
         private async void Display_Route_On_Map(object sender, EventArgs e)
         {
-            _mapPins.OrderBy(x => x.DistanceToUser);
-            var pin = _mapPins.Where(x => x.Latitude != 0 && x.Longitude != 0).FirstOrDefault();
-            await AppShell.Current.GoToAsync($"//home/tab/MapPage?lat={pin.Latitude}&longi={pin.Longitude}&drawing=true");
+            PinsToRender = _mapPins.OrderBy(x => x.DistanceToUser);
+            await AppShell.Current.GoToAsync($"//home/tab/MapPage?drawing=true&route=true");
         }
     }
 }
