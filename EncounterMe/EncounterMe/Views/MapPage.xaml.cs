@@ -32,7 +32,6 @@ namespace EncounterMe.Views
     [QueryProperty(nameof(SpecificRoute), "route")]
     public partial class MapPage : ContentPage
     {
-        public event Action<Location> UserLocationChangedEvent;
 
         private Location _location = new Location();
         private Location _lastRegisteredLocation = new Location();
@@ -90,7 +89,6 @@ namespace EncounterMe.Views
             //Checks if we need to draw a route (coming form individual objects page)
             if (DrawingRoute && !SpecificRoute)
             {
-                UserLocationChangedEvent += new Action<Location>(UserLocationChangedEventHandler);
                 Location endLoc = new Location
                 {
                     Latitude = Lat,
@@ -98,7 +96,6 @@ namespace EncounterMe.Views
                 };
 
                 DisplayRoute(endLoc);
-                Console.WriteLine("For check");
             }
 
             //If it isnt a specific route, simply generate all pins
@@ -108,10 +105,9 @@ namespace EncounterMe.Views
             }
             else
             {
-                
                 _specificRoutePins = LoadRoutePage.PinsToRender;
-                MyMap.Pins.Clear();
-                MyMap.MapElements.Clear();
+                //MyMap.Pins.Clear();
+                //MyMap.MapElements.Clear();
                 foreach (var pin in _specificRoutePins)
                 {
                     Pin pinToAdd = new Pin
@@ -124,18 +120,16 @@ namespace EncounterMe.Views
 
                 if (DrawingRoute)
                 {
-                    UserLocationChangedEvent += new Action<Location>(UserLocationChangedEventHandler);
-                    //_specificRoutePins.OrderBy(x => x.DistanceToUser);
                     var pin = _specificRoutePins.Where(x => x.Latitude != 0 && x.Longitude != 0 && !x.Visited).FirstOrDefault();
                     Lat = pin.Latitude;
                     Longi = pin.Longitude;
                     Location endLoc = new Location(Lat = pin.Latitude, Longi = pin.Longitude);
                     DisplayRoute(endLoc);
                     _destinationReached = false;
-                    Console.WriteLine("check");
                 }
             }
         }
+
         public void GenerateMapPins()
         {
             PinsList pinsList = PinsList.GetPinsList();
@@ -155,8 +149,6 @@ namespace EncounterMe.Views
             base.OnDisappearing();
             DrawingRoute = false;
         }
-
-        
 
         private async void DisplayCurrentLocation()
         {
@@ -238,7 +230,7 @@ namespace EncounterMe.Views
                         {
                             if (location.Latitude != lastKnown.Latitude && location.Longitude != lastKnown.Longitude)
                             {
-                                UserLocationChangedEvent(location);
+                                UserLocationChanged(location);
                             }
                         }     
                     });
@@ -457,21 +449,16 @@ namespace EncounterMe.Views
 
         //Draws polyline from current location to the beggining of route
         //could be better, if the line was dotted
-        private async void UserLocationChangedEventHandler(Location currentLocation)
+        private async void UserLocationChanged(Location currentLocation)
         {
             double distanceToDestination = Location.CalculateDistance(Lat, Longi, currentLocation.Latitude, currentLocation.Longitude, DistanceUnits.Kilometers);
-
 
             //Paziuret kaip ten su trinimais route ir panasiai
             if (distanceToDestination < 0.02)
             {
-                Console.WriteLine("Check");
                 if (!_destinationReached)
                 {
-                    Console.WriteLine("Check1");
                     await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
-
-                    //make it visited
                     _destinationReached = true;
 
                     if (SpecificRoute)
@@ -483,7 +470,7 @@ namespace EncounterMe.Views
                             if (!x.Visited)
                             {
                                 x.Visited = true;
-                                _myPinList.ListOfPins.Find(pin => pin.Latitude == x.Latitude && pin.Longitude == x.Longitude).Visited = true;
+                                _myPinList.ListOfPins.Find(pin => pin.Id == x.Id).Visited = true;
                                 break;
                             }
                         }
@@ -529,24 +516,20 @@ namespace EncounterMe.Views
 
         public async void CheckRoutes()
         {
-            Console.WriteLine("in routes");
             if (SpecificRoute)
             {
-                Console.WriteLine("in specific");
                 //check if its the last element
-
                 List<MapPin> unvisitedPins = new List<MapPin>();
-
                 foreach (var pin in _specificRoutePins)
                 {
                     if (!pin.Visited)
                     {
                         unvisitedPins.Add(pin);
-                        Console.WriteLine(pin.Name);
                     }
                 }
 
-                //var nextPinToRoute;
+                ClearMapElements();
+
                 if (unvisitedPins.Count == 0)
                 { 
                     await DisplayAlert("Congratulations!", "You finished a route", "Ok");
@@ -562,14 +545,17 @@ namespace EncounterMe.Views
                     else
                     {
                         DrawingRoute = false;
-                        //Just display route pins
-                        _polylineList.Clear();
-                        MyMap.MapElements.Clear();
-                        _firstPolyline = null;
-
+    
                     }
                 }
             }
+        }
+
+        public void ClearMapElements()
+        {
+            _polylineList.Clear();
+            MyMap.MapElements.Clear();
+            _firstPolyline = null;
         }
 
         public void RedrawFirstPolyline(Location currentLocation)

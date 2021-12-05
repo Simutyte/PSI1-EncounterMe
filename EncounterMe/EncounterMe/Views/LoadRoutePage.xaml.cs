@@ -10,6 +10,9 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+
+//TODO update pins on appearing
+
 namespace EncounterMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
@@ -72,6 +75,7 @@ namespace EncounterMe.Views
 
         private async void Display_Route_On_Map(object sender, EventArgs e)
         {
+            CalculateDistances();
             PinsToRender = _mapPins.OrderBy(x => x.DistanceToUser);
             await AppShell.Current.GoToAsync($"//home/tab/MapPage?drawing=true&route=true");
         }
