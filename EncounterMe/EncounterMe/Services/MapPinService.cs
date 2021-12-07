@@ -229,7 +229,7 @@ namespace EncounterMe.Services
 
             foreach(var u in allUsers)
             {
-                if(string.Equals(u.Username, username) && string.Equals(u.Password, pass))      //ieškom tokio, kur sutaptų username ir pass
+                if(string.Equals(u.Username, username) && string.Equals(PasswordHash.DecodeFrom64(u.Password), pass))      //ieškom tokio, kur sutaptų username ir pass
                 {
                     return u;
                 }

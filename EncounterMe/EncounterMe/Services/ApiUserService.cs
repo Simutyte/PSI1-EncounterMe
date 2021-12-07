@@ -40,8 +40,11 @@ namespace EncounterMe.Services
             {
                 PropertyNameCaseInsensitive = true
             };
-            var myStringContent = new StringContent(JsonSerializer.Serialize(user, options), Encoding.UTF8, "application/json");
 
+            var passwordHashed = PasswordHash.EncodePasswordToBase64(user.Password);
+            user.Password = passwordHashed;
+
+            var myStringContent = new StringContent(JsonSerializer.Serialize(user, options), Encoding.UTF8, "application/json");
            
             var response = await s_httpClient.PostAsync("Users", myStringContent);
  
@@ -52,8 +55,6 @@ namespace EncounterMe.Services
             }
             else
                 return false;
-                
-            
         }
 
         //Userio gavimas pagal id
