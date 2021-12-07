@@ -16,6 +16,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 
 //TODO: fix first polyline
@@ -77,7 +78,7 @@ namespace EncounterMe.Views
             GenerateDisplays();
         }
 
-        public void GenerateDisplays()
+        public async void GenerateDisplays()
         {
             //Checks if we need to display a pin(coming from "all objects -> add object -> by pin to maps") 
             if (DisplayPin)
@@ -124,6 +125,9 @@ namespace EncounterMe.Views
                     Lat = pin.Latitude;
                     Longi = pin.Longitude;
                     Location endLoc = new Location(Lat = pin.Latitude, Longi = pin.Longitude);
+                    var request = new GeolocationRequest(GeolocationAccuracy.Medium, timeout:TimeSpan.FromSeconds(20));
+                    var cts = new CancellationTokenSource();
+                    Location location = await Geolocation.GetLocationAsync(request, cts.Token);
                     DisplayRoute(endLoc);
                     _destinationReached = false;
                 }
@@ -288,15 +292,18 @@ namespace EncounterMe.Views
         }
 
 
-        public async void DisplayRoute(Location endLocation)
+        public async void DisplayRoute(Location endLocation, Location startLocation = null)
         {
             //Showing types button
             RouteTypes.IsVisible = true;
 
             //Requesting current location
-            var requestLocation = new GeolocationRequest(GeolocationAccuracy.Default);
-            Location startLocation = await Geolocation.GetLocationAsync(requestLocation);
-
+            if (startLocation == null)
+            {
+                var requestLocation = new GeolocationRequest(GeolocationAccuracy.Default, TimeSpan.FromSeconds(10));
+                startLocation = await Geolocation.GetLocationAsync(requestLocation);
+            }
+            
             try
             {
                 GetAndParseJson(startLocation, endLocation);
@@ -531,9 +538,12 @@ namespace EncounterMe.Views
                 ClearMapElements();
 
                 if (unvisitedPins.Count == 0)
-                { 
+                {
                     await DisplayAlert("Congratulations!", "You finished a route", "Ok");
                     DrawingRoute = false;
+                    SpecificRoute = false;
+                    ClearMapElements();
+                    GenerateDisplays();
                 }
                 else
                 {
@@ -545,7 +555,6 @@ namespace EncounterMe.Views
                     else
                     {
                         DrawingRoute = false;
-    
                     }
                 }
             }
