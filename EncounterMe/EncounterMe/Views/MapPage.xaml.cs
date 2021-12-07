@@ -106,8 +106,8 @@ namespace EncounterMe.Views
             else
             {
                 _specificRoutePins = LoadRoutePage.PinsToRender;
-                //MyMap.Pins.Clear();
-                //MyMap.MapElements.Clear();
+                MyMap.Pins.Clear();
+                MyMap.MapElements.Clear();
                 foreach (var pin in _specificRoutePins)
                 {
                     Pin pinToAdd = new Pin
