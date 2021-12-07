@@ -37,6 +37,8 @@ namespace MapPinAPI.Models
         //Navigation properties
         public  int CreatorId { get; set; }
 
+        public double Evaluation { get; set; }
+
         //public List<FavouriteMapPin> FavouritesMapPins { get; set; }
 
         public MapPin()

@@ -18,6 +18,8 @@ namespace EncounterMe.Services
 
         private PinsList _pinsList;
 
+        public List<MapPin> ListOfPins;
+
         public List<MapPin> UserOwnerMapPins; // List'as objektų, kuriuos sukūrė dabartinis useris
 
         public List<MapPin> UserFavouriteMapPins; //List'as objektų, kuriuos pamėgo dabartinis useris
@@ -26,12 +28,14 @@ namespace EncounterMe.Services
         {
             UserOwnerMapPins = new List<MapPin>();
             UserFavouriteMapPins = new List<MapPin>();
+
             PinsList PinsListTemp= PinsList.GetPinsList();
             _pinsList = PinsListTemp;
+
+            ListOfPins = new List<MapPin>();
         }
 
         public event PinAddedEventHandler<AddedPinEventArgs> PinAdded;
-        public event PinAddedEventHandler<EventArgs> RefreshList;
 
         //Eventai---------------------------------------------
         protected virtual void OnPinAdded(AddedPinEventArgs args)
@@ -40,11 +44,6 @@ namespace EncounterMe.Services
                 PinAdded(this, args);
         }
 
-        protected virtual void OnRefreshList(EventArgs args)
-        {
-            if (RefreshList != null)
-                RefreshList(this, args);
-        }
         //-----------------------------------------------------
 
         //Metodas, kviečiamas kai bandom pridėt naują objektą
@@ -56,7 +55,6 @@ namespace EncounterMe.Services
                 {
                     await ApiMapPinService.AddMapPin(mapPin);       //prideda į db atitinkamą lentelę
                     OnPinAdded(new AddedPinEventArgs(mapPin));      //kviečia eventą
-                    OnRefreshList(EventArgs.Empty);                 //kviečia eventą
                     LoadList();                                     //pasikeitė visų objektų list'as todėl jį reik užkraut per naują
                 }
                 
@@ -71,6 +69,9 @@ namespace EncounterMe.Services
         //surašo gautus mapPin iš duomenų bazės į listOfPins
         public async void LoadList()
         {
+            if (ListOfPins != null)
+                ListOfPins.Clear();
+
             if (_pinsList.ListOfPins != null)
                 _pinsList.ListOfPins.Clear();
 
@@ -81,8 +82,8 @@ namespace EncounterMe.Services
                 {
                     foreach(var mapPin in mapPins)
                     {
-                       
-                        _pinsList.ListOfPins.Add(mapPin);
+                        _pinsList.ListOfPins.Add(mapPin);   //šitą siūlyčiau trint
+                        ListOfPins.Add(mapPin);
                      
                     }
                     await UploadFavourites();                        //užkraunam patinkančius objektus per naują
@@ -97,6 +98,7 @@ namespace EncounterMe.Services
             }
         }
 
+        
    
 
         //kiekvienam mapPin bando sukurt po Pin, kadangi duomenų bazėj jo neina išsaugot
@@ -104,9 +106,18 @@ namespace EncounterMe.Services
         {
             try
             {
-                foreach (MapPin mapPin in _pinsList.ListOfPins)
+                foreach (MapPin mapPin in ListOfPins)
                 {
                     if(mapPin.Latitude != 0 && mapPin.Longitude != 0)
+                    {
+                        mapPin.CreateAPin();
+                    }
+                }
+
+                //Šitą va siūlyčiau trint
+                foreach (MapPin mapPin in _pinsList.ListOfPins)
+                {
+                    if (mapPin.Latitude != 0 && mapPin.Longitude != 0)
                     {
                         mapPin.CreateAPin();
                     }
@@ -145,10 +156,10 @@ namespace EncounterMe.Services
 
             foreach(var favouriteMapPin in UserFavouriteIds)
             {
-                if(_pinsList.ListOfPins != null)
+                if(ListOfPins != null)
                 {
                     //kadangi gaunam tik objekto id, tai pagal tą id surandam sąraše atitinkamą objektą
-                    var result = _pinsList.ListOfPins.Find(i => i.Id == favouriteMapPin.MapPinId);
+                    var result = ListOfPins.Find(i => i.Id == favouriteMapPin.MapPinId);
                     if (result != null)
                         UserFavouriteMapPins.Add(result);
                 }
@@ -171,9 +182,9 @@ namespace EncounterMe.Services
 
             try
             { 
-                if (_pinsList.ListOfPins != null)
+                if (ListOfPins != null)
                 {
-                    foreach (var mapPin in _pinsList.ListOfPins)
+                    foreach (var mapPin in ListOfPins)
                     {
                         if (mapPin.CreatorId == CurrentUser.Id)
                         {

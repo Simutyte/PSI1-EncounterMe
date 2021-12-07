@@ -39,7 +39,8 @@ namespace MapPinAPI.Repositories
 
                 _context.MapPins.Remove(mapPinToDelete);
 
-                await AdditionalDelete(id);
+                await AdditionalFavouritesDelete(id);
+                await AdditionalEvaluationsDelete(id);
 
                 await _context.SaveChangesAsync();
                 
@@ -49,7 +50,7 @@ namespace MapPinAPI.Repositories
         }
 
         //Jog jei istrinam MapPin išsitrintų ir visi FavouriteMapPins susiję su juo
-        public async Task AdditionalDelete(int MapPinId)
+        public async Task AdditionalFavouritesDelete(int MapPinId)
         {
             //dėl šito per anksti grįžta
             var FavouriteMapPins =  _context.FavouriteMapPins
@@ -62,6 +63,25 @@ namespace MapPinAPI.Repositories
                     var userMapPinToDelete = await _context.FavouriteMapPins.FindAsync(fmp.UserId, fmp.MapPinId);
                     if (userMapPinToDelete != null)
                         _context.FavouriteMapPins.Remove(userMapPinToDelete);
+
+                }
+            }
+
+        }
+
+        public async Task AdditionalEvaluationsDelete(int MapPinId)
+        {
+            //dėl šito per anksti grįžta
+            var Evaluations = _context.Evaluations
+                .FromSqlInterpolated($"SELECT * FROM Evaluations WHERE MapPinId={MapPinId}").ToList();
+
+            if (Evaluations != null)
+            {
+                foreach (var ev in Evaluations)
+                {
+                    var evaluationToDelete = await _context.Evaluations.FindAsync(ev.UserId, ev.MapPinId);
+                    if (evaluationToDelete != null)
+                        _context.Evaluations.Remove(evaluationToDelete);
 
                 }
             }
@@ -89,11 +109,11 @@ namespace MapPinAPI.Repositories
         }
 
         // mapPin atnaujinimui. užkomentuotas nes pas mus nelabai būtų naudojamas
-        /*public async Task Update(MapPin mapPin)
+        public async Task Update(MapPin mapPin)
         {
             _context.Entry(mapPin).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-        }*/
+        }
     }
 }
 

@@ -6,9 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace EncounterMe.Pins
+namespace MapPinAPI.Models
 {
-    [Serializable]
     public class Evaluation
     {
         public int UserId { get; set; }

@@ -135,9 +135,11 @@
                                         </StackLayout>
                                     </StackLayout>
 
-                                    <StackLayout >
+                                    <StackLayout Orientation="Horizontal"
+                                                 HorizontalOptions="FillAndExpand">
                                         <StackLayout Orientation="Horizontal"
-                                                     Spacing="2">
+                                                     Spacing="2"
+                                                     HorizontalOptions="Start">
                                             <Image WidthRequest="20"
                                                    Margin="0,0,4,0"
                                                    Source="clock.png"/>
@@ -150,6 +152,19 @@
 
                                             <Label Text="{Binding ClosingHours}"
                                                    Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                        </StackLayout>
+                                        
+                                        <StackLayout Orientation="Horizontal"
+                                                     Spacing="2"
+                                                     HorizontalOptions="EndAndExpand">
+                                            <Image WidthRequest="20"
+                                                   Margin="0,0,4,0"
+                                                   Source="clock.png"
+                                                   HorizontalOptions="EndAndExpand"/>
+
+                                            <Label Text="{Binding Evaluation}"
+                                                       Style="{StaticResource ListViewLabelOtherInfo}"
+                                                       HorizontalOptions="End"/>
                                         </StackLayout>
                                     </StackLayout>
 

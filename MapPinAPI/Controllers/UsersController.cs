@@ -34,7 +34,8 @@ namespace MapPinAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {
-            return await _userRepository.Get(id);
+            var user = await _userRepository.Get(id);
+            return user;
         }
 
         // PUT: api/Users/5
