@@ -32,6 +32,7 @@ namespace MapPinAPI
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IMapPinRepository, MapPinRepository>();
             services.AddScoped<IFavouriteMapPinRepository, FavouriteMapPinRepository>();
+            services.AddScoped<IEvaluationRepository, EvaluationRepository>();
 
             services.AddControllers();
 

@@ -42,9 +42,9 @@ namespace MapPinAPI.Controllers
             return CreatedAtAction(nameof(GetMapPins), new { id = newMapPin.Id }, newMapPin);
         }
 
-        //Užkomentuotas nes čia yra update vieno mapPin. Pas mus nelabai būtų naudojamas
-        /*[HttpPut]
-        public async Task<ActionResult> PutMapPins(int id, [FromBody] MapPin mapPin)
+        // čia yra update vieno mapPin. Pas mus nelabai būtų naudojamas
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutMapPin(int id, [FromBody] MapPin mapPin)
         {
             if (id != mapPin.Id)
             {
@@ -54,7 +54,7 @@ namespace MapPinAPI.Controllers
             await _mapPinRepository.Update(mapPin);
 
             return NoContent();
-        }*/
+        }
 
         //Vieno objekto ištrynimas iš db
         [HttpDelete("{id}")]
