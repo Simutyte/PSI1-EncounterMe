@@ -35,7 +35,6 @@ namespace EncounterMe.Views
             PinsList PinList = PinsList.GetPinsList();
             list = PinList.ListOfPins;
             _pin = pinToRender;
-            //LoadUserLastEvaluation();
             this.BindingContext = pinToRender;
             LoadUserLastEvaluation();
 
