@@ -37,7 +37,7 @@ namespace EncounterMe.Users
         public User()
         {
             AboutMe = "Info about me";
-            
+            Score = 0;
         }
 
         

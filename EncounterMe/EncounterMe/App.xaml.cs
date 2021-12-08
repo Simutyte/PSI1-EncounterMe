@@ -22,7 +22,7 @@ namespace EncounterMe
             InitializeComponent();
             s_mapPinService = new MapPinService();
             s_mapPinService.LoadList(); //užloadinam duomenis į PinsList.ListOfPins
-            s_userDb = new UserDB();
+            s_mapPinService.LoadUsers();
             TheTheme.SetTheme();
             SetCultureToUSEnglish();
             MainPage = new AppShell();

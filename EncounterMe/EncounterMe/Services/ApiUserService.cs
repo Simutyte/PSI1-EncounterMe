@@ -91,6 +91,8 @@ namespace EncounterMe.Services
                 PropertyNameCaseInsensitive = true
             };
 
+            if (string.IsNullOrWhiteSpace(responseAsString))
+                return null;
 
             return JsonSerializer.Deserialize<IEnumerable<User>>(responseAsString, options);
         }
