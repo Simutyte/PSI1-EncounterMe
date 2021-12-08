@@ -3,7 +3,10 @@
 
 using System;
 using System.Linq;
+using System.Threading.Tasks;
 using EncounterMe.Pins;
+using EncounterMe.Services;
+using EncounterMe.Users;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -35,13 +38,15 @@ namespace EncounterMe
 
         public double Latitude { get; set; }
 
+        public int CreatorId { get; set; }
+
+        public double Evaluation { get; set; }
+
         //-------------------------------------
 
         public double DistanceToUser { get; set; }
 
         //public string DistanceBetweenPoints { get; set; }
-
-        public Evaluation Evaluation { get; set; }
 
         public Pin Pin { get; set; }
 
@@ -54,7 +59,7 @@ namespace EncounterMe
 
         public MapPin(string name, string description, Address address, int type = 0, int styleType = 0,
                        string open = "", string close = "", double latitude = 0, double longitude = 0,
-                       string image = "")
+                       string image = "", int? creatorId = null, double ev = 0)
         {
             Name = name;
             Address = address;
@@ -66,6 +71,8 @@ namespace EncounterMe
             ImageName = string.IsNullOrWhiteSpace(image) ? "https://www.topdeal.lt/wp-content/themes/consultix/images/no-image-found-360x250.png" : image;
             Longitude = longitude;
             Latitude = latitude;
+            CreatorId = (int)creatorId;
+            Evaluation = ev;
         }
 
         public int CompareTo(object obj)
@@ -78,6 +85,24 @@ namespace EncounterMe
                 return Name.CompareTo(otherMapPin.Name);
             else
                 throw new ArgumentException("Object is not MapPin");
+        }
+
+        public async Task<double> CalculateAverage()
+        {
+            try
+            {
+                var AllThisPinEvaluations = await ApiEvaluationService.GetEvaluations(Id);
+                if(AllThisPinEvaluations != null)
+                {
+                    return AllThisPinEvaluations.Count() == 0 ? 0 : AllThisPinEvaluations.Average(e => e.Value);
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return 0;
+            }
         }
     }
 }

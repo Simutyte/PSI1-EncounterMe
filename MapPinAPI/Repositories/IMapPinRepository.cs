@@ -13,10 +13,9 @@ namespace MapPinAPI.Repositories
         Task<MapPin> Get(int id);
 
         Task<MapPin> Create(MapPin mapPin);
-
-        //užkomentuotas nes čia mapPin atnaujinimas. Pas mus nelabai būtų naudojamas
-        //Task Update(MapPin mapPin);
+        Task Update(MapPin mapPin);
 
         Task Delete(int id);
+
     }
 }

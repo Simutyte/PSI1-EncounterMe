@@ -19,15 +19,15 @@ namespace EncounterMe.Views
         {
             InitializeComponent();
 
-            PinsList pinsList = PinsList.GetPinsList();
-            _myPinList = pinsList;
-
+            //PinsList pinsList = PinsList.GetPinsList();
+            //_myPinList = pinsList;
+            ListOfPins = App.s_mapPinService.ListOfPins;
             RoutesListView.ItemsSource = GetAllObjects();
         }
         
         IEnumerable<Route> GetAllObjects(string searchText = null)
         {
-            var objectsByCityAndStyle = _myPinList.ListOfPins.GroupBy(e => new { e.Address.City, e.StyleType }).Where(e => e.Count() > 1).Select(e => new Route
+            var objectsByCityAndStyle = ListOfPins.GroupBy(e => new { e.Address.City, e.StyleType }).Where(e => e.Count() > 1).Select(e => new Route
             {
                 City = e.Key.City,
                 Style = e.Key.StyleType,

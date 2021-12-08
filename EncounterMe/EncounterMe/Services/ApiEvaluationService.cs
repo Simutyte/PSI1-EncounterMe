@@ -5,19 +5,18 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using EncounterMe.Pins;
 
 namespace EncounterMe.Services
 {
-    //Klasė kuri sieja telefoną su db lentele MapPins kur saugom objektus (visus)
-    public static class ApiMapPinService
+    public static class ApiEvaluationService
     {
         static HttpClient s_httpClient;
         static string BaseUrl = "http://10.0.2.2:54134/api/";
 
-        static ApiMapPinService()
+        static ApiEvaluationService()
         {
             try
             {
@@ -33,26 +32,26 @@ namespace EncounterMe.Services
             }
         }
 
-        //Pridedam objektą į db
-        public static async Task AddMapPin(MapPin MapPin)
+        //Pridėjimas
+        public static async Task AddEvaluation(Evaluation evaluation)
         {
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
-            var myStringContent = new StringContent(JsonSerializer.Serialize(MapPin, options), Encoding.UTF8, "application/json");
+            var myStringContent = new StringContent(JsonSerializer.Serialize(evaluation, options), Encoding.UTF8, "application/json");
 
             Console.WriteLine(myStringContent);
-            var response = await s_httpClient.PostAsync("MapPins", myStringContent);
+            var response = await s_httpClient.PostAsync("Evaluations", myStringContent);
 
             response.EnsureSuccessStatusCode();
         }
 
-        //Gaunam 1 objektą pagal id
-        public static async Task<MapPin> GetMapPin(int id)
+        //Gaunam sąrašą visų įvertinimų pagal mapPinId
+        public static async Task<IEnumerable<Evaluation>> GetEvaluations(int id1) //čia id1 - mapPinId
         {
-           
-            var response = await s_httpClient.GetAsync($"MapPins/{id}");
+
+            var response = await s_httpClient.GetAsync($"Evaluations/{id1}");
 
             response.EnsureSuccessStatusCode();
 
@@ -62,45 +61,51 @@ namespace EncounterMe.Services
             {
                 PropertyNameCaseInsensitive = true
             };
-            return JsonSerializer.Deserialize<MapPin>(responseAsString, options);
+
+            if (string.IsNullOrWhiteSpace(responseAsString))
+                return null;
+
+            return JsonSerializer.Deserialize<IEnumerable<Evaluation>>(responseAsString, options);
         }
 
-        //grąžina visą sąrašą objektų
-        public static async Task<IEnumerable<MapPin>> GetMapPins()
+        //grąžina 1
+        public static async Task<Evaluation> GetEvaluation(int id1, int id2)
         {
             Console.WriteLine("Pateko i API");
 
-            var response = await s_httpClient.GetAsync("MapPins");              
-
+            var response = await s_httpClient.GetAsync($"Evaluations/{id1},{id2}");
+            Console.WriteLine(response);
             response.EnsureSuccessStatusCode();
-           
+
             var responseAsString = await response.Content.ReadAsStringAsync();
-    
+
             //nustatom kad nekreiptų dėmesio į raidžių skirtumus
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
 
-            
-            return JsonSerializer.Deserialize<IEnumerable<MapPin>>(responseAsString, options);
+            if (string.IsNullOrWhiteSpace(responseAsString))
+                return null;
+
+            return JsonSerializer.Deserialize<Evaluation>(responseAsString, options);
         }
 
-
-        //ištrinam objektą iš db
-        public static async Task DeleteMapPin(MapPin MapPin)
+        //ištrinam įvertinimą iš db
+        public static async Task DeleteEvaluation(int id1, int id2)
         {
-           var response = await s_httpClient.DeleteAsync($"MapPins/{MapPin.Id}");
-            Console.WriteLine(response);
-           response.EnsureSuccessStatusCode();
+            var response = await s_httpClient.DeleteAsync($"Evaluations/{id1},{id2}");
+
+            response.EnsureSuccessStatusCode();
 
         }
 
-        public static async Task UpdateMapPin(MapPin mapPin)
+        public static async Task UpdateEvaluation(Evaluation evaluation)
         {
-            var json = JsonSerializer.Serialize<MapPin>(mapPin);
+            var json = JsonSerializer.Serialize<Evaluation>(evaluation);
             var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-            var response = await s_httpClient.PutAsync($"MapPins/{mapPin.Id}", stringContent);
+
+            var response = await s_httpClient.PutAsync($"Evaluations/{evaluation.UserId},{evaluation.MapPinId}", stringContent);
             response.EnsureSuccessStatusCode();
 
         }

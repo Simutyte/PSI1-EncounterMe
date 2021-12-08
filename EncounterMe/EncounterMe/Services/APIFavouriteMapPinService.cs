@@ -5,19 +5,19 @@ using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 using System.Text.Json;
-using System.Text.Json.Serialization;
+using System.Threading.Tasks;
+using EncounterMe.Pins;
 
 namespace EncounterMe.Services
 {
-    //Klasė kuri sieja telefoną su db lentele MapPins kur saugom objektus (visus)
-    public static class ApiMapPinService
+    //Klasė kuri sieja telefoną su db lentele FavouriteMapPins kur saugom ryšį tarp objekto ir vartotojo
+    public static class APIFavouriteMapPinService
     {
         static HttpClient s_httpClient;
         static string BaseUrl = "http://10.0.2.2:54134/api/";
 
-        static ApiMapPinService()
+        static APIFavouriteMapPinService()
         {
             try
             {
@@ -33,8 +33,8 @@ namespace EncounterMe.Services
             }
         }
 
-        //Pridedam objektą į db
-        public static async Task AddMapPin(MapPin MapPin)
+        //Pridėjimas
+        public static async Task AddFavouriteMapPin(FavouriteMapPin MapPin)
         {
             var options = new JsonSerializerOptions
             {
@@ -43,16 +43,16 @@ namespace EncounterMe.Services
             var myStringContent = new StringContent(JsonSerializer.Serialize(MapPin, options), Encoding.UTF8, "application/json");
 
             Console.WriteLine(myStringContent);
-            var response = await s_httpClient.PostAsync("MapPins", myStringContent);
+            var response = await s_httpClient.PostAsync("FavouriteMapPins", myStringContent);
 
             response.EnsureSuccessStatusCode();
         }
 
-        //Gaunam 1 objektą pagal id
-        public static async Task<MapPin> GetMapPin(int id)
+        //Gaunam sąrašą visų objektų id pagal userio id. Čia gausim visus objekt'ų id, kuriuos yra pamėgęs vartotojas, kurio id paduodam
+        public static async Task<IEnumerable<FavouriteMapPin>> GetFavouriteMapPins(int id1) //čia id1 - vartotojo id
         {
-           
-            var response = await s_httpClient.GetAsync($"MapPins/{id}");
+
+            var response = await s_httpClient.GetAsync($"FavouriteMapPins/{id1}");      
 
             response.EnsureSuccessStatusCode();
 
@@ -62,45 +62,35 @@ namespace EncounterMe.Services
             {
                 PropertyNameCaseInsensitive = true
             };
-            return JsonSerializer.Deserialize<MapPin>(responseAsString, options);
+            return JsonSerializer.Deserialize<IEnumerable<FavouriteMapPin>>(responseAsString, options);
         }
 
-        //grąžina visą sąrašą objektų
-        public static async Task<IEnumerable<MapPin>> GetMapPins()
+        //grąžina visą sąrašą visų ryšių (nelabai gal reikalingas galim būtų ištrinti)
+        public static async Task<IEnumerable<FavouriteMapPin>> GetFavouriteMapPin()
         {
             Console.WriteLine("Pateko i API");
 
-            var response = await s_httpClient.GetAsync("MapPins");              
+            var response = await s_httpClient.GetAsync("FavouriteMapPins");
 
             response.EnsureSuccessStatusCode();
-           
+
             var responseAsString = await response.Content.ReadAsStringAsync();
-    
+
             //nustatom kad nekreiptų dėmesio į raidžių skirtumus
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
 
-            
-            return JsonSerializer.Deserialize<IEnumerable<MapPin>>(responseAsString, options);
+
+            return JsonSerializer.Deserialize<IEnumerable<FavouriteMapPin>>(responseAsString, options);
         }
 
-
-        //ištrinam objektą iš db
-        public static async Task DeleteMapPin(MapPin MapPin)
+        //ištrinam ryšį iš db
+        public static async Task DeleteFavouriteMapPin(int id1, int id2)
         {
-           var response = await s_httpClient.DeleteAsync($"MapPins/{MapPin.Id}");
-            Console.WriteLine(response);
-           response.EnsureSuccessStatusCode();
+            var response = await s_httpClient.DeleteAsync($"FavouriteMapPins/{id1},{id2}");
 
-        }
-
-        public static async Task UpdateMapPin(MapPin mapPin)
-        {
-            var json = JsonSerializer.Serialize<MapPin>(mapPin);
-            var stringContent = new StringContent(json, UnicodeEncoding.UTF8, "application/json");
-            var response = await s_httpClient.PutAsync($"MapPins/{mapPin.Id}", stringContent);
             response.EnsureSuccessStatusCode();
 
         }

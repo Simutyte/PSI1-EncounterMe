@@ -15,49 +15,52 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AllObjectsPage : ContentPage
     {
-        PinsList _myPinList;
+        //PinsList _myPinList;
 
+        List<MapPin> ListOfPins;
         public AllObjectsPage()
         {
             InitializeComponent();
-            PinsList pinsList = PinsList.GetPinsList();
-            _myPinList = pinsList;
+            ListOfPins = App.s_mapPinService.ListOfPins;
+            BindingContext = this;
 
-            if(_myPinList.ListOfPins != null)
+           
+        }
+
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ListOfPins = null;
+            ListOfPins = App.s_mapPinService.ListOfPins;
+            RefreshData();
+            
+        }
+
+        public void RefreshData()
+        {
+            listView.ItemsSource = null;
+            if (ListOfPins != null)
             {
-                _myPinList.ListOfPins.Sort();
+                //ListOfPins.Sort();
                 CalculateDistances();
             }
 
-            listView.RefreshCommand = new Command(() =>
-            {
-                listView.ItemsSource = null;
-                listView.ItemsSource = GetAllObjects();
-                listView.IsRefreshing = false;
-                listView.IsPullToRefreshEnabled = false;
-            });
-
             listView.ItemsSource = GetAllObjects();
             BindingContext = this;
-
-            App.s_mapPinService.RefreshList += OnRefreshList;
         }
 
-        public void OnRefreshList(object source, EventArgs args)
-        {
-            listView.IsPullToRefreshEnabled = true;
-        }
 
         //Gauna pasikeitusį listOfPins pagal įvestą tekstą
         IEnumerable<MapPin> GetAllObjects(string searchText = null)
         {
             if(string.IsNullOrEmpty(searchText))
             {
-                _myPinList.ListOfPins.Sort();
-                return _myPinList.ListOfPins.OrderBy(pin => pin.DistanceToUser);
+                ListOfPins.Sort();
+                return ListOfPins;
             }
 
-            var objectsQuery = from mapPin in _myPinList.ListOfPins
+            var objectsQuery = from mapPin in ListOfPins
                                where mapPin.Name.ToLower().Contains(searchText.ToLower())
                                select mapPin;
 
@@ -115,16 +118,16 @@ namespace EncounterMe.Views
             var favouritePin = (MapPin)btn.CommandParameter;
             if (favouritePin != null)
             {
-                if (App.s_userDb.AddFavPin(favouritePin))
+                if(!App.s_mapPinService.UserFavouriteMapPins.Contains(favouritePin))
                 {
-                    await DisplayAlert("Congratulations", "Object " + favouritePin.Name + " was added to your favourites", "ok");
-
-
+                    App.s_mapPinService.AddFavourite(favouritePin);
+                    await DisplayAlert("Congrats", "Object " + favouritePin.Name + " was added to your favourites", "ok");
                 }
                 else
                 {
-                    await DisplayAlert("Sorry", "You already added this object to your favourites", "ok");
+                    await DisplayAlert("Sorry", "You have already added this object to your favourites", "ok");
                 }
+                
             }
             else
             {
@@ -138,7 +141,7 @@ namespace EncounterMe.Views
             var request = new GeolocationRequest(GeolocationAccuracy.Default);
             Location location = await Geolocation.GetLocationAsync(request);
 
-            foreach(MapPin pin in _myPinList.ListOfPins)
+            foreach(var pin in ListOfPins)
             {
                 pin.DistanceToUser = Location.CalculateDistance(location.Latitude, location.Longitude,
                                                                 pin.Latitude, pin.Longitude, DistanceUnits.Kilometers);

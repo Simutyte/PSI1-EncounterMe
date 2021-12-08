@@ -11,21 +11,24 @@ namespace EncounterMe.Users
 {
     public class User
     {
-        [PrimaryKey, AutoIncrement]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
-        [MaxLength(35), Unique]
         public string Username { get; set; }
+
         public string Password { get; set; }
 
-        [MaxLength(100), Unique]
         public string Email { get; set; }
-
-        public bool HasFavourite { get; set; }
 
         public string PhotoPath { get; set; }
 
         public string AboutMe { get; set; }
+
+        public int Score { get; set; }
+
+        //public List<MapPin> Favourites { get; set; }
+        //public virtual List<MapPin> Favourites { get; set; }
+
+  
 
         //public List<Lazy<MapPin>> MyFavoriteObjects { get; set; }
 
@@ -33,8 +36,8 @@ namespace EncounterMe.Users
 
         public User()
         {
-            HasFavourite = false;
             AboutMe = "Info about me";
+            
         }
 
         

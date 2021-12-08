@@ -7,6 +7,9 @@ using Xamarin.Forms.Xaml;
 using Xamarin.Essentials;
 using EncounterMe.Pins;
 using System.Collections.Generic;
+using EncounterMe.Services;
+using System.Threading.Tasks;
+using System.Linq;
 
 namespace EncounterMe.Views
 {
@@ -33,10 +36,19 @@ namespace EncounterMe.Views
             list = PinList.ListOfPins;
             _pin = pinToRender;
             this.BindingContext = pinToRender;
-    
+            LoadUserLastEvaluation();
+
         }
 
-       
+        public async void LoadUserLastEvaluation()
+        {
+            var oldEvaluation = await ApiEvaluationService.GetEvaluation(App.s_mapPinService.CurrentUser.Id, _pin.Id);
+            if (oldEvaluation != null)
+            {
+                if(oldEvaluation.Value != 0)
+                    positionSlider.SelectedPosition = oldEvaluation.Value; // <- čia galim nustatyti koks jau buvo userio ivertinimas
+            }
+        }
         public async void selected_measurement(object sender, EventArgs e)
         {
             int selectedIndex = MeasurementPicker.SelectedIndex;
@@ -137,7 +149,31 @@ namespace EncounterMe.Views
 
         private async void Go_Back_Clicked(object sender, EventArgs e)
         {
-            await Shell.Current.Navigation.PopAsync();
+            int maybeNewVaue = positionSlider.SelectedPosition;  //Gaunam ivertinimą
+            var oldEvaluation = await ApiEvaluationService.GetEvaluation(App.s_mapPinService.CurrentUser.Id, _pin.Id);
+            if(oldEvaluation != null)
+            {
+                if(maybeNewVaue != oldEvaluation.Value)
+                {
+                    
+                    Evaluation ev = new Evaluation() { MapPinId = _pin.Id, UserId = App.s_mapPinService.CurrentUser.Id, Value = maybeNewVaue };
+                    await ApiEvaluationService.UpdateEvaluation(ev);
+                    _pin.Evaluation = await _pin.CalculateAverage();
+                    await ApiMapPinService.UpdateMapPin(_pin);
+
+                     App.s_mapPinService.ListOfPins.Where(mp => mp.Id == _pin.Id).FirstOrDefault().Evaluation = _pin.Evaluation; //jog nereiktų perkraut sąrašo
+                }
+            }
+            else
+            {
+                Evaluation ev = new Evaluation() { MapPinId = _pin.Id, UserId = App.s_mapPinService.CurrentUser.Id, Value = maybeNewVaue };
+                await ApiEvaluationService.AddEvaluation(ev);
+                _pin.Evaluation = await _pin.CalculateAverage();
+                await ApiMapPinService.UpdateMapPin(_pin);
+                App.s_mapPinService.ListOfPins.Where(mp => mp.Id == _pin.Id).FirstOrDefault().Evaluation = _pin.Evaluation;
+            }
+
+            await Shell.Current.Navigation.PopAsync();  
         }
 
         private async void Display_Route_On_Map(object sender, EventArgs e)

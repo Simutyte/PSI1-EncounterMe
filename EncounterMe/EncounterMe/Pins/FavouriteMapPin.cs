@@ -4,17 +4,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using SQLite;
 
 namespace EncounterMe.Pins
 {
-    public class FavouritePin
+    public class FavouriteMapPin
     {
-        [PrimaryKey, AutoIncrement]
-        public int Id { get; set; }
-
-        public int ObjectId { get; set; }
-
         public int UserId { get; set; }
+
+        public int MapPinId { get; set; }
+
+        public FavouriteMapPin()
+        {
+
+        }
     }
 }

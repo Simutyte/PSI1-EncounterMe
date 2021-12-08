@@ -71,12 +71,12 @@ namespace EncounterMe.Views
                         };
                         try
                         {
-                            bool returnValue = App.s_userDb.AddUser(user);
+                           
 
                             //Nedaryt su string
-                            if (returnValue)
+                            if (await ApiUserService.AddUser(user))
                             {
-                                await DisplayAlert("Registration", "Sucessfully Added", "OK");
+                                await DisplayAlert("Registration", "You have successfully registered", "OK");
 
                                 var mail = new MailService();
                                 //SuccessfulRegistration += mail.OnSuccessfulRegistration;
@@ -89,6 +89,8 @@ namespace EncounterMe.Views
                             }
                             else
                             {
+                                entryRegPassword.Text = string.Empty;
+                                entryRegPasswordConfirm.Text = string.Empty;
                                 await DisplayAlert("Registration", "Username or mail already exist", "OK");
                             }
                         }

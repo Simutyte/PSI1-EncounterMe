@@ -1,54 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             Title="Objects"
-            xmlns:Pins="clr-namespace:EncounterMe" xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             x:Class="EncounterMe.Views.AllObjectsPage"
-             x:Name="AllObjects"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:pv="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:Pins="clr-namespace:EncounterMe"
+             x:Class="EncounterMe.Views.UserObjectsPage"
+             Title="Your objects"
              BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
                                                Light={StaticResource WindowBcColor}}">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem IconImageSource="plus.png"  Clicked="Add_Object_Button_Clicked"/>
-    </ContentPage.ToolbarItems>
-
-
-    <StackLayout>
-        <SearchBar x:Name="SearchObjects"
-                   Placeholder="Search objects"
-                   TextChanged="SearchBar_TextChanged"
-                   PlaceholderColor="{AppThemeBinding Dark={StaticResource TextColorDark},
-                                                      Light={StaticResource TextColor}}"
-                   TextColor="{AppThemeBinding Dark={StaticResource TextColorDark},
-                                               Light={StaticResource TextColor}}"
-                   BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark},
-                                                     Light={StaticResource WindowBcColor}}"/>
-
-
-         <!--ItemsSource="{Binding allObjectsCollection}"-->
+    <StackLayout x:Name="MainStackLayout">
         <ListView Style="{StaticResource AllObjectsListView}"
-                  x:Name="listView"
-                  ItemSelected="listView_ItemSelected"
-                  ItemTapped="listView_ItemTapped">
+              x:Name="listView"
+              ItemSelected="listView_ItemSelected"
+              ItemTapped="listView_ItemTapped">
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="Pins:MapPin">
-                    <ViewCell>
-                        <ViewCell.ContextActions>
-                            <MenuItem Text="More info" Clicked="More_Info_Clicked"/>
-                        </ViewCell.ContextActions>
+                    <ViewCell >
 
                         <pv:PancakeView HeightRequest="220"
                                         Margin="5,10"
                                         CornerRadius="5"
-                                        BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark},
+                                         BackgroundColor="{AppThemeBinding Dark={StaticResource SecondBcDark},
                                                                           Light=#ECEBEA}">
-
                             <pv:PancakeView.Border >
                                 <pv:Border Color="{AppThemeBinding Dark={StaticResource SecondBcDark},
                                                                           Light=LightGray}" Thickness="1"/>
                             </pv:PancakeView.Border>
-
 
                             <Grid>
                                 <Grid.RowDefinitions>
@@ -56,27 +32,19 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
-                                <Image HeightRequest="105"
+                                <Image HeightRequest="115"
                                        Aspect="AspectFill"
                                        Source="{Binding ImageName}"/>
 
-                                <ImageButton Source="heart.png"
-                                             BackgroundColor="Transparent"
+                                <ImageButton Source="delete.png"
                                              HorizontalOptions="End"
                                              Margin="12"
                                              HeightRequest="25"
                                              VerticalOptions="Start"
-                                             Clicked ="Favourite_clicked"
+                                             Clicked ="Delete_clicked"
                                              CommandParameter="{Binding .}"/>
 
-                                <Image x:Name="checkMark"
-                                       Source="check"
-                                       BackgroundColor="Transparent"
-                                       HorizontalOptions="Start"
-                                       VerticalOptions="Start"
-                                       Margin="12"
-                                       HeightRequest="25"
-                                       IsVisible="{Binding Visited}"/>
+
 
                                 <Grid VerticalOptions="End"
                                       Margin="15">
@@ -144,15 +112,12 @@
                                         </StackLayout>
                                     </StackLayout>
 
-                                    <StackLayout Orientation="Horizontal"
-                                                 HorizontalOptions="FillAndExpand">
+                                    <StackLayout>
                                         <StackLayout Orientation="Horizontal"
-                                                     Spacing="2"
-                                                     HorizontalOptions="Start">
+                                                     Spacing="2">
                                             <Image WidthRequest="20"
                                                    Margin="0,0,4,0"
                                                    Source="clock.png"/>
-
                                             <Label Text="{Binding OpeningHours}"
                                                    Style="{StaticResource ListViewLabelOtherInfo}"/>
 
@@ -161,41 +126,16 @@
 
                                             <Label Text="{Binding ClosingHours}"
                                                    Style="{StaticResource ListViewLabelOtherInfo}"/>
-                                        </StackLayout>
-                                        
-                                        <StackLayout Orientation="Horizontal"
-                                                     Spacing="2"
-                                                     HorizontalOptions="EndAndExpand">
-                                            <Image WidthRequest="20"
-                                                   Margin="0,0,4,0"
-                                                   Source="clock.png"
-                                                   HorizontalOptions="EndAndExpand"/>
 
-                                            <Label Text="{Binding Evaluation}"
-                                                       Style="{StaticResource ListViewLabelOtherInfo}"
-                                                       HorizontalOptions="End"/>
                                         </StackLayout>
                                     </StackLayout>
-
-                                    <StackLayout>
-                                        <StackLayout Orientation="Horizontal">
-                                            <Label Text="Distance: "
-                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
-
-                                            <Label Text="{Binding DistanceToUser, StringFormat='{}{0:F2}'}"
-                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
-                                            
-                                            <Label Text="km"
-                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
-                                        </StackLayout>
-                                        
-                                    </StackLayout>
-
-                                    
 
                                 </StackLayout>
                             </Grid>
                         </pv:PancakeView>
+
+
+
                     </ViewCell>
 
                 </DataTemplate>

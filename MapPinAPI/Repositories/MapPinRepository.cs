@@ -25,11 +25,67 @@ namespace MapPinAPI.Repositories
             return mapPin;
         }
 
+        //MapPin ištrynimas
         public async Task Delete(int id)
         {
             var mapPinToDelete = await _context.MapPins.FindAsync(id);
-            _context.MapPins.Remove(mapPinToDelete);
-            await _context.SaveChangesAsync();
+
+            if(mapPinToDelete != null)
+            {
+                var addressToDelete = await _context.Addresses.FindAsync(mapPinToDelete.Address.AddressID);
+
+                if(addressToDelete != null)
+                    _context.Addresses.Remove(addressToDelete); //ištrinam ir adresą, jog nekauptų nereikalingų
+
+                _context.MapPins.Remove(mapPinToDelete);
+
+                await AdditionalFavouritesDelete(id);
+                await AdditionalEvaluationsDelete(id);
+
+                await _context.SaveChangesAsync();
+                
+            }
+
+           
+        }
+
+        //Jog jei istrinam MapPin išsitrintų ir visi FavouriteMapPins susiję su juo
+        public async Task AdditionalFavouritesDelete(int MapPinId)
+        {
+            //dėl šito per anksti grįžta
+            var FavouriteMapPins =  _context.FavouriteMapPins
+                .FromSqlInterpolated($"SELECT * FROM FavouriteMapPins WHERE MapPinId={MapPinId}").ToList();
+
+            if (FavouriteMapPins != null)
+            {
+                foreach (var fmp in FavouriteMapPins)
+                {
+                    var userMapPinToDelete = await _context.FavouriteMapPins.FindAsync(fmp.UserId, fmp.MapPinId);
+                    if (userMapPinToDelete != null)
+                        _context.FavouriteMapPins.Remove(userMapPinToDelete);
+
+                }
+            }
+
+        }
+
+        public async Task AdditionalEvaluationsDelete(int MapPinId)
+        {
+            //dėl šito per anksti grįžta
+            var Evaluations = _context.Evaluations
+                .FromSqlInterpolated($"SELECT * FROM Evaluations WHERE MapPinId={MapPinId}").ToList();
+
+            if (Evaluations != null)
+            {
+                foreach (var ev in Evaluations)
+                {
+                    var evaluationToDelete = await _context.Evaluations.FindAsync(ev.UserId, ev.MapPinId);
+                    if (evaluationToDelete != null)
+                        _context.Evaluations.Remove(evaluationToDelete);
+
+                }
+            }
+
         }
 
         //gauna sąrašą visų mapPin
@@ -53,11 +109,11 @@ namespace MapPinAPI.Repositories
         }
 
         // mapPin atnaujinimui. užkomentuotas nes pas mus nelabai būtų naudojamas
-        /*public async Task Update(MapPin mapPin)
+        public async Task Update(MapPin mapPin)
         {
             _context.Entry(mapPin).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-        }*/
+        }
     }
 }
 

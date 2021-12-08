@@ -88,6 +88,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomRenderer\CustomSliderRenderer.cs" />
     <Compile Include="CustomRenderer\LogInEntryRenderer.cs" />
     <Compile Include="GpsSettings.cs" />
     <Compile Include="MainActivity.cs" />
