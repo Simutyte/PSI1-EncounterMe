@@ -63,7 +63,6 @@
 
                                                 <StackLayout Spacing="0" VerticalOptions="Center">
                                                     <Label Text="{Binding Username}" FontSize="Medium" TextColor="#2E8B57" LineBreakMode="TailTruncation" AutomationId="aliasLabel" />
-                                                    <Label Text="{Binding Email}" FontSize="Small" TextColor="DarkSlateGray"  LineBreakMode="TailTruncation" />
                                                 </StackLayout>
                                             </StackLayout>
                                         </StackLayout>
