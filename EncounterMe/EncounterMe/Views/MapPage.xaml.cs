@@ -489,6 +489,9 @@ namespace EncounterMe.Views
                             {
                                 x.Visited = true;
                                 PinsList.GetPinsList().ListOfPins.Find(pin => pin.Id == x.Id).Visited = true;
+
+                                //ADD
+
                                 _myPinList = PinsList.GetPinsList();
                                 break;
                             }
@@ -501,6 +504,9 @@ namespace EncounterMe.Views
                         await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
                         var x = PinsList.GetPinsList();
                         PinsList.GetPinsList().ListOfPins.Find(pin => pin.Id == PinId).Visited = true;
+
+                        //ADD
+
                         _myPinList = PinsList.GetPinsList();
                         DrawingRoute = false;
                     }
