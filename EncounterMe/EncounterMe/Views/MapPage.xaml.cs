@@ -26,8 +26,7 @@ using System.Threading;
 namespace EncounterMe.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    [QueryProperty(nameof(Lat), "lat")]
-    [QueryProperty(nameof(Longi), "longi")]
+    [QueryProperty(nameof(PinId), "pinId")]
     [QueryProperty(nameof(DrawingRoute), "drawing")]
     [QueryProperty(nameof(DisplayPin), "pin")]
     [QueryProperty(nameof(SpecificRoute), "route")]
@@ -57,6 +56,7 @@ namespace EncounterMe.Views
         public bool SpecificRoute { get; set; } = false;
         public double Lat { get; set; } = 0;
         public double Longi { get; set; } = 0;
+        public int PinId { get; set; } = 0;
 
         public MapPage()
         {
@@ -90,11 +90,14 @@ namespace EncounterMe.Views
             //Checks if we need to draw a route (coming form individual objects page)
             if (DrawingRoute && !SpecificRoute)
             {
+                MapPin pin = _myPinList.ListOfPins.Find(x => x.Id == PinId);
                 Location endLoc = new Location
                 {
-                    Latitude = Lat,
-                    Longitude = Longi
+                    Latitude = pin.Latitude,
+                    Longitude = pin.Longitude
                 };
+                Lat = pin.Latitude;
+                Longi = pin.Longitude;
 
                 DisplayRoute(endLoc);
             }
@@ -124,6 +127,7 @@ namespace EncounterMe.Views
                     var pin = _specificRoutePins.Where(x => x.Latitude != 0 && x.Longitude != 0 && !x.Visited).FirstOrDefault();
                     Lat = pin.Latitude;
                     Longi = pin.Longitude;
+                    PinId = pin.Id;
                     Location endLoc = new Location(Lat = pin.Latitude, Longi = pin.Longitude);
                     var request = new GeolocationRequest(GeolocationAccuracy.Medium, timeout:TimeSpan.FromSeconds(20));
                     var cts = new CancellationTokenSource();
@@ -294,6 +298,7 @@ namespace EncounterMe.Views
 
         public async void DisplayRoute(Location endLocation, Location startLocation = null)
         {
+            _destinationReached = false;
             //Showing types button
             RouteTypes.IsVisible = true;
 
@@ -303,7 +308,7 @@ namespace EncounterMe.Views
                 var requestLocation = new GeolocationRequest(GeolocationAccuracy.Default, TimeSpan.FromSeconds(10));
                 startLocation = await Geolocation.GetLocationAsync(requestLocation);
             }
-            
+
             try
             {
                 GetAndParseJson(startLocation, endLocation);
@@ -318,9 +323,15 @@ namespace EncounterMe.Views
                 }
                 else
                 {
-                    await DisplayAlert("Alert", "Something went wrong.\nPlase try again", "Ok");
-                    Console.WriteLine("Exception at getting coordinates / parsing json. Message: " + e.ToString());                    
-                    await Navigation.PopAsync();
+                    var requestLocation = new GeolocationRequest(GeolocationAccuracy.Default, TimeSpan.FromSeconds(10));
+                    startLocation = await Geolocation.GetLocationAsync(requestLocation);
+                    UserLocationChanged(startLocation);
+                    if (!_destinationReached)
+                    {
+                        await DisplayAlert("Alert", "Something went wrong.\nPlase try again", "Ok");
+                        Console.WriteLine("Exception at getting coordinates / parsing json. Message: " + e.ToString());
+                        await Navigation.PopAsync();
+                    }
                 }
             }
         }
@@ -465,8 +476,8 @@ namespace EncounterMe.Views
             {
                 if (!_destinationReached)
                 {
-                    await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
                     _destinationReached = true;
+                    ClearMapElements();
 
                     if (SpecificRoute)
                     {
@@ -477,7 +488,8 @@ namespace EncounterMe.Views
                             if (!x.Visited)
                             {
                                 x.Visited = true;
-                                _myPinList.ListOfPins.Find(pin => pin.Id == x.Id).Visited = true;
+                                PinsList.GetPinsList().ListOfPins.Find(pin => pin.Id == x.Id).Visited = true;
+                                _myPinList = PinsList.GetPinsList();
                                 break;
                             }
                         }
@@ -486,6 +498,10 @@ namespace EncounterMe.Views
                     }
                     else
                     {
+                        await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
+                        var x = PinsList.GetPinsList();
+                        PinsList.GetPinsList().ListOfPins.Find(pin => pin.Id == PinId).Visited = true;
+                        _myPinList = PinsList.GetPinsList();
                         DrawingRoute = false;
                     }
                 }
@@ -540,6 +556,9 @@ namespace EncounterMe.Views
                 if (unvisitedPins.Count == 0)
                 {
                     await DisplayAlert("Congratulations!", "You finished a route", "Ok");
+
+                    //ADD FOR ROUTE EXXTRA TASKIUKUU
+
                     DrawingRoute = false;
                     SpecificRoute = false;
                     ClearMapElements();
@@ -547,7 +566,7 @@ namespace EncounterMe.Views
                 }
                 else
                 {
-                    bool answer = await DisplayAlert("Alert", "Do you want to continue to the next location?", "Yes", "No");
+                    bool answer = await DisplayAlert("Congratulations", "Object added to visited objects list.\nDo you want to continue to the next location?", "Yes", "No");
                     if (answer)
                     {
                         GenerateDisplays();
@@ -587,10 +606,10 @@ namespace EncounterMe.Views
                 StrokeWidth = 12,
 
                 Geopath =
-            {
-                new Position(currentLocation.Latitude, currentLocation.Longitude),
-                new Position(firstPolyline.Latitude, firstPolyline.Longitude)
-            }
+                {
+                    new Position(currentLocation.Latitude, currentLocation.Longitude),
+                    new Position(firstPolyline.Latitude, firstPolyline.Longitude)
+                }
             };
 
             MyMap.MapElements.Add(polyline);

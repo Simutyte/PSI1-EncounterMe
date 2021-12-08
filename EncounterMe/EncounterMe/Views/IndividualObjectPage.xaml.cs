@@ -120,7 +120,11 @@ namespace EncounterMe.Views
             IsCloseEnough isCloseEnough = new IsCloseEnough(Allow);
 
             if (isCloseEnough(distance))
+            {
                 await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
+                PinsList.GetPinsList().ListOfPins.Find(x => x.Id == _pin.Id).Visited = true;
+                //ADD
+            }
             else
                 await DisplayAlert("Alert", "You are too far away from the location", "Ok");
         }
@@ -137,12 +141,16 @@ namespace EncounterMe.Views
         }
 
         private async void Display_Route_On_Map(object sender, EventArgs e)
-        { 
-            //Real
-            double lat = _pin.Latitude;
-            double longi = _pin.Longitude;
-
-            await AppShell.Current.GoToAsync($"//home/tab/MapPage?lat={lat}&longi={longi}&drawing=true");
+        {
+            if (_pin.Visited)
+            {
+                bool answer = await DisplayAlert("Alert", "You have already visited this destination.\nIf you choose to go again, it will be marked as yet unvisited", "Yes", "No");
+                if (!answer)
+                {
+                    return;
+                }
+            }
+            await AppShell.Current.GoToAsync($"//home/tab/MapPage?pinId={_pin.Id}&drawing=true");
         }
 
         static bool IsClose(double x, int i)

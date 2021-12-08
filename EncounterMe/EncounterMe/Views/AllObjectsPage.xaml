@@ -69,6 +69,15 @@
                                              Clicked ="Favourite_clicked"
                                              CommandParameter="{Binding .}"/>
 
+                                <Image x:Name="checkMark"
+                                       Source="check"
+                                       BackgroundColor="Transparent"
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Start"
+                                       Margin="12"
+                                       HeightRequest="25"
+                                       IsVisible="{Binding Visited}"/>
+
                                 <Grid VerticalOptions="End"
                                       Margin="15">
                                     <pv:PancakeView CornerRadius="13"
