@@ -83,8 +83,9 @@ namespace EncounterMe.Views
 
                                 var eventArgs = new RegistationEventArgs();
                                 eventArgs.Email = entryRegEmail.Text;
-                               // OnSuccessfulRegistration(eventArgs);
+                                // OnSuccessfulRegistration(eventArgs);
 
+                                App.s_mapPinService.LoadUsers();
                                 await Shell.Current.GoToAsync($"//{nameof(LogInPage)}");
                             }
                             else

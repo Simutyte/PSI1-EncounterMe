@@ -491,6 +491,8 @@ namespace EncounterMe.Views
                                 PinsList.GetPinsList().ListOfPins.Find(pin => pin.Id == x.Id).Visited = true;
 
                                 //ADD
+                                App.s_mapPinService.CurrentUser.Score += 50;
+                                await App.s_mapPinService.UpdatingUser(App.s_mapPinService.CurrentUser);
 
                                 _myPinList = PinsList.GetPinsList();
                                 break;
@@ -506,6 +508,8 @@ namespace EncounterMe.Views
                         PinsList.GetPinsList().ListOfPins.Find(pin => pin.Id == PinId).Visited = true;
 
                         //ADD
+                        App.s_mapPinService.CurrentUser.Score += 50;
+                        await App.s_mapPinService.UpdatingUser(App.s_mapPinService.CurrentUser);
 
                         _myPinList = PinsList.GetPinsList();
                         DrawingRoute = false;
@@ -564,6 +568,8 @@ namespace EncounterMe.Views
                     await DisplayAlert("Congratulations!", "You finished a route", "Ok");
 
                     //ADD FOR ROUTE EXXTRA TASKIUKUU
+                    App.s_mapPinService.CurrentUser.Score += 150;
+                    await App.s_mapPinService.UpdatingUser(App.s_mapPinService.CurrentUser);
 
                     DrawingRoute = false;
                     SpecificRoute = false;

@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using EncounterMe.Services;
 using System.Threading.Tasks;
 using System.Linq;
+using EncounterMe.Users;
 
 namespace EncounterMe.Views
 {
@@ -136,6 +137,9 @@ namespace EncounterMe.Views
                 await DisplayAlert("Congratulations!", "Object added to visited objects list", "Ok");
                 PinsList.GetPinsList().ListOfPins.Find(x => x.Id == _pin.Id).Visited = true;
                 //ADD
+                 App.s_mapPinService.CurrentUser.Score += 50;
+                await App.s_mapPinService.UpdatingUser(App.s_mapPinService.CurrentUser);
+
             }
             else
                 await DisplayAlert("Alert", "You are too far away from the location", "Ok");
@@ -166,11 +170,15 @@ namespace EncounterMe.Views
             }
             else
             {
-                Evaluation ev = new Evaluation() { MapPinId = _pin.Id, UserId = App.s_mapPinService.CurrentUser.Id, Value = maybeNewVaue };
-                await ApiEvaluationService.AddEvaluation(ev);
-                _pin.Evaluation = await _pin.CalculateAverage();
-                await ApiMapPinService.UpdateMapPin(_pin);
-                App.s_mapPinService.ListOfPins.Where(mp => mp.Id == _pin.Id).FirstOrDefault().Evaluation = _pin.Evaluation;
+                if(maybeNewVaue != 0)
+                {
+                    Evaluation ev = new Evaluation() { MapPinId = _pin.Id, UserId = App.s_mapPinService.CurrentUser.Id, Value = maybeNewVaue };
+                    await ApiEvaluationService.AddEvaluation(ev);
+                    _pin.Evaluation = await _pin.CalculateAverage();
+                    await ApiMapPinService.UpdateMapPin(_pin);
+                    App.s_mapPinService.ListOfPins.Where(mp => mp.Id == _pin.Id).FirstOrDefault().Evaluation = _pin.Evaluation;
+                }
+                
             }
 
             await Shell.Current.Navigation.PopAsync();  

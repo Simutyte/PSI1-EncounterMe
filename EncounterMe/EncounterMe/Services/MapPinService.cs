@@ -20,6 +20,8 @@ namespace EncounterMe.Services
 
         public List<MapPin> ListOfPins;
 
+        public List<User> AllUsers;
+
         public List<MapPin> UserOwnerMapPins; // List'as objektų, kuriuos sukūrė dabartinis useris
 
         public List<MapPin> UserFavouriteMapPins; //List'as objektų, kuriuos pamėgo dabartinis useris
@@ -28,6 +30,7 @@ namespace EncounterMe.Services
         {
             UserOwnerMapPins = new List<MapPin>();
             UserFavouriteMapPins = new List<MapPin>();
+            AllUsers = new List<User>();
 
             PinsList PinsListTemp= PinsList.GetPinsList();
             _pinsList = PinsListTemp;
@@ -130,6 +133,29 @@ namespace EncounterMe.Services
 
         }
 
+        public async void LoadUsers()
+        {
+            if (AllUsers != null)
+                AllUsers.Clear();
+
+            try
+            {
+                var users = await ApiUserService.GetUsers();
+                if (users != null)
+                {
+                    foreach (var u in users)
+                    {
+                        AllUsers.Add(u);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Exception gaunant visus userius" + ex);
+            }
+
+        }
+
         //Kviečiamas, kai user'is paspaudžia širdutę AllObjectsPage
         public async void AddFavourite(MapPin mapPin)
         {
@@ -204,6 +230,7 @@ namespace EncounterMe.Services
         {
             await ApiUserService.UpdateUser(user);      //updatinam db
             await GetCurrentUserAsync(user.Id);         //kviečiam jog per naują išsaugotų dabartinį user'į, jog turėtumėm jį su atnaujinta info
+            LoadUsers();
         }
 
         //Gaunam dabartinį user'į
