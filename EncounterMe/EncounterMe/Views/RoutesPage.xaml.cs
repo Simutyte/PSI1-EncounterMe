@@ -13,7 +13,7 @@ namespace EncounterMe.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RoutesPage : ContentPage
     {
-        private PinsList _myPinList;
+        public List<MapPin> ListOfPins;
         private string _textValue;
         public RoutesPage()
         {
