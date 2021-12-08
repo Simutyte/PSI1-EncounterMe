@@ -56,7 +56,7 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
 
-                                <Image HeightRequest="115"
+                                <Image HeightRequest="105"
                                        Aspect="AspectFill"
                                        Source="{Binding ImageName}"/>
 
@@ -68,6 +68,15 @@
                                              VerticalOptions="Start"
                                              Clicked ="Favourite_clicked"
                                              CommandParameter="{Binding .}"/>
+
+                                <Image x:Name="checkMark"
+                                       Source="check"
+                                       BackgroundColor="Transparent"
+                                       HorizontalOptions="Start"
+                                       VerticalOptions="Start"
+                                       Margin="12"
+                                       HeightRequest="25"
+                                       IsVisible="{Binding Visited}"/>
 
                                 <Grid VerticalOptions="End"
                                       Margin="15">
@@ -167,6 +176,22 @@
                                                        HorizontalOptions="End"/>
                                         </StackLayout>
                                     </StackLayout>
+
+                                    <StackLayout>
+                                        <StackLayout Orientation="Horizontal">
+                                            <Label Text="Distance: "
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+
+                                            <Label Text="{Binding DistanceToUser, StringFormat='{}{0:F2}'}"
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                            
+                                            <Label Text="km"
+                                                   Style="{StaticResource ListViewLabelOtherInfo}"/>
+                                        </StackLayout>
+                                        
+                                    </StackLayout>
+
+                                    
 
                                 </StackLayout>
                             </Grid>

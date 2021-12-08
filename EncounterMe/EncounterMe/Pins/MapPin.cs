@@ -50,6 +50,8 @@ namespace EncounterMe
 
         public Pin Pin { get; set; }
 
+        public bool Visited { get; set; }
+
         public MapPin()
         {
 
