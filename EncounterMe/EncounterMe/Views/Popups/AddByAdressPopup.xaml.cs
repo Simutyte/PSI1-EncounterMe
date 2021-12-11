@@ -23,7 +23,7 @@ namespace EncounterMe.Views.Popups
 
         async void Cancel_Button_Clicked(object sender, EventArgs e)
         {
-            await PopupNavigation.Instance.PopAsync();
+            await PopupNavigation.Instance.PopAllAsync();
         }
 
         Func<string, string, string, string, Task<bool>> AddressExist = async delegate (string country, string city, string code, string street)
@@ -63,7 +63,7 @@ namespace EncounterMe.Views.Popups
 
                      App.s_mapPinService.TryToAdd(MapPin);
                     //App.s_mapPinService.LoadOwnerObjects();
-                    await PopupNavigation.Instance.PopAsync();
+                    await PopupNavigation.Instance.PopAllAsync();
                 }
                 else
                 {

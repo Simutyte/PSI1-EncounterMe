@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using EncounterMe.Views.Popups;
 using Rg.Plugins.Popup.Services;
 using Xamarin.Essentials;
@@ -23,8 +24,6 @@ namespace EncounterMe.Views
             InitializeComponent();
             ListOfPins = App.s_mapPinService.ListOfPins;
             BindingContext = this;
-
-           
         }
 
 
@@ -34,16 +33,15 @@ namespace EncounterMe.Views
             ListOfPins = null;
             ListOfPins = App.s_mapPinService.ListOfPins;
             RefreshData();
-            
         }
 
-        public void RefreshData()
+        public async void RefreshData()
         {
             listView.ItemsSource = null;
             if (ListOfPins != null)
             {
                 //ListOfPins.Sort();
-                CalculateDistances();
+                await CalculateDistances();
             }
 
             listView.ItemsSource = GetAllObjects();
@@ -54,7 +52,7 @@ namespace EncounterMe.Views
         //Gauna pasikeitusį listOfPins pagal įvestą tekstą
         IEnumerable<MapPin> GetAllObjects(string searchText = null)
         {
-            if(string.IsNullOrEmpty(searchText))
+            if (string.IsNullOrEmpty(searchText))
             {
                 ListOfPins.Sort();
                 return ListOfPins;
@@ -101,10 +99,10 @@ namespace EncounterMe.Views
             ((ListView)sender).SelectedItem = null;
         }
 
-       async void More_Info_Clicked(object sender, EventArgs e)
+        async void More_Info_Clicked(object sender, EventArgs e)
         {
             var pinToPass = ((MenuItem)sender).BindingContext as MapPin;
-            if(pinToPass == null)
+            if (pinToPass == null)
             {
                 return;
             }
@@ -118,7 +116,7 @@ namespace EncounterMe.Views
             var favouritePin = (MapPin)btn.CommandParameter;
             if (favouritePin != null)
             {
-                if(!App.s_mapPinService.UserFavouriteMapPins.Contains(favouritePin))
+                if (!App.s_mapPinService.UserFavouriteMapPins.Contains(favouritePin))
                 {
                     App.s_mapPinService.AddFavourite(favouritePin);
                     await DisplayAlert("Congrats", "Object " + favouritePin.Name + " was added to your favourites", "ok");
@@ -127,7 +125,7 @@ namespace EncounterMe.Views
                 {
                     await DisplayAlert("Sorry", "You have already added this object to your favourites", "ok");
                 }
-                
+
             }
             else
             {
@@ -136,12 +134,12 @@ namespace EncounterMe.Views
 
         }
 
-        public async void CalculateDistances()
+        public async Task CalculateDistances()
         {
             var request = new GeolocationRequest(GeolocationAccuracy.Default);
             Location location = await Geolocation.GetLocationAsync(request);
 
-            foreach(var pin in ListOfPins)
+            foreach (var pin in ListOfPins)
             {
                 pin.DistanceToUser = Location.CalculateDistance(location.Latitude, location.Longitude,
                                                                 pin.Latitude, pin.Longitude, DistanceUnits.Kilometers);
