@@ -31,22 +31,26 @@
             </Label>
         </StackLayout>
 
-        <BoxView HeightRequest="1" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BackgroundColor="#E4E4E4"/>
+        <BoxView HeightRequest="1" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BackgroundColor="LightGray"/>
 
-        <StackLayout VerticalOptions="End" Margin="15,0,15,2">
-            <Label Text="Take a look at our top-scored users:"
-                   FontSize="Body"
-                   FontAttributes="Bold"
-                   TextColor="#515151"/>
-            <ListView x:Name="list" BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
-                                               Light={StaticResource WindowBcColor}}"
-                      RowHeight="80"
-                      SeparatorColor="Gray">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="Users:User">
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Grid >
+        <StackLayout VerticalOptions="EndAndExpand" BackgroundColor="Transparent">
+            <StackLayout VerticalOptions="StartAndExpand" Spacing="5" Margin="15,0,15,15" >
+                <Label Text="Take a look at our top-scored users:"
+                       FontSize="Body"
+                       FontAttributes="Bold"
+                       TextColor="#515151"/>
+                <ListView x:Name="list" BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
+                                                   Light={StaticResource WindowBcColor}}"
+                          RowHeight="80"
+                          SeparatorColor="Gray"
+                          ItemSelected="listView_Item_Clicked"
+                          ItemTapped="listView_Item_Clicked"
+                          >
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="Users:User">
+                            <ViewCell>
+
+                                <Grid>
                                     <StackLayout Orientation="Horizontal" Spacing="1">
                                         <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="25,0,0,0" WidthRequest="40">
 
@@ -60,9 +64,9 @@
                                             <StackLayout Spacing="20" Orientation="Horizontal">
                                                 <AbsoluteLayout WidthRequest="48" HeightRequest="48" HorizontalOptions="Start" VerticalOptions="Center">
                                                     <controls:CircleImage WidthRequest="36" HeightRequest="36"
-                                                                          Source="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png"
-												    HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill"
-												    AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5,-1,-1" />
+                                                                              Source="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png"
+												        HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill"
+												        AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5,-1,-1" />
                                                 </AbsoluteLayout>
 
                                                 <StackLayout Spacing="0" VerticalOptions="Center">
@@ -72,62 +76,65 @@
                                         </StackLayout>
                                     </StackLayout>
                                 </Grid>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-        </StackLayout>
 
-        <StackLayout VerticalOptions="End"  Margin="15,0,15,20" HeightRequest="190" x:Name="UserPlaceStackLayour" IsVisible="true">
-            <Label 
-                   IsVisible="true"
-                   x:Name="UserPlaceSeparator"
-                   FontSize="Body"
-                   FontAttributes="Bold"
-                   TextColor="#515151"
-                   Margin="0,0,0,0"/>
-            <ListView x:Name="listOfUserPlace" BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
-                                               Light={StaticResource WindowBcColor}}"
-                      RowHeight="80"
-                      SeparatorColor="Gray"
-                      IsVisible="true">
-                <ListView.ItemTemplate>
-                    <DataTemplate x:DataType="Users:User">
-                        <ViewCell>
-                            <ViewCell.View>
-                                <Grid >
-                                    <StackLayout Orientation="Horizontal" Spacing="1">
-                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="25,0,0,0" WidthRequest="40">
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
 
-
-                                            <Label Text="{Binding Score}" FontSize="Large"   TextColor="Gray" />
-
-                                        </StackLayout>
-                                        <StackLayout Padding="16,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
+            <StackLayout VerticalOptions="End"  Margin="15,0,15,15" Spacing="4" HeightRequest="190" x:Name="UserPlaceStackLayour" IsVisible="false">
+                <Label 
+                       IsVisible="false"
+                       x:Name="UserPlaceSeparator"
+                       FontSize="Body"
+                       FontAttributes="Bold"
+                       TextColor="#515151"
+                       Margin="0,0,0,0"/>
+                <ListView x:Name="listOfUserPlace" BackgroundColor="{AppThemeBinding Dark={StaticResource WindowBcColorDark},
+                                                   Light={StaticResource WindowBcColor}}"
+                          RowHeight="80"
+                          SeparatorColor="Gray"
+                          IsVisible="false"
+                          ItemSelected="listView_Item_Clicked"
+                          ItemTapped="listView_Item_Clicked">
+                    <ListView.ItemTemplate>
+                        <DataTemplate x:DataType="Users:User">
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Grid >
+                                        <StackLayout Orientation="Horizontal" Spacing="1">
+                                            <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="25,0,0,0" WidthRequest="40">
 
 
-                                            <StackLayout Spacing="20" Orientation="Horizontal">
-                                                <AbsoluteLayout WidthRequest="48" HeightRequest="48" HorizontalOptions="Start" VerticalOptions="Center">
-                                                    <controls:CircleImage WidthRequest="36" HeightRequest="36"
-                                                                          Source="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png"
-												    HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill"
-												    AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5,-1,-1" />
-                                                </AbsoluteLayout>
+                                                <Label Text="{Binding Score}" FontSize="Large"   TextColor="Gray" />
 
-                                                <StackLayout Spacing="0" VerticalOptions="Center">
-                                                    <Label Text="{Binding Username}" FontSize="Medium" TextColor="#2E8B57" LineBreakMode="TailTruncation" AutomationId="aliasLabel" />
+                                            </StackLayout>
+                                            <StackLayout Padding="16,16,16,16" Spacing="20" Orientation="Horizontal" VerticalOptions="Center">
+
+
+                                                <StackLayout Spacing="20" Orientation="Horizontal">
+                                                    <AbsoluteLayout WidthRequest="48" HeightRequest="48" HorizontalOptions="Start" VerticalOptions="Center">
+                                                        <controls:CircleImage WidthRequest="36" HeightRequest="36"
+                                                                              Source="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png"
+												        HorizontalOptions="Center" VerticalOptions="Center" Aspect="AspectFill"
+												        AbsoluteLayout.LayoutFlags="PositionProportional" AbsoluteLayout.LayoutBounds=".5,.5,-1,-1" />
+                                                    </AbsoluteLayout>
+
+                                                    <StackLayout Spacing="0" VerticalOptions="Center">
+                                                        <Label Text="{Binding Username}" FontSize="Medium" TextColor="#2E8B57" LineBreakMode="TailTruncation" AutomationId="aliasLabel" />
+                                                    </StackLayout>
                                                 </StackLayout>
                                             </StackLayout>
                                         </StackLayout>
-                                    </StackLayout>
-                                </Grid>
-                            </ViewCell.View>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                                    </Grid>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </StackLayout>
         </StackLayout>
     </StackLayout>
-
+    
 </ContentPage>

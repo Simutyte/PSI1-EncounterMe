@@ -86,5 +86,10 @@ namespace EncounterMe.Views
         {
             await Shell.Current.GoToAsync($"//{nameof(LogInPage)}");
         }
+
+        void listView_Item_Clicked(object sender, ItemTappedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
+        }
     }
 }
