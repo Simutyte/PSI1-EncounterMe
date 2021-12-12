@@ -37,11 +37,47 @@ namespace EncounterMe.Views
 
             AllUsers = App.s_mapPinService.AllUsers;
             AllUsers.Sort((a, b) => b.Score.CompareTo(a.Score));
+            
 
             if (AllUsers.Count > 5)
+            {
                 list.ItemsSource = AllUsers.Take(5);
+
+                var userPlace = AllUsers.FindIndex(u => u.Id == User.Id);
+                Console.WriteLine("Userio indeksas " + userPlace);
+
+                if(userPlace == 5)
+                {
+                    listOfUserPlace.ItemsSource = AllUsers.Skip(5).Take(1);
+                    UserPlaceSeparator.Text = "Your place is " + (userPlace + 1);
+                    UserPlaceSeparator.IsVisible = true;
+                    listOfUserPlace.IsVisible = true;
+                    UserPlaceStackLayour.IsVisible = true;
+                }
+                else if(userPlace > 5)
+                {
+                    listOfUserPlace.ItemsSource = AllUsers.Skip(userPlace-1).Take(3);
+                    UserPlaceSeparator.Text = "Your place is " + (userPlace + 1);
+                    UserPlaceSeparator.IsVisible = true;
+                    listOfUserPlace.IsVisible = true;
+                    UserPlaceStackLayour.IsVisible = true;
+                }
+                else
+                {
+                    UserPlaceSeparator.IsVisible = false;
+                    listOfUserPlace.IsVisible = false;
+                    UserPlaceStackLayour.IsVisible = false;
+                }
+            }
+                
             else
+            {
                 list.ItemsSource = AllUsers;
+                UserPlaceSeparator.IsVisible = false;
+                listOfUserPlace.IsVisible = false;
+                UserPlaceStackLayour.IsVisible = false;
+            }
+                
 
             this.BindingContext = User;
         }

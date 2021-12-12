@@ -105,6 +105,7 @@ namespace EncounterMe.Views
             string Objects = "";
             Location loc = new Location() { Latitude = currentPin.Latitude, Longitude = currentPin.Longitude };
 
+            if(filter == IsClose)
             foreach (MapPin pin in list)
             {
                 var distance = GetDistanceByIndex(i, loc, pin);

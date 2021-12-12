@@ -23,11 +23,14 @@ namespace EncounterMe.Views
         IEnumerable<MapPin> _mapPins;
         public static IEnumerable<MapPin> PinsToRender { get; set; }
 
+        private string CreatorsNames { get; set; }
         public LoadRoutePage(IEnumerable<MapPin> mapPins)
         {
             InitializeComponent();
             _mapPins = mapPins;
             RoutesListView.ItemsSource = GetSortedMapPins();
+
+           ForCreators.Text = "Thanks to the creators: " + CreatorsNames;
         }
 
         private IEnumerable<MapPin> GetSortedMapPins()
@@ -36,6 +39,15 @@ namespace EncounterMe.Views
             var objectsQueryOrderedByDistance = _mapPins.OrderBy(pin => pin.DistanceToUser);
 
             //objectsQueryOrderedByDistance.First().DistanceBetweenPoints = "Start point";
+            var creators = from pin in objectsQueryOrderedByDistance
+                          join user in App.s_mapPinService.AllUsers
+                          on pin.CreatorId equals user.Id
+                          select new { name = user.Username };
+           
+            foreach(var c in creators.Distinct())
+            {
+                CreatorsNames += c.name;
+            }
 
             return objectsQueryOrderedByDistance;
         }
