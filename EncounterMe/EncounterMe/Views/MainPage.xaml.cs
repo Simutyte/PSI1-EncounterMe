@@ -37,7 +37,7 @@ namespace EncounterMe.Views
 
             AllUsers = App.s_mapPinService.AllUsers;
             AllUsers.Sort((a, b) => b.Score.CompareTo(a.Score));
-            
+
 
             if (AllUsers.Count > 5)
             {
@@ -46,7 +46,7 @@ namespace EncounterMe.Views
                 var userPlace = AllUsers.FindIndex(u => u.Id == User.Id);
                 Console.WriteLine("Userio indeksas " + userPlace);
 
-                if(userPlace == 5)
+                if (userPlace == 5)
                 {
                     listOfUserPlace.ItemsSource = AllUsers.Skip(5).Take(1);
                     UserPlaceSeparator.Text = "Your place is " + (userPlace + 1);
@@ -54,9 +54,9 @@ namespace EncounterMe.Views
                     listOfUserPlace.IsVisible = true;
                     UserPlaceStackLayour.IsVisible = true;
                 }
-                else if(userPlace > 5)
+                else if (userPlace > 5)
                 {
-                    listOfUserPlace.ItemsSource = AllUsers.Skip(userPlace-1).Take(3);
+                    listOfUserPlace.ItemsSource = AllUsers.Skip(userPlace - 1).Take(3);
                     UserPlaceSeparator.Text = "Your place is " + (userPlace + 1);
                     UserPlaceSeparator.IsVisible = true;
                     listOfUserPlace.IsVisible = true;
@@ -64,20 +64,23 @@ namespace EncounterMe.Views
                 }
                 else
                 {
+                    list.HeightRequest = 80 * 5;
                     UserPlaceSeparator.IsVisible = false;
                     listOfUserPlace.IsVisible = false;
                     UserPlaceStackLayour.IsVisible = false;
                 }
             }
-                
+
             else
             {
+
+                list.HeightRequest = 80 * AllUsers.Count;
                 list.ItemsSource = AllUsers;
                 UserPlaceSeparator.IsVisible = false;
                 listOfUserPlace.IsVisible = false;
                 UserPlaceStackLayour.IsVisible = false;
             }
-                
+
 
             this.BindingContext = User;
         }

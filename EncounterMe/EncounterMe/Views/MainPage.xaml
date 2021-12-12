@@ -34,7 +34,7 @@
         <BoxView HeightRequest="1" VerticalOptions="Start" HorizontalOptions="FillAndExpand" BackgroundColor="LightGray"/>
 
         <StackLayout VerticalOptions="EndAndExpand" BackgroundColor="Transparent">
-            <StackLayout VerticalOptions="StartAndExpand" Spacing="5" Margin="15,0,15,15" >
+            <StackLayout VerticalOptions="Start" Spacing="5" Margin="15,0,15,15">
                 <Label Text="Take a look at our top-scored users:"
                        FontSize="Body"
                        FontAttributes="Bold"
@@ -50,7 +50,7 @@
                         <DataTemplate x:DataType="Users:User">
                             <ViewCell>
 
-                                <Grid>
+                                <Grid  ColumnSpacing="0" RowSpacing="0">
                                     <StackLayout Orientation="Horizontal" Spacing="1">
                                         <StackLayout Orientation="Horizontal" VerticalOptions="Center" Margin="25,0,0,0" WidthRequest="40">
 
