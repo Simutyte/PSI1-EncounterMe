@@ -10,7 +10,7 @@ using Xamarin.Essentials;
 
 namespace EncounterMe.Pins
 {
-    class CheckAddressCommands
+    public class CheckAddressCommands
     {
         public Location Location = new Location();
         public Address Address = new Address();
