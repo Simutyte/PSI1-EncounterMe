@@ -7,7 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EncounterMe.Android", "Enco
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EncounterMe", "EncounterMe\EncounterMe\EncounterMe.csproj", "{FCF4ECEC-22F2-4B68-88CE-A258FE62B2AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapPinAPI", "MapPinAPI\MapPinAPI.csproj", "{AEBD4429-A0CC-4CB0-84C0-D4F69A763902}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapPinAPI", "MapPinAPI\MapPinAPI.csproj", "{AEBD4429-A0CC-4CB0-84C0-D4F69A763902}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test1", "Test1\Test1.csproj", "{14A8F095-B0A3-47AB-B7C9-CB2237649FEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{AEBD4429-A0CC-4CB0-84C0-D4F69A763902}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEBD4429-A0CC-4CB0-84C0-D4F69A763902}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AEBD4429-A0CC-4CB0-84C0-D4F69A763902}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14A8F095-B0A3-47AB-B7C9-CB2237649FEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14A8F095-B0A3-47AB-B7C9-CB2237649FEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14A8F095-B0A3-47AB-B7C9-CB2237649FEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14A8F095-B0A3-47AB-B7C9-CB2237649FEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
