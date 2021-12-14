@@ -26,7 +26,7 @@ namespace EncounterMe.Pins
             
         }
 
-        private static bool CheckLatitude(double lat)
+        public static bool CheckLatitude(double lat)
         {
             if(lat <= 90 && lat >= -90)
             {
@@ -35,7 +35,7 @@ namespace EncounterMe.Pins
             return false;
         }
 
-        private static bool CheckLongitude(double longit)
+        public static bool CheckLongitude(double longit)
         {
             if (longit <= 180 && longit >= -180)
             {
