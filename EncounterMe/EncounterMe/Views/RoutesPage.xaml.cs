@@ -18,13 +18,16 @@ namespace EncounterMe.Views
         public RoutesPage()
         {
             InitializeComponent();
-
-            //PinsList pinsList = PinsList.GetPinsList();
-            //_myPinList = pinsList;
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            ListOfPins = null;
             ListOfPins = App.s_mapPinService.ListOfPins;
+            RoutesListView.ItemsSource = null;
             RoutesListView.ItemsSource = GetAllObjects();
         }
-        
+
         IEnumerable<Route> GetAllObjects(string searchText = null)
         {
             var objectsByCityAndStyle = ListOfPins.GroupBy(e => new { e.Address.City, e.StyleType }).Where(e => e.Count() > 1).Select(e => new Route

@@ -24,7 +24,6 @@ namespace EncounterMe.Views.Popups
 
             if (App.s_mapPinService.CurrentUser != null)
             {
-
                 User = App.s_mapPinService.CurrentUser;
             }
 
@@ -32,9 +31,6 @@ namespace EncounterMe.Views.Popups
             {
                 editorAboutMe.Text = User.AboutMe;
             }
-           
-
-            
         }
 
         async void Cancel_Button_Clicked(object sender, EventArgs e)
@@ -44,7 +40,7 @@ namespace EncounterMe.Views.Popups
 
         async void Add_Button_Clicked(object sender, EventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(editorAboutMe.Text))
+            if (string.IsNullOrWhiteSpace(editorAboutMe.Text))
             {
                 await DisplayAlert("Info", "Please add information about you", "ok");
             }
@@ -55,7 +51,8 @@ namespace EncounterMe.Views.Popups
                 await App.s_mapPinService.UpdatingUser(User);
                 // App.s_userDb.UpdateUser(User);
                 await PopupNavigation.Instance.PopAsync();
-               
+
+                MessagingCenter.Send<EditBioPopup>(this, "OnAboutMeChanged");
             }
         }
     }

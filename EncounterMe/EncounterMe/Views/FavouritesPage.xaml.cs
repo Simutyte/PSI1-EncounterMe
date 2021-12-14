@@ -24,10 +24,6 @@ namespace EncounterMe.Views
         public FavouritesPage()
         {
             InitializeComponent();
-
-            OnAppearing();
-            
-            
         }
 
         protected override void OnAppearing()
@@ -37,6 +33,7 @@ namespace EncounterMe.Views
             if (App.s_mapPinService.UserFavouriteMapPins.Count > 0)
             {
                 this.Content = MainStackLayout;
+                listView.ItemsSource = null;
                 listView.ItemsSource = App.s_mapPinService.UserFavouriteMapPins;
             }
             else
@@ -58,8 +55,7 @@ namespace EncounterMe.Views
             }
         }
 
-
-         async void Delete_clicked(object sender, EventArgs e)
+        async void Delete_clicked(object sender, EventArgs e)
         {
             var btn = (ImageButton)sender;
             var deletePin = (MapPin)btn.CommandParameter;
@@ -74,14 +70,11 @@ namespace EncounterMe.Views
             {
                 await DisplayAlert("Sorry", "Delete failed bc is null", "ok");
             }
-
         }
 
         void listView_ItemSelected(object sender, ItemTappedEventArgs e)
         {
-
             ((ListView)sender).SelectedItem = null;
-
         }
 
         void listView_ItemTapped(object sender, ItemTappedEventArgs e)

@@ -13,10 +13,10 @@ using Xamarin.Forms.Xaml;
 namespace EncounterMe.Views.Popups
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class AddByAdressPopup : PopupPage
+    public partial class AddByAddressPopup : PopupPage
     {
         static CheckAddressCommands _checkAddressCommands = new CheckAddressCommands();
-        public AddByAdressPopup()
+        public AddByAddressPopup()
         {
             InitializeComponent();
         }
@@ -61,9 +61,11 @@ namespace EncounterMe.Views.Popups
                     var notificationsService = new NotificationsService();
                     App.s_mapPinService.PinAdded += notificationsService.OnPinAdded;
 
-                     App.s_mapPinService.TryToAdd(MapPin);
+                    App.s_mapPinService.TryToAdd(MapPin);
                     //App.s_mapPinService.LoadOwnerObjects();
                     await PopupNavigation.Instance.PopAllAsync();
+
+                    MessagingCenter.Send<AddByAddressPopup>(this, "OnPinAdded");
                 }
                 else
                 {
