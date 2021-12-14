@@ -14,32 +14,36 @@ namespace EncounterMe.Pins
         public static double GetDistanceInKm(Location location, MapPin pin)
         {
             Console.WriteLine("skaiciuoju km");
-            Console.WriteLine(Location.CalculateDistance(location.Latitude, location.Longitude, pin.Latitude, pin.Longitude, DistanceUnits.Kilometers));
-            return Location.CalculateDistance(location.Latitude, location.Longitude, pin.Latitude, pin.Longitude, DistanceUnits.Kilometers);
+            double dist = Location.CalculateDistance(location.Latitude, location.Longitude, pin.Latitude, pin.Longitude, DistanceUnits.Kilometers);
+            Console.WriteLine(dist.ToString());
+            return dist;
 
         }
 
         public static double GetDistanceInMiles(Location location, MapPin pin)
         {
             Console.WriteLine("skaiciuoju myliom");
-            Console.WriteLine(Location.CalculateDistance(location.Latitude, location.Longitude, pin.Latitude, pin.Longitude, DistanceUnits.Miles));
-            return Location.CalculateDistance(location.Latitude, location.Longitude, pin.Latitude, pin.Longitude, DistanceUnits.Miles);
+            double dist = Location.CalculateDistance(location.Latitude, location.Longitude, pin.Latitude, pin.Longitude, DistanceUnits.Miles);
+            Console.WriteLine(dist.ToString());
+            return dist;
 
         }
 
         public static double GetDistanceInMeters(Location location, MapPin pin)
         {
             Console.WriteLine("skaiciuoju metrais");
-            Console.WriteLine(GetDistanceInKm(location, pin) * 1000);
-            return GetDistanceInKm(location, pin) * 1000;
+            double dist = GetDistanceInKm(location, pin) * 1000;
+            Console.WriteLine(dist.ToString());
+            return dist;
 
         }
 
         public static double GetDistanceInYards(Location location, MapPin pin)
         {
             Console.WriteLine("skaiciuoju yardais");
-            Console.WriteLine(GetDistanceInMiles(location, pin) * 1.760);
-            return GetDistanceInMiles(location, pin) * 1.760;
+            double dist = GetDistanceInMiles(location, pin) * 1760;
+            Console.WriteLine(dist.ToString());
+            return dist;
 
         }
     }
