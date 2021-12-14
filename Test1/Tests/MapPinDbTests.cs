@@ -22,7 +22,7 @@ namespace Test1.Tests
         public async Task MapPinDbSet_UsingInMemoryProvider_SimpleActionsTesting()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "MapPinTestDb")
+                .UseInMemoryDatabase(databaseName: "MapPinTestDb1")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -58,6 +58,7 @@ namespace Test1.Tests
                 Assert.Null(u2);
 
                 context.Database.EnsureDeleted();
+                context.Dispose();
             }
 
         }
@@ -66,7 +67,7 @@ namespace Test1.Tests
         public async Task MapPinsController_GetMapPins_TypeOfGetAllMapPinsIsCorrect()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "MapPinTestDb")
+                .UseInMemoryDatabase(databaseName: "MapPinTestDb2")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -77,6 +78,7 @@ namespace Test1.Tests
 
                 Assert.IsAssignableFrom<IEnumerable<MapPin>>(result);
                 context.Database.EnsureDeleted();
+                context.Dispose();
             }
         }
 
@@ -84,7 +86,7 @@ namespace Test1.Tests
         public async Task MapPinsController_GetMapPin_TypeOfGetMapPinIsCorrect()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "MapPinTestDb")
+                .UseInMemoryDatabase(databaseName: "MapPinTestDb3")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -93,12 +95,13 @@ namespace Test1.Tests
                 context.MapPins.Add(MapPin1);
                 await context.SaveChangesAsync();
 
-                var repo = new MapPinRepository(context);
-                var controller = new MapPinsController(repo);
+                var mockRepo = new Mock<MapPinRepository>(context);
+                var controller = new MapPinsController(mockRepo.Object);
                 var result = await controller.GetMapPins(1);
 
                 Assert.IsType<ActionResult<MapPin>>(result);
                 context.Database.EnsureDeleted();
+                context.Dispose();
             }
         }
 
@@ -106,7 +109,7 @@ namespace Test1.Tests
         public async Task MapPinsController_GetMapPins_GetsRightAmountOfMapPins()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "MapPinTestDb")
+                .UseInMemoryDatabase(databaseName: "MapPinTestDb4")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -117,15 +120,71 @@ namespace Test1.Tests
                 context.MapPins.Add(MapPin2);
                 await context.SaveChangesAsync();
 
-                var repo = new MapPinRepository(context);
-                var controller = new MapPinsController(repo);
+                var mockRepo = new Mock<MapPinRepository>(context);
+                var controller = new MapPinsController(mockRepo.Object);
                 var result = await controller.GetMapPins();
 
                 Assert.Equal(2, result.Count());
                 context.Database.EnsureDeleted();
+                context.Dispose();
             }
         }
 
+        [Fact]
+        public async Task MapPinsController_PostMapPin_PostIsWorkingCorrectly()
+        {
+            var options = new DbContextOptionsBuilder<MapPinContext>()
+                .UseInMemoryDatabase(databaseName: "MapPinTestDb5")
+                .Options;
+
+            using (var context = new MapPinContext(options))
+            {
+                var mockRepo = new Mock<MapPinRepository>(context);
+                var controller = new MapPinsController(mockRepo.Object);
+                var MapPin1 = new MapPin() { Name = "Pirmas", Description = "Pirmas", ImageName = "pirmasPhoto" };
+                var result = await controller.PostMapPins(MapPin1);
+
+                Assert.IsType<ActionResult<MapPin>>(result);
+
+                var u = await context.MapPins.FirstOrDefaultAsync(MapPin => MapPin.Name == "Pirmas");
+                Assert.NotNull(u);
+                context.Database.EnsureDeleted();
+                context.Dispose();
+            }
+        }
+
+        [Fact]
+        public async Task MapPinsController_PutMapPin_PutIsWorkingCorrectly()
+        {
+            var options = new DbContextOptionsBuilder<MapPinContext>()
+                .UseInMemoryDatabase(databaseName: "MapPinTestDb6")
+                .Options;
+
+            using (var context = new MapPinContext(options))
+            {
+                var MapPin = new MapPin() { Name = "Pirmas", Description = "Pirmas", ImageName = "pirmasPhoto" };
+                context.MapPins.Add(MapPin);
+                await context.SaveChangesAsync();
+
+                var mockRepo = new Mock<MapPinRepository>(context);
+                var controller = new MapPinsController(mockRepo.Object);
+
+                MapPin.Description = "changed";
+
+                var result = await controller.PutMapPin(MapPin.Id, MapPin);
+
+                Assert.IsAssignableFrom<IActionResult>(result);
+
+                var u = await context.MapPins.FirstOrDefaultAsync(MapPin => MapPin.Description == "changed");
+                Assert.NotNull(u);
+
+                context.Database.EnsureDeleted();
+                context.Dispose();
+            }
+        }
+
+
+        [Fact]
         public async Task AddressDbSet_UsingInMemoryProvider_SimpleActionsTesting()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
@@ -165,6 +224,7 @@ namespace Test1.Tests
                 Assert.Null(u2);
 
                 context.Database.EnsureDeleted();
+                context.Dispose();
             }
 
         }

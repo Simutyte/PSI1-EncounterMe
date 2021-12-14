@@ -20,7 +20,7 @@ namespace Test1.Tests
         public async Task FavouriteMapPinDbSet_UsingInMemoryProvider_SimpleActionsTesting()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "FavouriteMapPinTestDb")
+                .UseInMemoryDatabase(databaseName: "FavouriteMapPinTestDb1")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -49,6 +49,7 @@ namespace Test1.Tests
                 Assert.Null(u2);
 
                 context.Database.EnsureDeleted();
+                context.Dispose();
             }
 
         }
@@ -57,7 +58,7 @@ namespace Test1.Tests
         public async Task FavouriteMapPinsController_GetFavouriteMapPins_TypeOfGetAllFavouriteMapPinsIsCorrect()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "FavouriteMapPinTestDb")
+                .UseInMemoryDatabase(databaseName: "FavouriteMapPinTestDb2")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -67,7 +68,9 @@ namespace Test1.Tests
                 var result = await controller.GetUserMapPins();
 
                 Assert.IsAssignableFrom<IEnumerable<FavouriteMapPin>>(result);
+
                 context.Database.EnsureDeleted();
+                context.Dispose();
             }
         }
 
@@ -75,7 +78,7 @@ namespace Test1.Tests
         public async Task FavouriteMapPinsController_GetFavouriteMapPin_TypeOfGetFavouriteMapPinIsCorrect()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "FavouriteMapPinTestDb")
+                .UseInMemoryDatabase(databaseName: "FavouriteMapPinTestDb3")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -84,12 +87,14 @@ namespace Test1.Tests
                 context.FavouriteMapPins.Add(FavouriteMapPin1);
                 await context.SaveChangesAsync();
 
-                var repo = new FavouriteMapPinRepository(context);
-                var controller = new FavouriteMapPinsController(repo);
+                var mockRepo = new Mock<FavouriteMapPinRepository>(context);
+                var controller = new FavouriteMapPinsController(mockRepo.Object);
                 var result = await controller.GetUserMapPin(1);
 
                 Assert.IsAssignableFrom<IEnumerable<FavouriteMapPin>>(result);
+
                 context.Database.EnsureDeleted();
+                context.Dispose();
             }
         }
 
@@ -97,7 +102,7 @@ namespace Test1.Tests
         public async Task FavouriteMapPinsController_GetFavouriteMapPins_GetsRightAmountOfFavouriteMapPins()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "FavouriteMapPinTestDb")
+                .UseInMemoryDatabase(databaseName: "FavouriteMapPinTestDb4")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -108,12 +113,65 @@ namespace Test1.Tests
                 context.FavouriteMapPins.Add(FavouriteMapPin2);
                 await context.SaveChangesAsync();
 
-                var repo = new FavouriteMapPinRepository(context);
-                var controller = new FavouriteMapPinsController(repo);
+                var mockRepo = new Mock<FavouriteMapPinRepository>(context);
+                var controller = new FavouriteMapPinsController(mockRepo.Object);
                 var result = await controller.GetUserMapPin(1);
 
                 Assert.Equal(2, result.Count());
+
                 context.Database.EnsureDeleted();
+                context.Dispose();
+            }
+        }
+
+        [Fact]
+        public async Task UsersController_PostUserMapPin_PostIsWorkingCorrectly()
+        {
+            var options = new DbContextOptionsBuilder<MapPinContext>()
+                .UseInMemoryDatabase(databaseName: "FavouriteMapPinTestDb5")
+                .Options;
+
+            using (var context = new MapPinContext(options))
+            {
+                var mockRepo = new Mock<FavouriteMapPinRepository>(context);
+                var controller = new FavouriteMapPinsController(mockRepo.Object);
+                var FavouriteMapPin = new FavouriteMapPin() { MapPinId = 1, UserId = 1 };
+                var result = await controller.PostUserMapPin(FavouriteMapPin);
+
+                Assert.IsType<ActionResult<FavouriteMapPin>>(result);
+
+                var u = await context.FavouriteMapPins.FindAsync(FavouriteMapPin.UserId, FavouriteMapPin.MapPinId);
+                Assert.NotNull(u);
+
+                context.Database.EnsureDeleted();
+                context.Dispose();
+            }
+        }
+
+        [Fact]
+        public async Task UsersController_DeleteUserMapPin_DeleteIsWorkingCorrectly()
+        {
+            var options = new DbContextOptionsBuilder<MapPinContext>()
+                .UseInMemoryDatabase(databaseName: "FavouriteMapPinTestDb6")
+                .Options;
+
+            using (var context = new MapPinContext(options))
+            {
+                var FavouriteMapPin = new FavouriteMapPin() { MapPinId = 1, UserId = 1 };
+                context.FavouriteMapPins.Add(FavouriteMapPin);
+                await context.SaveChangesAsync();
+
+                var mockRepo = new Mock<FavouriteMapPinRepository>(context);
+                var controller = new FavouriteMapPinsController(mockRepo.Object);
+
+                var result = await controller.DeleteUserMapPin(FavouriteMapPin.UserId, FavouriteMapPin.MapPinId);
+                Assert.IsAssignableFrom<IActionResult>(result);
+
+                var u = await context.FavouriteMapPins.FindAsync(FavouriteMapPin.UserId, FavouriteMapPin.MapPinId);
+                Assert.Null(u);
+
+                context.Database.EnsureDeleted();
+                context.Dispose();
             }
         }
     }

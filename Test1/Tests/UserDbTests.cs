@@ -21,7 +21,7 @@ namespace Test1.Tests
         public async Task UserDbSet_UsingInMemoryProvider_SimpleActionsTesting()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "UserTestDb")
+                .UseInMemoryDatabase(databaseName: "UserTestDb1")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -57,6 +57,7 @@ namespace Test1.Tests
                 Assert.Null(u2);
 
                 context.Database.EnsureDeleted();
+                context.Dispose();
             }
 
         }
@@ -65,7 +66,7 @@ namespace Test1.Tests
         public async Task UsersController_GetUsers_TypeOfGetAllUsersIsCorrect()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "UserTestDb")
+                .UseInMemoryDatabase(databaseName: "UserTestDb2")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -76,6 +77,7 @@ namespace Test1.Tests
 
                 Assert.IsAssignableFrom<IEnumerable<User>>(result);
                 context.Database.EnsureDeleted();
+                context.Dispose();
             }
         }
 
@@ -83,7 +85,7 @@ namespace Test1.Tests
         public async Task UsersController_GetUser_TypeOfGetUserIsCorrect()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "UserTestDb")
+                .UseInMemoryDatabase(databaseName: "UserTestDb3")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -92,12 +94,13 @@ namespace Test1.Tests
                 context.Users.Add(user1);
                 await context.SaveChangesAsync();
 
-                var repo = new UserRepository(context);
-                var controller = new UsersController(repo);
+                var mockRepo = new Mock<UserRepository>(context);
+                var controller = new UsersController(mockRepo.Object);
                 var result = await controller.GetUser(1);
 
                 Assert.IsType<ActionResult<User>>(result);
                 context.Database.EnsureDeleted();
+                context.Dispose();
             }
         }
 
@@ -105,7 +108,7 @@ namespace Test1.Tests
         public async Task UsersController_GetUsers_GetsRightAmountOfUsers()
         {
             var options = new DbContextOptionsBuilder<MapPinContext>()
-                .UseInMemoryDatabase(databaseName: "UserTestDb")
+                .UseInMemoryDatabase(databaseName: "UserTestDb4")
                 .Options;
 
             using (var context = new MapPinContext(options))
@@ -116,12 +119,93 @@ namespace Test1.Tests
                 context.Users.Add(user2);
                 await context.SaveChangesAsync();
 
-                var repo = new UserRepository(context);
-                var controller = new UsersController(repo);
+                var mockRepo = new Mock<UserRepository>(context);
+                var controller = new UsersController(mockRepo.Object);
                 var result = await controller.GetUsers();
 
                 Assert.Equal(2, result.Count());
                 context.Database.EnsureDeleted();
+                context.Dispose();
+            }
+        }
+
+        [Fact]
+        public async Task UsersController_PostUser_PostIsWorkingCorrectly()
+        {
+            var options = new DbContextOptionsBuilder<MapPinContext>()
+                .UseInMemoryDatabase(databaseName: "UserTestDb5")
+                .Options;
+
+            using (var context = new MapPinContext(options))
+            {
+                var mockRepo = new Mock<UserRepository>(context);
+                var controller = new UsersController(mockRepo.Object);
+                var user = new User() { Username = "test2", Password = "test1", Email = "test@gmail.com" };
+                var result = await controller.PostUser(user);
+
+                Assert.IsType<ActionResult<User>>(result);
+
+                var u = await context.Users.FirstOrDefaultAsync(user => user.Username == "test2");
+                Assert.NotNull(u);
+                context.Database.EnsureDeleted();
+                context.Dispose();
+            }
+        }
+
+        [Fact]
+        public async Task UsersController_DeleteUser_DeleteIsWorkingCorrectly()
+        {
+            var options = new DbContextOptionsBuilder<MapPinContext>()
+                .UseInMemoryDatabase(databaseName: "UserTestDb6")
+                .Options;
+
+            using (var context = new MapPinContext(options))
+            {
+                var user = new User() { Username = "test", Password = "test1", Email = "test@gmail.com" };
+                context.Users.Add(user);
+                await context.SaveChangesAsync();
+
+                var mockRepo = new Mock<UserRepository>(context);
+                var controller = new UsersController(mockRepo.Object);
+               
+                var result = await controller.DeleteUser(user.Id);
+
+                Assert.IsAssignableFrom<IActionResult>(result);
+
+                var u = await context.Users.FindAsync(user.Id);
+                Assert.Null(u);
+                context.Database.EnsureDeleted();
+                context.Dispose();
+            }
+        }
+
+        [Fact]
+        public async Task UsersController_PutUser_PutIsWorkingCorrectly()
+        {
+            var options = new DbContextOptionsBuilder<MapPinContext>()
+                .UseInMemoryDatabase(databaseName: "UserTestDb6")
+                .Options;
+
+            using (var context = new MapPinContext(options))
+            {
+                var user = new User() { Username = "test", Password = "test1", Email = "test@gmail.com" };
+                context.Users.Add(user);
+                await context.SaveChangesAsync();
+
+                var mockRepo = new Mock<UserRepository>(context);
+                var controller = new UsersController(mockRepo.Object);
+
+                user.Email = "changed@gmail.com";
+
+                var result = await controller.PutUser(user.Id, user);
+
+                Assert.IsAssignableFrom<IActionResult>(result);
+
+                var u = await context.Users.FirstOrDefaultAsync(user => user.Email == "changed@gmail.com");
+                Assert.NotNull(u);
+
+                context.Database.EnsureDeleted();
+                context.Dispose();
             }
         }
 
