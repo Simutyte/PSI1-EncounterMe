@@ -40,14 +40,11 @@ namespace EncounterMe.Views
 
             //objectsQueryOrderedByDistance.First().DistanceBetweenPoints = "Start point";
             var creators = from pin in objectsQueryOrderedByDistance
-                          join user in App.s_mapPinService.AllUsers
-                          on pin.CreatorId equals user.Id
-                          select new { name = user.Username };
-           
-            foreach(var c in creators.Distinct())
-            {
-                CreatorsNames += c.name;
-            }
+                           join user in App.s_mapPinService.AllUsers
+                           on pin.CreatorId equals user.Id
+                           select user.Username ;
+             
+            CreatorsNames = creators.Distinct().Aggregate((concat, str) => $"{concat}, {str}");
 
             return objectsQueryOrderedByDistance;
         }
