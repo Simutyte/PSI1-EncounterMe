@@ -27,7 +27,6 @@
     <PackageReference Include="Xamarin.Forms.GoogleMaps" Version="3.3.0" />
     <PackageReference Include="Xamarin.Forms.Maps" Version="5.0.0.2291" />
     <PackageReference Include="Xamarin.Forms.PancakeView" Version="2.3.0.759" />
-    <PackageReference Include="Xamarin.UITest" Version="3.2.4" />
   </ItemGroup>
 
   <ItemGroup>
