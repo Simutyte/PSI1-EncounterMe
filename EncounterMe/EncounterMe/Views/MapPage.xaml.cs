@@ -66,9 +66,6 @@ namespace EncounterMe.Views
 
             InitializeComponent();
             DisplayCurrentLocation();
-
-            MessagingCenter.Subscribe<AddByCoordinatesPopup>(this, "OnPinAddedInMap", (sender) => { OnAppearing(); });
-
         }
 
         protected override void OnAppearing()
@@ -146,7 +143,6 @@ namespace EncounterMe.Views
         {
             //PinsList pinsList = PinsList.GetPinsList();
             //_myPinList = pinsList;
-            MyMap.Pins.Clear();
 
             foreach (MapPin mapPin in listOfPins)
             {

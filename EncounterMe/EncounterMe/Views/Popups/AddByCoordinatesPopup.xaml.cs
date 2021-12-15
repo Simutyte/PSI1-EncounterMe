@@ -75,7 +75,6 @@ namespace EncounterMe.Views.Popups
                 App.s_mapPinService.TryToAdd(MapPin);
                 //App.s_mapPinService.LoadOwnerObjects();
                 await PopupNavigation.Instance.PopAllAsync();
-                MessagingCenter.Send<AddByCoordinatesPopup>(this, "OnPinAddedInMap");
             }
         }
     }
