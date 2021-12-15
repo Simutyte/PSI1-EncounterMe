@@ -6,7 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EncounterMe;
 using EncounterMe.Views;
+using Xamarin.Essentials;
 using Xunit;
 
 namespace Test1.Tests
@@ -102,13 +104,113 @@ namespace Test1.Tests
             Assert.False(isTrue);
         }
 
-        //[Fact]
-        //public void IndividualObjectPage_GetDistanceByIndex_DistaceCorrect1()
-        //{
-        //    int i = 1;
+        [Theory]
+        [MemberData(nameof(TestData_GetDistanceByIndex_Correct))]
+        public void IndividualObjectPage_GetDistanceByIndex_DistanceCorrect(Location loc, MapPin pin, int i, double expected)
+        {
+            double? result = IndividualObjectPage.GetDistanceByIndex(i, loc, pin);
 
-        //    Assert.Equal();
-        //}
+            if (i < 0 || i > 3 )
+            {
+                Assert.Null(result);
+            }
+            else
+            {
+                Assert.Equal(expected, Math.Round(result.Value, 2));
+            }
+        }
 
+        public static IEnumerable<object[]> TestData_GetDistanceByIndex_Correct()
+        {
+            //Meters
+            yield return new object[] {new Location { Latitude = 0,
+                                                      Longitude = 0},
+                                       new MapPin{    Latitude = 1,
+                                                      Longitude = 1, },
+                                       0,
+                                       Math.Round(157.249381 * 1000, 2)};
+
+            //Km
+            yield return new object[] {new Location { Latitude = 0,
+                                                      Longitude = 0},
+                                       new MapPin{    Latitude = 1,
+                                                      Longitude = 1, },
+                                       1,
+                                       Math.Round(157.249381, 2)};
+
+            //Yards
+            yield return new object[] {new Location { Latitude = 0,
+                                                      Longitude = 0},
+                                       new MapPin{    Latitude = 1,
+                                                      Longitude = 1, },
+                                       2,
+                                       Math.Round(97.71023535 * 1760, 2)};
+
+            //Miles
+            yield return new object[] {new Location { Latitude = 0,
+                                                      Longitude = 0},
+                                       new MapPin{    Latitude = 1,
+                                                      Longitude = 1, },
+                                       3,
+                                       Math.Round(97.71023535, 2)};
+            //for null
+            yield return new object[] {new Location { Latitude = 0,
+                                                      Longitude = 0},
+                                       new MapPin{    Latitude = 1,
+                                                      Longitude = 1, },
+                                       4,
+                                       Math.Round(97.71023535, 2)};
+        }
+
+        [Theory]
+        [MemberData(nameof(TestData_GetDistanceByIndex_Incorrect))]
+        public void IndividualObjectPage_GetDistanceByIndex_DistanceIncorrect(Location loc, MapPin pin, int i, double expected)
+        {
+            double? result = IndividualObjectPage.GetDistanceByIndex(i, loc, pin);
+
+            if (i < 0 || i > 3)
+            {
+                Assert.Null(result);
+            }
+            else
+            {
+                Assert.NotEqual(expected, Math.Round(result.Value, 2));
+            }
+        }
+
+        public static IEnumerable<object[]> TestData_GetDistanceByIndex_Incorrect()
+        {
+            //Meters
+            yield return new object[] {new Location { Latitude = 0,
+                                                      Longitude = 0},
+                                       new MapPin{    Latitude = 1,
+                                                      Longitude = 1, },
+                                       0,
+                                       Math.Round(157.2 * 1000, 2)};
+
+            //Km
+            yield return new object[] {new Location { Latitude = 0,
+                                                      Longitude = 0},
+                                       new MapPin{    Latitude = 1,
+                                                      Longitude = 1, },
+                                       1,
+                                       Math.Round(157.2, 2)};
+
+            //Yards
+            yield return new object[] {new Location { Latitude = 0,
+                                                      Longitude = 0},
+                                       new MapPin{    Latitude = 1,
+                                                      Longitude = 1, },
+                                       2,
+                                       Math.Round(97.7 * 1760, 2)};
+
+            //Miles
+            yield return new object[] {new Location { Latitude = 0,
+                                                      Longitude = 0},
+                                       new MapPin{    Latitude = 1,
+                                                      Longitude = 1, },
+                                       3,
+                                       Math.Round(97.7, 2)};
+        }
     }
 }

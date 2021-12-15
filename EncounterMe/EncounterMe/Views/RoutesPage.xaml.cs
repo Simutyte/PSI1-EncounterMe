@@ -22,18 +22,20 @@ namespace EncounterMe.Views
             //PinsList pinsList = PinsList.GetPinsList();
             //_myPinList = pinsList;
             ListOfPins = App.s_mapPinService.ListOfPins;
-            RoutesListView.ItemsSource = GetAllObjects();
+            RoutesListView.ItemsSource = GetAllObjects(list:ListOfPins);
         }
         
-        IEnumerable<Route> GetAllObjects(string searchText = null)
+        IEnumerable<Route> GetAllObjects(List<MapPin> list, string searchText = null)
         {
-            var objectsByCityAndStyle = ListOfPins.GroupBy(e => new { e.Address.City, e.StyleType }).Where(e => e.Count() > 1).Select(e => new Route
+            var objectsByCityAndStyle = list.GroupBy(e => new { e.Address.City, e.StyleType }).Where(e => e.Count() > 1).Select(e => new Route
             {
                 City = e.Key.City,
                 Style = e.Key.StyleType,
                 MapPins = e.AsEnumerable(),
                 Count = e.Count()
             });
+
+            ListOfPins = list;
 
             if (string.IsNullOrEmpty(searchText))
             {
@@ -49,7 +51,7 @@ namespace EncounterMe.Views
 
         private void ListView_Refreshing(object sender, EventArgs e)
         {
-            RoutesListView.ItemsSource = GetAllObjects();
+            RoutesListView.ItemsSource = GetAllObjects(list:ListOfPins);
             RoutesListView.EndRefresh();
         }
 

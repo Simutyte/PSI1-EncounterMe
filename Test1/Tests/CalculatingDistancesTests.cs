@@ -22,7 +22,7 @@ namespace Test1.Tests
         public void CalculatingDistances_GetDistanceInKm_Correct(Location loc, MapPin pin, double expected)
         {
             double returnDistance = Calculating.GetDistanceInKm(loc, pin);
-            Assert.Equal(Math.Round(returnDistance, 3), expected);
+            Assert.Equal(expected, Math.Round(returnDistance, 3));
         }
 
         public static IEnumerable<object[]> TestData_GetDistanceInKm_Correct()
@@ -51,7 +51,7 @@ namespace Test1.Tests
         public void CalculatingDistances_GetDistanceInKm_Incorrect(Location loc, MapPin pin, double expected)
         {
             double returnDistance = Calculating.GetDistanceInKm(loc, pin);
-            Assert.NotEqual(Math.Round(returnDistance, 3), expected);
+            Assert.NotEqual(expected, Math.Round(returnDistance, 3));
         }
 
         public static IEnumerable<object[]> TestData_GetDistanceInKm_Incorrect()
@@ -81,7 +81,7 @@ namespace Test1.Tests
         public void CalculatingDistances_GetDistanceInMiles_Correct(Location loc, MapPin pin, double expected)
         {
             double returnDistance = Calculating.GetDistanceInMiles(loc, pin);
-            Assert.Equal(Math.Round(returnDistance, 3), expected);
+            Assert.Equal(expected, Math.Round(returnDistance, 3));
         }
 
         public static IEnumerable<object[]> TestData_GetDistanceInMiles_Correct()
@@ -110,7 +110,7 @@ namespace Test1.Tests
         public void CalculatingDistances_GetDistanceInMiles_Incorrect(Location loc, MapPin pin, double expected)
         {
             double returnDistance = Calculating.GetDistanceInMiles(loc, pin);
-            Assert.NotEqual(Math.Round(returnDistance, 3), expected);
+            Assert.NotEqual(expected, Math.Round(returnDistance, 3));
         }
 
         public static IEnumerable<object[]> TestData_GetDistanceInMiles_Incorrect()
@@ -140,7 +140,7 @@ namespace Test1.Tests
         public void CalculatingDistances_GetDistanceInMeters_Correct(Location loc, MapPin pin, double expected)
         {
             double returnDistance = Calculating.GetDistanceInMeters(loc, pin);
-            Assert.Equal(Math.Round(returnDistance, 3), expected);
+            Assert.Equal(expected, Math.Round(returnDistance, 3));
         }
 
         public static IEnumerable<object[]> TestData_GetDistanceInMeters_Correct()
@@ -169,7 +169,7 @@ namespace Test1.Tests
         public void CalculatingDistances_GetDistanceInMeters_Incorrect(Location loc, MapPin pin, double expected)
         {
             double returnDistance = Calculating.GetDistanceInMeters(loc, pin);
-            Assert.NotEqual(Math.Round(returnDistance, 3), expected);
+            Assert.NotEqual(expected, Math.Round(returnDistance, 3));
         }
 
         public static IEnumerable<object[]> TestData_GetDistanceInMeters_Incorrect()
@@ -199,7 +199,7 @@ namespace Test1.Tests
         public void CalculatingDistances_GetDistanceInYards_Correct(Location loc, MapPin pin, double expected)
         {
             double returnDistance = Calculating.GetDistanceInYards(loc, pin);
-            Assert.Equal(Math.Round(returnDistance, 2), expected);
+            Assert.Equal(expected, Math.Round(returnDistance, 2));
         }
 
         public static IEnumerable<object[]> TestData_GetDistanceInYards_Correct()
@@ -228,7 +228,7 @@ namespace Test1.Tests
         public void CalculatingDistances_GetDistanceInYards_Incorrect(Location loc, MapPin pin, double expected)
         {
             double returnDistance = Calculating.GetDistanceInYards(loc, pin);
-            Assert.NotEqual(Math.Round(returnDistance, 2), expected);
+            Assert.NotEqual(expected, Math.Round(returnDistance, 2));
         }
 
         public static IEnumerable<object[]> TestData_GetDistanceInYards_Incorrect()
