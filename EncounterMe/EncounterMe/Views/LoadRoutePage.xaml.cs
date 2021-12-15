@@ -28,26 +28,32 @@ namespace EncounterMe.Views
         {
             InitializeComponent();
             _mapPins = mapPins;
-            RoutesListView.ItemsSource = GetSortedMapPins();
+            RoutesListView.ItemsSource = GetSortedMapPins(_mapPins);
+            GetCreators(_mapPins);
 
            ForCreators.Text = "Thanks to the creators: " + CreatorsNames;
         }
 
-        private IEnumerable<MapPin> GetSortedMapPins()
+        public void GetCreators(IEnumerable<MapPin> pins)
         {
-            CalculateDistances();
-            var objectsQueryOrderedByDistance = _mapPins.OrderBy(pin => pin.DistanceToUser);
+            var creators = from pin in pins
+                           join user in App.s_mapPinService.AllUsers
+                           on pin.CreatorId equals user.Id
+                           select new { name = user.Username };
 
-            //objectsQueryOrderedByDistance.First().DistanceBetweenPoints = "Start point";
-            var creators = from pin in objectsQueryOrderedByDistance
-                          join user in App.s_mapPinService.AllUsers
-                          on pin.CreatorId equals user.Id
-                          select new { name = user.Username };
-           
-            foreach(var c in creators.Distinct())
+            foreach (var c in creators.Distinct())
             {
                 CreatorsNames += c.name;
             }
+
+        }
+
+        public IEnumerable<MapPin> GetSortedMapPins(IEnumerable<MapPin> pins)
+        {
+            CalculateDistances();
+            var objectsQueryOrderedByDistance = pins.OrderBy(pin => pin.DistanceToUser);
+
+            //objectsQueryOrderedByDistance.First().DistanceBetweenPoints = "Start point";
 
             return objectsQueryOrderedByDistance;
         }

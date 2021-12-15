@@ -197,7 +197,7 @@ namespace EncounterMe.Views
             await AppShell.Current.GoToAsync($"//home/tab/MapPage?pinId={_pin.Id}&drawing=true");
         }
 
-        static bool IsClose(double x, int i)
+        public static bool IsClose(double x, int i)
         {
             if (i == 0)
                 return x <= 20000;
@@ -205,7 +205,7 @@ namespace EncounterMe.Views
             return x <= 20;
         }
 
-        static bool IsAway(double x,int i)
+        public static bool IsAway(double x,int i)
         {
             if(i == 0)
                 return (x > 20000 && x <= 100000);
@@ -213,7 +213,7 @@ namespace EncounterMe.Views
             return (x > 20 && x <=100);
         }
 
-        static bool IsFarAway(double x, int i)
+        public static bool IsFarAway(double x, int i)
         {
             if (i == 0)
                 return x > 100000;

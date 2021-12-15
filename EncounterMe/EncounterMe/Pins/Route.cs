@@ -6,7 +6,7 @@ using EncounterMe.Pins;
 
 namespace EncounterMe
 {
-    class Route
+    public class Route
     {
         public string City { get; set; }
         public StyleType Style { get; set; }
