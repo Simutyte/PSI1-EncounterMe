@@ -30,6 +30,7 @@ namespace EncounterMe.Views
             if (App.s_mapPinService.UserOwnerMapPins.Count > 0)
             {
                 this.Content = MainStackLayout;
+                listView.ItemsSource = null;
                 listView.ItemsSource = App.s_mapPinService.UserOwnerMapPins;
             }
             else

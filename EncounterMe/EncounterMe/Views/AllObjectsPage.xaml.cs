@@ -24,6 +24,7 @@ namespace EncounterMe.Views
             InitializeComponent();
             ListOfPins = App.s_mapPinService.ListOfPins;
             BindingContext = this;
+            MessagingCenter.Subscribe<AddByAddressPopup>(this, "OnPinAdded", (sender) => { OnAppearing(); });
         }
 
 
@@ -125,13 +126,11 @@ namespace EncounterMe.Views
                 {
                     await DisplayAlert("Sorry", "You have already added this object to your favourites", "ok");
                 }
-
             }
             else
             {
                 await DisplayAlert("Sorry", "Add failed bc is null", "ok");
             }
-
         }
 
         public async Task CalculateDistances()

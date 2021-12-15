@@ -30,11 +30,11 @@
                        HorizontalTextAlignment="Center"/>
         </StackLayout>
 
-        <Button Text="By adress"
+        <Button Text="By address"
                 FontAttributes="Bold"
                 FontSize="Medium"
                 Style="{StaticResource PopupButton}"
-                Clicked="Add_By_Adress_Button_Clicked"/>
+                Clicked="Add_By_Address_Button_Clicked"/>
 
         <Button Text="By pin to maps"
                 FontAttributes="Bold"

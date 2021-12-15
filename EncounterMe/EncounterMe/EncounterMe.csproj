@@ -33,6 +33,9 @@
     <Compile Update="Views\IndividualObjectPage.xaml.cs">
       <DependentUpon>IndividualObjectPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\Popups\AddByAddressPopup.xaml.cs">
+      <DependentUpon>AddByAddressPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Views\UserObjectsPage.xaml.cs">
       <DependentUpon>UserObjectsPage.xaml</DependentUpon>
     </Compile>
@@ -66,7 +69,7 @@
     <EmbeddedResource Update="Views\IndividualObjectPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
-    <EmbeddedResource Update="Views\Popups\AddByAdressPopup.xaml">
+    <EmbeddedResource Update="Views\Popups\AddByAddressPopup.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\Popups\AddByCoordinatesPopup.xaml">

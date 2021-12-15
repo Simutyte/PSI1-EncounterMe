@@ -6,7 +6,7 @@
                  xmlns:local="clr-namespace:EncounterMe.CustomRenderer"
                  xmlns:viewModels="clr-namespace:EncounterMe.ViewModels"
                  xmlns:converter="clr-namespace:EncounterMe.Pins"
-                 x:Class="EncounterMe.Views.Popups.AddByAdressPopup"
+                 x:Class="EncounterMe.Views.Popups.AddByAddressPopup"
                  x:DataType="viewModels:AddObjectByAddressViewModel"
                  >
 

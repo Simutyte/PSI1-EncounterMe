@@ -25,8 +25,7 @@ namespace EncounterMe.Views
         public ProfilePage()
         {
             InitializeComponent();
-
-            OnAppearing();            
+            MessagingCenter.Subscribe<EditBioPopup>(this, "OnAboutMeChanged", (sender) => { OnAppearing(); });
         }
 
         protected override void OnAppearing()
@@ -45,28 +44,24 @@ namespace EncounterMe.Views
             {
                 ProfileImage.Source = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
             }
-          
+
             this.BindingContext = User;
         }
 
         private async void Edit_Bio_Clicked(object sender, EventArgs e)
         {
             await PopupNavigation.Instance.PushAsync(new EditBioPopup());
-            
         }
         private async void Photo_Clicked(object sender, EventArgs e)
         {
-            
-            if(MediaPicker.IsCaptureSupported)
+            if (MediaPicker.IsCaptureSupported)
             {
                 var result = await MediaPicker.PickPhotoAsync(new MediaPickerOptions
                 {
                     Title = "Pick your profile photo"
-
                 });
 
-                
-                if(result != null)
+                if (result != null)
                 {
                     var stream = await result.OpenReadAsync();
                     var path = result.FullPath;
@@ -83,7 +78,6 @@ namespace EncounterMe.Views
             {
                 await DisplayAlert("Oops", "We don't have permision to your photos", "ok");
             }
-
         }
     }
 }

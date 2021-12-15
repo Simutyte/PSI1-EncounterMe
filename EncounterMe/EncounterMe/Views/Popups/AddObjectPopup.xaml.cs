@@ -18,9 +18,9 @@ namespace EncounterMe.Views.Popups
             InitializeComponent();
         }
 
-        async void Add_By_Adress_Button_Clicked(object sender, EventArgs args)
+        async void Add_By_Address_Button_Clicked(object sender, EventArgs args)
         {
-            await PopupNavigation.Instance.PushAsync(new AddByAdressPopup());
+            await PopupNavigation.Instance.PushAsync(new AddByAddressPopup());
         }
 
         async void Add_By_Pin_Button_Clicked(object sender, EventArgs args)
@@ -34,6 +34,5 @@ namespace EncounterMe.Views.Popups
             var location = await Geolocation.GetLocationAsync(requestLocation);
             await PopupNavigation.Instance.PushAsync(new AddByCoordinatesPopup(location));
         }
-        
     }
 }

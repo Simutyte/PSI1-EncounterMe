@@ -38,6 +38,7 @@ namespace EncounterMe.Views
 
         private List<Polyline> _polylineList = new List<Polyline>();
         private PinsList _myPinList = null;
+        private List<MapPin> listOfPins;
         private MapElement _firstPolyline = new MapElement();
 
         private string _routeType = "foot-walking";
@@ -65,7 +66,6 @@ namespace EncounterMe.Views
 
             InitializeComponent();
             DisplayCurrentLocation();
-
         }
 
         protected override void OnAppearing()
@@ -74,6 +74,7 @@ namespace EncounterMe.Views
             DisplayCurrentLocation();
             AnimationView.IsVisible = false;
             CenterPin.IsVisible = false;
+            listOfPins = App.s_mapPinService.ListOfPins;
             GenerateMapPins();
             GenerateDisplays();
         }
@@ -90,7 +91,7 @@ namespace EncounterMe.Views
             //Checks if we need to draw a route (coming form individual objects page)
             if (DrawingRoute && !SpecificRoute)
             {
-                MapPin pin = _myPinList.ListOfPins.Find(x => x.Id == PinId);
+                MapPin pin = listOfPins.Find(x => x.Id == PinId);
                 Location endLoc = new Location
                 {
                     Latitude = pin.Latitude,
@@ -129,7 +130,7 @@ namespace EncounterMe.Views
                     Longi = pin.Longitude;
                     PinId = pin.Id;
                     Location endLoc = new Location(Lat = pin.Latitude, Longi = pin.Longitude);
-                    var request = new GeolocationRequest(GeolocationAccuracy.Medium, timeout:TimeSpan.FromSeconds(20));
+                    var request = new GeolocationRequest(GeolocationAccuracy.Medium, timeout: TimeSpan.FromSeconds(20));
                     var cts = new CancellationTokenSource();
                     Location location = await Geolocation.GetLocationAsync(request, cts.Token);
                     DisplayRoute(endLoc);
@@ -140,10 +141,10 @@ namespace EncounterMe.Views
 
         public void GenerateMapPins()
         {
-            PinsList pinsList = PinsList.GetPinsList();
-            _myPinList = pinsList;
+            //PinsList pinsList = PinsList.GetPinsList();
+            //_myPinList = pinsList;
 
-            foreach (MapPin mapPin in _myPinList.ListOfPins.ToArray())
+            foreach (MapPin mapPin in listOfPins)
             {
                 if (mapPin.Pin != null)
                 {
@@ -240,7 +241,7 @@ namespace EncounterMe.Views
                             {
                                 UserLocationChanged(location);
                             }
-                        }     
+                        }
                     });
                     return true;
                 });
@@ -379,7 +380,7 @@ namespace EncounterMe.Views
             //Clears previous polylines
             _polylineList.Clear();
             MyMap.MapElements.Clear();
-            
+
             //Initiate end points of a polyline
             Location location2 = new Location();
             Location location1 = new Location
@@ -387,13 +388,13 @@ namespace EncounterMe.Views
                 Longitude = _coordsArray[0][0],
                 Latitude = _coordsArray[0][1]
             };
-            
+
             //Drawing lines
             for (int i = 1; i < _coordsArray.Length; i++)
             {
                 location2.Longitude = _coordsArray[i][0];
                 location2.Latitude = _coordsArray[i][1];
-                
+
                 Polyline polyline = new Polyline
                 {
                     StrokeColor = Color.Blue,
@@ -411,12 +412,11 @@ namespace EncounterMe.Views
 
                 location1.Latitude = location2.Latitude;
                 location1.Longitude = location2.Longitude;
-
             }
         }
 
         //Walking
-        private void Button_Type_Foot(object sender, EventArgs e)   
+        private void Button_Type_Foot(object sender, EventArgs e)
         {
             Location loc = new Location
             {
@@ -458,7 +458,7 @@ namespace EncounterMe.Views
             Location loc = new Location
             {
                 Latitude = Lat,
-                Longitude = Longi   
+                Longitude = Longi
             };
             _routeType = "driving-car";
             DisplayRoute(loc);
@@ -605,7 +605,7 @@ namespace EncounterMe.Views
                 MyMap.MapElements.Remove(_firstPolyline);
             }
 
-            Location firstPolyline= new Location
+            Location firstPolyline = new Location
             {
                 Latitude = _coordsArray[0][1],
                 Longitude = _coordsArray[0][0]
@@ -633,7 +633,7 @@ namespace EncounterMe.Views
         {
             double sum = 0;
             Location loc1 = new Location();
-            Location loc2 = new Location(); 
+            Location loc2 = new Location();
 
             for (int i = 0; i < _coordsArray.Length - 1; i++)
             {
@@ -644,7 +644,7 @@ namespace EncounterMe.Views
 
                 sum += Location.CalculateDistance(loc1.Latitude, loc1.Longitude, loc2.Latitude, loc2.Longitude, DistanceUnits.Kilometers);
             }
-            
+
             _averageDistance = sum / (_coordsArray.Length - 1);
 
         }
