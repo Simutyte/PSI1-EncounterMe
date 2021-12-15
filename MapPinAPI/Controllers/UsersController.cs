@@ -26,7 +26,7 @@ namespace MapPinAPI.Controllers
         [HttpGet]
         public async Task<IEnumerable<User>> GetUsers()
         {
-            return await _userRepository.Get();
+            return  await _userRepository.Get();
         }
 
         // GET: api/Users/5
